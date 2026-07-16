@@ -1,0 +1,28 @@
+{
+  "name": "brmedia-centre",
+  "private": true,
+  "version": "0.0.1",
+  "description": "BRMedia PC or Mobile Centre monorepo",
+  "author": "Upalnite / Blackburn Ravers",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "echo \"Dev script placeholder\"",
+    "build": "echo \"Build script placeholder\"",
+    "test": "echo \"Test script placeholder\"",
+    "server:dev": "ts-node server/src/index.ts",
+    "server:run": "node -r ts-node/register server/src/index.ts",
+    "server:check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "music-metadata": "^11.12.1"
+  }
+}

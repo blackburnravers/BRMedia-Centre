@@ -1,0 +1,10 @@
+Server:
+cd /d "C:\Users\Rosegrove Chippy\Documents\BRMedia-Centre"
+set PORT=8787
+set LOCAL_ALLOWED_BASES=C:\DJMixes
+npm run server:dev
+
+Load Tracks:
+curl -X POST http://localhost:8787/library/import/local ^
+  -H "Content-Type: application/json" ^
+  -d "{\"path\":\"C:\\DJMixes\"}"
