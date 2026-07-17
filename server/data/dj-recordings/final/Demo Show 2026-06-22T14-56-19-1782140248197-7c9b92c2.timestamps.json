@@ -1,0 +1,52 @@
+{
+  "title": "Demo Show",
+  "artist": "Upalnite",
+  "source": "BRMedia DJ Mixer",
+  "recordingId": "djrec-1782140179302",
+  "createdAt": 1782140250530,
+  "durationSeconds": 70,
+  "linkedSet": {
+    "id": "set-1782074775234-1f9b6f",
+    "name": "Demo Show",
+    "ready": false,
+    "trackCount": 0
+  },
+  "setup": {
+    "title": "Demo Show",
+    "artist": "Upalnite",
+    "series": "",
+    "episode": "",
+    "genre": "Hardcore",
+    "year": "2026",
+    "format": "wav",
+    "tracklistMode": "tracklist-info-timestamps",
+    "timestampSource": "load-time",
+    "sidecars": "TXT + timestamp JSON + session JSON"
+  },
+  "tracks": [
+    {
+      "index": 1,
+      "time": "0:00",
+      "seconds": 0,
+      "title": "Have It!",
+      "artist": "Gammer",
+      "bpm": "",
+      "key": "—",
+      "role": "main",
+      "note": "",
+      "source": "H: drive"
+    },
+    {
+      "index": 2,
+      "time": "0:00",
+      "seconds": 0,
+      "title": "What A Great Drug (Dougal & Gammer Remix)",
+      "artist": "Sy & Unknown",
+      "bpm": "",
+      "key": "—",
+      "role": "main",
+      "note": "",
+      "source": "C: drive"
+    }
+  ]
+}

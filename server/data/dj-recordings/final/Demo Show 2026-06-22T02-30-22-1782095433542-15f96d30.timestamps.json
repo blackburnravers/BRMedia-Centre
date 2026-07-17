@@ -1,0 +1,30 @@
+{
+  "title": "Demo Show",
+  "artist": "Upalnite",
+  "source": "BRMedia DJ Mixer",
+  "recordingId": "djrec-1782095422841",
+  "createdAt": 1782095434641,
+  "durationSeconds": 9,
+  "tracks": [
+    {
+      "index": 1,
+      "time": "00:00",
+      "seconds": 0,
+      "title": "(Al's VIP Mix)",
+      "artist": "Seduction & Al Storm",
+      "bpm": "",
+      "key": "—",
+      "source": "H: drive"
+    },
+    {
+      "index": 2,
+      "time": "00:00",
+      "seconds": 0,
+      "title": "beat on the drumz (original 20",
+      "artist": "al twisted and rob da rhythm",
+      "bpm": "",
+      "key": "—",
+      "source": "C: drive"
+    }
+  ]
+}

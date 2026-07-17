@@ -1,0 +1,43 @@
+{
+  "createdAt": 1782095432058,
+  "masterDeck": "d2",
+  "trackCount": 2,
+  "tracks": [
+    {
+      "index": 1,
+      "id": "trk_19e7bbf1e1e_822c87248bb38",
+      "title": "(Al's VIP Mix)",
+      "artist": "Seduction & Al Storm",
+      "bpm": "",
+      "key": "—",
+      "source": "H: drive",
+      "duration": 241.78938775510204
+    },
+    {
+      "index": 2,
+      "id": "trk_19e9ee6c315_9e3096eeb18d6",
+      "title": "beat on the drumz (original 20",
+      "artist": "al twisted and rob da rhythm",
+      "bpm": "",
+      "key": "—",
+      "source": "C: drive",
+      "duration": 376.56
+    }
+  ],
+  "recording": {
+    "id": "djrec-1782095422841",
+    "title": "Demo Show",
+    "artist": "Upalnite",
+    "format": "wav",
+    "captureFilename": "Demo Show 2026-06-22T02-30-22-1782095433542-15f96d30.capture.webm",
+    "finalFilename": "Demo Show 2026-06-22T02-30-22-1782095433542-15f96d30.wav",
+    "capturePath": "",
+    "finalPath": "",
+    "bytes": 2651178,
+    "durationSeconds": 9,
+    "createdAt": 1782095434641,
+    "trackCount": 2,
+    "finalDownloadUrl": "/dj-mixer/recordings/djrec-1782095422841/download?kind=final",
+    "captureDownloadUrl": "/dj-mixer/recordings/djrec-1782095422841/download?kind=capture"
+  }
+}

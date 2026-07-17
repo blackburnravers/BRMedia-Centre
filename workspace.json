@@ -1,0 +1,9 @@
+{
+  "note": "Placeholder workspace file for future monorepo tooling.",
+  "created": "2026-02-25",
+  "plans": {
+    "packageManager": "tbd",
+    "taskRunner": "tbd",
+    "cache": false
+  }
+}

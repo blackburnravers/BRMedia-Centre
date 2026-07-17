@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Mastering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/home/apple-touch-icon.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/home/icon-192.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/home/icon-512.png?v=20260505" />
+  <link id="moduleManifest" rel="manifest" href="/mastering/site.webmanifest?v=20260509-split-b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mastering" />
+  <link rel="stylesheet" href="/mastering/styles.css?v=20260510-h2" />
+</head>
+<body>
+  <div class="moduleShell">
+    <header class="moduleTopbar">
+      <div class="moduleBrandHeader">
+        <a class="moduleSearchBtn" href="/player" aria-label="Open BRMedia Player">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
+
+        <img src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" class="moduleBrandLogo" />
+
+        <button id="btnModuleMenu" class="moduleMenuBtn" type="button" aria-label="Open sidebar menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <div id="moduleSidebarBackdrop" class="moduleSidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="moduleSidebar hidden">
+      <div class="moduleSidebarHeader">
+        <img src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" class="moduleSidebarLogo" />
+      </div>
+
+      <div class="moduleSidebarLinks">
+        <a class="moduleSidebarLink" href="/player" data-path="/player">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-headphones"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Player</span><span class="moduleSidebarSub">Back to the full BRMedia music player.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/converter" data-path="/converter">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-arrows-rotate"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Converter</span><span class="moduleSidebarSub">Convert audio, video and batch jobs.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/tagger" data-path="/tagger">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-tags"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Tagger</span><span class="moduleSidebarSub">Metadata, artwork and BRMedia tags.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/mastering" data-path="/mastering">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-sliders"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Mastering</span><span class="moduleSidebarSub">Loudness, polish and final masters.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/video-player" data-path="/video-player">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-film"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Video Player</span><span class="moduleSidebarSub">Video playback and linked media.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/stats" data-path="/stats">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-chart-column"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Stats</span><span class="moduleSidebarSub">Usage, history and reporting.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/settings?tab=mastering" data-path="/settings">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-gear"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Settings</span><span class="moduleSidebarSub">Universal BRMedia settings.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/server-settings" data-path="/server-settings">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-server"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Server Settings</span><span class="moduleSidebarSub">Sources, storage and networking.</span></span>
+        </a>
+      </div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="moduleSidebarFloatingClose hidden" type="button" aria-label="Close sidebar menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="moduleMain">
+      <section class="moduleHeroCard">
+        <div class="moduleEyebrow" id="moduleEyebrow">BRMedia Module</div>
+        <h1 class="moduleTitle" id="moduleTitle">Coming soon</h1>
+        <div class="moduleSubtitle" id="moduleSubtitle">This module page is being built next.</div>
+
+        <div class="moduleComingSoonCard">
+          <div class="moduleComingSoonIcon" id="moduleStatusIcon">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+
+          <div class="moduleComingSoonText">
+            <div class="moduleComingSoonTitle" id="moduleStatusTitle">Module ready for handoff</div>
+            <div class="moduleComingSoonBody" id="moduleComingSoonBody">
+              This BRMedia module page can now receive files from the Player. Full tools are next.
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="moduleSettingsHandoff">
+          <a class="moduleSettingsHandoffBtn" href="/settings?tab=mastering"><span>MST</span><div><strong>Mastering Settings</strong><small>Presets, loudness and render defaults.</small></div></a>
+          <a class="moduleSettingsHandoffBtn" href="/server-settings"><span>SRV</span><div><strong>Server Settings</strong><small>Sources, storage and deeper admin.</small></div></a>
+        </div>
+
+        <div id="moduleTrackPanel" class="moduleTrackPanel hidden">
+          <div class="moduleTrackTop">
+            <div>
+              <div class="moduleTrackKicker">Selected file</div>
+              <div id="moduleTrackTitle" class="moduleTrackTitle">No file selected</div>
+              <div id="moduleTrackMeta" class="moduleTrackMeta">Open this module from Settings → Files to pass a track in.</div>
+            </div>
+          </div>
+
+          <div class="moduleTrackActions">
+            <a id="moduleTrackOpenPlayer" class="moduleActionBtn primary" href="/player">
+              <i class="fa-solid fa-play"></i>
+              <span>Open in Player</span>
+            </a>
+
+            <button id="moduleTrackClear" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Clear selected file</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="masteringPanel" class="masteringPanel hidden">
+          <div class="masteringHero">
+            <div>
+              <div class="moduleTrackKicker">Mastering v3</div>
+              <div class="masteringPanelTitle">BRMedia Mastering</div>
+              <div class="masteringPanelSub">Mastering with source analysis, pro chain controls, de-harshing, loudness checks, clipping warnings and a real FFmpeg render chain.</div>
+            </div>
+            <div class="masteringHeroMeter">
+              <i class="fa-solid fa-gauge-high"></i>
+              <span>Real render</span>
+            </div>
+          </div>
+
+          <div class="masteringTabs" role="tablist" aria-label="Mastering workflow">
+            <button class="masteringTab is-active" type="button" data-mastering-tab="source"><i class="fa-solid fa-folder-open"></i><span>Source</span></button>
+            <button class="masteringTab" type="button" data-mastering-tab="presets"><i class="fa-solid fa-stars"></i><span>Presets</span></button>
+            <button class="masteringTab" type="button" data-mastering-tab="chain"><i class="fa-solid fa-sliders-up"></i><span>Chain</span></button>
+            <button class="masteringTab" type="button" data-mastering-tab="analysis"><i class="fa-solid fa-chart-line"></i><span>Analyse</span></button>
+            <button class="masteringTab" type="button" data-mastering-tab="render"><i class="fa-solid fa-gauge-high"></i><span>Render</span></button>
+          </div>
+
+          <div class="masteringSourceCard" data-mastering-tab-panel="source">
+            <div class="masteringSourceIcon"><i class="fa-solid fa-waveform"></i></div>
+            <div class="masteringSourceMain">
+              <div class="masteringKicker">Current source</div>
+              <div id="masteringHeroTitle" class="masteringHeroTitle">No file loaded</div>
+              <div id="masteringHeroMeta" class="masteringHeroMeta">Choose from your BRMedia library, open from Player/View Files, or upload audio from this device.</div>
+              <div id="masteringHeroPills" class="masteringHeroPills">
+                <span class="masteringPill isBlue">Non-destructive</span>
+                <span class="masteringPill isGold">Mastered copy output</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="masteringOpenPanel" data-mastering-tab-panel="source">
+            <input id="masteringDeviceFileInput" class="hidden" type="file" accept="audio/*,.mp3,.wav,.flac,.m4a,.aac,.ogg,.opus,.aiff,.aif" />
+            <button id="btnMasteringPickDevice" class="moduleActionBtn primary" type="button">
+              <i class="fa-solid fa-upload"></i>
+              <span>Open audio from device</span>
+            </button>
+            <button id="btnMasteringChooseLibrary" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-folder-open"></i>
+              <span>Choose from library</span>
+            </button>
+          </div>
+
+          <div class="masteringPresetGrid" data-mastering-tab-panel="presets" aria-label="Mastering presets">
+            <button class="masteringPresetCard is-active" type="button" data-mastering-preset="streaming-clean">
+              <i class="fa-solid fa-stars"></i>
+              <span><strong>Streaming Clean</strong><small>-14 LUFS, clean limiter, modern polish.</small></span>
+            </button>
+            <button class="masteringPresetCard" type="button" data-mastering-preset="club-loud">
+              <i class="fa-solid fa-gauge-high"></i>
+              <span><strong>Club Loud</strong><small>-9 LUFS, punch, width and hard limiter.</small></span>
+            </button>
+            <button class="masteringPresetCard" type="button" data-mastering-preset="warm-depth">
+              <i class="fa-solid fa-wave-pulse"></i>
+              <span><strong>Warm Depth</strong><small>Warm low mids, softer high-end, deeper body.</small></span>
+            </button>
+            <button class="masteringPresetCard" type="button" data-mastering-preset="hardcore-punch">
+              <i class="fa-solid fa-bolt"></i>
+              <span><strong>Hardcore Punch</strong><small>More attack, bright edge, controlled peaks.</small></span>
+            </button>
+          </div>
+
+          <div class="masteringSettingsPanel" data-mastering-tab-panel="chain">
+            <div class="masteringSectionHead">
+              <strong>Mastering chain</strong>
+              <span>Pick the target loudness and tone. Original files stay untouched.</span>
+            </div>
+            <div class="masteringGrid">
+              <div class="masteringField"><label for="masteringOutputFormat">Output format</label><select id="masteringOutputFormat"><option value="mp3">MP3 320k</option><option value="wav">WAV 24-bit</option><option value="flac">FLAC lossless</option><option value="m4a">M4A AAC</option></select></div>
+              <div class="masteringField"><label for="masteringOutputName">Output suffix</label><input id="masteringOutputName" type="text" value="BRMedia Master" autocomplete="off" /></div>
+              <div class="masteringField"><label for="masteringTargetLufs">Loudness target</label><select id="masteringTargetLufs"><option value="-16">-16 LUFS gentle</option><option value="-14" selected>-14 LUFS streaming</option><option value="-12">-12 LUFS loud</option><option value="-10">-10 LUFS club</option><option value="-9">-9 LUFS hard</option></select></div>
+              <div class="masteringField"><label for="masteringTruePeak">True peak ceiling</label><select id="masteringTruePeak"><option value="-2">-2.0 dB safer</option><option value="-1.5" selected>-1.5 dB streaming</option><option value="-1">-1.0 dB loud</option><option value="-0.6">-0.6 dB hot</option></select></div>
+              <div class="masteringField"><label for="masteringCompression">Compression</label><select id="masteringCompression"><option value="gentle">Gentle glue</option><option value="medium" selected>Medium glue</option><option value="hard">Hard punch</option></select></div>
+              <div class="masteringField"><label for="masteringStereoWidth">Stereo width</label><select id="masteringStereoWidth"><option value="1">Original</option><option value="1.08" selected>Subtle width</option><option value="1.18">Wide</option><option value="1.28">Very wide</option></select></div>
+              <div class="masteringField"><label for="masteringBass">Bass lift</label><select id="masteringBass"><option value="0">Flat</option><option value="1" selected>+1 dB</option><option value="2">+2 dB</option><option value="3">+3 dB</option></select></div>
+              <div class="masteringField"><label for="masteringWarmth">Warmth</label><select id="masteringWarmth"><option value="0">Neutral</option><option value="1" selected>Warm</option><option value="2">Warmer</option></select></div>
+              <div class="masteringField"><label for="masteringBrightness">Brightness</label><select id="masteringBrightness"><option value="0">Neutral</option><option value="1" selected>Clean lift</option><option value="2">Bright</option><option value="3">Very bright</option></select></div>
+              <div class="masteringField"><label for="masteringLimiterDrive">Limiter drive</label><select id="masteringLimiterDrive"><option value="0">Natural</option><option value="1" selected>Polished</option><option value="2">Loud</option><option value="3">Aggressive</option></select></div>
+              <div class="masteringField"><label for="masteringIntensity">Mastering intensity</label><select id="masteringIntensity"><option value="25">25% gentle</option><option value="50" selected>50% balanced</option><option value="75">75% strong</option><option value="100">100% full power</option></select></div>
+              <div class="masteringField"><label for="masteringLowCut">Low cut safety</label><select id="masteringLowCut"><option value="20" selected>20 Hz natural</option><option value="30">30 Hz tighter</option><option value="40">40 Hz very tight</option></select></div>
+              <div class="masteringField"><label for="masteringDeHarsh">De-harsh / sibilance</label><select id="masteringDeHarsh"><option value="off">Off</option><option value="light" selected>Light</option><option value="medium">Medium</option><option value="strong">Strong</option></select></div>
+              <div class="masteringField"><label for="masteringAir">Air / sparkle</label><select id="masteringAir"><option value="0">Off</option><option value="1" selected>Clean air</option><option value="2">Bright air</option></select></div>
+            </div>
+            <div class="masteringCheckGrid">
+              <label><input id="masteringAddToLibrary" type="checkbox" checked /> Add master back to BRMedia Player</label>
+              <label><input id="masteringPreserveMetadata" type="checkbox" checked /> Preserve source metadata where possible</label>
+            </div>
+          </div>
+
+          <div class="masteringSummaryPanel" data-mastering-tab-panel="analysis">
+            <div class="masteringSectionHead">
+              <strong>Ready check</strong>
+              <span id="masteringSummaryText">Choose a source file to start mastering.</span>
+            </div>
+            <div id="masteringChainPreview" class="masteringChainPreview">No mastering chain queued yet.</div>
+
+            <div id="masteringAnalysisPanel" class="masteringAnalysisPanel">
+              <div class="masteringAnalysisHead">
+                <div>
+                  <strong>Source analysis</strong>
+                  <span id="masteringAnalysisSummary">Run analysis to measure loudness, peak level, dynamics and clipping risk.</span>
+                </div>
+                <span id="masteringAnalysisBadge" class="masteringAnalysisBadge">Not analysed</span>
+              </div>
+              <div id="masteringAnalysisCards" class="masteringAnalysisCards"></div>
+            </div>
+
+            <div id="masteringReadinessPanel" class="masteringReadinessPanel"></div>
+          </div>
+
+          <div class="masteringActions" data-mastering-tab-panel="render">
+            <button id="btnMasteringAnalyze" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-chart-line"></i><span>Analyse source</span></button>
+            <button id="btnMasteringStart" class="moduleActionBtn primary" type="button"><i class="fa-solid fa-sliders-up"></i><span>Start mastering</span></button>
+            <a id="btnMasteringDownload" class="moduleActionBtn subtle hidden" href="#"><i class="fa-solid fa-download"></i><span>Download master</span></a>
+            <button id="btnMasteringCancel" class="moduleActionBtn subtle danger hidden" type="button"><i class="fa-solid fa-xmark"></i><span>Cancel render</span></button>
+            <button id="btnMasteringReset" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-arrow-rotate-left"></i><span>Reset mastering</span></button>
+          </div>
+
+          <div id="masteringProgress" class="masteringProgress hidden" data-mastering-tab-panel="render">
+            <div class="masteringProgressTop"><strong>Mastering render running…</strong><span id="masteringProgressStatus">Waiting for FFmpeg.</span></div>
+            <div class="masteringProgressBar"><span id="masteringProgressFill"></span></div>
+          </div>
+
+          <div id="masteringResult" class="masteringResult hidden" data-mastering-tab-panel="render"></div>
+        </div>
+      </section>
+
+      <div id="moduleMiniPlayer" class="moduleMiniPlayer hidden" aria-label="BRMedia mini player">
+        <audio id="moduleMiniAudio" preload="metadata"></audio>
+        <a id="moduleMiniArtLink" class="moduleMiniArtLink" href="/player" aria-label="Open current track in Player">
+          <img id="moduleMiniArt" class="moduleMiniArt" src="/player/br-footer-logo-trans.png" alt="" />
+        </a>
+        <button id="btnModuleMiniPrev" class="moduleMiniBtn" type="button" aria-label="Previous track">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button id="btnModuleMiniPlay" class="moduleMiniPlayBtn" type="button" aria-label="Play or pause">
+          <i class="fa-solid fa-play"></i>
+        </button>
+        <button id="btnModuleMiniNext" class="moduleMiniBtn" type="button" aria-label="Next track">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+        <div class="moduleMiniText">
+          <div id="moduleMiniTitle" class="moduleMiniTitle">Nothing playing</div>
+          <div id="moduleMiniSub" class="moduleMiniSub">Open Player to start a mix.</div>
+        </div>
+        <div class="moduleMiniProgress"><span id="moduleMiniProgressFill"></span></div>
+      </div>
+
+      <div id="moduleLibraryPicker" class="moduleLibraryPicker hidden" role="dialog" aria-modal="true" aria-label="Choose from BRMedia library">
+        <div class="moduleLibraryPickerCard">
+          <div class="moduleLibraryPickerHead">
+            <div>
+              <strong id="moduleLibraryPickerTitle">Choose from library</strong>
+              <span id="moduleLibraryPickerSub">Pick a BRMedia library file for this module.</span>
+            </div>
+            <button id="btnModuleLibraryPickerClose" class="moduleLibraryPickerClose" type="button" aria-label="Close library picker">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="moduleLibraryPickerSearch">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="moduleLibraryPickerSearch" type="search" placeholder="Search title, artist, format or path…" autocomplete="off" />
+          </div>
+
+          <div id="moduleLibraryPickerList" class="moduleLibraryPickerList">
+            <div class="moduleLibraryPickerEmpty">Loading BRMedia library…</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="moduleFooter">
+        <div class="moduleFooterInner">
+          <img src="/player/br-footer-logo-trans.png" alt="BR" class="moduleFooterLogo" />
+          <div class="moduleFooterCopy">
+            <span class="moduleFooterLine">
+              <span class="moduleFooterOrange">©</span>
+              <span class="moduleFooterWhite">The Blackburn Ravers</span>
+            </span>
+            <span class="moduleFooterLine">
+              <span class="moduleFooterWhite">DJ NJ &amp; Upalnite</span>
+              <span class="moduleFooterBlue">2026</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script src="/mastering/app.js?v=20260509-split-b"></script>
+</body>
+</html>

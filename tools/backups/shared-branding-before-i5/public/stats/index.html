@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Stats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/home/apple-touch-icon.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/home/icon-192.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/home/icon-512.png?v=20260505" />
+  <link rel="manifest" href="/stats/site.webmanifest?v=20260510-g1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Stats" />
+  <link rel="stylesheet" href="/shared/shell.css?v=20260510-i4" />
+  <link rel="stylesheet" href="/shared/module-theme.css?v=20260509-split-a" />
+  <link rel="stylesheet" href="/stats/styles.css?v=20260510-g1" />
+</head>
+<body class="brSharedBody statsBody">
+  <div class="brSharedShell statsShell">
+    <header class="brSharedTopbar">
+      <div class="brSharedTopbarInner">
+        <a class="brSharedIconBtn" href="/settings" aria-label="Open Universal Settings">?</a>
+        <img class="brSharedLogo" src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" />
+        <button class="brSharedIconBtn" type="button" aria-label="Open BRMedia menu" data-br-shared-menu>?</button>
+      </div>
+    </header>
+
+    <div class="brSharedBackdrop" data-br-shared-backdrop></div>
+    <aside class="brSharedSidebar" data-br-shared-sidebar>
+      <div class="brSharedSidebarHead">
+        <div class="brSharedSidebarTitle">BRMedia Centre</div>
+        <button class="brSharedIconBtn" type="button" aria-label="Close menu" data-br-shared-close>�</button>
+      </div>
+      <nav class="brSharedNav" data-br-shared-nav aria-label="BRMedia modules"></nav>
+    </aside>
+
+    <main class="brSharedMain statsMain">
+      <section class="statsHero">
+        <div>
+          <div class="brSharedEyebrow">BRMedia Stats</div>
+          <h1>Stats Centre</h1>
+          <p>Library totals, browser-side favourites/playlists/bookmarks, source health and quick checks while the full reporting engine grows.</p>
+          <div class="statsHeroActions">
+            <button id="btnStatsRefresh" class="statsBtn primary" type="button">Refresh stats</button>
+            <a class="statsBtn" href="/player">Open Player</a>
+            <a class="statsBtn" href="/settings">Settings</a>
+          </div>
+        </div>
+        <div class="statsHeroStack">
+          <div class="statsHealthCard"><span>Server</span><strong id="statsServerStatus">Checking�</strong><small id="statsServerBody">Reading /health</small></div>
+          <div class="statsHealthCard"><span>Audio</span><strong id="statsAudioCount">�</strong><small>Items from /library</small></div>
+          <div class="statsHealthCard"><span>Video</span><strong id="statsVideoCount">�</strong><small>Items from /video-library</small></div>
+        </div>
+      </section>
+
+      <section class="statsDashboard">
+        <div class="statsCardGrid" id="statsOverviewCards"></div>
+      </section>
+
+      <section class="statsSplitGrid">
+        <article class="statsPanel">
+          <div class="statsPanelHead">
+            <div><span>Library</span><h2>Top audio artists</h2></div>
+          </div>
+          <div id="statsArtistList" class="statsList"></div>
+        </article>
+
+        <article class="statsPanel">
+          <div class="statsPanelHead">
+            <div><span>Library</span><h2>Audio formats</h2></div>
+          </div>
+          <div id="statsFormatList" class="statsList"></div>
+        </article>
+      </section>
+
+      <section class="statsSplitGrid">
+        <article class="statsPanel">
+          <div class="statsPanelHead">
+            <div><span>Browser</span><h2>Playlists</h2></div>
+            <a href="/player?view=playlists">Open</a>
+          </div>
+          <div id="statsPlaylistList" class="statsList"></div>
+        </article>
+
+        <article class="statsPanel">
+          <div class="statsPanelHead">
+            <div><span>Video</span><h2>Video genres</h2></div>
+            <a href="/video-player">Open</a>
+          </div>
+          <div id="statsVideoGenreList" class="statsList"></div>
+        </article>
+      </section>
+
+      <section class="statsPanel statsWidePanel">
+        <div class="statsPanelHead">
+          <div><span>Modules</span><h2>Split status</h2></div>
+        </div>
+        <div id="statsModuleStatus" class="statsModuleGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/shared/nav.js?v=20260510-i4"></script>
+  <script src="/shared/shell.js?v=20260509-split-a"></script>
+  <script src="/stats/app.js?v=20260510-g1"></script>
+</body>
+</html>

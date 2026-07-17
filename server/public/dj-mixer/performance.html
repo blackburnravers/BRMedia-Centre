@@ -1,0 +1,1401 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia DUO Performance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#020712" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260510-j1" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260510-j1" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260510-j1" />
+  <link rel="manifest" href="/dj-mixer/site.webmanifest?v=20260630-dj-restart-template" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DUO Mixer" />
+
+  <link rel="stylesheet" href="/dj-mixer/styles.css?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body class="brDjPerformanceBody" data-dj-perf-view="duo" data-dj-duo-tab="main" data-dj-vinyl-deck="a">
+  <main class="brDjPerformanceShell" aria-label="BRMedia DUO performance mixer">
+    <nav class="brDjPerformanceTop" aria-label="Performance view navigation">
+      <a class="brDjPerfBack" href="/dj-mixer" aria-label="Back to DJ Studio">
+        <i class="fa-solid fa-chevron-left"></i>
+      </a>
+
+      <button class="brDjPerfTab" data-perf-view="deck-1" type="button">Deck 1</button>
+      <button class="brDjPerfTab is-active" data-perf-view="duo" type="button">DUO</button>
+      <button class="brDjPerfTab" data-perf-view="deck-2" type="button">Deck 2</button>
+
+      <button class="brDjPerfLibrary" type="button" aria-label="Open performance library">
+        <i class="fa-solid fa-music"></i>
+      </button>
+    </nav>
+
+    <section class="brDjPerfPanel" data-dj-perf-panel="deck-1">
+      <div class="brDjSingleDeckPage is-deck-1" data-single-deck="deck-1">
+        <div class="brDjSingleModePanel is-active" data-deck-panel="main">
+          <header class="brDjSingleTrackCard">
+            <div class="brDjSingleArtwork"><i class="fa-solid fa-record-vinyl"></i></div>
+            <div class="brDjSingleTrackText">
+              <p>Deck 1 Prep</p>
+              <h1>No track loaded</h1>
+              <span>Unknown artist</span>
+            </div>
+            <label class="brDjSingleLibraryBtn" role="button" aria-label="Load Deck 1 audio">
+              <input class="brDjEngineNativeFileInput" data-dj-engine-file="d1" type="file" />
+              <i class="fa-solid fa-music"></i>
+            </label>
+          </header>
+
+          <section class="brDjSingleOverviewWave" aria-label="Deck 1 full-track overview waveform">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </section>
+
+          <section class="brDjSingleDetailWave" aria-label="Deck 1 detailed waveform">
+            <div class="brDjSingleWavePills">
+              <span>-05:55.7</span>
+              <strong>252.7 Bars</strong>
+              <span>00:02.2</span>
+            </div>
+            <div class="brDjSingleWaveCanvas">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <div class="brDjSingleZoomDock">
+              <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+              <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+              <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+            </div>
+          </section>
+
+          <section class="brDjSingleLoopControls" aria-label="Deck 1 beat jump and loop controls">
+            <button class="brDjSingleSelectLike" type="button"><span>8 Beats</span><i class="fa-solid fa-chevron-down"></i></button>
+            <button class="brDjSingleSelectLike" type="button"><span>Auto Loop</span><i class="fa-solid fa-chevron-down"></i></button>
+            <button type="button"><i class="fa-solid fa-caret-left"></i></button>
+            <button type="button"><i class="fa-solid fa-caret-right"></i></button>
+            <button type="button"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button"><span>4</span></button>
+            <button type="button"><i class="fa-solid fa-chevron-right"></i></button>
+          </section>
+
+          <section class="brDjSingleTransport" aria-label="Deck 1 transport">
+            <button class="brDjSingleCueBtn" type="button">Cue</button>
+            <button class="brDjSinglePlayBtn" type="button" disabled><i class="fa-solid fa-play brDjSinglePlayIcon is-play-icon"></i><i class="fa-solid fa-pause brDjSinglePlayIcon is-pause-icon"></i><span class="brDjSinglePlayLabel">Play</span></button>
+          </section>
+        </div>
+
+        <div class="brDjSingleModePanel" data-deck-panel="grid">
+          <div class="brDjGridPage is-deck-1">
+            <section class="brDjCueMemoryOverview brDjGridOverview" aria-label="Deck 1 beat-grid overview waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </section>
+
+            <section class="brDjCueMemoryWave brDjGridWave" aria-label="Deck 1 beat-grid detailed waveform">
+              <div class="brDjCueMemoryPills">
+                <span>-04:18.0</span>
+                <strong>279.5 Bars</strong>
+                <span>00:00.0</span>
+              </div>
+              <div class="brDjCueMemoryWaveform">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="brDjSingleZoomDock">
+                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+              </div>
+            </section>
+
+            <section class="brDjGridControls" aria-label="Deck 1 grid controls">
+              <button class="brDjGridBpmBox" type="button">
+                <span>Grid BPM</span>
+                <strong>--.--</strong>
+              </button>
+
+              <button class="brDjGridACue" type="button" aria-label="Set first beat and cue">
+                <img src="/shared/icons/modules/dj-mixer/a-cue.svg" alt="" />
+              </button>
+
+              <button class="brDjGridMini" type="button" aria-label="Nudge grid left"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-left"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Nudge grid right"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-right"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Move beat left"><i class="fa-solid fa-caret-left"></i><i class="fa-solid fa-grip-lines-vertical"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Move beat right"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-right"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Double BPM"><i class="fa-solid fa-grip-lines-vertical"></i><strong>x2</strong></button>
+              <button class="brDjGridMini" type="button" aria-label="Halve BPM"><i class="fa-solid fa-grip-lines-vertical"></i><strong>/2</strong></button>
+              <button class="brDjGridMini" type="button" aria-label="Shrink grid"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-down"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Stretch grid"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-up"></i></button>
+
+              <button class="brDjGridUndo" type="button" aria-label="Undo grid edit"><i class="fa-solid fa-rotate-left"></i></button>
+              <button class="brDjGridUndo" type="button" aria-label="Redo grid edit"><i class="fa-solid fa-rotate-right"></i></button>
+              <button class="brDjGridTap" type="button">Tap</button>
+              <button class="brDjGridPalette" type="button" aria-label="Grid colour"><i class="fa-solid fa-palette"></i></button>
+              <button class="brDjGridLock" type="button" aria-label="Lock beat grid"><i class="fa-solid fa-lock"></i></button>
+            </section>
+
+            <button class="brDjGridStatus" type="button">
+              Grid waiting for BPM analysis
+            </button>
+
+            <section class="brDjSingleTransport brDjGridTransport" aria-label="Deck 1 grid transport">
+              <button class="brDjSingleCueBtn" type="button">Cue</button>
+              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            </section>
+          </div>
+        </div>
+
+        <div class="brDjSingleModePanel" data-deck-panel="hot-cue">
+          <div class="brDjCueMemoryPage is-hot-cue is-deck-1">
+            <section class="brDjCueMemoryOverview" aria-label="Deck 1 hot cue overview waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </section>
+
+            <section class="brDjCueMemoryWave" aria-label="Deck 1 hot cue detailed waveform">
+              <div class="brDjCueMemoryPills">
+                <span>-04:18.0</span>
+                <strong>279.5 Bars</strong>
+                <span>00:00.0</span>
+              </div>
+              <div class="brDjCueMemoryWaveform">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="brDjSingleZoomDock">
+                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+              </div>
+            </section>
+
+            <button class="brDjCueMemoryListLink" type="button">List <i class="fa-solid fa-chevron-right"></i></button>
+
+            <section class="brDjCueMemoryPadGrid" aria-label="Deck 1 hot cue pads">
+              <button type="button">A</button>
+              <button type="button">B</button>
+              <button class="is-filled" type="button">C</button>
+              <button type="button">D</button>
+              <button type="button">E</button>
+              <button class="is-filled" type="button">F</button>
+              <button type="button">G</button>
+              <button type="button">H</button>
+              <button type="button">I</button>
+              <button type="button">J</button>
+              <button type="button">K</button>
+              <button class="is-delete" type="button" aria-label="Delete hot cue"><i class="fa-solid fa-trash-can"></i></button>
+            </section>
+						
+            <section class="brDjCueMemoryListPanel" aria-label="Cue memory list">
+              <header>
+                <button type="button" data-cue-memory-list-back aria-label="Back to cue pads"><i class="fa-solid fa-chevron-left"></i></button>
+                <strong>List</strong>
+                <span></span>
+              </header>
+              <div class="brDjCueMemoryListRows">
+                <button type="button"><span>A</span><strong>00:04.315</strong><i class="fa-solid fa-ellipsis"></i></button>
+                <button type="button"><span>B</span><strong></strong></button>
+                <button type="button"><span>C</span><strong></strong></button>
+                <button type="button"><span>D</span><strong></strong></button>
+                <button type="button"><span>E</span><strong></strong></button>
+                <button type="button"><span>F</span><strong></strong></button>
+                <button type="button"><span>G</span><strong></strong></button>
+                <button type="button"><span>H</span><strong></strong></button>
+              </div>
+            </section>
+
+            <section class="brDjSingleTransport brDjCueMemoryTransport" aria-label="Deck 1 hot cue transport">
+              <button class="brDjSingleCueBtn" type="button">Cue</button>
+              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            </section>
+          </div>
+        </div>
+
+        <div class="brDjSingleModePanel" data-deck-panel="memory">
+          <div class="brDjCueMemoryPage is-memory is-deck-1">
+            <section class="brDjCueMemoryOverview" aria-label="Deck 1 memory cue overview waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </section>
+
+            <section class="brDjCueMemoryWave" aria-label="Deck 1 memory cue detailed waveform">
+              <div class="brDjCueMemoryPills">
+                <span>-04:18.0</span>
+                <strong>279.5 Bars</strong>
+                <span>00:00.0</span>
+              </div>
+              <div class="brDjCueMemoryWaveform">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="brDjSingleZoomDock">
+                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+              </div>
+            </section>
+
+            <button class="brDjCueMemoryListLink" type="button">List <i class="fa-solid fa-chevron-right"></i></button>
+
+            <section class="brDjCueMemoryPadGrid" aria-label="Deck 1 memory cue pads">
+              <button type="button">A</button>
+              <button type="button">B</button>
+              <button class="is-filled" type="button">C</button>
+              <button type="button">D</button>
+              <button type="button">E</button>
+              <button class="is-filled" type="button">F</button>
+              <button type="button">G</button>
+              <button type="button">H</button>
+              <button type="button">I</button>
+              <button type="button">J</button>
+              <button type="button">K</button>
+              <button class="is-delete" type="button" aria-label="Delete memory cue"><i class="fa-solid fa-trash-can"></i></button>
+            </section>
+						
+            <section class="brDjCueMemoryListPanel" aria-label="Cue memory list">
+              <header>
+                <button type="button" data-cue-memory-list-back aria-label="Back to cue pads"><i class="fa-solid fa-chevron-left"></i></button>
+                <strong>List</strong>
+                <span></span>
+              </header>
+              <div class="brDjCueMemoryListRows">
+                <button type="button"><span>A</span><strong>00:04.315</strong><i class="fa-solid fa-ellipsis"></i></button>
+                <button type="button"><span>B</span><strong></strong></button>
+                <button type="button"><span>C</span><strong></strong></button>
+                <button type="button"><span>D</span><strong></strong></button>
+                <button type="button"><span>E</span><strong></strong></button>
+                <button type="button"><span>F</span><strong></strong></button>
+                <button type="button"><span>G</span><strong></strong></button>
+                <button type="button"><span>H</span><strong></strong></button>
+              </div>
+            </section>
+
+            <section class="brDjSingleTransport brDjCueMemoryTransport" aria-label="Deck 1 memory transport">
+              <button class="brDjSingleCueBtn" type="button">Cue</button>
+              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            </section>
+          </div>
+        </div>
+
+        <div class="brDjSingleModePanel" data-deck-panel="stems">
+          <div class="brDjStemsPage is-deck-1">
+            <section class="brDjCueMemoryOverview brDjStemsOverview" aria-label="Deck 1 stems overview waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </section>
+
+            <section class="brDjCueMemoryWave brDjStemsWave" aria-label="Deck 1 stems detailed waveform">
+              <div class="brDjCueMemoryPills">
+                <span>-06:09.8</span>
+                <strong>248.1 Bars</strong>
+                <span>00:00.0</span>
+              </div>
+              <div class="brDjCueMemoryWaveform">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="brDjSingleZoomDock">
+                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+              </div>
+            </section>
+
+            <section class="brDjStemFaderGrid" aria-label="Deck 1 stems faders">
+              <article class="brDjStemLane">
+                <button type="button" aria-label="Drums stem"><i class="fa-solid fa-drum"></i></button>
+                <div class="brDjStemFaderBox">
+                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="100" aria-label="Drums stem level" />
+                </div>
+                <strong>100%</strong>
+                <span>Drums</span>
+              </article>
+
+              <article class="brDjStemLane is-muted">
+                <button type="button" aria-label="Bass stem"><i class="fa-solid fa-guitar"></i></button>
+                <div class="brDjStemFaderBox">
+                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Bass stem level" />
+                </div>
+                <strong>Muted</strong>
+                <span>Bass</span>
+              </article>
+
+              <article class="brDjStemLane is-muted">
+                <button type="button" aria-label="Harmonic stem"><i class="fa-solid fa-keyboard"></i></button>
+                <div class="brDjStemFaderBox">
+                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Harmonic stem level" />
+                </div>
+                <strong>Muted</strong>
+                <span>Harmonic</span>
+              </article>
+
+              <article class="brDjStemLane is-muted">
+                <button type="button" aria-label="Vocals stem"><i class="fa-solid fa-microphone"></i></button>
+                <div class="brDjStemFaderBox">
+                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Vocals stem level" />
+                </div>
+                <strong>Muted</strong>
+                <span>Vocals</span>
+              </article>
+            </section>
+
+            <section class="brDjSingleTransport brDjStemTransport" aria-label="Deck 1 stems transport">
+              <button class="brDjSingleCueBtn" type="button">Cue</button>
+              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="brDjPerfPanel is-active" data-dj-perf-panel="duo">
+      <div class="brDjDuoDeckStrip">
+        <article class="brDjDuoDeckCard is-deck-1">
+          <span aria-hidden="true"></span>
+          <strong>No track loaded</strong>
+          <small class="brDjDuoDeckCardMeta">Unknown artist</small>
+          <em>Stopped</em>
+          <div class="brDjDuoDeckCardWave" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </article>
+
+        <article class="brDjDuoDeckCard is-deck-2">
+          <span aria-hidden="true"></span>
+          <strong>No track loaded</strong>
+          <small class="brDjDuoDeckCardMeta">Unknown artist</small>
+          <em>Stopped</em>
+          <div class="brDjDuoDeckCardWave" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </article>
+      </div>
+
+      <div class="brDjDuoTabPanel brDjDuoMainPanel is-active" data-dj-duo-panel="main">
+        <div class="brDjDuoMainStage brDjDuoMainStageV2">
+          <div class="brDjDuoSyncRail" aria-label="DUO sync and BPM controls">
+            <section class="brDjDuoSyncDeck is-deck-1">
+              <button class="brDjDuoSyncBtn" type="button">SYNC</button>
+              <button class="brDjDuoBpmPopup" type="button" aria-label="Deck 1 BPM and sync options">
+                <strong>--.--</strong>
+                <span>
+                  <em data-dj-bpm-status="sync">SYNC</em>
+                  <em data-dj-bpm-status="q">Q</em>
+                  <em data-dj-bpm-status="mt">MT</em>
+                  <em data-dj-bpm-status="master">MASTER</em>
+                  <em data-dj-bpm-status="key">KEY</em>
+                </span>
+              </button>
+            </section>
+
+            <section class="brDjDuoSyncDeck is-deck-2">
+              <button class="brDjDuoBpmPopup" type="button" aria-label="Deck 2 BPM and sync options">
+                <strong>--.--</strong>
+                <span>
+                  <em data-dj-bpm-status="sync">SYNC</em>
+                  <em data-dj-bpm-status="q">Q</em>
+                  <em data-dj-bpm-status="mt">MT</em>
+                  <em data-dj-bpm-status="master">MASTER</em>
+                  <em data-dj-bpm-status="key">KEY</em>
+                </span>
+              </button>
+              <button class="brDjDuoSyncBtn" type="button">SYNC</button>
+            </section>
+          </div>
+
+          <div class="brDjDuoWaveStack" aria-label="DUO stacked waveforms">
+            <article class="brDjDuoHorizontalWave is-deck-1">
+              <header>
+                <span>Deck 1 waveform</span>
+                <em>-04:45.2</em>
+              </header>
+              <div class="brDjDuoWaveBody">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </article>
+
+            <article class="brDjDuoHorizontalWave is-deck-2">
+              <header>
+                <span>Deck 2 waveform</span>
+                <em>00:00.0</em>
+              </header>
+              <div class="brDjDuoWaveBody">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </article>
+          </div>
+
+          <div
+            class="brDjDuoMainControls is-split is-active"
+            data-duo-main-layout="split"
+          >
+            <section
+              class="brDjDuoDeckTransportPanel is-deck-1"
+              aria-label="Deck 1 transport"
+            >
+              <button
+                class="brDjDuoPadCue"
+                type="button"
+              >
+                CUE
+              </button>
+
+              <button
+                class="brDjDuoPadPlay"
+                type="button"
+                aria-label="Deck 1 play"
+              >
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </section>
+
+            <section
+              class="brDjDuoDeckTransportPanel is-deck-2"
+              aria-label="Deck 2 transport"
+            >
+              <button
+                class="brDjDuoPadPlay"
+                type="button"
+                aria-label="Deck 2 play"
+              >
+                <i class="fa-solid fa-play"></i>
+              </button>
+
+              <button
+                class="brDjDuoPadCue"
+                type="button"
+              >
+                CUE
+              </button>
+            </section>
+          </div>
+
+          <div
+            class="brDjDuoMainControls brDjDuoLinkedControls"
+            data-duo-main-layout="linked"
+            hidden
+          >
+            <button
+              class="brDjDuoPadCue brDjDuoLinkedCue"
+              data-duo-linked-cue
+              type="button"
+              aria-label="Cue both decks together"
+            >
+              CUE
+            </button>
+
+            <button
+              class="brDjDuoPadPlay brDjDuoLinkedPlay"
+              data-duo-linked-play
+              type="button"
+              aria-label="Play both decks together"
+            >
+              <i class="fa-solid fa-play"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="brDjDuoMainBottomBar brDjVinylBottomBar">
+          <div class="brDjVinylCrossfader" data-vinyl-crossfader-box>
+            <button class="brDjVinylCrossfaderCentre" data-vinyl-crossfader-centre type="button">Centre</button>
+            <input class="brDjSharedCrossfaderRange" data-vinyl-crossfader type="range" min="0" max="100" value="50" aria-label="DUO main crossfader" />
+            <div class="brDjVinylCrossfaderScale">
+              <span>D1</span>
+              <span>D2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brDjDuoTabPanel brDjMixerPanel" data-dj-duo-panel="mixer">
+        <div class="brDjDuoMainStage brDjMixerStage">
+          <div class="brDjDuoSyncRail brDjMixerSyncRail" aria-label="Mixer sync and BPM controls">
+            <section class="brDjDuoSyncDeck is-deck-1">
+              <button class="brDjDuoSyncBtn" type="button">SYNC</button>
+              <button class="brDjDuoBpmPopup" type="button" aria-label="Deck 1 BPM and sync options">
+                <strong>--.--</strong>
+                <span>
+                  <em data-dj-bpm-status="sync">SYNC</em>
+                  <em data-dj-bpm-status="q">Q</em>
+                  <em data-dj-bpm-status="mt">MT</em>
+                  <em data-dj-bpm-status="master">MASTER</em>
+                  <em data-dj-bpm-status="key">KEY</em>
+                </span>
+              </button>
+            </section>
+
+            <section class="brDjDuoSyncDeck is-deck-2">
+              <button class="brDjDuoBpmPopup" type="button" aria-label="Deck 2 BPM and sync options">
+                <strong>--.--</strong>
+                <span>
+                  <em data-dj-bpm-status="sync">SYNC</em>
+                  <em data-dj-bpm-status="q">Q</em>
+                  <em data-dj-bpm-status="mt">MT</em>
+                  <em data-dj-bpm-status="master">MASTER</em>
+                  <em data-dj-bpm-status="key">KEY</em>
+                </span>
+              </button>
+              <button class="brDjDuoSyncBtn" type="button">SYNC</button>
+            </section>
+          </div>
+
+          <div class="brDjMixerDesk" aria-label="DUO mixer controls">
+            <section class="brDjMixerChannel is-deck-1" aria-label="Deck 1 channel strip">
+              <header>
+                <span>Channel</span>
+                <strong>D1</strong>
+              </header>
+
+              <div class="brDjMixerVolume">
+                <input class="brDjMixerVolumeRange" type="range" min="0" max="100" value="100" orient="vertical" aria-label="Deck 1 channel volume" />
+                <em>100%</em>
+              </div>
+
+              <div class="brDjMixerToneStack" data-mixer-tone-stack="deck1">
+                <div class="brDjMixerFixedToneStack">
+                  <button class="brDjMixerKnob is-filter" type="button">
+                    <i></i>
+                    <strong>Filter</strong>
+                    <span>Centre</span>
+                  </button>
+                  <button class="brDjMixerKnob is-gain" type="button">
+                    <i></i>
+                    <strong>Gain</strong>
+                    <span>100%</span>
+                  </button>
+                </div>
+
+                <div class="brDjMixerEqStack" data-mixer-eq-stack="deck1">
+                  <button class="brDjMixerKnob is-eq" type="button">
+                    <i></i>
+                    <strong>High</strong>
+                    <span>100%</span>
+                  </button>
+                  <button class="brDjMixerKnob is-eq" type="button">
+                    <i></i>
+                    <strong>Mid</strong>
+                    <span>100%</span>
+                  </button>
+                  <button class="brDjMixerKnob is-eq" type="button">
+                    <i></i>
+                    <strong>Low</strong>
+                    <span>100%</span>
+                  </button>
+                </div>
+
+                <div class="brDjMixerKillStack" data-mixer-kill-stack="deck1">
+                  <button type="button">High kill</button>
+                  <button type="button">Mid kill</button>
+                  <button type="button">Low kill</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="brDjMixerMaster" aria-label="Master meter">
+              <button class="brDjMixerMasterKnob" type="button">
+                <i></i>
+                <strong>Master</strong>
+                <span>100%</span>
+              </button>
+
+              <div class="brDjMixerMeters" aria-hidden="true">
+                <span><i style="height: 44%"></i></span>
+                <span><i style="height: 66%"></i></span>
+                <span><i style="height: 66%"></i></span>
+              </div>
+            </section>
+
+            <section class="brDjMixerChannel is-deck-2" aria-label="Deck 2 channel strip">
+              <header>
+                <span>Channel</span>
+                <strong>D2</strong>
+              </header>
+
+              <div class="brDjMixerToneStack" data-mixer-tone-stack="deck2">
+                <div class="brDjMixerFixedToneStack">
+                  <button class="brDjMixerKnob is-filter" type="button">
+                    <i></i>
+                    <strong>Filter</strong>
+                    <span>Centre</span>
+                  </button>
+                  <button class="brDjMixerKnob is-gain" type="button">
+                    <i></i>
+                    <strong>Gain</strong>
+                    <span>100%</span>
+                  </button>
+                </div>
+
+                <div class="brDjMixerEqStack" data-mixer-eq-stack="deck2">
+                  <button class="brDjMixerKnob is-eq" type="button">
+                    <i></i>
+                    <strong>High</strong>
+                    <span>100%</span>
+                  </button>
+                  <button class="brDjMixerKnob is-eq" type="button">
+                    <i></i>
+                    <strong>Mid</strong>
+                    <span>100%</span>
+                  </button>
+                  <button class="brDjMixerKnob is-eq" type="button">
+                    <i></i>
+                    <strong>Low</strong>
+                    <span>100%</span>
+                  </button>
+                </div>
+
+                <div class="brDjMixerKillStack" data-mixer-kill-stack="deck2">
+                  <button type="button">High kill</button>
+                  <button type="button">Mid kill</button>
+                  <button type="button">Low kill</button>
+                </div>
+              </div>
+
+              <div class="brDjMixerVolume">
+                <input class="brDjMixerVolumeRange" type="range" min="0" max="100" value="88" orient="vertical" aria-label="Deck 2 channel volume" />
+                <em>88%</em>
+              </div>
+            </section>
+          </div>
+
+          <div class="brDjDuoMainControls is-split is-active brDjMixerTransportRow" data-duo-main-layout="split">
+            <section class="brDjDuoDeckTransportPanel is-deck-1" aria-label="Deck 1 mixer transport">
+              <button class="brDjDuoPadCue" type="button">CUE</button>
+              <button class="brDjDuoPadPlay" type="button" aria-label="Deck 1 play">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </section>
+
+            <section class="brDjDuoDeckTransportPanel is-deck-2" aria-label="Deck 2 mixer transport">
+              <button class="brDjDuoPadPlay" type="button" aria-label="Deck 2 play">
+                <i class="fa-solid fa-play"></i>
+              </button>
+              <button class="brDjDuoPadCue" type="button">CUE</button>
+            </section>
+          </div>
+        </div>
+
+        <div class="brDjMixerBottomBar brDjVinylBottomBar">
+          <div class="brDjVinylCrossfader" data-vinyl-crossfader-box>
+            <button class="brDjVinylCrossfaderCentre" data-vinyl-crossfader-centre type="button">Centre</button>
+            <input class="brDjSharedCrossfaderRange" data-vinyl-crossfader type="range" min="0" max="100" value="50" aria-label="Mixer crossfader" />
+            <div class="brDjVinylCrossfaderScale">
+              <span>D1</span>
+              <span>D2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brDjDuoTabPanel brDjFxPerfPanel" data-dj-duo-panel="fx">
+        <div class="brDjFxBoardStage">
+          <header class="brDjFxBoardHeader">
+            <div>
+              <p>DUO FX</p>
+              <h1 data-dj-performance-fx-title>Board 1</h1>
+              <span data-dj-performance-fx-subtitle>Orange board · 9 performance pads</span>
+            </div>
+
+            <div class="brDjFxBoardIndicators" aria-label="FX board position">
+              <span class="is-active" data-dj-performance-fx-indicator="board1">B1</span>
+              <span data-dj-performance-fx-indicator="board2">B2</span>
+              <span data-dj-performance-fx-indicator="board3">B3</span>
+              <span data-dj-performance-fx-indicator="board4">B4</span>
+            </div>
+          </header>
+
+          <div class="brDjFxPadGrid" data-dj-performance-fx-pads aria-label="FX performance pads">
+            <button class="brDjFxPadSkeleton" type="button">Loading FX…</button>
+          </div>
+        </div>
+
+        <div class="brDjFxBottomBar brDjVinylBottomBar">
+          <div class="brDjVinylCrossfader" data-vinyl-crossfader-box>
+            <button class="brDjVinylCrossfaderCentre" data-vinyl-crossfader-centre type="button">Centre</button>
+            <input class="brDjSharedCrossfaderRange" data-vinyl-crossfader type="range" min="0" max="100" value="50" aria-label="FX crossfader" />
+            <div class="brDjVinylCrossfaderScale">
+              <span>D1</span>
+              <span>D2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brDjDuoTabPanel brDjVinylPanel" data-dj-duo-panel="vinyl">
+        <div class="brDjVinylDecks">
+          <article class="brDjVinylDeckView is-active" data-vinyl-deck="a">
+            <div class="brDjVinylLeftRail">
+              <button class="brDjVinylDeckSwitch" data-vinyl-deck-switch type="button" aria-label="Switch to Deck 2 vinyl">
+                <span>D1</span>
+              </button>
+
+              <div class="brDjVinylUtilityControls" aria-label="Deck 1 vinyl controls">
+                <button type="button"><i class="fa-solid fa-rotate-left"></i><span>Nudge -</span></button>
+                <button type="button"><i class="fa-solid fa-rotate-right"></i><span>Nudge +</span></button>
+                <button type="button"><i class="fa-solid fa-record-vinyl"></i><span>Scratch</span></button>
+                <button type="button"><i class="fa-solid fa-stop"></i><span>Brake</span></button>
+              </div>
+            </div>
+
+            <div class="brDjVinylTurntableSide" aria-hidden="true">
+              <div class="brDjVinylPlatter">
+                <div class="brDjVinylDisc"><span><img class="brDjVinylArtwork" src="/shared/branding/logos/icon-512.png" alt="Deck artwork" /></span></div>
+                <div class="brDjVinylTonearm"><span></span></div>
+              </div>
+            </div>
+
+            <div class="brDjVinylBottomBar">
+              <div class="brDjVinylTransport" aria-label="Deck 1 transport">
+                <button type="button" aria-label="Cue"><span class="brDjVinylCueText">CUE</span></button>
+                <button type="button" class="is-play" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+              </div>
+
+              <div class="brDjVinylCrossfader" data-vinyl-crossfader-box>
+                <button class="brDjVinylCrossfaderCentre" data-vinyl-crossfader-centre type="button">Centre</button>
+                <input class="brDjSharedCrossfaderRange" data-vinyl-crossfader type="range" min="0" max="100" value="50" aria-label="Vinyl crossfader" />
+                <div class="brDjVinylCrossfaderScale">
+                  <span>D1</span>
+                  <span>D2</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="brDjVinylDeckView" data-vinyl-deck="b">
+            <div class="brDjVinylLeftRail">
+              <button class="brDjVinylDeckSwitch" data-vinyl-deck-switch type="button" aria-label="Switch to Deck 1 vinyl">
+                <span>D2</span>
+              </button>
+
+              <div class="brDjVinylUtilityControls" aria-label="Deck 2 vinyl controls">
+                <button type="button"><i class="fa-solid fa-rotate-left"></i><span>Nudge -</span></button>
+                <button type="button"><i class="fa-solid fa-rotate-right"></i><span>Nudge +</span></button>
+                <button type="button"><i class="fa-solid fa-record-vinyl"></i><span>Scratch</span></button>
+                <button type="button"><i class="fa-solid fa-stop"></i><span>Brake</span></button>
+              </div>
+            </div>
+
+            <div class="brDjVinylTurntableSide" aria-hidden="true">
+              <div class="brDjVinylPlatter deck-b">
+                <div class="brDjVinylDisc"><span><img class="brDjVinylArtwork" src="/shared/branding/logos/icon-512.png" alt="Deck artwork" /></span></div>
+                <div class="brDjVinylTonearm"><span></span></div>
+              </div>
+            </div>
+
+            <div class="brDjVinylBottomBar">
+              <div class="brDjVinylTransport" aria-label="Deck 2 transport">
+                <button type="button" aria-label="Cue"><span class="brDjVinylCueText">CUE</span></button>
+                <button type="button" class="is-play" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+              </div>
+
+              <div class="brDjVinylCrossfader" data-vinyl-crossfader-box>
+                <button class="brDjVinylCrossfaderCentre" data-vinyl-crossfader-centre type="button">Centre</button>
+                <input class="brDjSharedCrossfaderRange" data-vinyl-crossfader type="range" min="0" max="100" value="50" aria-label="Vinyl crossfader" />
+                <div class="brDjVinylCrossfaderScale">
+                  <span>D1</span>
+                  <span>D2</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="brDjDuoTabPanel" data-dj-duo-panel="record" hidden></div>
+    </section>
+
+    <section class="brDjPerfPanel" data-dj-perf-panel="deck-2">
+      <div class="brDjSingleDeckPage is-deck-2" data-single-deck="deck-2">
+        <div class="brDjSingleModePanel is-active" data-deck-panel="main">
+          <header class="brDjSingleTrackCard">
+            <div class="brDjSingleArtwork"><i class="fa-solid fa-record-vinyl"></i></div>
+            <div class="brDjSingleTrackText">
+              <p>Deck 2 Prep</p>
+              <h1>No track loaded</h1>
+              <span>Unknown artist</span>
+            </div>
+            <label class="brDjSingleLibraryBtn" role="button" aria-label="Load Deck 2 audio">
+              <input class="brDjEngineNativeFileInput" data-dj-engine-file="d2" type="file" />
+              <i class="fa-solid fa-music"></i>
+            </label>
+          </header>
+
+          <section class="brDjSingleOverviewWave" aria-label="Deck 2 full-track overview waveform">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </section>
+
+          <section class="brDjSingleDetailWave" aria-label="Deck 2 detailed waveform">
+            <div class="brDjSingleWavePills">
+              <span>-05:55.7</span>
+              <strong>252.7 Bars</strong>
+              <span>00:02.2</span>
+            </div>
+            <div class="brDjSingleWaveCanvas">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <div class="brDjSingleZoomDock">
+              <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+              <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+              <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+            </div>
+          </section>
+
+          <section class="brDjSingleLoopControls" aria-label="Deck 2 beat jump and loop controls">
+            <button class="brDjSingleSelectLike" type="button"><span>8 Beats</span><i class="fa-solid fa-chevron-down"></i></button>
+            <button class="brDjSingleSelectLike" type="button"><span>Auto Loop</span><i class="fa-solid fa-chevron-down"></i></button>
+            <button type="button"><i class="fa-solid fa-caret-left"></i></button>
+            <button type="button"><i class="fa-solid fa-caret-right"></i></button>
+            <button type="button"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button"><span>4</span></button>
+            <button type="button"><i class="fa-solid fa-chevron-right"></i></button>
+          </section>
+
+          <section class="brDjSingleTransport" aria-label="Deck 2 transport">
+            <button class="brDjSingleCueBtn" type="button">Cue</button>
+            <button class="brDjSinglePlayBtn" type="button" disabled><i class="fa-solid fa-play brDjSinglePlayIcon is-play-icon"></i><i class="fa-solid fa-pause brDjSinglePlayIcon is-pause-icon"></i><span class="brDjSinglePlayLabel">Play</span></button>
+          </section>
+        </div>
+
+        <div class="brDjSingleModePanel" data-deck-panel="grid">
+          <div class="brDjGridPage is-deck-2">
+            <section class="brDjCueMemoryOverview brDjGridOverview" aria-label="Deck 2 beat-grid overview waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </section>
+
+            <section class="brDjCueMemoryWave brDjGridWave" aria-label="Deck 2 beat-grid detailed waveform">
+              <div class="brDjCueMemoryPills">
+                <span>-04:18.0</span>
+                <strong>279.5 Bars</strong>
+                <span>00:00.0</span>
+              </div>
+              <div class="brDjCueMemoryWaveform">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="brDjSingleZoomDock">
+                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+              </div>
+            </section>
+
+            <section class="brDjGridControls" aria-label="Deck 2 grid controls">
+              <button class="brDjGridBpmBox" type="button">
+                <span>Grid BPM</span>
+                <strong>--.--</strong>
+              </button>
+
+              <button class="brDjGridACue" type="button" aria-label="Set first beat and cue">
+                <img src="/shared/icons/modules/dj-mixer/a-cue.svg" alt="" />
+              </button>
+
+              <button class="brDjGridMini" type="button" aria-label="Nudge grid left"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-left"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Nudge grid right"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-right"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Move beat left"><i class="fa-solid fa-caret-left"></i><i class="fa-solid fa-grip-lines-vertical"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Move beat right"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-right"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Double BPM"><i class="fa-solid fa-grip-lines-vertical"></i><strong>x2</strong></button>
+              <button class="brDjGridMini" type="button" aria-label="Halve BPM"><i class="fa-solid fa-grip-lines-vertical"></i><strong>/2</strong></button>
+              <button class="brDjGridMini" type="button" aria-label="Shrink grid"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-down"></i></button>
+              <button class="brDjGridMini" type="button" aria-label="Stretch grid"><i class="fa-solid fa-grip-lines-vertical"></i><i class="fa-solid fa-caret-up"></i></button>
+
+              <button class="brDjGridUndo" type="button" aria-label="Undo grid edit"><i class="fa-solid fa-rotate-left"></i></button>
+              <button class="brDjGridUndo" type="button" aria-label="Redo grid edit"><i class="fa-solid fa-rotate-right"></i></button>
+              <button class="brDjGridTap" type="button">Tap</button>
+              <button class="brDjGridPalette" type="button" aria-label="Grid colour"><i class="fa-solid fa-palette"></i></button>
+              <button class="brDjGridLock" type="button" aria-label="Lock beat grid"><i class="fa-solid fa-lock"></i></button>
+            </section>
+
+            <button class="brDjGridStatus" type="button">
+              Grid waiting for BPM analysis
+            </button>
+
+            <section class="brDjSingleTransport brDjGridTransport" aria-label="Deck 2 grid transport">
+              <button class="brDjSingleCueBtn" type="button">Cue</button>
+              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            </section>
+          </div>
+        </div>
+
+        <div class="brDjSingleModePanel" data-deck-panel="hot-cue">
+          <div class="brDjCueMemoryPage is-hot-cue is-deck-2">
+            <section class="brDjCueMemoryOverview" aria-label="Deck 2 hot cue overview waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </section>
+
+            <section class="brDjCueMemoryWave" aria-label="Deck 2 hot cue detailed waveform">
+              <div class="brDjCueMemoryPills">
+                <span>-04:18.0</span>
+                <strong>279.5 Bars</strong>
+                <span>00:00.0</span>
+              </div>
+              <div class="brDjCueMemoryWaveform">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="brDjSingleZoomDock">
+                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+              </div>
+            </section>
+						
+            <section class="brDjCueMemoryListPanel" aria-label="Cue memory list">
+              <header>
+                <button type="button" data-cue-memory-list-back aria-label="Back to cue pads"><i class="fa-solid fa-chevron-left"></i></button>
+                <strong>List</strong>
+                <span></span>
+              </header>
+              <div class="brDjCueMemoryListRows">
+                <button type="button"><span>A</span><strong>00:04.315</strong><i class="fa-solid fa-ellipsis"></i></button>
+                <button type="button"><span>B</span><strong></strong></button>
+                <button type="button"><span>C</span><strong></strong></button>
+                <button type="button"><span>D</span><strong></strong></button>
+                <button type="button"><span>E</span><strong></strong></button>
+                <button type="button"><span>F</span><strong></strong></button>
+                <button type="button"><span>G</span><strong></strong></button>
+                <button type="button"><span>H</span><strong></strong></button>
+              </div>
+            </section>
+
+            <button class="brDjCueMemoryListLink" type="button">List <i class="fa-solid fa-chevron-right"></i></button>
+
+            <section class="brDjCueMemoryPadGrid" aria-label="Deck 2 hot cue pads">
+              <button type="button">A</button>
+              <button type="button">B</button>
+              <button class="is-filled" type="button">C</button>
+              <button type="button">D</button>
+              <button type="button">E</button>
+              <button class="is-filled" type="button">F</button>
+              <button type="button">G</button>
+              <button type="button">H</button>
+              <button type="button">I</button>
+              <button type="button">J</button>
+              <button type="button">K</button>
+              <button class="is-delete" type="button" aria-label="Delete hot cue"><i class="fa-solid fa-trash-can"></i></button>
+            </section>
+
+            <section class="brDjSingleTransport brDjCueMemoryTransport" aria-label="Deck 2 hot cue transport">
+              <button class="brDjSingleCueBtn" type="button">Cue</button>
+              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            </section>
+          </div>
+        </div>
+
+        <div class="brDjSingleModePanel" data-deck-panel="memory">
+          <div class="brDjCueMemoryPage is-memory is-deck-2">
+            <section class="brDjCueMemoryOverview" aria-label="Deck 2 memory cue overview waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </section>
+
+            <section class="brDjCueMemoryWave" aria-label="Deck 2 memory cue detailed waveform">
+              <div class="brDjCueMemoryPills">
+                <span>-04:18.0</span>
+                <strong>279.5 Bars</strong>
+                <span>00:00.0</span>
+              </div>
+              <div class="brDjCueMemoryWaveform">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="brDjSingleZoomDock">
+                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+              </div>
+            </section>
+
+            <button class="brDjCueMemoryListLink" type="button">List <i class="fa-solid fa-chevron-right"></i></button>
+
+            <section class="brDjCueMemoryPadGrid" aria-label="Deck 2 memory cue pads">
+              <button type="button">A</button>
+              <button type="button">B</button>
+              <button class="is-filled" type="button">C</button>
+              <button type="button">D</button>
+              <button type="button">E</button>
+              <button class="is-filled" type="button">F</button>
+              <button type="button">G</button>
+              <button type="button">H</button>
+              <button type="button">I</button>
+              <button type="button">J</button>
+              <button type="button">K</button>
+              <button class="is-delete" type="button" aria-label="Delete memory cue"><i class="fa-solid fa-trash-can"></i></button>
+            </section>
+						
+            <section class="brDjCueMemoryListPanel" aria-label="Cue memory list">
+              <header>
+                <button type="button" data-cue-memory-list-back aria-label="Back to cue pads"><i class="fa-solid fa-chevron-left"></i></button>
+                <strong>List</strong>
+                <span></span>
+              </header>
+              <div class="brDjCueMemoryListRows">
+                <button type="button"><span>A</span><strong>00:04.315</strong><i class="fa-solid fa-ellipsis"></i></button>
+                <button type="button"><span>B</span><strong></strong></button>
+                <button type="button"><span>C</span><strong></strong></button>
+                <button type="button"><span>D</span><strong></strong></button>
+                <button type="button"><span>E</span><strong></strong></button>
+                <button type="button"><span>F</span><strong></strong></button>
+                <button type="button"><span>G</span><strong></strong></button>
+                <button type="button"><span>H</span><strong></strong></button>
+              </div>
+            </section>
+
+            <section class="brDjSingleTransport brDjCueMemoryTransport" aria-label="Deck 2 memory transport">
+              <button class="brDjSingleCueBtn" type="button">Cue</button>
+              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            </section>
+          </div>
+        </div>
+
+        <div class="brDjSingleModePanel" data-deck-panel="stems">
+          <div class="brDjStemsPage is-deck-2">
+            <section class="brDjCueMemoryOverview brDjStemsOverview" aria-label="Deck 2 stems overview waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </section>
+
+            <section class="brDjCueMemoryWave brDjStemsWave" aria-label="Deck 2 stems detailed waveform">
+              <div class="brDjCueMemoryPills">
+                <span>-06:09.8</span>
+                <strong>248.1 Bars</strong>
+                <span>00:00.0</span>
+              </div>
+              <div class="brDjCueMemoryWaveform">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="brDjSingleZoomDock">
+                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+              </div>
+            </section>
+
+            <section class="brDjStemFaderGrid" aria-label="Deck 2 stems faders">
+              <article class="brDjStemLane">
+                <button type="button" aria-label="Drums stem"><i class="fa-solid fa-drum"></i></button>
+                <div class="brDjStemFaderBox">
+                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="100" aria-label="Drums stem level" />
+                </div>
+                <strong>100%</strong>
+                <span>Drums</span>
+              </article>
+
+              <article class="brDjStemLane is-muted">
+                <button type="button" aria-label="Bass stem"><i class="fa-solid fa-guitar"></i></button>
+                <div class="brDjStemFaderBox">
+                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Bass stem level" />
+                </div>
+                <strong>Muted</strong>
+                <span>Bass</span>
+              </article>
+
+              <article class="brDjStemLane is-muted">
+                <button type="button" aria-label="Harmonic stem"><i class="fa-solid fa-keyboard"></i></button>
+                <div class="brDjStemFaderBox">
+                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Harmonic stem level" />
+                </div>
+                <strong>Muted</strong>
+                <span>Harmonic</span>
+              </article>
+
+              <article class="brDjStemLane is-muted">
+                <button type="button" aria-label="Vocals stem"><i class="fa-solid fa-microphone"></i></button>
+                <div class="brDjStemFaderBox">
+                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Vocals stem level" />
+                </div>
+                <strong>Muted</strong>
+                <span>Vocals</span>
+              </article>
+            </section>
+
+            <section class="brDjSingleTransport brDjStemTransport" aria-label="Deck 2 stems transport">
+              <button class="brDjSingleCueBtn" type="button">Cue</button>
+              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="brDjDuoBottomNav" aria-label="DUO mode navigation">
+      <button class="is-active" data-duo-tab="main" type="button">
+        <i class="fa-solid fa-layer-group"></i>
+        <span>Main</span>
+      </button>
+
+      <button data-duo-tab="mixer" type="button">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Mixer</span>
+      </button>
+
+      <button data-duo-tab="fx" type="button">
+        <i class="fa-solid fa-bolt"></i>
+        <span>FX</span>
+      </button>
+
+      <button data-duo-tab="vinyl" type="button">
+        <i class="fa-solid fa-record-vinyl"></i>
+        <span>Vinyl</span>
+      </button>
+
+      <button data-duo-tab="record" type="button">
+        <i class="fa-solid fa-circle"></i>
+        <span>REC Ready</span>
+      </button>
+    </nav>
+
+    <nav class="brDjDeckBottomNav" aria-label="Deck mode navigation">
+      <button class="is-active" data-deck-tab="main" type="button">
+        <i class="fa-solid fa-globe"></i>
+        <span>Main</span>
+      </button>
+
+      <button data-deck-tab="grid" type="button">
+        <i class="fa-solid fa-grip-lines-vertical"></i>
+        <span>Grid</span>
+      </button>
+
+      <button data-deck-tab="hot-cue" type="button">
+        <i class="fa-solid fa-square-h"></i>
+        <span>Hot Cue</span>
+      </button>
+
+      <button data-deck-tab="memory" type="button">
+        <i class="fa-solid fa-bookmark"></i>
+        <span>Memory</span>
+      </button>
+      <button data-deck-tab="stems" type="button">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Stems</span>
+      </button>
+    </nav>
+		
+    <section
+      class="brDjGridOptionsSheet"
+      data-dj-grid-options-sheet
+      aria-hidden="true"
+    >
+      <button
+        class="brDjGridOptionsScrim"
+        type="button"
+        data-dj-grid-options-close
+        aria-label="Close grid options"
+      ></button>
+
+      <article
+        class="brDjGridOptionsPanel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Grid options"
+      >
+        <header>
+          <div>
+            <p>Beat grid</p>
+
+            <h2 data-dj-grid-options-title>
+              Deck 1 Grid Options
+            </h2>
+
+            <span data-dj-grid-options-summary>
+              Normal • Whole track • 1 ms
+            </span>
+          </div>
+
+          <button
+            type="button"
+            data-dj-grid-options-close
+            aria-label="Close grid options"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </header>
+
+        <section class="brDjGridOptionGroup">
+          <h3>Analysis mode</h3>
+
+          <div class="brDjGridOptionButtons is-three">
+            <button
+              type="button"
+              data-dj-grid-analysis-mode="auto"
+              data-dj-grid-edit-control
+            >
+              Auto
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-analysis-mode="normal"
+              data-dj-grid-edit-control
+            >
+              Normal
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-analysis-mode="dynamic"
+              data-dj-grid-edit-control
+            >
+              Dynamic
+            </button>
+          </div>
+
+          <p>
+            W3 will use this choice during analysis.
+            Manual edits always win.
+          </p>
+        </section>
+
+        <section class="brDjGridOptionGroup">
+          <h3>Edit range</h3>
+
+          <div class="brDjGridOptionButtons is-two">
+            <button
+              type="button"
+              data-dj-grid-edit-range="whole"
+              data-dj-grid-edit-control
+            >
+              Whole track
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-edit-range="from-here"
+              data-dj-grid-edit-control
+            >
+              From here
+            </button>
+          </div>
+        </section>
+
+        <section class="brDjGridOptionGroup">
+          <h3>Adjustment step</h3>
+
+          <div class="brDjGridOptionButtons is-two">
+            <button
+              type="button"
+              data-dj-grid-adjustment-ms="1"
+              data-dj-grid-edit-control
+            >
+              1 ms
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-adjustment-ms="3"
+              data-dj-grid-edit-control
+            >
+              3 ms
+            </button>
+          </div>
+        </section>
+
+        <section class="brDjGridOptionGroup">
+          <h3>Tempo segments</h3>
+
+          <p data-dj-grid-segment-summary>
+            No active grid segment
+          </p>
+
+          <div class="brDjGridOptionButtons is-two">
+            <button
+              type="button"
+              data-dj-grid-add-segment
+              data-dj-grid-edit-control
+            >
+              Add here
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-delete-segment
+              data-dj-grid-edit-control
+            >
+              Delete current
+            </button>
+          </div>
+        </section>
+
+        <section class="brDjGridOptionGroup">
+          <h3>Waveform colour</h3>
+
+          <div class="brDjGridOptionButtons is-four">
+            <button
+              type="button"
+              data-dj-grid-palette="blue"
+            >
+              Blue
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-palette="rgb"
+            >
+              RGB
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-palette="threeband"
+            >
+              3 Band
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-palette="brmedia"
+            >
+              BRMedia
+            </button>
+          </div>
+        </section>
+
+        <footer>
+          <span>
+            Analysis Lock protects the saved grid.
+            Waveform colours remain available while locked.
+          </span>
+
+          <button
+            type="button"
+            data-dj-grid-options-close
+          >
+            Done
+          </button>
+        </footer>
+      </article>
+    </section>
+		
+    <section class="brDjBpmSheet" data-dj-bpm-sheet aria-hidden="true">
+      <button class="brDjBpmSheetScrim" type="button" data-dj-bpm-sheet-close aria-label="Close BPM settings"></button>
+
+      <article class="brDjBpmSheetPanel" role="dialog" aria-modal="true" aria-label="BPM settings">
+        <header>
+          <div>
+            <p>BPM setup</p>
+            <h2 data-dj-bpm-sheet-title>Deck 1 BPM</h2>
+          </div>
+          <button type="button" data-dj-bpm-sheet-close aria-label="Close BPM settings">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </header>
+
+        <label class="brDjBpmInputBlock">
+          <span>Live BPM</span>
+          <input data-dj-bpm-field="bpm" type="number" min="60" max="260" step="1" value="" inputmode="numeric" />
+        </label>
+
+        <div class="brDjBpmToggleGrid" aria-label="BPM options">
+          <button type="button" data-dj-bpm-toggle="master">Set Master</button>
+          <button type="button" data-dj-bpm-toggle="key-sync">Key Sync</button>
+          <button type="button" data-dj-bpm-toggle="q">Quantize Q</button>
+          <button type="button" data-dj-bpm-toggle="mt">MT</button>
+        </div>
+
+        <footer>
+          <button type="button" data-dj-bpm-sheet-close>Cancel</button>
+          <button type="button" data-dj-bpm-sheet-save>Save</button>
+        </footer>
+      </article>
+    </section>
+  </main>
+	
+  <script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.7/dist/jsmediatags.min.js"></script>
+<script src="/dj-mixer/components/grid.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/components/grid-editor.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/engine/spectral-waveform.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/engine/audio-engine.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/shared/icons.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/components/library.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/app.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+	
+</body>
+</html>

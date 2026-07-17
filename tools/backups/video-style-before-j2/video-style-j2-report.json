@@ -1,0 +1,11 @@
+{
+  "patch": "J2",
+  "updatedAt": "2026-05-10T21:13:39.532Z",
+  "notes": [
+    "Restores Video Player toward the existing audio Player visual style.",
+    "Fixes video sidebar genre rows using the real .videoSidebarGenreBtn class.",
+    "Makes module links smaller in the video sidebar.",
+    "Adds missing icon aliases for custom video controls.",
+    "Creates shared/branding/module-icons folder for future PNG module icons."
+  ]
+}

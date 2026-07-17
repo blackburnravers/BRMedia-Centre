@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>BRMedia Profile</title>
+  <meta name="apple-mobile-web-app-title" content="BRMedia Profile" />
+  <meta name="theme-color" content="#102f63" />
+  <link rel="manifest" href="/profile/site.webmanifest?v=20260530" />
+<link rel="stylesheet" href="/profile/styles.css?v=20260531-stats-v2b" />
+</head>
+<body>
+  <main class="profileShell">
+    <header class="profileTopbar">
+      <button class="profileIconBtn" id="profileBackButton" type="button" aria-label="Close profile"><i class="fa-solid fa-xmark"></i></button>
+      <button class="profileIconBtn" id="profileMenuButton" type="button" aria-label="Open profile menu"><i class="fa-solid fa-list-music"></i></button>
+    </header>
+
+    <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="profileMainLogo" />
+
+    <section id="profileRoot" class="profileRoot">
+      <div class="profileCard">
+        <strong>Loading BRMedia Profile…</strong>
+      </div>
+    </section>
+
+    <footer class="profileFooter">
+      <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" />
+      <span>© The Blackburn Ravers</span>
+      <b>DJ NJ &amp; Upalnite 2026</b>
+    </footer>
+  </main>
+
+  <aside class="profileSidebarOverlay" id="profileSidebarOverlay" hidden>
+    <div class="profileSidebarBackdrop" data-profile-close-menu></div>
+    <nav class="profileSidebarPanel" id="profileSidebarPanel" aria-label="Profile menu">
+      <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="profileSidebarLogo" />
+      <div class="profileSidebarLoading">Loading profile menu…</div>
+    </nav>
+  </aside>
+
+  <button class="profileSidebarFloatingClose" id="profileSidebarFloatingClose" data-profile-close-menu type="button" aria-label="Close menu" hidden>
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+
+<script src="/shared/icons.js?v=20260530-nav-compact-v10"></script>
+<script src="/profile/app.js?v=20260531-stats-v2b"></script>
+</body>
+</html>

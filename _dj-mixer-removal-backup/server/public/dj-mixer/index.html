@@ -1,0 +1,1731 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia DJ Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260615-dj-clean-shell" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260615-dj-clean-shell" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260615-dj-clean-shell" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DJ Studio" />
+
+<link rel="stylesheet" href="/dj-mixer/styles.css?v=20260624-dj-engine-v2a" />
+	
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body class="moduleTemplateBody moduleDjMixerMode">
+  <div class="appShell">
+    <header class="topbar">
+      <div class="brandHeader">
+        <button class="moduleSearchBtn topSearchBtn" type="button" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="brandLogoFull" />
+
+        <div class="brandHeaderMeta">
+          <div class="eyebrow">BRMedia</div>
+          <h1 id="pageTitle">DJ Studio</h1>
+        </div>
+      </div>
+
+      <button id="btnModuleMenu" class="moduleMenuBtn topMenuBtn" type="button" aria-label="Open DJ Studio navigation">
+        <i class="fa-solid fa-list-music"></i>
+      </button>
+    </header>
+		
+    <nav class="djStudioTopNavV3N" aria-label="DJ Studio sections">
+      <button class="is-active" type="button" data-dj-view="home"><i class="fa-solid fa-house"></i><span>Home</span></button>
+      <button type="button" data-dj-view="mix"><i class="fa-solid fa-id-card"></i><span>Mix Setup</span></button>
+      <button type="button" data-dj-view="plan"><i class="fa-solid fa-list-check"></i><span>Set Plan</span></button>
+      <button type="button" data-dj-view="tracklist"><i class="fa-solid fa-file-lines"></i><span>Tracklist</span></button>
+      <button type="button" data-dj-view="record"><i class="fa-solid fa-circle-dot"></i><span>Record</span></button>
+      <button type="button" data-dj-view="effects"><i class="fa-solid fa-wand-magic-sparkles"></i><span>FX</span></button>
+      <button type="button" data-dj-view="recordings"><i class="fa-solid fa-folder-music"></i><span>Past</span></button>
+    </nav>
+
+    <div id="moduleSidebarBackdrop" class="sidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="sidebarMenu hidden">
+      <div class="sidebarMenuHeader">
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="sidebarLogoFull" />
+      </div>
+
+      <div class="sidebarNav" aria-label="DJ Mixer navigation">
+        <button class="sidebarNavBtn" data-route="/" type="button">
+          <span class="sidebarNavIconBadge">
+            <img class="sidebarNavIconImage" src="/shared/branding/module-icons/home.png" alt="" />
+          </span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Home</span>
+            <span class="sidebarNavBtnSub">Back to BRMedia Centre home.</span>
+          </span>
+        </button>
+
+        <div class="sidebarSectionTitle">DJ Studio</div>
+
+        <button class="sidebarNavBtn is-active" type="button" data-dj-sidebar-view="studio">
+          <span class="sidebarNavIconBadge">
+            <img class="sidebarNavIconImage" src="/shared/branding/module-icons/dj-mixer.png" alt="" />
+          </span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">DJ Studio</span>
+            <span class="sidebarNavBtnSub">Overview and launch hub.</span>
+          </span>
+        </button>
+
+        <button class="sidebarNavBtn" type="button" data-dj-sidebar-view="mix">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-pen-to-square"></i></span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Mix Setup</span>
+            <span class="sidebarNavBtnSub">Title, artist, artwork, tags and description.</span>
+          </span>
+        </button>
+
+        <button class="sidebarNavBtn" type="button" data-dj-sidebar-view="plan">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-list-music"></i></span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Set Plan</span>
+            <span class="sidebarNavBtnSub">Running order and deck preparation.</span>
+          </span>
+        </button>
+
+        <button class="sidebarNavBtn" type="button" data-dj-sidebar-view="tracklist">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-file-lines"></i></span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Tracklist / Timestamps</span>
+            <span class="sidebarNavBtnSub">Player chapters and timestamp JSON.</span>
+          </span>
+        </button>
+
+        <button class="sidebarNavBtn" type="button" data-dj-sidebar-view="record">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-circle-dot"></i></span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Record Setup</span>
+            <span class="sidebarNavBtnSub">Format, channels, countdown and destination.</span>
+          </span>
+        </button>
+
+        <button class="sidebarNavBtn" type="button" data-dj-sidebar-view="effects">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Effects</span>
+            <span class="sidebarNavBtnSub">Pioneer-style FX and BRMedia banks.</span>
+          </span>
+        </button>
+
+        <button class="sidebarNavBtn" type="button" data-dj-sidebar-view="recordings">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-folder-music"></i></span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Past Shows</span>
+            <span class="sidebarNavBtnSub">Drafts, finished mixes and Player transfer checks.</span>
+          </span>
+        </button>
+
+        <button class="sidebarNavBtn djSidebarLaunchBtn" type="button" data-dj-launch>
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-play"></i></span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Launch DJ Studio</span>
+            <span class="sidebarNavBtnSub">Open the DUO performance decks.</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="sidebarModuleBlock">
+        <div class="sidebarSectionTitle">Open modules</div>
+
+        <div class="sidebarModuleList">
+          <button class="sidebarModuleBtn" data-route="/player" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/audio-home.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Player</span>
+              <span class="sidebarModuleSub">Audio player, queue, playlists and tracklists.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/video-player" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/video-player.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Video</span>
+              <span class="sidebarModuleSub">Films, posters, playback and subtitles.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn is-active" data-route="/dj-mixer" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/dj-mixer.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">DJ Studio</span>
+              <span class="sidebarModuleSub">Decks, cues, Collection and recordings.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/converter" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/converter.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Converter</span>
+              <span class="sidebarModuleSub">Convert audio/video and batch jobs.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/tagger" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/tagger.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Tagger</span>
+              <span class="sidebarModuleSub">Metadata, artwork and BRMedia tags.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/mastering" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/mastering.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Mastering</span>
+              <span class="sidebarModuleSub">Audio polish, previews and compare tools.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/torrents" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/torrents.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Torrents</span>
+              <span class="sidebarModuleSub">Legal downloads, transfers and safe scanning.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/stats" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/stats.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Stats</span>
+              <span class="sidebarModuleSub">Charts, history and DJ activity.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/server-settings" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/server-settings.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Server Settings</span>
+              <span class="sidebarModuleSub">Sources, storage, FFmpeg and network tools.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/settings" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/settings.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Universal Settings</span>
+              <span class="sidebarModuleSub">Global BRMedia control centre.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="sidebarFloatingCloseBtn hidden" type="button" aria-label="Close DJ Studio navigation">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="moduleTemplateMain">
+      <section id="djMixerRoot" class="moduleTemplateContent" aria-label="DJ Studio content">
+        <section class="djStudioFrontHero djStudioFrontHeroV3IJ djStudioFrontHeroV3KL" aria-label="DJ Studio command centre">
+          <div class="djStudioFrontGlow"></div>
+          <div class="djStudioHeroOrbV3IJ" aria-hidden="true"><i class="fa-solid fa-headphones-simple"></i></div>
+
+          <div class="djStudioFrontCopy djStudioFrontCopyV3IJ">
+            <span class="djStudioFrontKicker">BRMEDIA DJ STUDIO</span>
+            <h2>Home base for tonight’s set.</h2>
+            <p>Keep this page clean: quick status, quick launch, and shortcuts into the separate setup sequence pages.</p>
+          </div>
+
+          <div class="djStudioHeroCommandDeckV3IJ djStudioHeroCommandDeckV3KL" aria-label="DJ Studio main actions">
+            <button class="djStudioHeroLaunchV3IJ" type="button" data-dj-launch>
+              <i class="fa-solid fa-play"></i>
+              <span><strong>Launch DUO</strong><em>Open Deck 1 · DUO · Deck 2</em></span>
+            </button>
+
+            <button class="djStudioHeroActionV3IJ is-collection" type="button" data-dj-open-collection data-dj-library-target-open="d1">
+              <i class="fa-solid fa-folder-open"></i>
+              <span><strong>Collection</strong><em>Find tracks / prep tunes</em></span>
+            </button>
+
+            <button class="djStudioHeroActionV3IJ is-set" type="button" data-dj-open-plan-page="set">
+              <i class="fa-solid fa-list-check"></i>
+              <span><strong>DJ Set</strong><em>Running order</em></span>
+            </button>
+          </div>
+        </section>
+
+        <section class="djStudioPanel djStudioV2IHomePanel djStudioHomeV3IJ djStudioHomeV3KL" data-dj-panel="home">
+          <section class="djStudioHomeStatusV3KL" aria-label="DJ Studio home status">
+            <article class="djStudioShowCardV3IJ is-active-show">
+              <div class="djStudioCardTopV3IJ"><span>ACTIVE SHOW</span><b id="djStudioDashState">Draft</b></div>
+              <h2 id="djStudioDashTitle">Untitled DJ Set</h2>
+              <p id="djStudioDashArtist">Upalnite · Hardcore</p>
+              <div class="djStudioDashStatsV2Z djStudioDashStatsV3IJ djStudioDashStatsV3KL">
+                <div><strong id="djStudioDashSetName">Linked DJ Set</strong><span>DJ Set</span></div>
+                <div><strong id="djStudioDashSetCount">0</strong><span>Tracks</span></div>
+                <div><strong id="djStudioDashRuntime">--:--</strong><span>Runtime</span></div>
+                <div><strong id="djStudioDashRecord">WAV</strong><span>Recording</span></div>
+              </div>
+            </article>
+
+            <article class="djStudioShowCardV3IJ is-current djStudioHomeCompactCardV3KL">
+              <div class="djStudioCardTopV3IJ"><span>CURRENT SHOW</span><b id="djHomeCurrentStatus">Draft</b></div>
+              <h2 id="djHomeCurrentTitle">Untitled DJ Set</h2>
+              <p id="djHomeCurrentMeta">Use Setup Sequence when you want to edit show info, tracklist, recording or FX.</p>
+              <strong id="djFrontCurrentShowTitle" class="djStudioMirrorTextV3IJ">Untitled DJ Set</strong>
+              <em id="djFrontCurrentShowMeta" class="djStudioMirrorTextV3IJ">Mix Setup · DJ Set · recording target</em>
+              <div class="djStudioMiniStatStackV3IJ djStudioMiniStatStackV3KL">
+                <div><strong id="djHomeCurrentSet">No DJ Set yet</strong><span>Running order</span></div>
+                <div><strong id="djHomeCurrentRecord">WAV master</strong><span>Recording target</span></div>
+                <div><strong id="djHomeCurrentTracklist">TXT + JSON</strong><span>Tracklist</span></div>
+              </div>
+            </article>
+          </section>
+
+          <section class="djStudioSetupSequenceV3KL" aria-label="DJ Studio setup sequence">
+            <div class="djStudioSequenceHeaderV3KL">
+              <span>SETUP SEQUENCE</span>
+              <strong>One job per page</strong>
+              <em>Open a step, save it, then move to the next section. Home stays as home.</em>
+            </div>
+            <div class="djStudioSequenceStepsV3KL">
+              <button type="button" data-dj-panel-target="mix"><i class="fa-solid fa-id-card"></i><b>1</b><span>Mix Setup</span><em>Title, artwork and show identity</em></button>
+              <button type="button" data-dj-open-plan-page="set"><i class="fa-solid fa-list-check"></i><b>2</b><span>DJ Set</span><em>Running order before launch</em></button>
+              <button type="button" data-dj-panel-target="tracklist"><i class="fa-solid fa-file-lines"></i><b>3</b><span>Tracklist</span><em>TXT, info and timestamps</em></button>
+              <button type="button" data-dj-panel-target="record"><i class="fa-solid fa-circle-dot"></i><b>4</b><span>Record Setup</span><em>WAV / FLAC / MP3 output</em></button>
+              <button type="button" data-dj-panel-target="effects"><i class="fa-solid fa-wand-magic-sparkles"></i><b>5</b><span>FX Boards</span><em>Orange board + blue board</em></button>
+              <button type="button" data-dj-panel-target="recordings"><i class="fa-solid fa-folder-music"></i><b>6</b><span>Past Shows</span><em>Open finished recordings</em></button>
+            </div>
+          </section>
+
+          <section class="djStudioPersonalityCardsV3IJ djStudioPersonalityCardsV3KL" aria-label="DJ Studio personality cards">
+            <article class="is-prep">
+              <i class="fa-solid fa-wave-square"></i>
+              <span>Prep Engine</span>
+              <strong id="djFrontPrepScore">0% prepared</strong>
+              <em id="djFrontPrepMeta">Waveforms · BPM · grids · keys</em>
+              <button type="button" data-dj-prep-engine="missing">Prep Missing</button>
+            </article>
+
+            <article class="is-set">
+              <i class="fa-solid fa-bars-staggered"></i>
+              <span>Current DJ Set</span>
+              <strong id="djHomeQuickSet">No tracks yet</strong>
+              <em id="djHomeLinkedSetStatus">No running order yet</em>
+              <button type="button" data-dj-open-plan-page="set">Open Set Builder</button>
+            </article>
+
+            <article class="is-record">
+              <i class="fa-solid fa-circle-dot"></i>
+              <span>Recording</span>
+              <strong id="djHomeQuickRecord">Ready for WAV master</strong>
+              <em id="djHomeFinaliseStatus">WAV master ready</em>
+              <button type="button" data-dj-panel-target="record">Record Setup</button>
+            </article>
+
+            <article class="is-past">
+              <i class="fa-solid fa-folder-music"></i>
+              <span>Past Shows</span>
+              <strong id="djHomeQuickPastShows">0 saved shows</strong>
+              <em id="djHomeLatestMeta">Finished mixes appear here.</em>
+              <strong id="djFrontLatestShowTitle" class="djStudioMirrorTextV3IJ">No recordings yet</strong>
+              <em id="djFrontLatestShowMeta" class="djStudioMirrorTextV3IJ">Finished shows and Player handoff appear here.</em>
+              <a id="djFrontLatestPlayer" class="djStudioMirrorTextV3IJ" href="#" aria-disabled="true">Player</a>
+              <button type="button" data-dj-panel-target="recordings">Past Shows</button>
+            </article>
+          </section>
+
+          <section class="djStudioCommandRibbonV3IJ djStudioCommandRibbonV3KL" aria-label="DJ Studio command ribbon">
+            <button type="button" data-dj-panel-target="mix"><i class="fa-solid fa-id-card"></i><span>Mix Setup</span></button>
+            <button type="button" data-dj-open-collection data-dj-library-target-open="d1"><i class="fa-solid fa-folder-open"></i><span>Collection</span></button>
+            <button type="button" data-dj-open-plan-page="playlist"><i class="fa-solid fa-list-ul"></i><span>Playlists</span></button>
+            <button type="button" data-dj-open-plan-page="set"><i class="fa-solid fa-list-check"></i><span>DJ Set</span></button>
+            <button type="button" data-dj-panel-target="effects"><i class="fa-solid fa-wand-magic-sparkles"></i><span>FX Boards</span></button>
+            <button type="button" data-dj-panel-target="tracklist"><i class="fa-solid fa-file-lines"></i><span>Tracklist</span></button>
+          </section>
+        </section>
+
+        <section class="djStudioPanel hidden" data-dj-panel="mix">
+          <div class="djStudioSectionHeader">
+            <span>SET METADATA</span>
+            <h3>Mix Setup</h3>
+            <p>
+              This can be filled before the set or edited afterwards. Missing info keeps the set as a draft until it is ready for Player transfer.
+            </p>
+          </div>
+
+          <div class="djRequiredSummary" id="djRequiredSummary">
+            <strong>Required before show starts</strong>
+            <span id="djRequiredSummaryText">Mix title, DJ / artist and description are still needed.</span>
+          </div>
+
+          <div class="djSetupForm">
+            <label data-dj-required-wrap="title">
+              <span>Mix title <em class="djRequiredFlag" data-dj-required-flag="title">Required</em></span>
+              <input data-dj-field="title" data-dj-required="true" type="text" placeholder="Example: The Hardcore Medley Episode #204" />
+            </label>
+
+            <label data-dj-required-wrap="artist">
+              <span>DJ / artist <em class="djRequiredFlag" data-dj-required-flag="artist">Required</em></span>
+              <input data-dj-field="artist" data-dj-required="true" type="text" placeholder="Upalnite" />
+            </label>
+
+            <label>
+              <span>Album / series</span>
+              <input data-dj-field="series" type="text" placeholder="The Hardcore Medley" />
+            </label>
+
+            <label>
+              <span>Episode</span>
+              <input data-dj-field="episode" type="text" placeholder="204" />
+            </label>
+
+            <label>
+              <span>Genre</span>
+              <input data-dj-field="genre" type="text" placeholder="Hardcore" />
+            </label>
+
+            <label>
+              <span>Year / date</span>
+              <input data-dj-field="year" type="text" placeholder="2026" />
+            </label>
+
+            <div class="djSetupWide djArtworkUploadCard">
+              <span class="djOptionLabel">Artwork image</span>
+
+              <div class="djArtworkPreviewBox">
+                <img id="djArtworkPreview" class="hidden" alt="Selected mix artwork preview" />
+                <strong id="djArtworkName">No artwork selected yet</strong>
+                <span>Upload an image for the mix artwork. This will later feed Player, Tagger and View Files.</span>
+              </div>
+
+              <label class="djArtworkUploadBtn">
+                <input id="djArtworkInput" type="file" accept="image/*" />
+                <span>Upload Artwork Image</span>
+              </label>
+            </div>
+
+            <label class="djSetupWide" data-dj-required-wrap="description">
+              <span>Description for Player <em class="djRequiredFlag" data-dj-required-flag="description">Required</em></span>
+              <textarea data-dj-field="description" data-dj-required="true" rows="4" placeholder="Public mix description shown with the recording."></textarea>
+            </label>
+
+            <label class="djSetupWide">
+              <span>Private session notes</span>
+              <textarea data-dj-field="notes" rows="3" placeholder="Notes for yourself, edits, mastering reminders, shout-outs, etc."></textarea>
+            </label>
+          </div>
+
+          <div class="djStudioButtonRow">
+            <button id="djSetupSaveBtn" class="djStudioPrimaryBtn" type="button" data-dj-save-next="plan">
+              Save &amp; Next
+            </button>
+
+            <button id="djSetupReadyBtn" class="djStudioSecondaryBtn" type="button">
+              Mark Ready
+            </button>
+
+            <button id="djSetupResetBtn" class="djStudioGhostBtn" type="button">
+              Reset Draft
+            </button>
+          </div>
+        </section>
+
+        <section class="djStudioPanel hidden" data-dj-panel="plan">
+          <div class="djStudioSectionHeader">
+            <span>RUNNING ORDER</span>
+            <h3>Set Plan</h3>
+            <p>The current Mix Setup now owns its own DJ Set list. Add tracks from Collection, then sort the exact running order here or in the full DJ Set Builder.</p>
+          </div>
+
+          <div class="djLinkedSetCard">
+            <div class="djCollectionPlanTitle">
+              <strong id="djLinkedSetTitle">Linked DJ Set</strong>
+              <span id="djLinkedSetCount">0 tracks</span>
+            </div>
+            <div id="djLinkedSetList" class="djCollectionPlanList djPlanPageList"></div>
+          </div>
+
+          <div class="djSetPlanJumpCard">
+            <i class="fa-solid fa-bars-staggered"></i>
+            <div>
+              <strong>Build the DJ Set before launch</strong>
+              <span>Add tracks from Collection, then sort the running order. This list is linked to the current Mix Setup automatically.</span>
+            </div>
+            <button type="button" data-dj-open-plan-page="set">Open DJ Set Builder</button>
+            <button type="button" data-dj-open-collection data-dj-library-target-open="d1">Add Tracks From Collection</button>
+          </div>
+
+          <div class="djStudioButtonRow">
+            <button class="djStudioPrimaryBtn" type="button" data-dj-save-next="tracklist">Save Set Plan &amp; Next</button>
+          </div>
+        </section>
+
+        <section class="djStudioPanel hidden" data-dj-panel="tracklist">
+          <div class="djStudioSectionHeader">
+            <span>PLAYER HANDOFF</span>
+            <h3>Tracklist / Timestamps</h3>
+            <p>Choose exactly what the finished mix should carry into Player, View Files and future Tagger handoff.</p>
+          </div>
+
+          <div class="djTracklistChoiceCard djTracklistProCardV2ZD">
+            <span class="djOptionLabel">Question 1 — what should the finished mix include?</span>
+            <div class="djOptionGrid two">
+              <button class="djOptionBtn" type="button" data-dj-choice="tracklistMode" data-dj-value="tracklist-info">
+                <strong>Tracklist + info only</strong>
+                <span>Clean public TXT tracklist, mix description and session info beside the recording.</span>
+              </button>
+
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="tracklistMode" data-dj-value="tracklist-info-timestamps">
+                <strong>Tracklist + info + timestamps</strong>
+                <span>TXT tracklist plus Player-compatible timestamp JSON for chapters.</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="djTracklistChoiceCard djTracklistProCardV2ZD">
+            <span class="djOptionLabel">Question 2 — where should timestamps come from?</span>
+            <div class="djOptionGrid three">
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="tracklistTimestampSource" data-dj-value="load-time">
+                <strong>Load time</strong>
+                <span>Timestamp when each track is loaded during the show.</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="tracklistTimestampSource" data-dj-value="cue-start">
+                <strong>Cue / start time</strong>
+                <span>Prefer the deck cue/start point for cleaner Player chapters.</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="tracklistTimestampSource" data-dj-value="manual-later">
+                <strong>Manual later</strong>
+                <span>Save the tracklist now and polish timestamps in Player later.</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="djTracklistChoiceCard djTracklistProCardV2ZD">
+            <span class="djOptionLabel">Question 3 — which sidecar files should save beside the recording?</span>
+            <div class="djSidecarToggleGridV2ZD">
+              <div>
+                <strong>TXT tracklist</strong>
+                <span>Human-readable public tracklist.</span>
+                <div class="djMiniChoicePair">
+                  <button class="djOptionBtn is-selected" type="button" data-dj-choice="saveTxtTracklist" data-dj-value="true">Save</button>
+                  <button class="djOptionBtn" type="button" data-dj-choice="saveTxtTracklist" data-dj-value="false">Skip</button>
+                </div>
+              </div>
+
+              <div>
+                <strong>Timestamp JSON</strong>
+                <span>Player chapter file for clickable track jumps.</span>
+                <div class="djMiniChoicePair">
+                  <button class="djOptionBtn is-selected" type="button" data-dj-choice="saveTimestampJson" data-dj-value="true">Save</button>
+                  <button class="djOptionBtn" type="button" data-dj-choice="saveTimestampJson" data-dj-value="false">Skip</button>
+                </div>
+              </div>
+
+              <div>
+                <strong>Session JSON</strong>
+                <span>Full BRMedia deck/session data for recovery and future stats.</span>
+                <div class="djMiniChoicePair">
+                  <button class="djOptionBtn is-selected" type="button" data-dj-choice="saveSessionJson" data-dj-value="true">Save</button>
+                  <button class="djOptionBtn" type="button" data-dj-choice="saveSessionJson" data-dj-value="false">Skip</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="djTracklistExportSummary" class="djExportSummaryV2ZD">
+            TXT tracklist + timestamp JSON + session JSON will save beside the recording.
+          </div>
+
+          <div class="djStudioButtonRow">
+            <button class="djStudioPrimaryBtn" type="button" data-dj-save-next="record">Save Tracklist Export &amp; Next</button>
+          </div>
+        </section>
+
+        <section class="djStudioPanel hidden" data-dj-panel="record">
+          <div class="djStudioSectionHeader">
+            <span>RECORDING</span>
+            <h3>Record Setup</h3>
+            <p>
+              HTTPS recording is ready. Choose the final output format now, or edit it later before Player / View Files handoff.
+            </p>
+          </div>
+
+          <div class="djRecordStatusGrid">
+            <div class="djRecordReadyPill">
+              <strong>HTTPS</strong>
+              <span>Ready</span>
+            </div>
+
+            <div class="djRecordReadyPill">
+              <strong id="djRecordFormatPreview">WAV • Stereo</strong>
+              <span id="djRecordQualityPreview">24-bit • 48kHz</span>
+            </div>
+          </div>
+
+          <div class="djOptionBlock">
+            <span class="djOptionLabel">Final output format</span>
+            <div class="djOptionGrid three">
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="format" data-dj-value="wav">
+                <strong>WAV</strong>
+                <span>Master quality</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="format" data-dj-value="flac">
+                <strong>FLAC</strong>
+                <span>Lossless smaller file</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="format" data-dj-value="mp3">
+                <strong>MP3</strong>
+                <span>Small sharing copy</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="djSetupForm">
+            <label>
+              <span>Countdown seconds</span>
+              <input data-dj-field="countdown" type="number" inputmode="numeric" min="0" max="30" placeholder="6" />
+            </label>
+
+            <label>
+              <span>Filename pattern</span>
+              <input data-dj-field="filenamePattern" type="text" placeholder="{title} - {date}" />
+            </label>
+          </div>
+
+          <div class="djOptionBlock">
+            <span class="djOptionLabel">Channels / output</span>
+            <div class="djOptionGrid channels">
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="channels" data-dj-value="stereo">
+                <strong>Stereo</strong>
+                <span>Normal DJ mix.</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="channels" data-dj-value="mono">
+                <strong>Mono</strong>
+                <span>Summed mono.</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="channels" data-dj-value="left-only">
+                <strong>Left only</strong>
+                <span>Use left channel.</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="channels" data-dj-value="right-only">
+                <strong>Right only</strong>
+                <span>Use right channel.</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="channels" data-dj-value="dual-mono">
+                <strong>Dual mono</strong>
+                <span>Mono copied to L/R.</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="djOptionBlock">
+            <span class="djOptionLabel">Sample rate</span>
+            <div class="djOptionGrid compact djRecordOptionGridWide">
+              <button class="djOptionBtn" type="button" data-dj-choice="sampleRate" data-dj-value="32000">32k</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="sampleRate" data-dj-value="44100">44.1k</button>
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="sampleRate" data-dj-value="48000">48k</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="sampleRate" data-dj-value="88200">88.2k</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="sampleRate" data-dj-value="96000">96k</button>
+            </div>
+          </div>
+
+          <div class="djOptionBlock" data-dj-format-panel="mp3">
+            <span class="djOptionLabel">MP3 bitrate</span>
+            <div class="djOptionGrid compact">
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="mp3Bitrate" data-dj-value="320">320</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="mp3Bitrate" data-dj-value="256">256</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="mp3Bitrate" data-dj-value="224">224</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="mp3Bitrate" data-dj-value="192">192</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="mp3Bitrate" data-dj-value="160">160</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="mp3Bitrate" data-dj-value="128">128</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="mp3Bitrate" data-dj-value="96">96</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="mp3Bitrate" data-dj-value="64">64</button>
+            </div>
+          </div>
+
+          <div class="djOptionBlock" data-dj-format-panel="wav">
+            <span class="djOptionLabel">WAV bit depth</span>
+            <div class="djOptionGrid three">
+              <button class="djOptionBtn" type="button" data-dj-choice="wavBitDepth" data-dj-value="16">
+                <strong>16-bit</strong>
+                <span>Standard</span>
+              </button>
+
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="wavBitDepth" data-dj-value="24">
+                <strong>24-bit</strong>
+                <span>Recommended</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="wavBitDepth" data-dj-value="32f">
+                <strong>32 float</strong>
+                <span>Headroom</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="djOptionBlock" data-dj-format-panel="flac">
+            <span class="djOptionLabel">FLAC bit depth</span>
+            <div class="djOptionGrid three">
+              <button class="djOptionBtn" type="button" data-dj-choice="flacBitDepth" data-dj-value="16">
+                <strong>16-bit</strong>
+                <span>Standard</span>
+              </button>
+
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="flacBitDepth" data-dj-value="24">
+                <strong>24-bit</strong>
+                <span>Recommended</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="flacBitDepth" data-dj-value="32f">
+                <strong>32 float</strong>
+                <span>Archive prep</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="djOptionBlock" data-dj-format-panel="flac">
+            <span class="djOptionLabel">FLAC compression</span> 
+            <div class="djOptionGrid compact">
+              <button class="djOptionBtn" type="button" data-dj-choice="flacCompression" data-dj-value="0">0</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="flacCompression" data-dj-value="3">3</button>
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="flacCompression" data-dj-value="5">5</button>
+              <button class="djOptionBtn" type="button" data-dj-choice="flacCompression" data-dj-value="8">8</button>
+            </div>
+          </div>
+
+          <div class="djOptionBlock">
+            <span class="djOptionLabel">Save behaviour</span>
+            <div class="djOptionGrid two">
+              <button class="djOptionBtn is-selected" type="button" data-dj-choice="saveBehaviour" data-dj-value="keep-wav-copy">
+                <strong>WAV master + final copy</strong>
+                <span>Recommended: keep the WAV safety master, then finalise to WAV / FLAC / MP3.</span>
+              </button>
+
+              <button class="djOptionBtn" type="button" data-dj-choice="saveBehaviour" data-dj-value="selected-final">
+                <strong>Final output only</strong>
+                <span>Keep only the selected final format after conversion/finalise.</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="djSetupForm">
+            <label class="djSetupWide">
+              <span>Destination</span>
+              <input data-dj-field="destination" type="text" placeholder="DJ Recordings" />
+            </label>
+          </div>
+
+          <p class="djSetupHint">
+            Browser recording creates a HTTPS safety capture first. BRMedia treats WAV as the main master target, then the finished copy can be finalised to WAV, FLAC or MP3 for Player, Mastering, Converter and Tagger.
+          </p>
+
+          <div class="djRecordFinalSummaryV2ZD" aria-label="Recording finalisation summary">
+            <div><strong id="djRecordFinalFormatSummary">WAV final</strong><span>Selected final format</span></div>
+            <div><strong id="djRecordSidecarSummary">TXT + JSON</strong><span>Sidecar files</span></div>
+            <div><strong id="djRecordDestinationSummary">DJ Recordings</strong><span>Save destination</span></div>
+          </div>
+
+          <div class="djStudioButtonRow">
+            <button class="djStudioPrimaryBtn" type="button" data-dj-save-next="recordings">Save Recording Setup &amp; Past Shows</button>
+          </div>
+        </section>
+				
+<section class="djStudioPanel hidden" data-dj-panel="library">
+  <div class="djStudioPanelHeader">
+    <div>
+      <span>DJ COLLECTION</span>
+      <h3>Full-page library, not a popup</h3>
+      <p>
+        The Collection now opens as its own proper screen with search, deck load buttons,
+        BPM/key/prep badges and a bottom MiniPlayer.
+      </p>
+    </div>
+
+    <button class="djStudioGhostBtn" type="button" data-dj-open-collection data-dj-library-target-open="d1">
+      Open Collection
+    </button>
+  </div>
+
+  <article class="djCollectionLaunchCard">
+    <div>
+      <span class="djStudioMiniBadge">Collection V2I</span>
+      <strong>Short mixable tracks first</strong>
+      <p>
+        Long mixes stay hidden by default for DJ prep. Add extra DJ folders from
+        Universal Settings → DJ Mixing → Collection.
+      </p>
+    </div>
+
+    <button class="djStudioPrimaryBtn" type="button" data-dj-open-collection data-dj-library-target-open="d1">
+      Browse Tracks
+    </button>
+  </article>
+
+  <div class="djStudioSettingsGrid">
+    <label>
+      <span>Default source rule</span>
+      <select>
+        <option>Short DJ tracks only</option>
+        <option>Include long mixes manually</option>
+        <option>Samples only</option>
+      </select>
+    </label>
+
+    <label>
+      <span>Open settings</span>
+      <a class="djStudioInputLink" href="/settings?module=dj&amp;tab=library">DJ Collection sources</a>
+    </label>
+  </div>
+</section>
+
+        <section class="djStudioPanel hidden djStudioEffectsPanelV3IJ" data-dj-panel="effects">
+          <div class="djStudioSectionHeader">
+            <span>FX SELECTOR BANK</span>
+            <h3>Choose the FX that appear in DUO</h3>
+            <p>Select the effects you want available on the live FX page. BRMedia keeps the performance pad limited to the current bank size so it stays usable during a set.</p>
+          </div>
+
+          <div class="djFxSelectorSummaryV3IJ djFxSelectorSummaryV3KL">
+            <article>
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <div>
+                <strong id="djFxSelectorCount">Board A 16 / 16 · Board B 0 / 16</strong>
+                <span id="djFxSelectorStatus">Tap FX once for Board A, tap again for Board B, tap again to remove.</span>
+              </div>
+            </article>
+            <div>
+              <button type="button" data-dj-fx-bank-preset="club">Club Bank</button>
+              <button type="button" data-dj-fx-bank-preset="rave">Rave Bank</button>
+              <button type="button" data-dj-fx-bank-preset="clean">Clean Bank</button>
+              <button type="button" data-dj-fx-bank-preset="all">Show All</button>
+            </div>
+          </div>
+
+          <div class="djFxBoardLegendV3KL" aria-label="FX board legend">
+            <span><b class="is-board-a"></b> Board A — first FX tab press</span>
+            <span><b class="is-board-b"></b> Board B — tap FX tab again in DUO</span>
+          </div>
+
+          <div id="djFxSelectorGrid" class="djFxSelectorGridV3IJ djFxSelectorGridV3KL" aria-label="Selectable FX bank"></div>
+        </section>
+
+        <section class="djStudioPanel hidden" data-dj-panel="recordings">
+          <div class="djStudioSectionHeader">
+            <span>PAST SHOWS</span>
+            <h3>Past Shows / Recordings</h3>
+            <p>Finished shows, draft sessions and recordings will appear here, with checks before opening in Player.</p>
+          </div>
+
+          <div class="djRecordingModuleLinks" aria-label="Recording module links">
+            <a href="/player"><i class="fa-solid fa-circle-play"></i><span>Player</span></a>
+            <a href="/mastering"><i class="fa-solid fa-wave-square"></i><span>Mastering</span></a>
+            <a href="/converter"><i class="fa-solid fa-arrows-rotate"></i><span>Converter</span></a>
+            <a href="/tagger"><i class="fa-solid fa-tags"></i><span>Tagger</span></a>
+          </div>
+
+          <div class="djRecordingManagerBarV2ZD">
+            <div>
+              <strong>Show library manager</strong>
+              <span>Remove list entries without touching physical files. Physical delete comes later as a separate safe option.</span>
+            </div>
+            <button id="djRecordingClearBtn" type="button">Clear Past Shows List</button>
+          </div>
+
+          <div id="djRecordingList" class="djRecordingList">
+            <div class="djEmptyState">
+              <i class="fa-solid fa-file-audio"></i>
+              <strong>No new DJ shows yet</strong>
+              <span>Finished recordings, drafts and Player-ready sessions will live here.</span>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <footer class="playerSiteFooter">
+        <div class="playerSiteFooterInner">
+          <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" class="playerSiteFooterLogo" />
+
+          <div class="playerSiteFooterCopy">
+            <span class="footerLine">
+              <span class="footerCopyOrange">©</span>
+              <span class="footerCopyWhite">The Blackburn Ravers</span>
+            </span>
+
+            <span class="footerLine">
+              <span class="footerCopyWhite">DJ NJ &amp; Upalnite</span>
+              <span class="footerCopyBlue">2026</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+	
+  <main id="djPerformanceShell" class="djPerformanceShell hidden" aria-label="DJ Studio performance">
+    <header class="djPerformanceHeader">
+      <button id="djPerformanceBackBtn" class="djPerfIconBtn" type="button" aria-label="Back to DJ Studio">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="djPerformanceDeckTabs" aria-label="Deck views">
+        <button type="button" data-dj-deck-tab="deck1">DECK 1</button>
+        <button class="is-active" type="button" data-dj-deck-tab="duo">DUO</button>
+        <button type="button" data-dj-deck-tab="deck2">DECK 2</button>
+      </div>
+
+<button id="djLibraryButton" class="djPerfIconBtn djPerfCollectionBtn" type="button" aria-label="Open DJ Collection">
+  <i class="fa-solid fa-folder-open"></i>
+</button>
+    </header>
+
+    <section class="djPerformanceWorkspace">
+      <section class="djPerfPanel hidden" data-dj-performance-panel="main">
+        <div class="djWaveformStage djDuoWaveformStage" aria-label="BRMedia dual waveform mix view">
+          <div class="djDuoWaveformOverviewGrid" aria-label="Deck overview waveforms">
+            <canvas class="djDuoOverviewCanvas" data-dj-waveform-overview="d1"></canvas>
+            <canvas class="djDuoOverviewCanvas" data-dj-waveform-overview="d2"></canvas>
+          </div>
+
+          <div class="djCombinedWaveformDecks" aria-label="Dual deck detailed waveforms">
+            <div class="djDualWaveformDeck djDualWaveformDeckTop" data-dj-waveform-deck="d1">
+              <div class="djWaveformDeckMeta djWaveformDeckMetaOverlay">
+                <strong>Deck 1</strong>
+                <span id="djWaveformD1Status">Load a track to analyse waveform.</span>
+              </div>
+              <canvas id="djMainWaveformD1" data-dj-waveform-main="d1"></canvas>
+            </div>
+
+            <div class="djDualWaveformDeck djDualWaveformDeckBottom" data-dj-waveform-deck="d2">
+              <div class="djWaveformDeckMeta djWaveformDeckMetaOverlay">
+                <strong>Deck 2</strong>
+                <span id="djWaveformD2Status">Load a track to analyse waveform.</span>
+              </div>
+              <canvas id="djMainWaveformD2" data-dj-waveform-main="d2"></canvas>
+            </div>
+
+            <div class="djCombinedWaveformDivider" aria-hidden="true"></div>
+            <div class="djWaveformPlayhead" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="djDuoLoopGrid" aria-label="Loop controls">
+          <section class="djDuoLoopDeck" data-dj-loop-deck="d1">
+            <button class="djLoopSizeBtn" type="button" data-dj-loop-size="d1">8 Bars <i class="fa-solid fa-chevron-up"></i></button>
+            <div>
+              <button type="button" data-dj-loop-move="d1-back" aria-label="Move Deck 1 loop backward"><i class="fa-solid fa-caret-left"></i></button>
+              <button type="button" data-dj-loop-move="d1-forward" aria-label="Move Deck 1 loop forward"><i class="fa-solid fa-caret-right"></i></button>
+            </div>
+          </section>
+
+          <section class="djDuoLoopDeck" data-dj-loop-deck="d2">
+            <button class="djLoopSizeBtn" type="button" data-dj-loop-size="d2">8 Bars <i class="fa-solid fa-chevron-up"></i></button>
+            <div>
+              <button type="button" data-dj-loop-move="d2-back" aria-label="Move Deck 2 loop backward"><i class="fa-solid fa-caret-left"></i></button>
+              <button type="button" data-dj-loop-move="d2-forward" aria-label="Move Deck 2 loop forward"><i class="fa-solid fa-caret-right"></i></button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="djPerfPanel hidden" data-dj-performance-panel="deck">
+        <div class="djSingleDeckShell" data-dj-single-shell>
+          <section class="djSingleDeckView" data-dj-single-deck="d1">
+            <header class="djSingleTrackHeader">
+              <button class="djSingleBackMini" type="button" data-dj-single-back aria-label="Back to DUO"><i class="fa-solid fa-chevron-down"></i></button>
+              <div class="djSingleArtwork" data-dj-single-artwork="d1"><i class="fa-solid fa-record-vinyl"></i></div>
+              <div class="djSingleTrackText">
+                <strong data-dj-single-title="d1">Load Track</strong>
+                <span data-dj-single-artist="d1">Choose a short mixable DJ track.</span>
+                <em><b data-dj-single-bpm="d1">170.00</b><b class="djSingleKeyPill" data-dj-single-key="d1">KEY --</b><b data-dj-single-time="d1">--:--</b></em>
+              </div>
+              <button class="djSingleLibraryBtn" type="button" data-dj-load-target="d1" aria-label="Open Deck 1 library"><i class="fa-solid fa-music"></i></button>
+            </header>
+
+            <canvas class="djSingleOverviewCanvas" data-dj-waveform-overview="d1"></canvas>
+
+            <div class="djSingleDeckWaveBox">
+              <canvas class="djSingleMainWaveCanvas" id="djSingleWaveformD1" data-dj-waveform-main="d1"></canvas>
+              <div class="djSingleDeckPlayhead" aria-hidden="true"></div>
+              <div class="djSingleWaveHud">
+                <span data-dj-single-time-left="d1">--:--</span>
+                <b data-dj-single-bars="d1">-- Bars</b>
+                <span data-dj-single-time-right="d1">00:00.0</span>
+              </div>
+              <div class="djSingleWaveZoomControls" aria-label="Deck 1 waveform zoom">
+                <button type="button" data-dj-single-zoom="out" aria-label="Zoom Deck 1 waveform out">−</button>
+                <button type="button" data-dj-single-zoom="in" aria-label="Zoom Deck 1 waveform in">+</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="djSingleDeckView hidden" data-dj-single-deck="d2">
+            <header class="djSingleTrackHeader">
+              <button class="djSingleBackMini" type="button" data-dj-single-back aria-label="Back to DUO"><i class="fa-solid fa-chevron-down"></i></button>
+              <div class="djSingleArtwork" data-dj-single-artwork="d2"><i class="fa-solid fa-record-vinyl"></i></div>
+              <div class="djSingleTrackText">
+                <strong data-dj-single-title="d2">Load Track</strong>
+                <span data-dj-single-artist="d2">Choose a short mixable DJ track.</span>
+                <em><b data-dj-single-bpm="d2">170.00</b><b class="djSingleKeyPill" data-dj-single-key="d2">KEY --</b><b data-dj-single-time="d2">--:--</b></em>
+              </div>
+              <button class="djSingleLibraryBtn" type="button" data-dj-load-target="d2" aria-label="Open Deck 2 library"><i class="fa-solid fa-music"></i></button>
+            </header>
+
+            <canvas class="djSingleOverviewCanvas" data-dj-waveform-overview="d2"></canvas>
+
+            <div class="djSingleDeckWaveBox">
+              <canvas class="djSingleMainWaveCanvas" id="djSingleWaveformD2" data-dj-waveform-main="d2"></canvas>
+              <div class="djSingleDeckPlayhead" aria-hidden="true"></div>
+              <div class="djSingleWaveHud">
+                <span data-dj-single-time-left="d2">--:--</span>
+                <b data-dj-single-bars="d2">-- Bars</b>
+                <span data-dj-single-time-right="d2">00:00.0</span>
+              </div>
+              <div class="djSingleWaveZoomControls" aria-label="Deck 2 waveform zoom">
+                <button type="button" data-dj-single-zoom="out" aria-label="Zoom Deck 2 waveform out">−</button>
+                <button type="button" data-dj-single-zoom="in" aria-label="Zoom Deck 2 waveform in">+</button>
+              </div>
+            </div>
+          </section>
+
+          <div class="djSinglePanelStack">
+            <section class="djSingleModePanel is-active" data-dj-single-panel="main">
+              <div class="djSingleLoopPair djSingleLoopPairPro">
+                <div class="djSingleLoopBox djLoopProBox">
+                  <button type="button" data-dj-loop-size="active">8 Bars <i class="fa-solid fa-chevron-up"></i></button>
+                  <div>
+                    <button type="button" data-dj-single-loop="jump-back"><i class="fa-solid fa-backward-step"></i></button>
+                    <button type="button" data-dj-single-loop="jump-forward"><i class="fa-solid fa-forward-step"></i></button>
+                  </div>
+                </div>
+                <div class="djSingleLoopBox djLoopProBox">
+                  <button type="button" data-dj-single-loop="auto">Auto Loop <i class="fa-solid fa-chevron-up"></i></button>
+                  <div>
+                    <button type="button" data-dj-single-loop="auto-down"><i class="fa-solid fa-chevron-left"></i></button>
+                    <strong data-dj-single-loop-value>4</strong>
+                    <button type="button" data-dj-single-loop="auto-up"><i class="fa-solid fa-chevron-right"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="djLoopProControls" aria-label="Loop controls">
+                <button type="button" data-dj-single-loop="loop-in"><b>IN</b><span>Set start</span></button>
+                <button type="button" data-dj-single-loop="loop-out"><b>OUT</b><span>Set end</span></button>
+                <button type="button" data-dj-single-loop="loop-exit"><b>EXIT</b><span>Release</span></button>
+                <button type="button" data-dj-single-loop="reloop"><b>RELOOP</b><span>Return</span></button>
+              </div>
+            </section>
+
+            <section class="djSingleModePanel" data-dj-single-panel="grid">
+              <div class="djSingleGridPanel djSingleGridPanelRestoredV3IJ">
+                <input id="djSingleGridBpm" type="number" min="40" max="240" step="0.01" value="170.00" inputmode="decimal" aria-label="Grid BPM" />
+                <button type="button" data-dj-grid-action="set-downbeat"><b>Set 1</b><span>Downbeat</span></button>
+                <button type="button" data-dj-grid-action="nudge-left"><i class="fa-solid fa-caret-left"></i><span>Fine</span></button>
+                <button type="button" data-dj-grid-action="nudge-right"><i class="fa-solid fa-caret-right"></i><span>Fine</span></button>
+                <button type="button" data-dj-grid-action="nudge-left-coarse"><i class="fa-solid fa-backward"></i><span>Grid</span></button>
+                <button type="button" data-dj-grid-action="nudge-right-coarse"><i class="fa-solid fa-forward"></i><span>Grid</span></button>
+                <button type="button" data-dj-grid-action="bpm-double"><b>x2</b></button>
+                <button type="button" data-dj-grid-action="bpm-halve"><b>/2</b></button>
+                <button type="button" data-dj-grid-action="stretch-left"><i class="fa-solid fa-grip-lines-vertical"></i><span>−</span></button>
+                <button type="button" data-dj-grid-action="stretch-right"><i class="fa-solid fa-grip-lines-vertical"></i><span>+</span></button>
+                <button type="button" data-dj-grid-action="undo"><i class="fa-solid fa-rotate-left"></i><span>Undo</span></button>
+                <button type="button" data-dj-grid-action="redo"><i class="fa-solid fa-rotate-right"></i><span>Redo</span></button>
+                <button type="button" data-dj-grid-action="tap"><b>TAP</b></button>
+                <button type="button" data-dj-quantize-toggle aria-label="Switch waveform colour theme"><i class="fa-solid fa-palette"></i></button>
+                <button type="button" data-dj-grid-action="lock"><i class="fa-solid fa-lock"></i><span>Lock</span></button>
+              </div>
+            </section>
+
+            <section class="djSingleModePanel" data-dj-single-panel="memory">
+              <div class="djSingleMemoryPanel djSingleMemoryPanelPro">
+                <button class="djMemoryBigBtn" type="button" data-dj-memory-action="save">MEMORY</button>
+                <button type="button" data-dj-memory-action="prev"><i class="fa-solid fa-caret-left"></i></button>
+                <button type="button" data-dj-memory-action="next"><i class="fa-solid fa-caret-right"></i></button>
+                <button type="button" data-dj-memory-action="clear"><i class="fa-solid fa-xmark"></i></button>
+                <button class="djMemoryListBtn" type="button" data-dj-memory-action="list">LIST <i class="fa-solid fa-chevron-right"></i></button>
+              </div>
+              <button class="djMemoryPopupSummary" type="button" data-dj-memory-open aria-label="Open memory cue list">
+                <span data-dj-memory-summary>0 memory cues saved</span>
+                <i class="fa-solid fa-chevron-up"></i>
+              </button>
+            </section>
+
+            <section class="djSingleModePanel" data-dj-single-panel="hotcue">
+              <div class="djHotCuePanel djHotCuePanelPro">
+                <button type="button" data-dj-hot-cue="A"><b>A</b><span>Empty</span></button>
+                <button type="button" data-dj-hot-cue="B"><b>B</b><span>Empty</span></button>
+                <button type="button" data-dj-hot-cue="C"><b>C</b><span>Empty</span></button>
+                <button type="button" data-dj-hot-cue="D"><b>D</b><span>Empty</span></button>
+                <button type="button" data-dj-hot-cue-clear aria-label="Hot cue clear"><i class="fa-solid fa-trash-can"></i></button>
+                <button type="button" data-dj-hot-cue="E"><b>E</b><span>Empty</span></button>
+                <button type="button" data-dj-hot-cue="F"><b>F</b><span>Empty</span></button>
+                <button type="button" data-dj-hot-cue="G"><b>G</b><span>Empty</span></button>
+                <button type="button" data-dj-hot-cue="H"><b>H</b><span>Empty</span></button>
+              </div>
+            </section>
+
+            <section class="djSingleModePanel" data-dj-single-panel="fx">
+              <div class="djStemPanelV2ZF" aria-label="NeuralMix-style stem cuts">
+                <div class="djStemPanelHeaderV2ZF">
+                  <span>NEURAL<span>MIX</span> STYLE</span>
+                  <strong>Stem Cut Prep</strong>
+                  <em>Browser-safe faders for drums, bass, harmonic and vocals. Real source separation can plug in later.</em>
+                </div>
+
+                <div class="djStemPresetRowV2ZH" aria-label="Stem quick presets">
+                  <button type="button" data-dj-stem-preset="instrumental">Instrumental</button>
+                  <button type="button" data-dj-stem-preset="vocal">Vocal</button>
+                  <button type="button" data-dj-stem-preset="bass-cut">Bass Cut</button>
+                  <button type="button" data-dj-stem-copy-both>Copy Both</button>
+                </div>
+
+                <div class="djStemFaderGridV2ZF djStemFaderGridV2ZH">
+                  <label class="djStemFaderV2ZF">
+                    <button class="djStemMuteBtnV2ZG" type="button" data-dj-stem-mute="drums" aria-label="Mute drums"><span data-dj-stem-mute-glyph>ON</span></button>
+                    <b><i class="fa-solid fa-drum"></i> Drums</b>
+                    <button class="djStemSoloBtnV2ZH" type="button" data-dj-stem-solo="drums">Solo</button>
+                    <input type="range" min="0" max="100" value="100" data-dj-stem-fader="drums" />
+                    <span data-dj-stem-label="drums">100%</span>
+                  </label>
+
+                  <label class="djStemFaderV2ZF">
+                    <button class="djStemMuteBtnV2ZG" type="button" data-dj-stem-mute="bass" aria-label="Mute bass"><span data-dj-stem-mute-glyph>ON</span></button>
+                    <b><i class="fa-solid fa-guitar"></i> Bass</b>
+                    <button class="djStemSoloBtnV2ZH" type="button" data-dj-stem-solo="bass">Solo</button>
+                    <input type="range" min="0" max="100" value="100" data-dj-stem-fader="bass" />
+                    <span data-dj-stem-label="bass">100%</span>
+                  </label>
+
+                  <label class="djStemFaderV2ZF">
+                    <button class="djStemMuteBtnV2ZG" type="button" data-dj-stem-mute="harmonic" aria-label="Mute harmonic"><span data-dj-stem-mute-glyph>ON</span></button>
+                    <b><i class="fa-solid fa-music"></i> Harmonic</b>
+                    <button class="djStemSoloBtnV2ZH" type="button" data-dj-stem-solo="harmonic">Solo</button>
+                    <input type="range" min="0" max="100" value="100" data-dj-stem-fader="harmonic" />
+                    <span data-dj-stem-label="harmonic">100%</span>
+                  </label>
+
+                  <label class="djStemFaderV2ZF">
+                    <button class="djStemMuteBtnV2ZG" type="button" data-dj-stem-mute="vocals" aria-label="Mute vocals"><span data-dj-stem-mute-glyph>ON</span></button>
+                    <b><i class="fa-solid fa-microphone"></i> Vocals</b>
+                    <button class="djStemSoloBtnV2ZH" type="button" data-dj-stem-solo="vocals">Solo</button>
+                    <input type="range" min="0" max="100" value="100" data-dj-stem-fader="vocals" />
+                    <span data-dj-stem-label="vocals">100%</span>
+                  </label>
+                </div>
+
+                <button class="djStemResetV2ZF" type="button" data-dj-stem-reset>Reset Stem Cuts</button>
+              </div>
+            </section>
+          </div>
+
+          <div class="djSingleTransportRow">
+            <button type="button" data-dj-single-loop="jump-back"><i class="fa-solid fa-backward-step"></i></button>
+            <button class="djSingleCueBtn" type="button" data-dj-transport="cue" data-dj-deck="d1">CUE</button>
+            <button class="djSinglePlayBtn" type="button" data-dj-transport="play" data-dj-deck="d1"><i class="fa-solid fa-play"></i></button>
+            <button type="button" data-dj-single-loop="jump-forward"><i class="fa-solid fa-forward-step"></i></button>
+          </div>
+
+          <nav class="djSingleDeckTabbar" aria-label="Single deck tools">
+            <button class="is-active" type="button" data-dj-single-tab="main"><i class="fa-solid fa-globe"></i><span>MAIN</span></button>
+            <button type="button" data-dj-single-tab="grid"><i class="fa-solid fa-grip-lines-vertical"></i><span>GRID</span></button>
+            <button type="button" data-dj-single-tab="memory"><i class="fa-solid fa-caret-down"></i><span>MEMORY</span></button>
+            <button type="button" data-dj-single-tab="hotcue"><b>A</b><span>HOT CUE</span></button>
+            <button type="button" data-dj-single-tab="fx"><i class="fa-solid fa-sliders"></i><span>STEMS</span></button>
+          </nav>
+        </div>
+      </section>
+
+      <section class="djPerfPanel" data-dj-performance-panel="mixer">
+        <div class="djDeckPreviewGrid">
+          <article class="djDeckPreviewCard is-master" data-dj-preview="d1">
+            <button class="djDeckLibraryMiniBtn" type="button" data-dj-load-target="d1" aria-label="Open Deck 1 library"><i class="fa-solid fa-music"></i></button>
+            <span>DECK 1 · MASTER</span>
+            <strong id="djDeck1Title">Load Track</strong>
+            <em id="djDeck1Artist" data-dj-time-toggle="d1"></em>
+            <canvas class="djDeckWaveformCanvas" data-dj-waveform-overview="d1"></canvas>
+          </article>
+
+          <article class="djDeckPreviewCard" data-dj-preview="d2">
+            <button class="djDeckLibraryMiniBtn" type="button" data-dj-load-target="d2" aria-label="Open Deck 2 library"><i class="fa-solid fa-music"></i></button>
+            <span>DECK 2</span>
+            <strong id="djDeck2Title">Load Track</strong>
+            <em id="djDeck2Artist" data-dj-time-toggle="d2"></em>
+            <canvas class="djDeckWaveformCanvas deck-b" data-dj-waveform-overview="d2"></canvas>
+          </article>
+        </div>
+
+        <div class="djSyncStrip djDeckSyncStrip djSyncStripV2ZE is-single-sync">
+          <button class="djSyncBtn djSingleSyncBtnV2ZH" type="button" data-dj-sync-toggle="d1" data-dj-sync-mode="beat">SYNC</button>
+
+          <button class="djDeckBpmBtn" type="button" data-dj-open-bpm data-dj-bpm-deck="d1">
+            <strong data-dj-bpm-readout="d1">170.0</strong>
+            <span>BPM</span>
+            <em data-dj-bpm-meta="d1">MASTER · MT</em>
+          </button>
+
+          <button class="djDeckBpmBtn" type="button" data-dj-open-bpm data-dj-bpm-deck="d2">
+            <strong data-dj-bpm-readout="d2">170.0</strong>
+            <span>BPM</span>
+            <em data-dj-bpm-meta="d2">MT · Q</em>
+          </button>
+
+          <button class="djSyncBtn djSingleSyncBtnV2ZH" type="button" data-dj-sync-toggle="d2" data-dj-sync-mode="beat">SYNC</button>
+        </div>
+
+        <div class="djMixerPanel">
+          <div class="djChannelFader">
+            <span>CHANNEL</span>
+            <div class="djVerticalFader" data-dj-channel-fader="d1">
+              <i></i>
+            </div>
+          </div>
+
+          <div class="djEqStack">
+            <button class="djKnobButton" type="button" data-dj-mixer-knob="d1-filter" data-dj-eq-value="50">
+              <b>FILTER</b>
+              <span>CENTRE</span>
+            </button>
+
+            <button class="djKnobButton" type="button" data-dj-mixer-knob="d1-gain" data-dj-eq-value="50">
+              <b>GAIN</b>
+              <span>100%</span>
+            </button>
+
+            <button class="djKnobButton" type="button" data-dj-eq-kill="d1-high" data-dj-eq-value="100">
+              <b>HIGH</b>
+              <span>100%</span>
+            </button>
+
+            <button class="djKnobButton" type="button" data-dj-eq-kill="d1-mid" data-dj-eq-value="100">
+              <b>MID</b>
+              <span>100%</span>
+            </button>
+
+            <button class="djKnobButton" type="button" data-dj-eq-kill="d1-low" data-dj-eq-value="100">
+              <b>LOW</b>
+              <span>100%</span>
+            </button>
+          </div>
+
+          <div class="djMasterMeters">
+            <button class="djMasterKnob" type="button" data-dj-mixer-knob="master-gain" data-dj-eq-value="50">
+              <b>MASTER</b>
+              <span>100%</span>
+            </button>
+
+            <div class="djMeterSet">
+              <div class="djMeter"><i data-dj-meter="d1"></i></div>
+              <div class="djMeter active"><i data-dj-meter="master"></i></div>
+              <div class="djMeter active hot"><i data-dj-meter="d2"></i></div>
+            </div>
+          </div>
+
+          <div class="djEqStack">
+            <button class="djKnobButton" type="button" data-dj-mixer-knob="d2-filter" data-dj-eq-value="50">
+              <b>FILTER</b>
+              <span>CENTRE</span>
+            </button>
+
+            <button class="djKnobButton" type="button" data-dj-mixer-knob="d2-gain" data-dj-eq-value="50">
+              <b>GAIN</b>
+              <span>100%</span>
+            </button>
+
+            <button class="djKnobButton" type="button" data-dj-eq-kill="d2-high" data-dj-eq-value="100">
+              <b>HIGH</b>
+              <span>100%</span>
+            </button>
+
+            <button class="djKnobButton" type="button" data-dj-eq-kill="d2-mid" data-dj-eq-value="100">
+              <b>MID</b>
+              <span>100%</span>
+            </button>
+
+            <button class="djKnobButton" type="button" data-dj-eq-kill="d2-low" data-dj-eq-value="100">
+              <b>LOW</b>
+              <span>100%</span>
+            </button>
+          </div>
+
+          <div class="djChannelFader">
+            <span>CHANNEL</span>
+            <div class="djVerticalFader is-low" data-dj-channel-fader="d2">
+              <i></i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="djPerfPanel hidden" data-dj-performance-panel="fx">
+        <div class="djFxBankHeader djFxBankHeaderPro djFxBankHeaderV2ZF">
+          <div>
+            <strong id="djLiveFxBankTitle">BRMedia FX Board A</strong>
+            <span id="djLiveFxBankSubtitle">Tap FX again for Board B. Tap toggles; long-press holds momentary.</span>
+          </div>
+          <div class="djFxTargetToggle" aria-label="FX target">
+            <button class="is-active" type="button" data-dj-fx-target="both">Both</button>
+            <button type="button" data-dj-fx-target="d1">Deck 1</button>
+            <button type="button" data-dj-fx-target="d2">Deck 2</button>
+          </div>
+          <button class="djFxClearBtnV2ZH" type="button" data-dj-fx-clear>Clear FX</button>
+        </div>
+
+        <label class="djFxWetMasterV2ZF">
+          <span>FX Amount</span>
+          <input type="range" min="0" max="100" value="65" data-dj-fx-wet-main />
+          <b id="djFxWetReadout">65%</b>
+        </label>
+
+        <div id="djFxPadGrid" class="djFxPadGrid djFxPadGridExpanded djFxPadGridV2ZF djFxPadGridV3IJ" aria-label="Selected live FX bank"></div>
+      </section>
+
+      <section class="djPerfPanel hidden" data-dj-performance-panel="vinyl">
+        <div class="djVinylDeckGrid djVinylDeckGridPro">
+          <article class="djVinylDeck">
+            <div class="djVinylPlatter" data-dj-platter="d1"><span>D1</span></div>
+            <strong>Deck 1 Vinyl</strong>
+            <em>Hold platter to brake; drag left/right to jog around the cue.</em>
+            <div class="djVinylActionRow">
+              <button type="button" data-dj-vinyl-action="brake" data-dj-vinyl-deck="d1">Brake</button>
+              <button type="button" data-dj-vinyl-action="cue" data-dj-vinyl-deck="d1">To Cue</button>
+            </div>
+          </article>
+
+          <article class="djVinylDeck">
+            <div class="djVinylPlatter" data-dj-platter="d2"><span>D2</span></div>
+            <strong>Deck 2 Vinyl</strong>
+            <em>Hold platter to brake; drag left/right to jog around the cue.</em>
+            <div class="djVinylActionRow">
+              <button type="button" data-dj-vinyl-action="brake" data-dj-vinyl-deck="d2">Brake</button>
+              <button type="button" data-dj-vinyl-action="cue" data-dj-vinyl-deck="d2">To Cue</button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section class="djTransportRow">
+      <button type="button" data-dj-transport="cue" data-dj-deck="d1">CUE</button>
+      <button type="button" data-dj-transport="play" data-dj-deck="d1"><i class="fa-solid fa-play"></i></button>
+      <button type="button" data-dj-transport="play" data-dj-deck="d2"><i class="fa-solid fa-play"></i></button>
+      <button type="button" data-dj-transport="cue" data-dj-deck="d2">CUE</button>
+    </section>
+
+    <section class="djCrossfaderDock">
+      <button class="djCrossfaderReset" type="button" aria-label="Centre crossfader">
+        <i class="fa-solid fa-arrows-to-dot"></i>
+      </button>
+
+      <div class="djCrossfaderRail">
+        <span></span>
+      </div>
+    </section>
+
+    <nav class="djPerformanceModeDock" aria-label="DJ Mixer modes">
+      <button type="button" data-dj-performance-mode="main">
+        <i class="fa-solid fa-play"></i>
+        <span>MAIN</span>
+      </button>
+
+      <button class="is-active" type="button" data-dj-performance-mode="mixer">
+        <i class="fa-solid fa-sliders"></i>
+        <span>MIXER</span>
+      </button>
+
+      <button type="button" data-dj-performance-mode="fx">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>FX</span>
+      </button>
+
+      <button type="button" data-dj-performance-mode="vinyl">
+        <i class="fa-solid fa-record-vinyl"></i>
+        <span>VINYL</span>
+      </button>
+
+      <button id="djRecBeacon" class="djRecBeacon" type="button" data-dj-rec-beacon>
+        <strong>REC READY</strong>
+        <span>--:--</span>
+      </button>
+    </nav>
+  </main>
+	
+<section id="djLibraryPanel" class="djCollectionPage hidden" aria-label="DJ Collection">
+  <div class="djCollectionShell">
+    <header class="djCollectionHeader">
+      <button id="djLibraryClose" class="djCollectionBackBtn" type="button">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+      </button>
+
+      <div class="djCollectionTitleBlock">
+        <span>BRMEDIA DJ COLLECTION</span>
+        <strong>Tracks, prep and deck loading</strong>
+        <em id="djLibraryStatus">Loading DJ Collection…</em>
+      </div>
+
+      <span id="djCollectionTrackCount" class="djCollectionCountPill">0 tracks</span>
+    </header>
+
+    <div class="djCollectionToolbar djCollectionToolbarPro">
+      <label class="djCollectionSearchWrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="djLibrarySearch" type="search" placeholder="Search title, artist, BPM, key…" autocomplete="off" />
+      </label>
+    </div>
+
+    <aside class="djCollectionLegend djCollectionLegendPro" aria-label="Collection status legend">
+      <span><b class="is-waveform">✓</b> Waveform</span>
+      <span><b class="is-grid">✓</b> Grid</span>
+      <span><b class="is-analysis">✓</b> Beat scan</span>
+      <span><b class="is-prepared">✓</b> Prepared</span>
+      <span><b class="is-missing">×</b> Needs work</span>
+      <em>Buttons per row: + adds to Playlist/DJ Set, graph analyses, D1/D2 loads decks.</em>
+    </aside>
+
+    <section class="djCollectionPrepDashboardV2ZRS" aria-label="DJ prep engine dashboard">
+      <article><strong id="djPrepReadyCount">0</strong><span>Prepared</span></article>
+      <article><strong id="djPrepWaveCount">0</strong><span>Waveforms</span></article>
+      <article><strong id="djPrepGridCount">0</strong><span>Grids</span></article>
+      <article><strong id="djPrepAnalysisCount">0</strong><span>Beat scans</span></article>
+      <article><strong id="djPrepNeedsCount">0</strong><span>Needs prep</span></article>
+    </section>
+
+    <div class="djCollectionTools djCollectionWowTools">
+      <button id="djLibraryRefresh" class="djStudioGhostBtn" type="button">
+        <i class="fa-solid fa-arrows-rotate"></i>
+        Refresh
+      </button>
+
+      <button id="djAnalyseMissingBtn" class="djStudioGhostBtn" type="button">
+        Analyse Missing
+      </button>
+
+      <button id="djPrepEngineBtn" class="djStudioGhostBtn djPrepEngineBtnV2ZRS" type="button" data-dj-prep-engine="missing">
+        Prep Engine
+      </button>
+
+      <button id="djAnalyseAllBtn" class="djStudioGhostBtn" type="button">
+        Reanalyse All
+      </button>
+
+      <button id="djCollectionResetFilters" class="djStudioGhostBtn" type="button">
+        Reset Filters
+      </button>
+
+      <span id="djAnalyseStatus" class="djAnalyseStatus">Waveform cache ready.</span>
+    </div>
+
+    <section class="djCollectionFilterPanel djCollectionFilterPanelPro" aria-label="DJ Collection filters">
+      <div class="djCollectionFilterTopline">
+        <label class="djCollectionSortControl">
+          <span>Sort</span>
+          <select id="djCollectionSort">
+            <option value="prepared">Prepared first</option>
+            <option value="title">Title A-Z</option>
+            <option value="artist">Artist A-Z</option>
+            <option value="bpm">BPM low-high</option>
+            <option value="key">Key</option>
+            <option value="duration">Shortest first</option>
+            <option value="recent">Newest loaded</option>
+          </select>
+        </label>
+
+        <div class="djCollectionQuickFilters djCollectionQuickFiltersPro djCollectionQuickFiltersV2TU">
+          <button class="is-active" type="button" data-dj-collection-filter="short">Short</button>
+          <button type="button" data-dj-collection-filter="long">Long mixes</button>
+          <button type="button" data-dj-collection-filter="prepared">Prepared</button>
+          <button type="button" data-dj-collection-filter="needs-prep">Needs Prep</button>
+          <button type="button" data-dj-collection-filter="bpm-missing">BPM Missing</button>
+          <button type="button" data-dj-collection-filter="grid-missing">Grid Missing</button>
+          <button type="button" data-dj-collection-filter="key-missing">Key Missing</button>
+          <button type="button" data-dj-collection-filter="loaded">Loaded</button>
+        </div>
+      </div>
+
+      <details class="djCollectionAdvancedFilters">
+        <summary>Advanced filters</summary>
+        <div class="djCollectionFilterGrid">
+          <label>
+            <span>Source</span>
+            <select id="djCollectionSourceFilter">
+              <option value="all">All sources</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Key</span>
+            <select id="djCollectionKeyFilter">
+              <option value="all">Any key</option>
+            </select>
+          </label>
+
+          <label>
+            <span>BPM min</span>
+            <input id="djCollectionBpmMin" type="number" inputmode="decimal" min="60" max="240" step="1" placeholder="Any" />
+          </label>
+
+          <label>
+            <span>BPM max</span>
+            <input id="djCollectionBpmMax" type="number" inputmode="decimal" min="60" max="240" step="1" placeholder="Any" />
+          </label>
+        </div>
+      </details>
+    </section>
+
+    <section class="djCollectionPlanLauncher" aria-label="Open playlist and DJ set pages">
+      <button type="button" data-dj-open-plan-page="playlist">
+        <i class="fa-solid fa-list-ul"></i>
+        <span>Open Playlists</span>
+        <em>Normal saved groups</em>
+      </button>
+      <button type="button" data-dj-open-plan-page="set">
+        <i class="fa-solid fa-bars-staggered"></i>
+        <span>Open DJ Set Builder</span>
+        <em>Ordered tracklist before launch</em>
+      </button>
+    </section>
+
+    <div class="djCollectionTableHead" aria-hidden="true">
+      <span>Track</span>
+      <span>Time</span>
+      <span>BPM</span>
+      <span>Key</span>
+      <span>Prep</span>
+      <span>Load</span>
+    </div>
+
+    <div id="djLibraryList" class="djLibraryList djCollectionList"></div>
+  </div>
+
+  <footer class="djCollectionMiniPlayer" aria-label="DJ Collection MiniPlayer">
+    <div id="djCollectionMiniDeck" class="djCollectionMiniDeck">—</div>
+
+    <div class="djCollectionMiniMain">
+      <strong id="djCollectionMiniTitle">No deck playing</strong>
+      <span id="djCollectionMiniArtist">Load Deck 1 or Deck 2 from the Collection.</span>
+      <i id="djCollectionMiniProgress"></i>
+    </div>
+
+    <span id="djCollectionMiniStats" class="djCollectionMiniStats">BPM — • Key —</span>
+
+    <button class="djCollectionMiniPlay" type="button" data-dj-mini-toggle aria-label="Play or pause active deck">
+      <i class="fa-solid fa-play"></i>
+    </button>
+  </footer>
+</section>
+
+<section id="djPlaylistPage" class="djPlannerPage hidden" aria-label="DJ Playlists">
+  <div class="djPlanPageShell">
+    <header class="djPlanPageHeader djPlaylistHeaderV2ZC">
+      <button class="djCollectionBackBtn" type="button" data-dj-plan-page-back>
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+      </button>
+      <div>
+        <span>BRMEDIA PLAYLISTS</span>
+        <strong>Playlist Command Centre</strong>
+        <em>Create crates, tidy track groups, then push a full playlist into the active DJ Set.</em>
+      </div>
+      <button class="djPlanPageCreateBtn" type="button" data-dj-plan-create="playlist">+ Playlist</button>
+    </header>
+
+    <section class="djPlaylistHeroV2ZC">
+      <div>
+        <span>ACTIVE PLAYLIST</span>
+        <h2 id="djPlaylistBuilderTitle">Main Playlist</h2>
+        <p id="djPlaylistBuilderStatus">Use + on Collection tracks to build this playlist.</p>
+      </div>
+
+      <div class="djPlaylistStatsV2ZC">
+        <div><strong id="djPlaylistBuilderCount">0</strong><span>Tracks</span></div>
+        <div><strong id="djPlaylistBuilderRuntime">--:--</strong><span>Runtime</span></div>
+        <div><strong id="djPlaylistBuilderPrepared">0%</strong><span>Prepared</span></div>
+      </div>
+
+      <div class="djPlaylistHeroActionsV2ZC">
+        <button type="button" data-dj-open-collection data-dj-library-target-open="d1">Add Tracks</button>
+        <button type="button" data-dj-playlist-add-to-set>Add Playlist To Current DJ Set</button>
+        <button type="button" data-dj-plan-rename="playlist">Rename</button>
+        <button type="button" data-dj-plan-delete="playlist">Delete</button>
+      </div>
+    </section>
+
+    <section class="djCollectionPlanCard djPlanPageCard is-active" data-dj-plan-panel="playlist">
+      <div class="djCollectionPlanTitle"><strong id="djPlaylistTitle">Playlist</strong><span id="djPlaylistCount">0 tracks</span></div>
+      <div id="djPlaylistList" class="djCollectionPlanList djPlanPageList"></div>
+    </section>
+
+    <footer class="djPlanPageFooter">
+      <button type="button" data-dj-open-collection data-dj-library-target-open="d1">Add Tracks From Collection</button>
+      <button type="button" data-dj-playlist-add-to-set>Add Playlist To Current DJ Set</button>
+      <button type="button" data-dj-open-plan-page="set">Open DJ Set Builder</button>
+    </footer>
+  </div>
+</section>
+
+<section id="djSetPage" class="djPlannerPage hidden" aria-label="DJ Set running order">
+  <div class="djPlanPageShell">
+    <header class="djPlanPageHeader djSetBuilderHeaderV2Z">
+      <button class="djCollectionBackBtn" type="button" data-dj-plan-page-back>
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+      </button>
+      <div>
+        <span>BRMEDIA DJ SET</span>
+        <strong>Pro Running Order Builder</strong>
+        <em>Build the exact show order, add mix notes and launch DUO when ready.</em>
+      </div>
+      <button class="djPlanPageCreateBtn" type="button" data-dj-plan-create="set">+ DJ Set</button>
+    </header>
+
+    <section class="djSetBuilderHeroV2Z">
+      <div>
+        <span>ACTIVE RUNNING ORDER</span>
+        <h2 id="djSetBuilderActiveTitle">Tonight DJ Set</h2>
+        <p id="djSetBuilderStatus">Add tracks from Collection, then mark the set ready for launch.</p>
+      </div>
+
+      <div class="djSetBuilderStatsV2Z">
+        <div><strong id="djSetBuilderCount">0</strong><span>Tracks</span></div>
+        <div><strong id="djSetBuilderRuntime">--:--</strong><span>Runtime</span></div>
+        <div><strong id="djSetBuilderPrepared">0%</strong><span>Prepared</span></div>
+      </div>
+
+      <div class="djSetBuilderHeroActionsV2Z">
+        <button type="button" data-dj-open-collection data-dj-library-target-open="d1">Add Tracks</button>
+        <button type="button" data-dj-plan-ready="set">Mark Set Ready</button>
+        <button type="button" data-dj-launch>Launch DUO</button>
+      </div>
+    </section>
+
+    <section class="djCollectionPlanCard djPlanPageCard is-active" data-dj-plan-panel="set">
+      <div class="djCollectionPlanTitle"><strong id="djSetTitle">DJ Set</strong><span id="djSetCount">0 tracks</span></div>
+      <div id="djSetList" class="djCollectionPlanList djPlanPageList"></div>
+    </section>
+
+    <footer class="djPlanPageFooter">
+      <button type="button" data-dj-open-collection data-dj-library-target-open="d1">Add Tracks From Collection</button>
+      <button type="button" data-dj-open-plan-page="playlist">Open Playlists</button>
+      <button type="button" data-dj-launch>Launch Mixer</button>
+    </footer>
+  </div>
+</section>
+
+  <section id="djBpmPopup" class="djPerformanceSheet hidden" aria-label="BPM settings">
+    <div class="djPerformanceSheetCard djBpmCard">
+      <header>
+        <div>
+          <strong id="djBpmPopupTitle">Deck 1 BPM / Master</strong>
+          <span id="djBpmStatus">Master Deck 1 • MT On</span>
+        </div>
+        <button id="djBpmPopupClose" type="button">×</button>
+      </header>
+
+      <label class="djBpmInputWrap">
+        <span>BPM for this deck</span>
+        <input id="djBpmValueInput" type="number" inputmode="decimal" min="60" max="240" step="0.1" value="170" />
+      </label>
+
+      <button id="djSetMasterDeckBtn" class="djBpmWideAction" type="button">
+        Set this deck as Master
+      </button>
+
+      <div class="djBpmOptionGroup">
+        <span>Master Tempo / key lock for this deck</span>
+        <div>
+          <button class="is-selected" type="button" data-dj-mt="true">MT On</button>
+          <button type="button" data-dj-mt="false">MT Off</button>
+        </div>
+      </div>
+			
+      <div class="djBpmOptionGroup">
+        <span>Key Sync for this deck</span>
+        <div>
+          <button type="button" data-dj-key-sync="true">Key Sync On</button>
+          <button class="is-selected" type="button" data-dj-key-sync="false">Key Sync Off</button>
+        </div>
+      </div>
+			
+      <div class="djBpmOptionGroup">
+        <span>Quantize for this deck</span>
+        <div>
+          <button class="is-selected" type="button" data-dj-quantize-option="true">Q On</button>
+          <button type="button" data-dj-quantize-option="false">Q Off</button>
+        </div>
+      </div>
+
+      <div class="djBpmOptionGroup">
+        <span>Crossfader curve</span>
+        <div class="djBpmOptionTriple">
+          <button class="is-selected" type="button" data-dj-crossfader-mode="smooth">Smooth</button>
+          <button type="button" data-dj-crossfader-mode="cut">Cut</button>
+          <button type="button" data-dj-crossfader-mode="thru">Thru</button>
+        </div>
+      </div>
+    </div>
+  </section>
+	
+  <section id="djMemoryCuePopup" class="djMemoryCuePopup hidden" aria-label="Memory cue list" aria-modal="true" role="dialog">
+    <div class="djMemoryCueBackdrop" data-dj-memory-close></div>
+    <article class="djMemoryCueSheet">
+      <header>
+        <div>
+          <span>MEMORY CUES</span>
+          <strong id="djMemoryCuePopupTitle">Deck memory list</strong>
+          <em id="djMemoryCuePopupStatus">Save, jump or clear cue points.</em>
+        </div>
+        <button type="button" data-dj-memory-close aria-label="Close memory cue list"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+
+      <div class="djMemoryCueQuickActions">
+        <button type="button" data-dj-memory-popup-action="save"><b>Save current</b><span>Exact playhead</span></button>
+        <button type="button" data-dj-memory-popup-action="sort"><b>Sort</b><span>By time</span></button>
+        <button type="button" data-dj-memory-popup-action="clear-all"><b>Clear all</b><span>This deck</span></button>
+      </div>
+
+      <div id="djMemoryCuePopupList" class="djMemoryCuePopupList"></div>
+    </article>
+  </section>
+	
+  <section id="djAddToListPopup" class="djAddToListPopup hidden" aria-label="Add track to playlist or DJ set" aria-modal="true" role="dialog">
+    <div class="djAddToListBackdrop" data-dj-add-close></div>
+    <article class="djAddToListSheet">
+      <header>
+        <div>
+          <span>ADD TO LIST</span>
+          <strong id="djAddToListTitle">Choose destination</strong>
+          <em id="djAddToListStatus">Pick a Playlist or DJ Set.</em>
+        </div>
+        <button type="button" data-dj-add-close aria-label="Close add to list"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="djAddToListQuick">
+        <button type="button" data-dj-add-create="playlist">+ New Playlist</button>
+        <button type="button" data-dj-add-create="set">+ New DJ Set</button>
+      </div>
+      <div id="djAddToListOptions" class="djAddToListOptions"></div>
+    </article>
+  </section>
+
+  <audio id="djAudioD1" preload="auto" playsinline webkit-playsinline x-webkit-airplay="allow"></audio>
+  <audio id="djAudioD2" preload="auto" playsinline webkit-playsinline x-webkit-airplay="allow"></audio>
+
+  <script src="/shared/icons.js?v=20260529-bars-fix-v1"></script>
+  <script src="/shared/profile-link.js?v=20260530-nav-compact-v10"></script>
+	
+<script src="/dj-mixer/engine-v2.js?v=20260624-dj-engine-v2a"></script>
+<script src="/dj-mixer/app.js?v=20260624-dj-engine-v2a"></script>
+	
+</body>
+</html>

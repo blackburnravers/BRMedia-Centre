@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "updatedAt": 1781478340293,
+  "activeSessionId": "djset_mqcsrbva_aa95f16f",
+  "sessions": [
+    {
+      "id": "djset_mq3tdnz2_c20474d2",
+      "title": "New DJ Set 07/06/2026",
+      "artist": "DJ NJ & Upalnite",
+      "branding": "DJ NJ & Upalnite",
+      "series": "",
+      "episode": "",
+      "notes": "Recorded live with BRMedia DJ Studio.",
+      "artworkUrl": "",
+      "saveFormat": "wav",
+      "status": "planning",
+      "createdAt": 1780838695838,
+      "updatedAt": 1780838695838,
+      "captureStartedAt": 0,
+      "captureStoppedAt": 0,
+      "plannedTracks": [],
+      "tracklist": []
+    },
+    {
+      "id": "djset_mq3tfxql_ad0024e9",
+      "title": "Upalnite DJ Set 07/06/20262",
+      "artist": "DJ NJ & Upalnite",
+      "branding": "DJ NJ & Upalnite",
+      "series": "",
+      "episode": "",
+      "notes": "Recorded live with BRMedia DJ Studio.",
+      "artworkUrl": "",
+      "saveFormat": "wav",
+      "status": "complete",
+      "createdAt": 1780838801805,
+      "updatedAt": 1781231323428,
+      "captureStartedAt": 1781231173633,
+      "captureStoppedAt": 1781231323425,
+      "plannedTracks": [
+        {
+          "trackId": "trk_19e7bbf1dd9_e504db5aafbc4",
+          "title": "First Kontakt",
+          "artist": "Al Storm",
+          "duration": 369.92,
+          "bpm": 0,
+          "keyLabel": "--",
+          "source": "local",
+          "id": "plan_mq3tg792_9c85f20d",
+          "addedAt": 1780838814135
+        },
+        {
+          "trackId": "trk_19e7bbf1dd9_5bb08c4622ae3",
+          "title": "Sailaway (Al Storm & Euphony Remix)",
+          "artist": "Bang!",
+          "duration": 330.1877551020408,
+          "bpm": 0,
+          "keyLabel": "--",
+          "source": "local",
+          "id": "plan_mq3tg8nt_aa1627e9",
+          "addedAt": 1780838815961
+        },
+        {
+          "trackId": "trk_19e7bbf1deb_f012f3c7eb35f",
+          "title": "Second Kontakt",
+          "artist": "Heaven 7",
+          "duration": 261.32897959183674,
+          "bpm": 0,
+          "keyLabel": "--",
+          "source": "local",
+          "id": "plan_mq3tgda8_218af73e",
+          "addedAt": 1780838821952
+        },
+        {
+          "trackId": "trk_19e7bbf1df3_12fd90693fee8",
+          "title": "The Beat Kicks (VIP Mix)",
+          "artist": "Dj Seduction",
+          "duration": 241.8938775510204,
+          "bpm": 0,
+          "keyLabel": "--",
+          "source": "local",
+          "id": "plan_mq3tgf9b_29fe431c",
+          "addedAt": 1780838824511
+        },
+        {
+          "trackId": "trk_19e7bbf1df6_5c453511e8f468",
+          "title": "Jumpin'",
+          "artist": "Al Storm",
+          "duration": 264.0195918367347,
+          "bpm": 0,
+          "keyLabel": "--",
+          "source": "local",
+          "id": "plan_mq3tgkjk_b5b6198a",
+          "addedAt": 1780838831360
+        },
+        {
+          "trackId": "trk_19e7bbf1ded_602355adf08e78",
+          "title": "Droppin Bombz (original mix)",
+          "artist": "Al Storm",
+          "duration": 352.9404081632653,
+          "bpm": 0,
+          "keyLabel": "--",
+          "source": "local",
+          "id": "plan_mq7561oo_48a7f401",
+          "addedAt": 1781039894280
+        },
+        {
+          "trackId": "trk_19e7bbf1df5_8417d66d45ff5",
+          "title": "Dance With Me (Remix)",
+          "artist": "Heaven 7",
+          "duration": 315.8987755102041,
+          "bpm": 0,
+          "keyLabel": "--",
+          "source": "local",
+          "id": "plan_mq756529_3d78088e",
+          "addedAt": 1781039898657
+        },
+        {
+          "trackId": "trk_19e7bbf1dd4_d858582d79a158",
+          "title": "Torn (Breeze & Styles Remix)",
+          "artist": "David Pammes & Cesar Benito",
+          "duration": 365.4008163265306,
+          "bpm": 0,
+          "keyLabel": "--",
+          "source": "local",
+          "id": "plan_mqa8np2q_46f53730",
+          "addedAt": 1781227155123
+        }
+      ],
+      "tracklist": []
+    },
+    {
+      "id": "djset_mqcsrbva_aa95f16f",
+      "title": "Upalnite DJ Set 13/06/2026",
+      "artist": "DJ NJ & Upalnite",
+      "branding": "DJ NJ & Upalnite",
+      "series": "",
+      "episode": "",
+      "notes": "Recorded live with BRMedia DJ Studio.",
+      "artworkUrl": "",
+      "saveFormat": "wav",
+      "status": "planning",
+      "createdAt": 1781381849302,
+      "updatedAt": 1781381849302,
+      "captureStartedAt": 0,
+      "captureStoppedAt": 0,
+      "plannedTracks": [],
+      "tracklist": []
+    }
+  ],
+  "nativeRecorder": {
+    "ready": false,
+    "stage": "mixxx-control-bridge-required",
+    "detail": "Native Mixxx master recording arrives with the BRMedia controller bridge. Tracklist capture is available now."
+  }
+}

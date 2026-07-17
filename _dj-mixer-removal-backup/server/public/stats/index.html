@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Statistics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07142d" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260510-j1" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260510-j1" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260510-j1" />
+
+<link rel="stylesheet" href="/stats/styles.css?v=20260604-stats-events-v3a" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+</head>
+
+<body class="settingsMode moduleTemplateBody">
+  <div class="appShell settingsShell">
+    <header class="topbar settingsTopbar">
+      <div class="brandHeader settingsBrandHeader">
+        <button class="moduleSearchBtn topSearchBtn" type="button" aria-label="Search server settings">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="brandLogoFull settingsHeaderLogo" />
+
+        <div class="brandHeaderMeta">
+          <div class="eyebrow">BRMedia</div>
+          <h1 id="pageTitle">Stats</h1>
+        </div>
+      </div>
+
+      <button id="btnModuleMenu" class="moduleMenuBtn topMenuBtn" type="button" aria-label="Open Server Settings navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </header>
+
+    <div id="moduleSidebarBackdrop" class="sidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="sidebarMenu hidden">
+      <div class="sidebarMenuHeader">
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="sidebarLogoFull" />
+      </div>
+
+      <div class="sidebarNav">
+        <button class="sidebarNavBtn" data-route="/" type="button">
+          <span class="sidebarNavIconBadge">
+            <img class="sidebarNavIconImage" src="/shared/branding/module-icons/home.png" alt="" />
+          </span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Home</span>
+            <span class="sidebarNavBtnSub">Back to BRMedia Centre home.</span>
+          </span>
+        </button>
+        <div class="sidebarNavSectionTitle">Stats sections</div>
+
+        <button class="sidebarNavBtn statsSectionNavBtn active" data-sidebar-stats-view="overview" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-chart-pie"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Overview</span><span class="sidebarNavBtnSub">Headline cards and quick health checks.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="activity" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-clock-rotate-left"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Activity Log</span><span class="sidebarNavBtnSub">Permanent playback, profile, upload and module history.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="audio" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-music"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Audio Stats</span><span class="sidebarNavBtnSub">Brands, categories, artists, formats and albums.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="video" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-film"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Video Stats</span><span class="sidebarNavBtnSub">Formats, posters, metadata, subtitles and MP4 readiness.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="torrents" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-magnet"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Torrents</span><span class="sidebarNavBtnSub">Queue, speeds, completed downloads and swarm state.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="library" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-database"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Library + Storage</span><span class="sidebarNavBtnSub">Storage, cloud/import split and duplicate clues.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="modules" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-sliders"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Module Stats</span><span class="sidebarNavBtnSub">Player, Video, Converter, Mastering, Tagger and Settings activity.</span></span>
+        </button>		
+				
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="playback" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-headphones"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Playback</span><span class="sidebarNavBtnSub">Resume memory, queue, favourites and playlists.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="technical" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-waveform"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Technical</span><span class="sidebarNavBtnSub">Bitrates, sample rates, BPM and runtime.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="flags" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-flag"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Flags / Countries</span><span class="sidebarNavBtnSub">Country stats with flag icons.</span></span>
+        </button>
+
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="health" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-circle-check"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Library Health</span><span class="sidebarNavBtnSub">Missing metadata, artwork, posters and browser copies.</span></span>
+        </button>
+				
+        <button class="sidebarNavBtn statsSectionNavBtn" data-sidebar-stats-view="reports" type="button">
+          <span class="sidebarNavIconBadge"><i class="fa-solid fa-file-arrow-down"></i></span>
+          <span class="sidebarNavText"><span class="sidebarNavBtnTitle">Reports / Export</span><span class="sidebarNavBtnSub">Save snapshots, compare changes and export JSON/CSV.</span></span>
+        </button>
+			</div>
+
+      <div class="sidebarModuleBlock">
+        <div class="sidebarSectionTitle">Open modules</div>
+
+        <div class="sidebarModuleList">
+          <button class="sidebarModuleBtn" data-route="/player" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/audio-home.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Player</span><span class="sidebarModuleSub">Audio player, queue, playlists and tracklists.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/video-player" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/video-player.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Video</span><span class="sidebarModuleSub">Films, posters, playback and subtitles.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/dj-mixer" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/dj-mixer.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">DJ Mixer</span><span class="sidebarModuleSub">Decks, cues, Collection and recordings.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/mastering" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/mastering.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Mastering</span><span class="sidebarModuleSub">Audio polish, previews and compare tools.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/tagger" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/tagger.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Tagger</span><span class="sidebarModuleSub">Metadata, artwork and BRMedia tags.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/converter" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/converter.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Converter</span><span class="sidebarModuleSub">Convert audio/video and batch jobs.</span></span></button>
+          <button class="sidebarModuleBtn is-active" data-route="/stats" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/stats.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Stats</span><span class="sidebarModuleSub">Charts, history and library analytics.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/torrents" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/torrents.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Torrents</span><span class="sidebarModuleSub">Legal torrents, queue, speed limits and safe scanning.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/server-settings" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/server-settings.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Server Settings</span><span class="sidebarModuleSub">Sources, storage, FFmpeg and networking.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/settings?module=stats&tab=library" type="button"><img class="sidebarModuleIconImage" src="/shared/branding/module-icons/settings.png" alt="" width="34" height="34" /><span class="sidebarModuleText"><span class="sidebarModuleTitle">Settings</span><span class="sidebarModuleSub">Global BRMedia control centre.</span></span></button>
+        </div>
+      </div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="sidebarFloatingCloseBtn hidden" type="button" aria-label="Close Server Settings navigation">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="settingsMain">
+      <section class="settingsHeroShell" aria-label="Server Settings shell">
+        <div class="settingsHeroLine"></div>
+      </section>
+
+      <footer class="playerSiteFooter settingsFooter">
+        <div class="playerSiteFooterInner">
+          <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" class="playerSiteFooterLogo" />
+          <div class="playerSiteFooterCopy">
+            <span class="footerLine"><span class="footerCopyOrange">©</span><span class="footerCopyWhite">The Blackburn Ravers</span></span>
+            <span class="footerLine"><span class="footerCopyWhite">DJ NJ &amp; Upalnite</span><span class="footerCopyBlue">2026</span></span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+<script src="/shared/icons.js?v=20260529-bars-fix-v1"></script>
+<script src="/shared/profile-link.js?v=20260530-nav-compact-v10"></script>
+<script src="/stats/app.js?v=20260605-longest-audio-fix-v1"></script>
+</body>
+</html>

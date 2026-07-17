@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Torrents</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260510-j1" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260510-j1" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260510-j1" />
+  <link id="moduleManifest" rel="manifest" href="/torrents/site.webmanifest?v=20260523-a1" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Torrents" />
+
+<link rel="stylesheet" href="/torrents/styles.css?v=20260601-torrents-followup-v1b" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body class="moduleTemplateBody moduleTorrentsMode">
+  <div class="appShell">
+    <header class="topbar">
+      <button id="btnTorrentSearch" class="moduleSearchBtn topSearchBtn" type="button" aria-label="Search torrents">
+        <i class="fa-duotone fa-magnifying-glass"></i>
+      </button>
+
+      <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="brandLogoFull" />
+
+      <button id="btnModuleMenu" class="moduleMenuBtn topMenuBtn" type="button" aria-label="Open Torrents navigation">
+        <i class="fa-duotone fa-list-music"></i>
+      </button>
+    </header>
+
+    <div id="moduleSidebarBackdrop" class="sidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="sidebarMenu hidden">
+      <div class="sidebarMenuHeader">
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="sidebarLogoFull" />
+      </div>
+
+      <div class="sidebarNav" aria-label="Torrents navigation">
+        <button class="sidebarNavBtn" data-route="/" type="button">
+          <span class="sidebarNavIconBadge">
+            <img class="sidebarNavIconImage" src="/shared/branding/module-icons/home.png" alt="" />
+          </span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Home</span>
+            <span class="sidebarNavBtnSub">Back to BRMedia Centre home.</span>
+          </span>
+        </button>
+
+        <div id="torrentSectionNav" class="sidebarConverterNav" aria-label="Torrent sections">
+          <div class="sidebarSectionTitle">Torrent sections</div>
+        </div>
+      </div>
+
+      <div class="sidebarModuleBlock">
+        <div class="sidebarSectionTitle">Open modules</div>
+
+        <div class="sidebarModuleList">
+          <button class="sidebarModuleBtn" data-route="/player" type="button"><i class="fa-solid fa-music"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Player</span><span class="sidebarModuleSub">Audio player, queue and tracklists.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/video-player" type="button"><i class="fa-solid fa-film"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Video</span><span class="sidebarModuleSub">Films, posters, playback and subtitles.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/dj-mixer" type="button"><i class="fa-solid fa-record-vinyl"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">DJ Mixer</span><span class="sidebarModuleSub">Decks, cues, Collection and recordings.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/mastering" type="button"><i class="fa-solid fa-sliders"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Mastering</span><span class="sidebarModuleSub">Audio polish and previews.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/tagger" type="button"><i class="fa-solid fa-tags"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Tagger</span><span class="sidebarModuleSub">Metadata, artwork and BRMedia tags.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/converter" type="button"><i class="fa-solid fa-arrows-rotate"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Converter</span><span class="sidebarModuleSub">Convert audio/video and batch jobs.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/stats" type="button"><i class="fa-solid fa-chart-pie"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Stats</span><span class="sidebarModuleSub">Charts, history and reports.</span></span></button>
+          <button class="sidebarModuleBtn is-active" data-route="/torrents" type="button"><i class="fa-solid fa-magnet"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Torrents</span><span class="sidebarModuleSub">Legal torrents, queue and safety.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/server-settings" type="button"><i class="fa-solid fa-server"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Server Settings</span><span class="sidebarModuleSub">Sources, storage and admin.</span></span></button>
+          <button class="sidebarModuleBtn" data-route="/settings?module=torrents&tab=overview" type="button"><i class="fa-solid fa-gear"></i><span class="sidebarModuleText"><span class="sidebarModuleTitle">Settings</span><span class="sidebarModuleSub">Global BRMedia control centre.</span></span></button>
+        </div>
+      </div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="sidebarFloatingCloseBtn hidden" type="button" aria-label="Close Torrents navigation">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="moduleTemplateMain">
+      <section id="torrentRoot" class="moduleTemplateContent" aria-label="Torrents content"></section>
+
+      <footer class="playerSiteFooter">
+        <div class="playerSiteFooterInner">
+          <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" class="playerSiteFooterLogo" />
+
+          <div class="playerSiteFooterCopy">
+            <span class="footerLine"><span class="footerCopyOrange">©</span><span class="footerCopyWhite">The Blackburn Ravers</span></span>
+            <span class="footerLine"><span class="footerCopyWhite">DJ NJ &amp; Upalnite</span><span class="footerCopyBlue">2026</span></span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+<script src="/shared/icons.js?v=20260529-bars-fix-v1"></script>
+<script src="/shared/profile-link.js?v=20260529-sidebar-match-v9"></script>
+<script src="/torrents/app.js?v=20260601-torrents-followup-v1b"></script>
+</body>
+</html>

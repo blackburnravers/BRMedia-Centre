@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "updatedAt": 1780192582333,
+  "sources": [
+    {
+      "id": "source_mpt4jipw_aqooh5",
+      "label": "Audio · DJMixes",
+      "path": "C:\\DJMixes",
+      "type": "audio",
+      "enabled": true,
+      "watch": true,
+      "includeSubfolders": true,
+      "defaultAudioTarget": true,
+      "defaultVideoTarget": false,
+      "createdAt": 1780192316804,
+      "updatedAt": 1780192316804
+    },
+    {
+      "id": "source_mpt4jipw_1q12ci",
+      "label": "Video · Videos",
+      "path": "C:\\Videos",
+      "type": "video",
+      "enabled": true,
+      "watch": true,
+      "includeSubfolders": true,
+      "defaultAudioTarget": false,
+      "defaultVideoTarget": true,
+      "createdAt": 1780192316804,
+      "updatedAt": 1780192316804
+    },
+    {
+      "id": "source_mpt4p7lo_rddi93",
+      "label": "Test drive",
+      "path": "H:\\24-7 Hardcore",
+      "type": "audio",
+      "enabled": true,
+      "watch": true,
+      "includeSubfolders": true,
+      "defaultAudioTarget": false,
+      "defaultVideoTarget": false,
+      "createdAt": 1780192582332,
+      "updatedAt": 1780192582332
+    }
+  ]
+}

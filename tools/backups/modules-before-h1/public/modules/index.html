@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Module</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/home/apple-touch-icon.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/home/icon-192.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/home/icon-512.png?v=20260505" />
+  <link id="moduleManifest" rel="manifest" href="/modules/site.webmanifest?v=20260505" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="BRMedia" />
+  <link rel="stylesheet" href="/modules/styles.css?v=20260509-video-mastering-tidy-1" />
+</head>
+<body>
+  <div class="moduleShell">
+    <header class="moduleTopbar">
+      <div class="moduleBrandHeader">
+        <a class="moduleSearchBtn" href="/player" aria-label="Open BRMedia Player">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
+
+        <img src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" class="moduleBrandLogo" />
+
+        <button id="btnModuleMenu" class="moduleMenuBtn" type="button" aria-label="Open sidebar menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <div id="moduleSidebarBackdrop" class="moduleSidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="moduleSidebar hidden">
+      <div class="moduleSidebarHeader">
+        <img src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" class="moduleSidebarLogo" />
+      </div>
+
+      <div id="videoSidebarNav" class="videoSidebarNav hidden" aria-label="Video genres">
+        <div class="videoSidebarSectionTitle">Video Library</div>
+        <button id="btnVideoSidebarHome" class="videoSidebarHome is-active" type="button" data-video-sidebar-home="1">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-house"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Home</span>
+            <span class="moduleSidebarSub">Spotlight, continue watching and all posters.</span>
+          </span>
+        </button>
+
+        <div class="videoSidebarSectionTitle">Film Genres</div>
+        <div id="videoSidebarGenreList" class="videoSidebarGenreList">
+          <div class="videoSidebarEmpty">Scan C:\Videos to build your genre list.</div>
+        </div>
+      </div>
+
+      <div class="moduleSidebarLinks">
+        <a class="moduleSidebarLink" href="/player" data-path="/player">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-headphones"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Player</span>
+            <span class="moduleSidebarSub">Back to the full BRMedia music player.</span>
+          </span>
+        </a>
+        <a class="moduleSidebarLink" href="/converter" data-path="/converter">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Converter</span>
+            <span class="moduleSidebarSub">Convert audio, video and batch jobs.</span>
+          </span>
+        </a>
+        <a class="moduleSidebarLink" href="/tagger" data-path="/tagger">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-tags"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Tagger</span>
+            <span class="moduleSidebarSub">Metadata, artwork and BRMedia tags.</span>
+          </span>
+        </a>
+        <a class="moduleSidebarLink" href="/mastering" data-path="/mastering">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-sliders"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Mastering</span>
+            <span class="moduleSidebarSub">Loudness, polish and final masters.</span>
+          </span>
+        </a>
+        <a class="moduleSidebarLink" href="/video-player" data-path="/video-player">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-film"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Video Player</span>
+            <span class="moduleSidebarSub">Video playback and linked media.</span>
+          </span>
+        </a>
+        <a class="moduleSidebarLink" href="/stats" data-path="/stats">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-chart-column"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Stats</span>
+            <span class="moduleSidebarSub">Usage, history and reporting.</span>
+          </span>
+        </a>
+        <a class="moduleSidebarLink" href="/settings" data-path="/settings">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-gear"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Settings</span>
+            <span class="moduleSidebarSub">Universal BRMedia settings for Player, modules, devices and backups.</span>
+          </span>
+        </a>
+
+        <a class="moduleSidebarLink" href="/server-settings" data-path="/server-settings">
+          <span class="moduleSidebarIconBadge">
+            <i class="fa-solid fa-server"></i>
+          </span>
+          <span class="moduleSidebarText">
+            <span class="moduleSidebarTitle">Server Settings</span>
+            <span class="moduleSidebarSub">Sources, storage and networking.</span>
+          </span>
+        </a>
+      </div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="moduleSidebarFloatingClose hidden" type="button" aria-label="Close sidebar menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="moduleMain">
+      <section class="moduleHeroCard">
+        <div class="moduleEyebrow" id="moduleEyebrow">BRMedia Module</div>
+        <h1 class="moduleTitle" id="moduleTitle">Coming soon</h1>
+        <div class="moduleSubtitle" id="moduleSubtitle">This module page is being built next.</div>
+
+        <div class="moduleComingSoonCard">
+          <div class="moduleComingSoonIcon" id="moduleStatusIcon">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+
+          <div class="moduleComingSoonText">
+            <div class="moduleComingSoonTitle" id="moduleStatusTitle">Module ready for handoff</div>
+            <div class="moduleComingSoonBody" id="moduleComingSoonBody">
+              This BRMedia module page can now receive files from the Player. Full tools are next.
+            </div>
+          </div>
+        </div>
+
+        <div id="moduleTrackPanel" class="moduleTrackPanel hidden">
+          <div class="moduleTrackTop">
+            <div>
+              <div class="moduleTrackKicker">Selected file</div>
+              <div id="moduleTrackTitle" class="moduleTrackTitle">No file selected</div>
+              <div id="moduleTrackMeta" class="moduleTrackMeta">Open this module from Settings → Files to pass a track in.</div>
+            </div>
+          </div>
+
+          <div class="moduleTrackActions">
+            <a id="moduleTrackOpenPlayer" class="moduleActionBtn primary" href="/player">
+              <i class="fa-solid fa-play"></i>
+              <span>Open in Player</span>
+            </a>
+
+            <button id="moduleTrackClear" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Clear selected file</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="converterPanel" class="converterPanel hidden">
+          <div class="converterProHeader">
+            <div>
+              <div class="moduleTrackKicker">Converter v2</div>
+              <div class="converterPanelTitle">Professional media converter</div>
+              <div class="converterPanelSub">Convert, extract, trim and export audio/video with live FFmpeg jobs, safe downloads, library import, presets and queue-ready output settings.</div>
+            </div>
+          </div>
+
+          <div class="converterHero" aria-label="Converter source file">
+            <div class="converterHeroIcon">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+            <div class="converterHeroMain">
+              <div class="converterHeroKicker">Current source</div>
+              <div id="converterHeroTitle" class="converterHeroTitle">No file loaded</div>
+              <div id="converterHeroMeta" class="converterHeroMeta">Open media from this device, or send a file from Player/View Files.</div>
+              <div id="converterHeroPills" class="converterHeroPills">
+                <span class="converterPill isBlue">Audio + video</span>
+                <span class="converterPill isGold">FFmpeg powered</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="converterOpenPanel">
+            <input id="converterDeviceFileInput" class="hidden" type="file" accept="audio/*,video/*,.mp3,.wav,.flac,.m4a,.aac,.ogg,.opus,.aiff,.aif,.mp4,.mov,.mkv,.webm,.avi,.m4v,.wmv,.vob,.mpg,.mpeg" />
+
+            <button id="btnConverterPickDevice" class="moduleActionBtn primary" type="button">
+              <i class="fa-solid fa-upload"></i>
+              <span>Open media from device</span>
+            </button>
+
+            <button id="btnConverterUseSelected" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-file-pen"></i>
+              <span>Choose from library</span>
+            </button>
+          </div>
+
+          <div class="converterFormatTabs" aria-label="Converter output type">
+            <button class="converterFormatTab is-active" type="button" data-converter-kind="audio">
+              <i class="fa-solid fa-file-audio"></i>
+              <span><strong>Audio</strong><small>MP3, WAV, FLAC, AAC, OGG, OPUS</small></span>
+            </button>
+
+            <button class="converterFormatTab" type="button" data-converter-kind="video">
+              <i class="fa-solid fa-video"></i>
+              <span><strong>Video</strong><small>MP4, MOV, MKV, WEBM, AVI, VOB</small></span>
+            </button>
+
+            <button class="converterFormatTab" type="button" data-converter-kind="extract">
+              <i class="fa-solid fa-music-note"></i>
+              <span><strong>Extract audio</strong><small>Pull audio from video</small></span>
+            </button>
+          </div>
+
+          <div class="converterPresetGrid">
+            <button class="converterPresetCard" type="button" data-converter-preset="mp3-phone">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+              <span><strong>Phone MP3</strong><small>MP3 320k, stereo, 44.1k</small></span>
+            </button>
+
+            <button class="converterPresetCard" type="button" data-converter-preset="wav-master">
+              <i class="fa-solid fa-waveform"></i>
+              <span><strong>WAV master</strong><small>PCM WAV, 48k, stereo</small></span>
+            </button>
+
+            <button class="converterPresetCard" type="button" data-converter-preset="flac-archive">
+              <i class="fa-solid fa-compact-disc"></i>
+              <span><strong>FLAC archive</strong><small>Lossless archive output</small></span>
+            </button>
+
+            <button class="converterPresetCard" type="button" data-converter-preset="mp4-share">
+              <i class="fa-solid fa-film"></i>
+              <span><strong>MP4 share</strong><small>H.264 + AAC, fast start</small></span>
+            </button>
+          </div>
+
+          <div class="converterSettingsPanel">
+            <div class="converterSectionHead">
+              <strong>Output settings</strong>
+              <span>Choose the format and extras. Auto values let FFmpeg pick safe defaults.</span>
+            </div>
+
+            <div class="converterGrid">
+              <div class="converterField">
+                <label for="converterOutputFormat">Output format</label>
+                <select id="converterOutputFormat">
+                  <optgroup label="Audio">
+                    <option value="mp3">MP3</option>
+                    <option value="wav">WAV</option>
+                    <option value="flac">FLAC</option>
+                    <option value="m4a">M4A</option>
+                    <option value="aac">AAC</option>
+                    <option value="ogg">OGG Vorbis</option>
+                    <option value="opus">OPUS</option>
+                    <option value="aiff">AIFF</option>
+                  </optgroup>
+                  <optgroup label="Video">
+                    <option value="mp4">MP4</option>
+                    <option value="mov">MOV</option>
+                    <option value="mkv">MKV</option>
+                    <option value="webm">WEBM</option>
+                    <option value="avi">AVI</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div class="converterField"><label for="converterOutputName">Output suffix</label><input id="converterOutputName" type="text" value="BRMedia Converted" autocomplete="off" /></div>
+              <div class="converterField"><label for="converterAudioCodec">Audio codec</label><select id="converterAudioCodec"><option value="auto">Auto for format</option><option value="copy">Copy original audio</option><option value="libmp3lame">MP3 / libmp3lame</option><option value="aac">AAC</option><option value="pcm_s16le">PCM 16-bit LE</option><option value="pcm_s24le">PCM 24-bit LE</option><option value="flac">FLAC</option><option value="libvorbis">Vorbis</option><option value="libopus">Opus</option></select></div>
+              <div class="converterField"><label for="converterVideoCodec">Video codec</label><select id="converterVideoCodec"><option value="auto">Auto for format</option><option value="copy">Copy original video</option><option value="libx264">H.264 / libx264</option><option value="libx265">H.265 / HEVC</option><option value="libvpx-vp9">VP9</option><option value="libaom-av1">AV1</option><option value="prores_ks">Apple ProRes</option><option value="mpeg4">MPEG-4</option></select></div>
+              <div class="converterField"><label for="converterAudioBitrate">Audio bitrate</label><select id="converterAudioBitrate"><option value="">Auto</option><option value="128k">128k</option><option value="192k">192k</option><option value="256k">256k</option><option value="320k">320k</option><option value="512k">512k</option></select></div>
+              <div class="converterField"><label for="converterSampleRate">Sample rate</label><select id="converterSampleRate"><option value="">Auto</option><option value="44100">44.1 kHz</option><option value="48000">48 kHz</option><option value="88200">88.2 kHz</option><option value="96000">96 kHz</option></select></div>
+              <div class="converterField"><label for="converterChannels">Channels</label><select id="converterChannels"><option value="">Auto</option><option value="1">Mono</option><option value="2">Stereo</option><option value="6">5.1 / 6 channels</option></select></div>
+              <div class="converterField"><label for="converterVideoBitrate">Video bitrate</label><select id="converterVideoBitrate"><option value="">CRF / Auto</option><option value="1500k">1.5 Mbps</option><option value="3000k">3 Mbps</option><option value="6000k">6 Mbps</option><option value="10000k">10 Mbps</option><option value="20000k">20 Mbps</option></select></div>
+              <div class="converterField"><label for="converterCrf">CRF quality</label><select id="converterCrf"><option value="">Auto</option><option value="16">16 very high</option><option value="18">18 high</option><option value="20">20 clean</option><option value="23">23 standard</option><option value="28">28 smaller</option></select></div>
+              <div class="converterField"><label for="converterPreset">Encoder preset</label><select id="converterPreset"><option value="">Auto</option><option value="ultrafast">ultrafast</option><option value="veryfast">veryfast</option><option value="fast">fast</option><option value="medium">medium</option><option value="slow">slow</option></select></div>
+              <div class="converterField"><label for="converterFrameRate">Frame rate</label><select id="converterFrameRate"><option value="">Original</option><option value="24">24 fps</option><option value="25">25 fps</option><option value="30">30 fps</option><option value="50">50 fps</option><option value="60">60 fps</option></select></div>
+              <div class="converterField"><label for="converterResolution">Resolution</label><select id="converterResolution"><option value="">Original</option><option value="720p">720p</option><option value="1080p">1080p</option><option value="1440p">1440p</option><option value="2160p">4K / 2160p</option></select></div>
+              <div class="converterField"><label for="converterTrimStart">Trim start seconds</label><input id="converterTrimStart" type="number" min="0" step="0.1" inputmode="decimal" placeholder="0" /></div>
+              <div class="converterField"><label for="converterTrimDuration">Duration seconds</label><input id="converterTrimDuration" type="number" min="0" step="0.1" inputmode="decimal" placeholder="Full file" /></div>
+              <div class="converterField"><label for="converterVolume">Volume</label><select id="converterVolume"><option value="">Original</option><option value="0.5">50%</option><option value="0.75">75%</option><option value="1">100%</option><option value="1.25">125%</option><option value="1.5">150%</option></select></div>
+            </div>
+
+            <div class="converterCheckGrid">
+              <label><input id="converterNormalize" type="checkbox" /> Loudness normalize audio</label>
+              <label><input id="converterFastStart" type="checkbox" checked /> Web/iPhone fast start for MP4/MOV</label>
+              <label><input id="converterRemoveAudio" type="checkbox" /> Remove audio from video</label>
+              <label><input id="converterAddToLibrary" type="checkbox" checked /> Add audio outputs back to BRMedia library</label>
+            </div>
+          </div>
+
+          <div class="converterSummaryPanel">
+            <div class="converterSectionHead">
+              <strong>Ready check</strong>
+              <span id="converterSummaryText">Choose a source file and output format.</span>
+            </div>
+            <div id="converterCommandPreview" class="converterCommandPreview">No conversion queued yet.</div>
+            <div id="converterReadinessPanel" class="converterReadinessPanel"></div>
+            <div id="converterHistoryPanel" class="converterHistoryPanel hidden"></div>
+          </div>
+
+          <div class="converterActions">
+            <button id="btnConverterStart" class="moduleActionBtn primary" type="button">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              <span>Start conversion</span>
+            </button>
+            <a id="btnConverterDownload" class="moduleActionBtn subtle hidden" href="#">
+              <i class="fa-solid fa-download"></i>
+              <span>Download result</span>
+            </a>
+            <button id="btnConverterCancel" class="moduleActionBtn subtle danger hidden" type="button">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Cancel job</span>
+            </button>
+
+            <button id="btnConverterReset" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+              <span>Reset converter</span>
+            </button>
+          </div>
+
+          <div id="converterProgress" class="converterProgress hidden">
+            <div class="converterProgressTop">
+              <strong>Conversion running…</strong>
+              <span id="converterProgressStatus">Waiting for FFmpeg.</span>
+            </div>
+            <div class="converterProgressBar"><span id="converterProgressFill"></span></div>
+          </div>
+
+          <div id="converterResult" class="converterResult hidden"></div>
+        </div>
+				
+        <div id="masteringPanel" class="masteringPanel hidden">
+          <div class="masteringHero">
+            <div>
+              <div class="moduleTrackKicker">Mastering v3</div>
+              <div class="masteringPanelTitle">BRMedia Mastering</div>
+              <div class="masteringPanelSub">Mastering with source analysis, pro chain controls, de-harshing, loudness checks, clipping warnings and a real FFmpeg render chain.</div>
+            </div>
+            <div class="masteringHeroMeter">
+              <i class="fa-solid fa-gauge-high"></i>
+              <span>Real render</span>
+            </div>
+          </div>
+
+          <div class="masteringTabs" role="tablist" aria-label="Mastering workflow">
+            <button class="masteringTab is-active" type="button" data-mastering-tab="source"><i class="fa-solid fa-folder-open"></i><span>Source</span></button>
+            <button class="masteringTab" type="button" data-mastering-tab="presets"><i class="fa-solid fa-stars"></i><span>Presets</span></button>
+            <button class="masteringTab" type="button" data-mastering-tab="chain"><i class="fa-solid fa-sliders-up"></i><span>Chain</span></button>
+            <button class="masteringTab" type="button" data-mastering-tab="analysis"><i class="fa-solid fa-chart-line"></i><span>Analyse</span></button>
+            <button class="masteringTab" type="button" data-mastering-tab="render"><i class="fa-solid fa-gauge-high"></i><span>Render</span></button>
+          </div>
+
+          <div class="masteringSourceCard" data-mastering-tab-panel="source">
+            <div class="masteringSourceIcon"><i class="fa-solid fa-waveform"></i></div>
+            <div class="masteringSourceMain">
+              <div class="masteringKicker">Current source</div>
+              <div id="masteringHeroTitle" class="masteringHeroTitle">No file loaded</div>
+              <div id="masteringHeroMeta" class="masteringHeroMeta">Choose from your BRMedia library, open from Player/View Files, or upload audio from this device.</div>
+              <div id="masteringHeroPills" class="masteringHeroPills">
+                <span class="masteringPill isBlue">Non-destructive</span>
+                <span class="masteringPill isGold">Mastered copy output</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="masteringOpenPanel" data-mastering-tab-panel="source">
+            <input id="masteringDeviceFileInput" class="hidden" type="file" accept="audio/*,.mp3,.wav,.flac,.m4a,.aac,.ogg,.opus,.aiff,.aif" />
+            <button id="btnMasteringPickDevice" class="moduleActionBtn primary" type="button">
+              <i class="fa-solid fa-upload"></i>
+              <span>Open audio from device</span>
+            </button>
+            <button id="btnMasteringChooseLibrary" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-folder-open"></i>
+              <span>Choose from library</span>
+            </button>
+          </div>
+
+          <div class="masteringPresetGrid" data-mastering-tab-panel="presets" aria-label="Mastering presets">
+            <button class="masteringPresetCard is-active" type="button" data-mastering-preset="streaming-clean">
+              <i class="fa-solid fa-stars"></i>
+              <span><strong>Streaming Clean</strong><small>-14 LUFS, clean limiter, modern polish.</small></span>
+            </button>
+            <button class="masteringPresetCard" type="button" data-mastering-preset="club-loud">
+              <i class="fa-solid fa-gauge-high"></i>
+              <span><strong>Club Loud</strong><small>-9 LUFS, punch, width and hard limiter.</small></span>
+            </button>
+            <button class="masteringPresetCard" type="button" data-mastering-preset="warm-depth">
+              <i class="fa-solid fa-wave-pulse"></i>
+              <span><strong>Warm Depth</strong><small>Warm low mids, softer high-end, deeper body.</small></span>
+            </button>
+            <button class="masteringPresetCard" type="button" data-mastering-preset="hardcore-punch">
+              <i class="fa-solid fa-bolt"></i>
+              <span><strong>Hardcore Punch</strong><small>More attack, bright edge, controlled peaks.</small></span>
+            </button>
+          </div>
+
+          <div class="masteringSettingsPanel" data-mastering-tab-panel="chain">
+            <div class="masteringSectionHead">
+              <strong>Mastering chain</strong>
+              <span>Pick the target loudness and tone. Original files stay untouched.</span>
+            </div>
+            <div class="masteringGrid">
+              <div class="masteringField"><label for="masteringOutputFormat">Output format</label><select id="masteringOutputFormat"><option value="mp3">MP3 320k</option><option value="wav">WAV 24-bit</option><option value="flac">FLAC lossless</option><option value="m4a">M4A AAC</option></select></div>
+              <div class="masteringField"><label for="masteringOutputName">Output suffix</label><input id="masteringOutputName" type="text" value="BRMedia Master" autocomplete="off" /></div>
+              <div class="masteringField"><label for="masteringTargetLufs">Loudness target</label><select id="masteringTargetLufs"><option value="-16">-16 LUFS gentle</option><option value="-14" selected>-14 LUFS streaming</option><option value="-12">-12 LUFS loud</option><option value="-10">-10 LUFS club</option><option value="-9">-9 LUFS hard</option></select></div>
+              <div class="masteringField"><label for="masteringTruePeak">True peak ceiling</label><select id="masteringTruePeak"><option value="-2">-2.0 dB safer</option><option value="-1.5" selected>-1.5 dB streaming</option><option value="-1">-1.0 dB loud</option><option value="-0.6">-0.6 dB hot</option></select></div>
+              <div class="masteringField"><label for="masteringCompression">Compression</label><select id="masteringCompression"><option value="gentle">Gentle glue</option><option value="medium" selected>Medium glue</option><option value="hard">Hard punch</option></select></div>
+              <div class="masteringField"><label for="masteringStereoWidth">Stereo width</label><select id="masteringStereoWidth"><option value="1">Original</option><option value="1.08" selected>Subtle width</option><option value="1.18">Wide</option><option value="1.28">Very wide</option></select></div>
+              <div class="masteringField"><label for="masteringBass">Bass lift</label><select id="masteringBass"><option value="0">Flat</option><option value="1" selected>+1 dB</option><option value="2">+2 dB</option><option value="3">+3 dB</option></select></div>
+              <div class="masteringField"><label for="masteringWarmth">Warmth</label><select id="masteringWarmth"><option value="0">Neutral</option><option value="1" selected>Warm</option><option value="2">Warmer</option></select></div>
+              <div class="masteringField"><label for="masteringBrightness">Brightness</label><select id="masteringBrightness"><option value="0">Neutral</option><option value="1" selected>Clean lift</option><option value="2">Bright</option><option value="3">Very bright</option></select></div>
+              <div class="masteringField"><label for="masteringLimiterDrive">Limiter drive</label><select id="masteringLimiterDrive"><option value="0">Natural</option><option value="1" selected>Polished</option><option value="2">Loud</option><option value="3">Aggressive</option></select></div>
+              <div class="masteringField"><label for="masteringIntensity">Mastering intensity</label><select id="masteringIntensity"><option value="25">25% gentle</option><option value="50" selected>50% balanced</option><option value="75">75% strong</option><option value="100">100% full power</option></select></div>
+              <div class="masteringField"><label for="masteringLowCut">Low cut safety</label><select id="masteringLowCut"><option value="20" selected>20 Hz natural</option><option value="30">30 Hz tighter</option><option value="40">40 Hz very tight</option></select></div>
+              <div class="masteringField"><label for="masteringDeHarsh">De-harsh / sibilance</label><select id="masteringDeHarsh"><option value="off">Off</option><option value="light" selected>Light</option><option value="medium">Medium</option><option value="strong">Strong</option></select></div>
+              <div class="masteringField"><label for="masteringAir">Air / sparkle</label><select id="masteringAir"><option value="0">Off</option><option value="1" selected>Clean air</option><option value="2">Bright air</option></select></div>
+            </div>
+            <div class="masteringCheckGrid">
+              <label><input id="masteringAddToLibrary" type="checkbox" checked /> Add master back to BRMedia Player</label>
+              <label><input id="masteringPreserveMetadata" type="checkbox" checked /> Preserve source metadata where possible</label>
+            </div>
+          </div>
+
+          <div class="masteringSummaryPanel" data-mastering-tab-panel="analysis">
+            <div class="masteringSectionHead">
+              <strong>Ready check</strong>
+              <span id="masteringSummaryText">Choose a source file to start mastering.</span>
+            </div>
+            <div id="masteringChainPreview" class="masteringChainPreview">No mastering chain queued yet.</div>
+
+            <div id="masteringAnalysisPanel" class="masteringAnalysisPanel">
+              <div class="masteringAnalysisHead">
+                <div>
+                  <strong>Source analysis</strong>
+                  <span id="masteringAnalysisSummary">Run analysis to measure loudness, peak level, dynamics and clipping risk.</span>
+                </div>
+                <span id="masteringAnalysisBadge" class="masteringAnalysisBadge">Not analysed</span>
+              </div>
+              <div id="masteringAnalysisCards" class="masteringAnalysisCards"></div>
+            </div>
+
+            <div id="masteringReadinessPanel" class="masteringReadinessPanel"></div>
+          </div>
+
+          <div class="masteringActions" data-mastering-tab-panel="render">
+            <button id="btnMasteringAnalyze" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-chart-line"></i><span>Analyse source</span></button>
+            <button id="btnMasteringStart" class="moduleActionBtn primary" type="button"><i class="fa-solid fa-sliders-up"></i><span>Start mastering</span></button>
+            <a id="btnMasteringDownload" class="moduleActionBtn subtle hidden" href="#"><i class="fa-solid fa-download"></i><span>Download master</span></a>
+            <button id="btnMasteringCancel" class="moduleActionBtn subtle danger hidden" type="button"><i class="fa-solid fa-xmark"></i><span>Cancel render</span></button>
+            <button id="btnMasteringReset" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-arrow-rotate-left"></i><span>Reset mastering</span></button>
+          </div>
+
+          <div id="masteringProgress" class="masteringProgress hidden" data-mastering-tab-panel="render">
+            <div class="masteringProgressTop"><strong>Mastering render running…</strong><span id="masteringProgressStatus">Waiting for FFmpeg.</span></div>
+            <div class="masteringProgressBar"><span id="masteringProgressFill"></span></div>
+          </div>
+
+          <div id="masteringResult" class="masteringResult hidden" data-mastering-tab-panel="render"></div>
+        </div>
+
+        <div id="videoPanel" class="videoPanel hidden">
+          <div class="videoHero">
+            <div>
+              <div class="moduleTrackKicker">Video Player v3</div>
+              <div class="videoPanelTitle">BRMedia Video Player</div>
+              <div class="videoPanelSub">A cinema-style poster wall for <strong>C:\Videos</strong> with online ratings, spotlight picks, resume playback, subtitles and English dub controls.</div>
+            </div>
+            <div class="videoHeroBadge">
+              <i class="fa-solid fa-film"></i>
+              <span>Streaming only</span>
+            </div>
+          </div>
+
+          <div class="videoToolbar">
+            <button id="btnVideoRefresh" class="moduleActionBtn primary" type="button">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              <span>Scan C:\Videos</span>
+            </button>
+
+            <button id="btnVideoMatchMissing" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Match missing info</span>
+            </button>
+            <div class="videoSearchBox">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input id="videoSearchInput" type="search" placeholder="Search films, series, ratings or folders…" autocomplete="off" />
+            </div>
+            <select id="videoSortSelect" class="videoSortSelect" aria-label="Sort videos">
+              <option value="title">Sort: Title</option>
+              <option value="recent">Sort: Recently added</option>
+              <option value="rating">Sort: Rating</option>
+              <option value="resume">Sort: Continue watching</option>
+            </select>
+          </div>
+
+          <div id="videoStatus" class="videoStatus">Ready to scan your video folder.</div>
+
+          <div class="videoModeTabs" role="tablist" aria-label="Video Player sections">
+            <button class="videoModeTab is-active" type="button" data-video-tab="browse"><i class="fa-solid fa-house"></i><span>Home</span></button>
+            <button class="videoModeTab" type="button" data-video-tab="watch"><i class="fa-solid fa-circle-play"></i><span>Watch</span></button>
+            <button class="videoModeTab" type="button" data-video-tab="favourites"><i class="fa-solid fa-heart"></i><span>Favourites</span></button>
+            <button class="videoModeTab" type="button" data-video-tab="bookmarks"><i class="fa-solid fa-bookmark"></i><span>Bookmarks</span></button>
+          </div>
+
+          <div class="videoStatsStrip" data-video-tab-panel="browse" aria-label="Video library stats">
+            <div><strong id="videoStatTotal">0</strong><span>Videos</span></div>
+            <div><strong id="videoStatRated">0</strong><span>Matched</span></div>
+            <div><strong id="videoStatContinue">0</strong><span>Continue</span></div>
+            <div><strong id="videoStatSubtitle">0</strong><span>Subtitles</span></div>
+          </div>
+
+          <div class="videoQuickFilters" data-video-tab-panel="browse" aria-label="Video quick filters">
+            <button class="videoFilterChip is-active" type="button" data-video-filter="all"><i class="fa-solid fa-list-ul"></i><span>All</span></button>
+            <button class="videoFilterChip" type="button" data-video-filter="continue"><i class="fa-solid fa-circle-play"></i><span>Continue</span></button>
+            <button class="videoFilterChip" type="button" data-video-filter="matched"><i class="fa-solid fa-star"></i><span>Rated</span></button>
+            <button class="videoFilterChip" type="button" data-video-filter="subtitles"><i class="fa-solid fa-closed-captioning"></i><span>Subtitles</span></button>
+            <button class="videoFilterChip" type="button" data-video-filter="needs-info"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Needs info</span></button>
+          </div>
+
+          <section id="videoSpotlightSection" class="videoSpotlightSection hidden" data-video-tab-panel="browse">
+            <div id="videoSpotlightBackdrop" class="videoSpotlightBackdrop"></div>
+            <div class="videoSpotlightCopy">
+              <div id="videoSpotlightKicker" class="videoDetailKicker">Tonight's pick</div>
+              <h2 id="videoSpotlightTitle">Choose a film</h2>
+              <p id="videoSpotlightMeta">Your best matched film or latest continue-watching item will appear here.</p>
+              <div id="videoSpotlightBadges" class="videoDetailBadges"></div>
+              <button id="btnVideoOpenSpotlight" class="moduleActionBtn primary" type="button">
+                <i class="fa-solid fa-circle-play"></i>
+                <span>Open video</span>
+              </button>
+            </div>
+          </section>
+
+          <section id="videoContinueSection" class="videoRailSection hidden" data-video-tab-panel="browse">
+            <div class="videoSectionHead">
+              <strong>Continue watching</strong>
+              <span>Resume where you left off.</span>
+            </div>
+            <div id="videoContinueRail" class="videoContinueRail"></div>
+          </section>
+
+          <section class="videoWallSection" data-video-tab-panel="browse">
+            <div class="videoSectionHead">
+              <strong>Poster wall</strong>
+              <span id="videoCountText">No videos loaded yet.</span>
+            </div>
+            <div id="videoPosterWall" class="videoPosterWall"></div>
+          </section>
+
+          <section id="videoFavouritesSection" class="videoWallSection" data-video-tab-panel="favourites">
+            <div class="videoSectionHead">
+              <strong>Video favourites</strong>
+              <span id="videoFavouritesCountText">No favourite videos yet.</span>
+            </div>
+            <div id="videoFavouritesWall" class="videoPosterWall"></div>
+          </section>
+
+          <section id="videoBookmarksSection" class="videoWallSection" data-video-tab-panel="bookmarks">
+            <div class="videoSectionHead">
+              <strong>Video bookmarks</strong>
+              <span id="videoBookmarksCountText">Save scenes and resume points from the watch page.</span>
+            </div>
+            <div id="videoBookmarksList" class="videoBookmarkList"></div>
+          </section>
+
+          <div id="videoDetailView" class="videoDetailView hidden" data-video-tab-panel="watch">
+            <div id="videoDetailBackdrop" class="videoDetailBackdrop"></div>
+            <button id="btnVideoBackToWall" class="videoBackBtn" type="button">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+              <span>Back to poster wall</span>
+            </button>
+
+            <div class="videoDetailHero">
+              <div id="videoDetailPoster" class="videoDetailPoster"></div>
+              <div class="videoDetailInfo">
+                <div id="videoDetailKicker" class="videoDetailKicker">BRMedia Video</div>
+                <h2 id="videoDetailTitle">Select a video</h2>
+                <div id="videoDetailMeta" class="videoDetailMeta"></div>
+                <div id="videoDetailProgress" class="videoDetailProgress hidden"><span></span></div>
+                <p id="videoDetailOverview">Film information and online ratings will appear here when metadata is matched.</p>
+                <div id="videoDetailBadges" class="videoDetailBadges"></div>
+                <div id="videoDetailCredits" class="videoDetailCredits"></div>
+                <div class="videoDetailActions">
+                  <button id="btnVideoToggleFavourite" class="moduleActionBtn subtle" type="button">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Favourite</span>
+                  </button>
+                  <button id="btnVideoAddBookmark" class="moduleActionBtn subtle" type="button">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <span>Bookmark time</span>
+                  </button>
+                  <button id="btnVideoMatchSelected" class="moduleActionBtn subtle" type="button">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Refresh online info</span>
+                  </button>
+                </div>
+                <div class="videoRatingControl" aria-label="Your video rating">
+                  <span>Your rating</span>
+                  <div id="videoRatingStars" class="videoRatingStars">
+                    <button type="button" data-video-rating="1">★</button>
+                    <button type="button" data-video-rating="2">★</button>
+                    <button type="button" data-video-rating="3">★</button>
+                    <button type="button" data-video-rating="4">★</button>
+                    <button type="button" data-video-rating="5">★</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="videoPlayerShell">
+              <video id="brVideoElement" class="brVideoElement" controls playsinline preload="metadata"></video>
+              <div class="videoPlaybackTools">
+                <button id="btnVideoResume" class="moduleActionBtn primary" type="button"><i class="fa-solid fa-play"></i><span>Resume</span></button>
+                <button id="btnVideoRestart" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-backward-fast"></i><span>Start over</span></button>
+                <button id="btnVideoFullscreen" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-expand"></i><span>Fullscreen</span></button>
+              </div>
+            </div>
+
+            <div class="videoOptionsGrid">
+              <div class="videoOptionCard">
+                <label for="videoAudioSelect"><i class="fa-solid fa-language"></i><span>Audio / English dub</span></label>
+                <select id="videoAudioSelect"><option value="default">Browser default / English dub if available</option></select>
+                <small>V2 remembers your preference and tries to prefer English/dub-labelled tracks when the browser exposes them.</small>
+              </div>
+              <div class="videoOptionCard">
+                <label for="videoSubtitleSelect"><i class="fa-solid fa-closed-captioning"></i><span>Subtitles</span></label>
+                <select id="videoSubtitleSelect"><option value="off">Off</option></select>
+                <small>External .vtt and .srt subtitles are supported. English subtitles can be remembered per video.</small>
+              </div>
+              <div class="videoOptionCard videoTimerCard">
+                <label for="videoTimerSelect"><i class="fa-solid fa-timer"></i><span>Sleep timer</span></label>
+                <select id="videoTimerSelect">
+                  <option value="0">Off</option>
+                  <option value="900">15 minutes</option>
+                  <option value="1800">30 minutes</option>
+                  <option value="3600">1 hour</option>
+                  <option value="end">End of current video</option>
+                </select>
+                <button id="btnVideoTimerApply" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-clock"></i><span>Set timer</span></button>
+                <small id="videoTimerStatus">No video timer set.</small>
+              </div>
+
+              <div class="videoOptionCard videoCastCard">
+                <label><i class="fa-solid fa-tv"></i><span>Cast / output</span></label>
+                <div class="videoCastActions">
+                  <button id="btnVideoCast" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-share-nodes"></i><span>Cast / AirPlay</span></button>
+                  <button id="btnVideoPiP" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-tv"></i><span>Picture in picture</span></button>
+                </div>
+                <small id="videoCastStatus">Uses browser support where available. Unsupported devices can use Send to Device later.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="taggerPanel" class="taggerPanel taggerProPanel hidden">
+          <div class="taggerProHeader">
+            <div>
+              <div class="moduleTrackKicker">Tagger v6</div>
+              <div class="taggerPanelTitle">Professional audio tag editor</div>
+              <div class="taggerPanelSub">Edit standard ID3 tags, artwork, BRMedia routing, extended FFmpeg metadata and safe save/write modes.</div>
+            </div>
+          </div>
+
+          <div class="taggerProHero" aria-label="Loaded tagger file">
+            <div id="taggerHeroArtwork" class="taggerProHeroArtwork">
+              <i class="fa-solid fa-file-music"></i>
+            </div>
+            <div class="taggerProHeroMain">
+              <div class="taggerProHeroKicker">Current file</div>
+              <div id="taggerHeroTitle" class="taggerProHeroTitle">No file loaded</div>
+              <div id="taggerHeroMeta" class="taggerProHeroMeta">Open from device, choose from library, or send a file from Player/View Files.</div>
+              <div id="taggerHeroPills" class="taggerProHeroPills">
+                <span class="taggerProPill isBlue">Safe / non-destructive first</span>
+                <span class="taggerProPill isGold">FFmpeg write-ready</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="taggerSourcePanel taggerProSourcePanel">
+            <input
+              id="taggerDeviceFileInput"
+              class="hidden"
+              type="file"
+              accept="audio/*,.mp3,.wav,.flac,.m4a,.aac,.ogg,.opus,.aiff,.aif"
+            />
+
+            <div class="taggerSourceHeader">
+              <div>
+                <div class="taggerPreviewTitle">Open file</div>
+                <div id="taggerSourceText" class="taggerSourceText">Use the selected Player file, or upload a random file from this phone/PC.</div>
+              </div>
+            </div>
+
+            <div class="taggerSourceActions">
+              <button id="btnTaggerPickDevice" class="moduleActionBtn primary" type="button">
+                <i class="fa-solid fa-upload"></i>
+                <span>Open from device</span>
+              </button>
+
+              <button id="btnTaggerChooseLibrary" class="moduleActionBtn subtle" type="button">
+                <i class="fa-solid fa-folder-open"></i>
+                <span>Choose from library</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="taggerProNav" aria-label="Tagger sections">
+            <button class="taggerProTab is-active" type="button" data-tagger-step="overview">
+              <i class="fa-solid fa-id-card"></i>
+              <span><strong>Overview</strong><small>File + route</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="basic">
+              <i class="fa-solid fa-file-pen"></i>
+              <span><strong>Main tags</strong><small>Title / artist</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="artwork">
+              <i class="fa-solid fa-image"></i>
+              <span><strong>Artwork</strong><small>Cover art</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="brmedia">
+              <i class="fa-solid fa-tags"></i>
+              <span><strong>BRMedia</strong><small>Sorting</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="extended">
+              <i class="fa-solid fa-list-ul"></i>
+              <span><strong>Extended</strong><small>All tags</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="save">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span><strong>Save</strong><small>Write file</small></span>
+            </button>
+          </div>
+
+          <div id="taggerStatus" class="taggerStatus taggerProStatus">Ready.</div>
+
+          <section class="taggerProStep is-active" data-tagger-step-panel="overview">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-id-card"></i>
+              <div>
+                <strong>Overview</strong>
+                <span>Quick file properties and where this track will appear in BRMedia.</span>
+              </div>
+            </div>
+
+            <div id="taggerAudioProperties" class="taggerAudioProperties">
+              <div><span>Duration</span><strong>—</strong></div>
+              <div><span>Bitrate</span><strong>—</strong></div>
+              <div><span>Sample rate</span><strong>—</strong></div>
+              <div><span>Channels</span><strong>—</strong></div>
+              <div><span>Codec</span><strong>—</strong></div>
+            </div>
+
+            <div class="taggerModeGrid" aria-label="Tagger tools">
+              <button class="taggerModeCard" type="button" data-tagger-jump="basic">
+                <i class="fa-solid fa-file-pen"></i>
+                <div><strong>Main metadata</strong><span>Title, artist, album, year, BPM and comments.</span></div>
+              </button>
+              <button class="taggerModeCard" type="button" data-tagger-jump="artwork">
+                <i class="fa-solid fa-image"></i>
+                <div><strong>Artwork</strong><span>Stage cover art for tagged copies.</span></div>
+              </button>
+              <button class="taggerModeCard" type="button" data-tagger-jump="brmedia">
+                <i class="fa-solid fa-tags"></i>
+                <div><strong>BRMedia routing</strong><span>Control Player category, brand and series placement.</span></div>
+              </button>
+              <button class="taggerModeCard" type="button" data-tagger-jump="extended">
+                <i class="fa-solid fa-list-ul"></i>
+                <div><strong>Extended tags</strong><span>MusicBrainz, ReplayGain, podcast, WWW and raw FFmpeg tags.</span></div>
+              </button>
+            </div>
+
+            <div class="taggerPreviewCard" id="taggerPreviewCard">
+              <div class="taggerPreviewTitle">This file will appear in:</div>
+              <div id="taggerPreviewList" class="taggerPreviewList">Pick a brand/category to preview placement.</div>
+              <div id="taggerPlacementChips" class="taggerPlacementChips"></div>
+              <div id="taggerPlacementRule" class="taggerPlacementRule">Mixes can appear in one series category and also in the matching main artist folder.</div>
+            </div>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="basic">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-file-pen"></i>
+              <div>
+                <strong>Main ID3 tags</strong>
+                <span>The everyday metadata used by players, phones, cars and DJ software.</span>
+              </div>
+            </div>
+
+            <div class="taggerGrid">
+              <div class="taggerField"><label for="taggerTitle">Title</label><input id="taggerTitle" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerArtist">Artist</label><input id="taggerArtist" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerAlbumArtist">Album artist</label><input id="taggerAlbumArtist" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerAlbum">Album / Series</label><input id="taggerAlbum" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerGenre">Genre</label><input id="taggerGenre" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerLabel">Label</label><input id="taggerLabel" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerYear">Year</label><input id="taggerYear" type="number" inputmode="numeric" /></div>
+              <div class="taggerField"><label for="taggerBpm">BPM</label><input id="taggerBpm" type="number" inputmode="numeric" /></div>
+              <div class="taggerField"><label for="taggerKey">Key</label><input id="taggerKey" type="text" autocomplete="off" placeholder="A minor / 8A / etc." /></div>
+              <div class="taggerField"><label for="taggerCountry">Country</label><input id="taggerCountry" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerTrackNumber">Track number</label><input id="taggerTrackNumber" type="text" inputmode="numeric" /></div>
+              <div class="taggerField"><label for="taggerDiscNumber">Disc number</label><input id="taggerDiscNumber" type="text" inputmode="numeric" /></div>
+            </div>
+
+            <div class="taggerField taggerFieldFull">
+              <label for="taggerComment">Comment / Description</label>
+              <textarea id="taggerComment" rows="4"></textarea>
+            </div>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="artwork">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-image"></i>
+              <div>
+                <strong>Artwork</strong>
+                <span>Choose cover artwork. MP3/M4A/AAC tagged copies can embed it.</span>
+              </div>
+            </div>
+
+            <div class="taggerArtworkPanel">
+              <div class="taggerArtworkPreview" id="taggerArtworkPreview">
+                <i class="fa-solid fa-image"></i>
+                <span>No artwork selected</span>
+              </div>
+              <div class="taggerArtworkActions">
+                <input id="taggerArtworkInput" class="hidden" type="file" accept="image/*" />
+                <button id="btnTaggerPickArtwork" class="moduleActionBtn subtle" type="button">
+                  <i class="fa-solid fa-image"></i>
+                  <span>Choose artwork</span>
+                </button>
+                <button id="btnTaggerClearArtwork" class="moduleActionBtn subtle" type="button">
+                  <i class="fa-solid fa-xmark"></i>
+                  <span>Clear artwork</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="brmedia">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-tags"></i>
+              <div>
+                <strong>BRMedia routing tags</strong>
+                <span>These are the source of truth for Player category placement and brand images.</span>
+              </div>
+            </div>
+
+            <div class="taggerGrid">
+              <div class="taggerField">
+                <label for="taggerPrimaryBrand">Primary brand</label>
+                <select id="taggerPrimaryBrand">
+                  <option value="">Auto detect</option>
+                  <option value="Blackburn Ravers">Blackburn Ravers</option>
+                  <option value="DJ NJ">DJ NJ</option>
+                  <option value="Upalnite">Upalnite</option>
+                  <option value="DJ NJ & Upalnite">DJ NJ &amp; Upalnite</option>
+                </select>
+              </div>
+              <div class="taggerField">
+                <label for="taggerCategory">Player category</label>
+                <select id="taggerCategory">
+                  <option value="">Auto category</option>
+                  <option value="blackburn-ravers-mixes">Blackburn Ravers Mixes</option>
+                  <option value="dj-nj-mixes">DJ NJ Mixes</option>
+                  <option value="upalnite-mixes">Upalnite Mixes</option>
+                  <option value="hardcore-medley-series">The Hardcore Medley Series</option>
+                  <option value="ghsv-series">Gettin High Smashin Vibes Series</option>
+                  <option value="androidcore-ep">The Androidcore Epic</option>
+                  <option value="htid-mixes">HTID Mixes</option>
+                  <option value="makina-mayhem-series">Makina Mayhem Series</option>
+                  <option value="brutal-power-mixes">Brutal Power Mixes</option>
+                  <option value="house-music-series">House Music Series</option>
+                  <option value="hardhousecore-series">Hardhousecore Series</option>
+                  <option value="nasti-jam-mixes">Nasti Jam Mixes</option>
+                  <option value="radio-shows">Radio Shows</option>
+                  <option value="free-songs">Blackburn Ravers Free Songs</option>
+                  <option value="dj-mp3s-wavs">DJ MP3s | WAVs</option>
+                </select>
+              </div>
+              <div class="taggerField"><label for="taggerSeries">Series</label><input id="taggerSeries" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerEpisode">Episode</label><input id="taggerEpisode" type="text" autocomplete="off" placeholder="#001" /></div>
+              <div class="taggerField">
+                <label for="taggerReleaseType">Release type</label>
+                <select id="taggerReleaseType">
+                  <option value="Mix">Mix</option>
+                  <option value="Song">Song</option>
+                  <option value="Radio Show">Radio Show</option>
+                  <option value="Clip">Clip</option>
+                  <option value="Preview">Preview</option>
+                </select>
+              </div>
+              <div class="taggerField">
+                <label for="taggerTracklistStatus">Tracklist status</label>
+                <select id="taggerTracklistStatus">
+                  <option value="None">None</option>
+                  <option value="Manual">Manual</option>
+                  <option value="Auto Scanned">Auto Scanned</option>
+                  <option value="Verified">Verified</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="taggerCheckGrid">
+              <label><input id="taggerExtraBlackburn" type="checkbox" /> Extra brand: Blackburn Ravers</label>
+              <label><input id="taggerExtraDjNj" type="checkbox" /> Extra brand: DJ NJ</label>
+              <label><input id="taggerExtraUpalnite" type="checkbox" /> Extra brand: Upalnite</label>
+              <label><input id="taggerRadioOnly" type="checkbox" /> Radio only</label>
+              <label><input id="taggerFreeSong" type="checkbox" /> Free song</label>
+            </div>
+
+            <div class="taggerField taggerFieldFull">
+              <label for="taggerCustomNotes">BRMedia notes</label>
+              <textarea id="taggerCustomNotes" rows="3" placeholder="Private BRMedia notes, routing reminders, artwork notes, etc."></textarea>
+            </div>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="extended">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-list-ul"></i>
+              <div>
+                <strong>Extended ID3 / FFmpeg tags</strong>
+                <span>Open only the groups you need, Evertag-style. Blank fields are skipped when writing.</span>
+              </div>
+            </div>
+
+            <div class="taggerAdvancedIntro">
+              <strong>Power tags</strong>
+              <span>Credits, MusicBrainz IDs, ReplayGain, podcast data, WWW links, lyrics, sort order and raw FFmpeg metadata.</span>
+            </div>
+
+            <div id="taggerAdvancedFields" class="taggerAdvancedFields"></div>
+
+            <details class="taggerAdvancedGroup">
+              <summary>
+                <span><strong>Raw FFmpeg metadata</strong><small>For any extra key=value metadata not listed above.</small></span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </summary>
+              <div class="taggerAdvancedGroupGrid">
+                <div class="taggerField taggerFieldFull taggerRawMetadataField">
+                  <label for="taggerRawMetadata">Raw FFmpeg metadata</label>
+                  <textarea id="taggerRawMetadata" rows="8" placeholder="One per line, for example:
+publisher=Blackburn Ravers
+comment=Mixed by Upalnite
+replaygain_track_gain=-7.40 dB"></textarea>
+                  <small>Use key=value lines. These are merged with the extended fields when writing a tagged copy.</small>
+                </div>
+              </div>
+            </details>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="save">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <div>
+                <strong>Save / write</strong>
+                <span>Save BRMedia sidecars, create a tagged copy, replace with backup, or write + download.</span>
+              </div>
+            </div>
+
+            <div class="taggerSaveModePanel" aria-label="Tagger save mode">
+              <div class="taggerSaveModeHeader">
+                <strong>Save mode</strong>
+                <span>V6 can create a tagged copy or replace the original after making a backup.</span>
+              </div>
+              <div class="taggerSaveModeGrid">
+                <label class="taggerSaveModeOption">
+                  <input type="radio" name="taggerSaveMode" value="copy" checked />
+                  <span><strong>Save tagged copy</strong><small>Original stays untouched. Creates “BRMedia Tagged”.</small></span>
+                </label>
+                <label class="taggerSaveModeOption danger">
+                  <input type="radio" name="taggerSaveMode" value="replace" />
+                  <span><strong>Replace original with backup</strong><small>Creates automatic .brmedia-backup before replacing.</small></span>
+                </label>
+              </div>
+              <div id="taggerOverwriteWarning" class="taggerOverwriteWarning hidden">This will replace the original file. A backup will be created first.</div>
+            </div>
+
+            <div id="taggerWriteResult" class="taggerWriteResult hidden"></div>
+
+            <div class="taggerActions">
+              <button id="btnTaggerSave" class="moduleActionBtn primary" type="button"><i class="fa-solid fa-floppy-disk"></i><span>Save BRMedia tags</span></button>
+              <button id="btnTaggerWriteCopy" class="moduleActionBtn primary" type="button"><i class="fa-solid fa-file-export"></i><span>Apply save mode</span></button>
+              <button id="btnTaggerWriteDownload" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-download"></i><span>Write + download</span></button>
+              <button id="btnTaggerExportSidecar" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-file-export"></i><span>Export sidecar JSON</span></button>
+              <button id="btnTaggerReset" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-arrow-rotate-left"></i><span>Reset fields</span></button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <div id="moduleMiniPlayer" class="moduleMiniPlayer hidden" aria-label="BRMedia mini player">
+        <audio id="moduleMiniAudio" preload="metadata"></audio>
+        <a id="moduleMiniArtLink" class="moduleMiniArtLink" href="/player" aria-label="Open current track in Player">
+          <img id="moduleMiniArt" class="moduleMiniArt" src="/player/br-footer-logo-trans.png" alt="" />
+        </a>
+        <button id="btnModuleMiniPrev" class="moduleMiniBtn" type="button" aria-label="Previous track">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button id="btnModuleMiniPlay" class="moduleMiniPlayBtn" type="button" aria-label="Play or pause">
+          <i class="fa-solid fa-play"></i>
+        </button>
+        <button id="btnModuleMiniNext" class="moduleMiniBtn" type="button" aria-label="Next track">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+        <div class="moduleMiniText">
+          <div id="moduleMiniTitle" class="moduleMiniTitle">Nothing playing</div>
+          <div id="moduleMiniSub" class="moduleMiniSub">Open Player to start a mix.</div>
+        </div>
+        <div class="moduleMiniProgress"><span id="moduleMiniProgressFill"></span></div>
+      </div>
+
+      <div id="moduleLibraryPicker" class="moduleLibraryPicker hidden" role="dialog" aria-modal="true" aria-label="Choose from BRMedia library">
+        <div class="moduleLibraryPickerCard">
+          <div class="moduleLibraryPickerHead">
+            <div>
+              <strong id="moduleLibraryPickerTitle">Choose from library</strong>
+              <span id="moduleLibraryPickerSub">Pick a BRMedia library file for this module.</span>
+            </div>
+            <button id="btnModuleLibraryPickerClose" class="moduleLibraryPickerClose" type="button" aria-label="Close library picker">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="moduleLibraryPickerSearch">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="moduleLibraryPickerSearch" type="search" placeholder="Search title, artist, format or path…" autocomplete="off" />
+          </div>
+
+          <div id="moduleLibraryPickerList" class="moduleLibraryPickerList">
+            <div class="moduleLibraryPickerEmpty">Loading BRMedia library…</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="moduleFooter">
+        <div class="moduleFooterInner">
+          <img src="/player/br-footer-logo-trans.png" alt="BR" class="moduleFooterLogo" />
+          <div class="moduleFooterCopy">
+            <span class="moduleFooterLine">
+              <span class="moduleFooterOrange">©</span>
+              <span class="moduleFooterWhite">The Blackburn Ravers</span>
+            </span>
+            <span class="moduleFooterLine">
+              <span class="moduleFooterWhite">DJ NJ &amp; Upalnite</span>
+              <span class="moduleFooterBlue">2026</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script src="/modules/app.js?v=20260509-video-mastering-tidy-1"></script>
+</body>
+</html>

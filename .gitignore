@@ -1,0 +1,33 @@
+﻿# Dependencies
+node_modules/
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+
+# Runtime caches
+.cache/
+server/.cache/
+
+# Logs
+*.log
+logs/
+
+# Test output
+coverage/
+
+# Backup archives
+*.zip
+
+# Private certificates and keys
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Windows and macOS clutter
+Thumbs.db
+Desktop.ini
+.DS_Store
+server/.uploads/

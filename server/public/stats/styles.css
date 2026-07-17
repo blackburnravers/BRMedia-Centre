@@ -1,0 +1,1491 @@
+@import url("/player/styles.css");
+
+body.settingsMode {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(31, 169, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 85% 8%, rgba(242, 160, 7, 0.14), transparent 34%),
+    #07142d;
+}
+
+.settingsShell {
+  background: transparent;
+}
+
+.settingsTopbar {
+  margin-bottom: 18px;
+}
+
+.settingsBrandHeader {
+  min-height: 112px;
+  background:
+    linear-gradient(135deg, rgba(242, 160, 7, 0.18), transparent 26%),
+    linear-gradient(225deg, rgba(31, 169, 255, 0.18), transparent 30%),
+    #132851 !important;
+  border-color: rgba(31, 169, 255, 0.28) !important;
+}
+
+.settingsHeaderLogo {
+  width: min(250px, 48vw) !important;
+  max-height: 72px !important;
+}
+
+.settingsMain {
+  width: min(940px, calc(100% - 24px));
+  margin: 0 auto;
+  min-height: 52vh;
+}
+
+.settingsHeroShell {
+  min-height: 38vh;
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, rgba(242, 160, 7, 0.12), transparent 24%),
+    linear-gradient(225deg, rgba(31, 169, 255, 0.16), transparent 28%),
+    rgba(19, 40, 81, 0.92);
+  border: 1px solid rgba(31, 169, 255, 0.24);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.settingsHeroLine {
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, #f2a007, #1fa9ff, #f2a007);
+  box-shadow: 0 0 22px rgba(31, 169, 255, 0.35);
+}
+
+.settingsFooter {
+  margin-top: 34px;
+}
+
+.sidebarModuleBtn.is-active {
+  border-color: rgba(242, 160, 7, 0.45);
+}
+
+.sidebarModuleBtn.is-active i {
+  color: #f2a007;
+}
+
+/* BRMedia Sidebar Open Modules — shared full-width style */
+.sidebarModuleBlock {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(31, 169, 255, 0.14);
+}
+
+.sidebarSectionTitle {
+  margin: 0 0 12px;
+  color: #f2a007;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.sidebarModuleList {
+  display: grid;
+  gap: 11px;
+}
+
+.sidebarModuleBtn {
+  width: 100%;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  text-align: left;
+  padding: 12px 14px;
+  box-shadow: 0 10px 22px rgba(4, 12, 28, 0.10);
+}
+
+.sidebarModuleBtn i,
+.sidebarModuleBtn .brSvgIconHost {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+}
+
+.sidebarModuleText {
+  min-width: 0;
+  display: grid;
+}
+
+.sidebarModuleTitle {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.sidebarModuleSub {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.8rem;
+  line-height: 1.22;
+  font-weight: 760;
+  overflow-wrap: anywhere;
+}
+
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(242, 160, 7, 0.54);
+  background: rgba(31, 169, 255, 0.14);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost {
+  color: #ffffff;
+}
+
+/* BRMedia Open Modules active state — light blue */
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost {
+  color: #7bd0ff;
+}
+
+/* BRMedia Stats V1 — charts, text stats, bars, pies and flags */
+.settingsHeroShell {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.settingsHeroLine {
+  display: none;
+}
+
+.statsDashboard {
+  display: grid;
+  gap: 14px;
+}
+
+.statsHeroPanel,
+.statsPanel,
+.statsMetricCard,
+.statsLoading {
+  border-radius: 28px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #102b58;
+  box-shadow: 0 18px 34px rgba(4, 12, 28, 0.18);
+}
+
+.statsHeroPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: end;
+  padding: 18px;
+  background:
+    radial-gradient(circle at top right, rgba(31, 169, 255, 0.18), transparent 42%),
+    #102b58;
+}
+
+.statsEyebrow {
+  display: inline-block;
+  color: #f2a007;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  font-weight: 950;
+}
+
+.statsHeroPanel h2 {
+  margin: 7px 0 0;
+  color: #ffffff;
+  font-size: clamp(2.1rem, 8vw, 4.3rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+}
+
+.statsHeroPanel p {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.35;
+  font-weight: 760;
+}
+
+.statsHeroActions {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+}
+
+.statsUpdated {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.78rem;
+  font-weight: 820;
+}
+
+.statsBtn {
+  min-height: 44px;
+  border: 1px solid rgba(31, 169, 255, 0.24);
+  background: #223d72;
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 950;
+}
+
+.statsBtn.primary {
+  background: #1fa9ff;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.statsMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.statsMetricCard {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 22px;
+}
+
+.statsMetricCard > span,
+.statsPanelHead > span,
+.statsLoading > span {
+  width: 42px;
+  height: 42px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.statsMetricCard strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.28rem;
+  font-weight: 950;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.statsMetricCard em,
+.statsMetricCard small,
+.statsPanelHead em {
+  display: block;
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-weight: 760;
+}
+
+.statsMetricCard em {
+  margin-top: 4px;
+  font-size: 0.78rem;
+}
+
+.statsMetricCard small {
+  margin-top: 3px;
+  font-size: 0.72rem;
+}
+
+.statsChartGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.statsChartGrid.compact {
+  align-items: start;
+}
+
+.statsPanel {
+  padding: 12px;
+  overflow: hidden;
+}
+
+.statsWidePanel {
+  grid-column: 1 / -1;
+}
+
+.statsPanelHead {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.statsPanelHead strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 950;
+}
+
+.statsBarList,
+.statsTable,
+.statsProgressGrid {
+  display: grid;
+  gap: 9px;
+}
+
+.statsProgressGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.statsBarRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(90px, 0.9fr) 48px;
+  gap: 9px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 9px;
+  background: #0f2449;
+  border: 1px solid rgba(31, 169, 255, 0.12);
+}
+
+.statsBarRow strong,
+.statsTableRow span {
+  color: #ffffff;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.statsBarRow em {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.statsBarRow > span {
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.statsBarRow > span i {
+  display: block;
+  height: 100%;
+  min-width: 6px;
+  border-radius: inherit;
+  background: #1fa9ff;
+}
+
+.statsBarRow b,
+.statsTableRow strong {
+  color: #7bd0ff;
+  font-weight: 950;
+  text-align: right;
+}
+
+.statsPieWrap {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 13px;
+  align-items: center;
+}
+
+.statsPiePanel {
+  --stats-c0: #1fa9ff;
+  --stats-c1: #f2a007;
+  --stats-c2: #8a7dff;
+  --stats-c3: #1ca45b;
+  --stats-c4: #ff5068;
+  --stats-c5: #63e6be;
+}
+
+.statsPie {
+  width: 168px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 18px rgba(7, 20, 45, 0.78), 0 14px 26px rgba(0, 0, 0, 0.20);
+}
+
+.statsPie b,
+.statsPie em {
+  grid-area: 1 / 1;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.statsPie b {
+  transform: translateY(-6px);
+}
+
+.statsPie em {
+  transform: translateY(14px);
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.72rem;
+  font-style: normal;
+}
+
+.statsLegend {
+  display: grid;
+  gap: 8px;
+}
+
+.statsLegend span {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.statsLegend i {
+  width: 14px;
+  height: 14px;
+  border-radius: 5px;
+}
+
+.statsLegend b {
+  color: #ffffff;
+}
+
+.statsLineGraph {
+  height: 180px;
+  display: flex;
+  align-items: end;
+  gap: 7px;
+  padding: 10px 8px 34px;
+  border-radius: 18px;
+  background: #0f2449;
+  border: 1px solid rgba(31, 169, 255, 0.12);
+}
+
+.statsLineGraph > span {
+  position: relative;
+  flex: 1;
+  min-width: 16px;
+  border-radius: 12px 12px 4px 4px;
+  background: linear-gradient(180deg, #1fa9ff, rgba(31, 169, 255, 0.26));
+}
+
+.statsLineGraph b,
+.statsLineGraph em {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  white-space: nowrap;
+}
+
+.statsLineGraph b {
+  bottom: -24px;
+  color: rgba(255, 255, 255, 0.62);
+  font-weight: 820;
+}
+
+.statsLineGraph em {
+  top: -20px;
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.statsTableRow {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 10px;
+  background: #0f2449;
+  border: 1px solid rgba(31, 169, 255, 0.12);
+}
+
+.statsTableRow b:first-child {
+  width: 30px;
+  height: 30px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: rgba(31, 169, 255, 0.14);
+}
+
+.statsFlag {
+  margin-right: 7px;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
+}
+
+.statsLoading {
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 28px;
+}
+
+.statsLoading strong {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 950;
+}
+
+.statsLoading em,
+.statsEmpty {
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-weight: 760;
+}
+
+.statsLoading.isError {
+  border-color: rgba(255, 80, 104, 0.42);
+  background: #461f2a;
+}
+
+.statsEmpty {
+  border-radius: 16px;
+  padding: 12px;
+  background: #0f2449;
+}
+
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost {
+  color: #7bd0ff;
+}
+
+@media (max-width: 940px) {
+  .statsMetricGrid,
+  .statsChartGrid,
+  .statsProgressGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsHeroPanel,
+  .statsPieWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .statsHeroActions {
+    justify-items: stretch;
+  }
+
+  .statsPie {
+    width: min(190px, 68vw);
+    margin: 0 auto;
+  }
+
+  .statsBarRow {
+    grid-template-columns: 1fr;
+  }
+
+  .statsBarRow b {
+    text-align: left;
+  }
+}
+
+/* BRMedia Stats V1B — section navigation + split stat views */
+.sidebarNavSectionTitle {
+  margin: 14px 0 8px;
+  color: #f2a007;
+  letter-spacing: 0.22em;
+  font-size: 0.7rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.statsSectionNavBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.statsSectionNavBtn.active .sidebarNavIconBadge i,
+.statsSectionNavBtn.active .sidebarNavIconBadge .brSvgIconHost {
+  color: #7bd0ff;
+}
+
+.statsViewRail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.statsViewBtn {
+  width: 100%;
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #102b58;
+  color: #ffffff;
+  text-align: left;
+  padding: 12px;
+  box-shadow: 0 14px 28px rgba(4, 12, 28, 0.14);
+}
+
+.statsViewBtn > span {
+  width: 38px;
+  height: 38px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.statsViewBtn strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 950;
+  line-height: 1.08;
+}
+
+.statsViewBtn em {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.22;
+}
+
+.statsViewBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.statsViewBtn.active > span {
+  background: rgba(31, 169, 255, 0.24);
+  color: #ffffff;
+}
+
+.statsViewContent {
+  display: grid;
+  gap: 14px;
+}
+
+.statsSectionIntro {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: #102b58;
+  padding: 14px;
+  box-shadow: 0 14px 28px rgba(4, 12, 28, 0.14);
+}
+
+.statsSectionIntro > span {
+  width: 54px;
+  height: 54px;
+  border-radius: 19px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.statsSectionIntro strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.18rem;
+  font-weight: 950;
+}
+
+.statsSectionIntro p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.66);
+  line-height: 1.34;
+  font-weight: 760;
+}
+
+@media (max-width: 980px) {
+  .statsViewRail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .statsViewRail,
+  .statsSectionIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .statsViewBtn {
+    min-height: 82px;
+  }
+}
+
+/* BRMedia Stats V1C — menu-only sections + more charts */
+.settingsHeroShell {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.settingsHeroLine,
+.statsViewRail {
+  display: none !important;
+}
+
+.statsDashboard {
+  display: grid;
+  gap: 14px;
+}
+
+.statsHeroPanel,
+.statsPanel,
+.statsMetricCard,
+.statsLoading,
+.statsSectionIntro {
+  border-radius: 28px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #102b58;
+  box-shadow: 0 18px 34px rgba(4, 12, 28, 0.18);
+}
+
+.statsHeroPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: end;
+  padding: 18px;
+  background:
+    radial-gradient(circle at top right, rgba(31, 169, 255, 0.18), transparent 42%),
+    #102b58;
+}
+
+.statsEyebrow {
+  display: inline-block;
+  color: #f2a007;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  font-weight: 950;
+}
+
+.statsHeroPanel h2 {
+  margin: 7px 0 0;
+  color: #ffffff;
+  font-size: clamp(2.1rem, 8vw, 4.3rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+}
+
+.statsHeroPanel p {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.35;
+  font-weight: 760;
+}
+
+.statsHeroActions {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+}
+
+.statsUpdated {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.78rem;
+  font-weight: 820;
+}
+
+.statsBtn {
+  min-height: 44px;
+  border: 1px solid rgba(31, 169, 255, 0.24);
+  background: #223d72;
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 950;
+}
+
+.statsBtn.primary {
+  background: #1fa9ff;
+}
+
+.sidebarNavSectionTitle {
+  margin: 14px 0 8px;
+  color: #f2a007;
+  letter-spacing: 0.22em;
+  font-size: 0.7rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.statsSectionNavBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.statsMetricGrid,
+.statsChartGrid,
+.statsProgressGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.statsMetricGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.statsChartGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.statsProgressGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.statsViewContent {
+  display: grid;
+  gap: 14px;
+}
+
+.statsSectionIntro {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+}
+
+.statsSectionIntro > span,
+.statsMetricCard > span,
+.statsPanelHead > span,
+.statsLoading > span {
+  width: 42px;
+  height: 42px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.statsSectionIntro > span {
+  width: 54px;
+  height: 54px;
+  border-radius: 19px;
+}
+
+.statsSectionIntro strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.18rem;
+  font-weight: 950;
+}
+
+.statsSectionIntro p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.66);
+  line-height: 1.34;
+  font-weight: 760;
+}
+
+.statsMetricCard {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 22px;
+}
+
+.statsMetricCard strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.28rem;
+  font-weight: 950;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.statsMetricCard em,
+.statsMetricCard small,
+.statsPanelHead em {
+  display: block;
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-weight: 760;
+}
+
+.statsMetricCard em {
+  margin-top: 4px;
+  font-size: 0.78rem;
+}
+
+.statsMetricCard small {
+  margin-top: 3px;
+  font-size: 0.72rem;
+}
+
+.statsPanel {
+  padding: 12px;
+  overflow: hidden;
+}
+
+.statsWidePanel {
+  grid-column: 1 / -1;
+}
+
+.statsPanelHead {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.statsPanelHead strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 950;
+}
+
+.statsBarList,
+.statsTable {
+  display: grid;
+  gap: 9px;
+}
+
+.statsBarRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(90px, 0.9fr) 48px;
+  gap: 9px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 9px;
+  background: #0f2449;
+  border: 1px solid rgba(31, 169, 255, 0.12);
+}
+
+.statsBarRow strong,
+.statsTableRow span {
+  color: #ffffff;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.statsBarRow em {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.statsBarRow > span {
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.statsBarRow > span i {
+  display: block;
+  height: 100%;
+  min-width: 6px;
+  border-radius: inherit;
+  background: #1fa9ff;
+}
+
+.statsBarRow b,
+.statsTableRow strong {
+  color: #7bd0ff;
+  font-weight: 950;
+  text-align: right;
+}
+
+.statsPiePanel {
+  --stats-c0: #1fa9ff;
+  --stats-c1: #f2a007;
+  --stats-c2: #8a7dff;
+  --stats-c3: #1ca45b;
+  --stats-c4: #ff5068;
+  --stats-c5: #63e6be;
+}
+
+.statsPieWrap {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 13px;
+  align-items: center;
+}
+
+.statsPie {
+  width: 168px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 18px rgba(7, 20, 45, 0.78), 0 14px 26px rgba(0, 0, 0, 0.20);
+}
+
+.statsPie b,
+.statsPie em {
+  grid-area: 1 / 1;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.statsPie b {
+  transform: translateY(-6px);
+}
+
+.statsPie em {
+  transform: translateY(14px);
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.72rem;
+  font-style: normal;
+}
+
+.statsLegend {
+  display: grid;
+  gap: 8px;
+}
+
+.statsLegend span {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.statsLegend i {
+  width: 14px;
+  height: 14px;
+  border-radius: 5px;
+}
+
+.statsLegend b {
+  color: #ffffff;
+}
+
+.statsLineGraph {
+  height: 180px;
+  display: flex;
+  align-items: end;
+  gap: 7px;
+  padding: 10px 8px 34px;
+  border-radius: 18px;
+  background: #0f2449;
+  border: 1px solid rgba(31, 169, 255, 0.12);
+}
+
+.statsLineGraph > span {
+  position: relative;
+  flex: 1;
+  min-width: 16px;
+  border-radius: 12px 12px 4px 4px;
+  background: linear-gradient(180deg, #1fa9ff, rgba(31, 169, 255, 0.26));
+}
+
+.statsLineGraph b,
+.statsLineGraph em {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  white-space: nowrap;
+}
+
+.statsLineGraph b {
+  bottom: -24px;
+  color: rgba(255, 255, 255, 0.62);
+  font-weight: 820;
+}
+
+.statsLineGraph em {
+  top: -20px;
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.statsTableRow {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 10px;
+  background: #0f2449;
+  border: 1px solid rgba(31, 169, 255, 0.12);
+}
+
+.statsTableRow b:first-child {
+  width: 30px;
+  height: 30px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: rgba(31, 169, 255, 0.14);
+}
+
+.statsFlag {
+  margin-right: 7px;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
+}
+
+.statsLoading {
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 28px;
+}
+
+.statsLoading strong {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 950;
+}
+
+.statsLoading em,
+.statsEmpty {
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-weight: 760;
+}
+
+.statsLoading.isError {
+  border-color: rgba(255, 80, 104, 0.42);
+  background: #461f2a;
+}
+
+.statsEmpty {
+  border-radius: 16px;
+  padding: 12px;
+  background: #0f2449;
+}
+
+@media (max-width: 940px) {
+  .statsMetricGrid,
+  .statsChartGrid,
+  .statsProgressGrid,
+  .statsHeroPanel,
+  .statsPieWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .statsHeroActions {
+    justify-items: stretch;
+  }
+
+  .statsPie {
+    width: min(190px, 68vw);
+    margin: 0 auto;
+  }
+
+  .statsBarRow {
+    grid-template-columns: 1fr;
+  }
+
+  .statsBarRow b {
+    text-align: left;
+  }
+}
+
+/* BRMedia Stats V1E — reports, snapshots and exports */
+.statsReportActions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.statsReportActions .statsBtn {
+  flex: 1 1 150px;
+}
+
+.statsCodeBox {
+  margin: 12px 0 0;
+  max-height: 260px;
+  overflow: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  background: #071b39;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.42;
+  white-space: pre-wrap;
+}
+
+.statsDeltaGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.statsDeltaCard {
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  background: #0f2449;
+  padding: 11px;
+}
+
+.statsDeltaCard strong {
+  display: block;
+  color: #7bd0ff;
+  font-size: 1.08rem;
+  font-weight: 950;
+}
+
+.statsDeltaCard span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+
+@media (max-width: 940px) {
+  .statsDeltaGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .statsDeltaGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* BRMedia shared module PNG nav icons */
+.sidebarModuleBtn .sidebarModuleIconImage {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,0.18));
+}
+
+.sidebarModuleBtn.is-active .sidebarModuleIconImage,
+.sidebarModuleBtn.active .sidebarModuleIconImage {
+  filter: drop-shadow(0 0 10px rgba(123,208,255,0.22));
+}
+
+/* BRMedia Stats V2A — permanent server-side activity log */
+.statsActivityList {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.statsActivityRow {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  background: #0f2449;
+}
+
+.statsActivityIcon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #f2a007;
+  background: rgba(31, 169, 255, 0.1);
+  border: 1px solid rgba(123, 208, 255, 0.14);
+}
+
+.statsActivityIcon .brSvgIconHost,
+.statsActivityIcon .brSvgIconSvg,
+.statsActivityIcon i {
+  width: 19px;
+  height: 19px;
+  --br-icon-primary: #ffffff;
+  --br-icon-secondary: #f2a007;
+}
+
+.statsActivityRow strong,
+.statsActivityRow em,
+.statsActivityRow b,
+.statsActivityRow small {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.statsActivityRow strong {
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 950;
+}
+
+.statsActivityRow em {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.statsActivityRow b {
+  justify-self: end;
+  padding: 5px 7px;
+  border-radius: 999px;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.08);
+  border: 1px solid rgba(123, 208, 255, 0.16);
+  font-size: 0.66rem;
+  font-weight: 950;
+}
+
+.statsActivityRow small {
+  justify-self: end;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.64rem;
+  font-weight: 760;
+}
+
+@media (max-width: 620px) {
+  .statsActivityRow {
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+  }
+
+  .statsActivityRow small {
+    grid-column: 2 / -1;
+    justify-self: start;
+  }
+}
+
+/* BRMedia Stats V3A — permanent event-store health */
+.statsEventStorePanel {
+  margin-top: 14px;
+}
+
+.statsEventStoreGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.statsEventStoreCard {
+  min-width: 0;
+  padding: 11px;
+  border-radius: 15px;
+  border: 1px solid rgba(123, 208, 255, 0.16);
+  background: rgba(4, 16, 34, 0.42);
+}
+
+.statsEventStoreCard strong,
+.statsEventStoreCard span,
+.statsEventStoreCard small {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.statsEventStoreCard strong {
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 950;
+}
+
+.statsEventStoreCard span {
+  margin-top: 4px;
+  color: #7bd0ff;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.statsEventStoreCard small {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.62rem;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.statsEventStoreCard.is-ok {
+  border-color: rgba(121, 212, 91, 0.4);
+  background: rgba(121, 212, 91, 0.08);
+}
+
+.statsEventStoreCard.is-waiting {
+  border-color: rgba(242, 160, 7, 0.38);
+  background: rgba(242, 160, 7, 0.07);
+}
+
+.statsEventStoreCard.is-warning {
+  border-color: rgba(255, 91, 101, 0.48);
+  background: rgba(255, 91, 101, 0.08);
+}
+
+@media (max-width: 760px) {
+  .statsEventStoreGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

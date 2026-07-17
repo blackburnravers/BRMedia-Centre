@@ -1,0 +1,762 @@
+{
+  "version": 1,
+  "engine": {
+    "enabled": true,
+    "type": "qbittorrent",
+    "baseUrl": "http://127.0.0.1:8080",
+    "username": "brmedia",
+    "password": "blackburn1",
+    "savePath": "C:\\BRMedia\\Torrents\\Downloads",
+    "installed": false,
+    "mode": "qbittorrent-web-api",
+    "status": "not-connected",
+    "note": "Connect qBittorrent Web UI to enable real torrent downloads.",
+    "lastCheckedAt": 0
+  },
+  "settings": {
+    "bandwidth": {
+      "downloadLimitKb": 0,
+      "uploadLimitKb": 0,
+      "slowModeDownloadKb": 512,
+      "slowModeUploadKb": 64
+    },
+    "scheduler": {
+      "enabled": false,
+      "mode": "download-and-seed",
+      "outsideMode": "slow",
+      "windows": [
+        {
+          "day": "Mon-Fri",
+          "start": "00:00",
+          "end": "07:00"
+        },
+        {
+          "day": "Sat-Sun",
+          "start": "00:00",
+          "end": "10:00"
+        }
+      ]
+    },
+    "cache": {
+      "enabled": true,
+      "sizeMb": 512,
+      "writeCoalesce": true,
+      "reduceDiskWear": true
+    },
+    "protocols": {
+      "magnetLinks": true,
+      "upnp": true,
+      "natPmp": true,
+      "protocolEncryption": true,
+      "ipv6": true
+    },
+    "security": {
+      "scanTorrentFiles": true,
+      "scanDownloadedFiles": true,
+      "blockSuspiciousFiles": true,
+      "quarantineSuspiciousFiles": false,
+      "quarantineFolder": "C:\\BRMedia\\Quarantine",
+      "defenderDeepScan": true,
+      "defenderDisableRemediation": true
+    },
+    "ui": {
+      "browserNotifications": true,
+      "completionNotifications": true,
+      "blockedNotifications": true,
+      "lowSeedNotifications": true,
+      "engineDisconnectedNotifications": true,
+      "diskSpaceNotifications": true,
+      "scanCompleteNotifications": true,
+      "transferCompleteNotifications": true,
+      "inAppHistory": true,
+      "speedGraph": true,
+      "speedGraphSampleIntervalSec": 5,
+      "speedGraphHistoryLength": 120,
+      "speedGraphShowTotals": true,
+      "speedGraphShowCurrent": true,
+      "speedGraphShowAverage": true,
+      "speedGraphShowPeak": true,
+      "defaultTransferTarget": "ask",
+      "showPiecesMap": true
+    }
+  },
+  "items": [],
+  "notifications": [
+    {
+      "id": "torrent_notice_1782855954394_stdpu2",
+      "type": "warning",
+      "title": "qBittorrent engine disconnected",
+      "message": "fetch failed",
+      "torrentId": "",
+      "actionUrl": "/settings?module=torrents&tab=network",
+      "createdAt": 1782855954394
+    },
+    {
+      "id": "torrent_notice_1782684976991_o625m4",
+      "type": "warning",
+      "title": "qBittorrent engine disconnected",
+      "message": "fetch failed",
+      "torrentId": "",
+      "actionUrl": "/settings?module=torrents&tab=network",
+      "createdAt": 1782684976991
+    },
+    {
+      "id": "torrent_notice_1782421073390_k19eyn",
+      "type": "warning",
+      "title": "qBittorrent engine disconnected",
+      "message": "fetch failed",
+      "torrentId": "",
+      "actionUrl": "/settings?module=torrents&tab=network",
+      "createdAt": 1782421073390
+    },
+    {
+      "id": "torrent_notice_1780317214446_bnbpuv",
+      "type": "complete",
+      "title": "Torrent download complete",
+      "message": "The Fantastic Four First Steps 2025 1080p WEB-DL HEVC x265 5.1 BONE",
+      "torrentId": "590f76f37322c4c80ef093d820cdd0975f2e820d",
+      "actionUrl": "/torrents?tab=completed&torrent=590f76f37322c4c80ef093d820cdd0975f2e820d",
+      "createdAt": 1780317214446
+    }
+  ],
+  "scanHistory": [],
+  "quarantineHistory": [],
+  "speedHistory": [
+    {
+      "at": 1784253377054,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253382247,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253387431,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253392608,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253397794,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253402979,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253408173,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253413331,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253418519,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253423716,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253428891,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253434075,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253439258,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253444435,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253449608,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253454794,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253459979,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253465164,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253470336,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253475525,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253480717,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253485896,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253491071,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253496242,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253501413,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253506606,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253511778,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253516953,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253522144,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253527340,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253532531,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253537710,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253542897,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253548078,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253553259,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253558443,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253563612,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253568807,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253574004,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253579182,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253584368,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253589560,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253594740,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253599927,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253605098,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253610284,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253615481,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253620655,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253625853,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253631034,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253636203,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253641398,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253646589,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253651770,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253656939,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253662115,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253667299,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253672485,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253677669,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253682845,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253688035,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253693231,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253698411,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253703577,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253708754,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253713938,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253719123,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253724299,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253729488,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253734681,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253739870,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253745015,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253750187,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253755360,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253760538,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253765734,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253770926,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253776120,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253781297,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253786478,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253791620,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253796819,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253801991,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253807161,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253812357,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253817531,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253822718,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253827897,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253833080,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253838253,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253843432,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253848607,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253853798,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253858986,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253864186,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253869359,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253874537,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253879734,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253884917,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253890081,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253895254,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253900433,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253905628,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253910807,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253916000,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253921190,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253926372,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253931553,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253936745,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253941894,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253947081,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253952269,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253957450,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253962600,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253967777,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253972963,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253978139,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253983332,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253988526,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    },
+    {
+      "at": 1784253993727,
+      "downloadSpeedKb": 0,
+      "uploadSpeedKb": 0
+    }
+  ],
+  "runtime": {
+    "scheduler": {
+      "enabled": false,
+      "weekend": false,
+      "windowDay": "Mon-Fri",
+      "start": "00:00",
+      "end": "07:00",
+      "insideWindow": true,
+      "desiredMode": "normal",
+      "checkedAt": 1784253993543,
+      "pausedHashes": [],
+      "slowModeActive": false,
+      "lastAppliedAt": 1784253993656,
+      "lastError": "",
+      "note": "Scheduler is disabled."
+    },
+    "engineDisconnectedNotified": false,
+    "diskSpace": {
+      "available": true,
+      "path": "C:\\BRMedia\\Torrents\\Downloads",
+      "probePath": "C:\\BRMedia\\Torrents\\Downloads",
+      "totalBytes": 256058060800,
+      "freeBytes": 20593627136,
+      "usedBytes": 235464433664,
+      "freePercent": 8,
+      "lowThresholdBytes": 12802903040,
+      "low": false,
+      "checkedAt": 1784253993727
+    },
+    "diskSpaceNotified": false
+  },
+  "completedNotified": [
+    "590f76f37322c4c80ef093d820cdd0975f2e820d"
+  ],
+  "lowSeedNotified": [],
+  "updatedAt": 1784253993727
+}

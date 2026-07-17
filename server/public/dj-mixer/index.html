@@ -1,0 +1,1206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia DJ Studio</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260515" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260515" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260515" />
+  <link rel="manifest" href="/dj-mixer/site.webmanifest?v=20260630-dj-restart-shell-v1c" />
+
+  <meta name="theme-color" content="#182E5B" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DJ Studio" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <link rel="stylesheet" href="/dj-mixer/styles.css?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body class="skin-1 moduleTemplateBody brDjStudioBody">
+  <div class="appShell">
+    <header class="topbar">
+      <div class="brandHeader">
+        <a id="btnTopDjSettings" class="topSearchBtn" href="/settings?module=dj-mixer&tab=overview" aria-label="Open DJ Studio settings">
+          <i class="fa-duotone fa-gear-complex"></i>
+        </a>
+
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="brandLogoFull" />
+        <div class="brandHeaderMeta">
+          <div class="eyebrow">BRMedia</div>
+          <h1 id="pageTitle">DJ Studio</h1>
+        </div>
+      </div>
+
+      <button id="btnTopSettings" class="topMenuBtn" aria-label="Open menu">
+          <i class="fa-duotone fa-list-music"></i>
+      </button>
+    </header>
+
+    <div id="sidebarBackdrop" class="sidebarBackdrop hidden"></div>
+
+    <aside id="sidebarMenu" class="sidebarMenu hidden">
+      <div class="sidebarMenuHeader">
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="sidebarLogoFull" />
+      </div>
+
+      <div class="sidebarNav">
+        <button class="sidebarNavBtn active" data-dj-view-link="studio" type="button">
+          <span class="sidebarNavIconBadge">
+            <img class="sidebarNavIconImage" src="/shared/branding/module-icons/home.png" alt="" />
+          </span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Home</span>
+            <span class="sidebarNavBtnSub">DJ Studio restart dashboard.</span>
+          </span>
+        </button>
+
+        <div class="sidebarCategoryBlock sidebarCategoryBlockInline">
+          <div class="sidebarSectionTitle">DJ Studio</div>
+          <div class="sidebarCategoryList brDjSidebarList">
+            <button class="sidebarNavBtn sidebarQuickTile" data-dj-view-link="mix-setup" type="button">
+              <span class="sidebarNavIconBadge"><i class="fa-duotone fa-sliders"></i></span>
+              <span class="sidebarNavText">
+                <span class="sidebarNavBtnTitle">Mix Setup</span>
+                <span class="sidebarNavBtnSub">Title, artwork and recording choices.</span>
+              </span>
+            </button>
+
+            <button class="sidebarNavBtn sidebarQuickTile" data-dj-view-link="set-plan" type="button">
+              <span class="sidebarNavIconBadge"><i class="fa-duotone fa-list-music"></i></span>
+              <span class="sidebarNavText">
+                <span class="sidebarNavBtnTitle">Set Plan</span>
+                <span class="sidebarNavBtnSub">Build the running order.</span>
+              </span>
+            </button>
+
+            <button class="sidebarNavBtn sidebarQuickTile" data-dj-view-link="fx-setup" type="button">
+              <span class="sidebarNavIconBadge"><i class="fa-duotone fa-sliders-up"></i></span>
+              <span class="sidebarNavText">
+                <span class="sidebarNavBtnTitle">FX Boards</span>
+                <span class="sidebarNavBtnSub">Choose up to 9 effects per board.</span>
+              </span>
+            </button>
+
+            <button class="sidebarNavBtn sidebarQuickTile" data-dj-view-link="record-setup" type="button">
+              <span class="sidebarNavIconBadge"><i class="fa-duotone fa-record-vinyl"></i></span>
+              <span class="sidebarNavText">
+                <span class="sidebarNavBtnTitle">Record Setup</span>
+                <span class="sidebarNavBtnSub">Formats, quality, countdown and sidecars.</span>
+              </span>
+            </button>
+
+            <button class="sidebarNavBtn sidebarQuickTile" data-dj-view-link="engine" type="button">
+              <span class="sidebarNavIconBadge"><i class="fa-duotone fa-list-check"></i></span>
+              <span class="sidebarNavText">
+                <span class="sidebarNavBtnTitle">Build Plan</span>
+                <span class="sidebarNavBtnSub">Tick off the restart tasks.</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebarModuleBlock">
+        <div class="sidebarSectionTitle">Open modules</div>
+
+        <div class="sidebarModuleList">
+          <button class="sidebarModuleBtn" data-route="/player" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/audio-home.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Player</span>
+              <span class="sidebarModuleSub">Audio player, queue, playlists and tracklists.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/video-player" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/video-player.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Video</span>
+              <span class="sidebarModuleSub">Films, posters, playback and subtitles.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn is-active" data-route="/dj-mixer" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/dj-mixer.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">DJ Studio</span>
+              <span class="sidebarModuleSub">Set planning and DUO performance mixer.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/mastering" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/mastering.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Mastering</span>
+              <span class="sidebarModuleSub">Audio polish, previews and compare tools.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/tagger" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/tagger.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Tagger</span>
+              <span class="sidebarModuleSub">Metadata, artwork and BRMedia tags.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/converter" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/converter.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Converter</span>
+              <span class="sidebarModuleSub">Convert audio/video and batch jobs.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/stats" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/stats.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Stats</span>
+              <span class="sidebarModuleSub">Charts, history and library analytics.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/torrents" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/torrents.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Torrents</span>
+              <span class="sidebarModuleSub">Legal torrents, queue, speed limits and safe scanning.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/server-settings" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/server-settings.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Server Settings</span>
+              <span class="sidebarModuleSub">Sources, storage, FFmpeg and networking.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/settings?module=dj-mixer&tab=overview" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/settings.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Settings</span>
+              <span class="sidebarModuleSub">Global BRMedia control centre.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <button id="btnSidebarCloseFloating" class="sidebarFloatingCloseBtn hidden" type="button" aria-label="Close menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="mainContent moduleTemplateMain">
+      <div id="moduleContent" class="moduleTemplateContent">
+        <section class="brDjHeroCard">
+          <div class="brDjHeroShade"></div>
+          <div class="brDjHeroContent">
+            <p class="brDjEyebrow">BRMedia DJ Studio</p>
+            <h2>DJ Studio</h2>
+            <p>
+              Plan DJ sets, prepare tracks, build a set plan and open the dark DUO performance mixer.
+              This restart shell is clean: no old audio engine, no playback code yet.
+            </p>
+
+            <div class="brDjHeroActions">
+              <a class="brDjButton primary" href="/dj-mixer/performance.html">
+                <i class="fa-duotone fa-record-vinyl"></i>
+                <span>Open DUO Performance</span>
+              </a>
+
+              <button class="brDjButton" data-dj-view-link="engine" type="button">
+                <i class="fa-duotone fa-list-check"></i>
+                <span>Build Checklist</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="brDjQuickGrid">
+          <button class="brDjQuickCard" data-dj-view-link="mix-setup" type="button">
+            <i class="fa-duotone fa-sliders"></i>
+            <strong>Mix Setup</strong>
+            <span>Title, artwork, recording format.</span>
+          </button>
+
+          <button class="brDjQuickCard" data-dj-view-link="set-plan" type="button">
+            <i class="fa-duotone fa-list-music"></i>
+            <strong>Set Plan</strong>
+            <span>Build the running order.</span>
+          </button>
+
+          <button class="brDjQuickCard" data-dj-view-link="fx-setup" type="button">
+            <i class="fa-duotone fa-sliders-up"></i>
+            <strong>FX Boards</strong>
+            <span>Assign effects to orange, blue and green boards.</span>
+          </button>
+
+          <button class="brDjQuickCard" data-dj-view-link="record-setup" type="button">
+            <i class="fa-duotone fa-record-vinyl"></i>
+            <strong>Record Setup</strong>
+            <span>Formats, quality and save options.</span>
+          </button>
+        </section>
+
+        <section class="brDjPanel brDjHomeDashboardPanel is-active" data-dj-studio-view="studio">
+          <div class="brDjHomeSectionHead">
+            <div>
+              <p class="brDjEyebrow">Studio dashboard</p>
+              <h2>Shows &amp; sessions</h2>
+              <p>Set up new shows, reopen drafts and jump to the tools you need after recording.</p>
+            </div>
+
+            <a class="brDjButton primary" href="/dj-mixer/performance.html">
+              <i class="fa-duotone fa-record-vinyl"></i>
+              <span>Launch Main Mixer</span>
+            </a>
+          </div>
+
+          <div class="brDjShowGrid">
+            <article class="brDjShowCard is-current">
+              <div class="brDjShowArt"><i class="fa-duotone fa-bolt"></i></div>
+              <div class="brDjShowMeta">
+                <p class="brDjEyebrow">Current show</p>
+                <h3>New DJ mix setup</h3>
+                <span>No active show yet. Create the mix metadata, build the set plan, choose FX and recording settings.</span>
+              </div>
+              <div class="brDjShowActions">
+                <button data-dj-view-link="mix-setup" type="button">Mix Setup</button>
+                <button data-dj-view-link="set-plan" type="button">Set Plan</button>
+                <button data-dj-view-link="fx-setup" type="button">FX Boards</button>
+                <button data-dj-view-link="record-setup" type="button">Record Setup</button>
+                <a href="/dj-mixer/performance.html">Open DUO</a>
+              </div>
+            </article>
+
+            <article class="brDjShowCard">
+              <div class="brDjShowArt"><i class="fa-duotone fa-compact-disc"></i></div>
+              <div class="brDjShowMeta">
+                <p class="brDjEyebrow">Past show</p>
+                <h3>Finished mix placeholder</h3>
+                <span>Saved recordings will appear here with Player, Mastering, Converter, Tagger and View Files actions.</span>
+              </div>
+              <div class="brDjShowActions">
+                <a href="/player">Player</a>
+                <a href="/mastering">Mastering</a>
+                <a href="/converter">Converter</a>
+                <a href="/tagger">Tagger</a>
+                <button data-dj-view-link="mix-setup" type="button">Edit setup</button>
+              </div>
+            </article>
+
+            <article class="brDjShowCard">
+              <div class="brDjShowArt"><i class="fa-duotone fa-radio"></i></div>
+              <div class="brDjShowMeta">
+                <p class="brDjEyebrow">Radio / live</p>
+                <h3>Show archive placeholder</h3>
+                <span>Radio shows and live sets can keep event notes, recording settings, artwork and sidecar files together.</span>
+              </div>
+              <div class="brDjShowActions">
+                <button data-dj-view-link="set-plan" type="button">Set Plan</button>
+                <button data-dj-view-link="record-setup" type="button">Record setup</button>
+                <a href="/stats">Stats</a>
+                <a href="/settings?module=dj-mixer&amp;tab=overview">Settings</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="brDjPanel brDjMixSetupPanel" data-dj-studio-view="mix-setup">
+          <div class="brDjMixSetupHero">
+            <div>
+              <p class="brDjEyebrow">Mix Setup</p>
+              <h2>Mix metadata</h2>
+              <p>
+                Set the mix title, artist, album/series, artwork and BRMedia tags before building the Set Plan.
+                Tracklist rows and timestamps are created later from the Set Plan/live mix.
+              </p>
+            </div>
+
+            <div class="brDjMixSetupStatus">
+              <strong data-dj-mix-status>Not saved yet</strong>
+              <span>Local placeholder save only for now.</span>
+            </div>
+          </div>
+
+          <div class="brDjMixSetupLayout">
+            <aside class="brDjCoverPanel">
+              <div class="brDjCoverPreview" data-dj-mix-cover-preview>
+                <i class="fa-duotone fa-image"></i>
+                <span>Cover image</span>
+              </div>
+
+              <input data-dj-mix-cover-input type="file" accept="image/png,image/jpeg,image/webp" hidden />
+
+              <div class="brDjCoverActions">
+                <button class="brDjButton primary" data-dj-mix-cover-pick type="button">
+                  <i class="fa-duotone fa-upload"></i>
+                  <span>Upload cover</span>
+                </button>
+
+                <button class="brDjButton" data-dj-mix-cover-clear type="button">
+                  <i class="fa-duotone fa-xmark"></i>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <p>
+                Artwork will later feed recording tags, Player artwork, Tagger handoff and saved session metadata.
+              </p>
+            </aside>
+
+            <div class="brDjMixFormStack">
+              <section class="brDjFormCard">
+                <div class="brDjFormHead">
+                  <i class="fa-duotone fa-tags"></i>
+                  <div>
+                    <h3>Main tags</h3>
+                    <p>Based on the Tagger main metadata fields.</p>
+                  </div>
+                </div>
+
+                <div class="brDjFieldGrid">
+                  <label class="brDjField wide">
+                    <span>Title</span>
+                    <input data-dj-mix-field="title" placeholder="The Hardcore Medley EP001" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Artist / DJ</span>
+                    <input data-dj-mix-field="artist" placeholder="Upalnite / DJ NJ & Upalnite" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Album / Series</span>
+                    <input data-dj-mix-field="album" placeholder="The Hardcore Medley" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Album Artist</span>
+                    <input data-dj-mix-field="albumArtist" placeholder="Blackburn Ravers" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Episode Number</span>
+                    <input data-dj-mix-field="episodeNumber" inputmode="numeric" placeholder="001" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Genre</span>
+                    <input data-dj-mix-field="genre" placeholder="UK Hardcore / Hard Dance" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Label</span>
+                    <input data-dj-mix-field="label" placeholder="Blackburn Ravers" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Year</span>
+                    <input data-dj-mix-field="year" inputmode="numeric" placeholder="2026" />
+                  </label>
+                </div>
+              </section>
+
+              <section class="brDjFormCard">
+                <div class="brDjFormHead">
+                  <i class="fa-duotone fa-wand-magic-sparkles"></i>
+                  <div>
+                    <h3>BRMedia tags</h3>
+                    <p>Special BRMedia sorting tags from Player/Tagger, without tracklist/timestamp controls.</p>
+                  </div>
+                </div>
+
+                <div class="brDjCategoryGrid">
+                  <button class="brDjCategoryBtn" data-dj-mix-category="Blackburn Ravers Mixes" type="button">
+                    <i class="fa-duotone fa-music"></i>
+                    <strong>Blackburn Ravers</strong>
+                    <span>BR category</span>
+                  </button>
+
+                  <button class="brDjCategoryBtn" data-dj-mix-category="DJ NJ Mixes" type="button">
+                    <i class="fa-duotone fa-headphones"></i>
+                    <strong>DJ NJ</strong>
+                    <span>NJ category</span>
+                  </button>
+
+                  <button class="brDjCategoryBtn" data-dj-mix-category="Upalnite Mixes" type="button">
+                    <i class="fa-duotone fa-bolt"></i>
+                    <strong>Upalnite</strong>
+                    <span>UP category</span>
+                  </button>
+
+                  <button class="brDjCategoryBtn is-active" data-dj-mix-category="Other Mixes" type="button">
+                    <i class="fa-duotone fa-compact-disc"></i>
+                    <strong>Other</strong>
+                    <span>Other mixes</span>
+                  </button>
+                </div>
+
+                <div class="brDjFieldGrid">
+                  <label class="brDjField">
+                    <span>Primary Brand</span>
+                    <select data-dj-mix-field="primaryBrand">
+                      <option>Blackburn Ravers</option>
+                      <option>DJ NJ</option>
+                      <option>Upalnite</option>
+                      <option>Other</option>
+                    </select>
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Brand Image Key</span>
+                    <select data-dj-mix-field="brandImageKey">
+                      <option value="br">BR / Blackburn Ravers</option>
+                      <option value="nj">DJ NJ</option>
+                      <option value="up">Upalnite</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Series</span>
+                    <input data-dj-mix-field="series" placeholder="Hardcore Medley / Androidcore / Monster Mix" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Release Type</span>
+                    <select data-dj-mix-field="releaseType">
+                      <option>Mix</option>
+                      <option>Radio Show</option>
+                      <option>Free Song</option>
+                      <option>DJ MP3</option>
+                      <option>Master</option>
+                      <option>Other</option>
+                    </select>
+                  </label>
+
+                  <label class="brDjToggle">
+                    <input data-dj-mix-field="radioOnly" type="checkbox" />
+                    <span><strong>Radio only</strong><em>Hide from normal mix category where needed.</em></span>
+                  </label>
+
+                  <label class="brDjToggle">
+                    <input data-dj-mix-field="freeSong" type="checkbox" />
+                    <span><strong>Free song</strong><em>Mark as a free-song style release.</em></span>
+                  </label>
+
+                  <label class="brDjToggle">
+                    <input data-dj-mix-field="brMediaTagPriority" type="checkbox" checked />
+                    <span><strong>BRMedia tag priority</strong><em>Use saved BRMedia tags before filename guesses.</em></span>
+                  </label>
+
+                  <label class="brDjToggle">
+                    <input data-dj-mix-field="artistMultiMembership" type="checkbox" checked />
+                    <span><strong>Artist multi-membership</strong><em>Allow BR / NJ / Upalnite overlaps.</em></span>
+                  </label>
+                </div>
+              </section>
+
+              <section class="brDjFormCard">
+                <div class="brDjFormHead">
+                  <i class="fa-duotone fa-list-check"></i>
+                  <div>
+                    <h3>Player mix info</h3>
+                    <p>Player tracklist-style metadata, excluding Tracklist/Tracks/timestamps.</p>
+                  </div>
+                </div>
+
+                <div class="brDjFieldGrid">
+                  <label class="brDjField">
+                    <span>BPM</span>
+                    <input data-dj-mix-field="bpm" inputmode="decimal" placeholder="170" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Key</span>
+                    <input data-dj-mix-field="key" placeholder="1A / Am" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Type</span>
+                    <input data-dj-mix-field="type" placeholder="Mix / Live set / Radio show" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Length</span>
+                    <input data-dj-mix-field="length" placeholder="Auto after recording" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Label Owner</span>
+                    <input data-dj-mix-field="labelOwner" placeholder="Blackburn Ravers" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Mix Style</span>
+                    <input data-dj-mix-field="mixStyle" placeholder="Happy Hardcore / UK Hardcore / Gabber" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Recorded</span>
+                    <input data-dj-mix-field="recorded" type="date" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Country</span>
+                    <input data-dj-mix-field="country" placeholder="GB / United Kingdom" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Location</span>
+                    <input data-dj-mix-field="location" placeholder="Blackburn / Rossendale / Studio" />
+                  </label>
+
+                  <label class="brDjField">
+                    <span>Source</span>
+                    <input data-dj-mix-field="source" placeholder="BRMedia DJ Studio" />
+                  </label>
+
+                  <label class="brDjField wide">
+                    <span>Event</span>
+                    <input data-dj-mix-field="event" placeholder="Blackburn Ravers session / party / livestream" />
+                  </label>
+
+                  <label class="brDjField wide">
+                    <span>Description</span>
+                    <textarea data-dj-mix-field="description" placeholder="Public description for Player, Tagger, exports and session info."></textarea>
+                  </label>
+
+                  <label class="brDjField wide">
+                    <span>Private BRMedia Notes</span>
+                    <textarea data-dj-mix-field="customNotes" placeholder="Private notes for sorting, set planning, prep or export reminders."></textarea>
+                  </label>
+                </div>
+              </section>
+
+              <div class="brDjSaveBar">
+                <button class="brDjButton" data-dj-mix-save type="button">
+                  <i class="fa-duotone fa-floppy-disk"></i>
+                  <span>Save</span>
+                </button>
+
+                <button class="brDjButton primary" data-dj-mix-save-next type="button">
+                  <i class="fa-duotone fa-arrow-right"></i>
+                  <span>Save &amp; Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="brDjPanel brDjSetPlanPanel" data-dj-studio-view="set-plan">
+          <div class="brDjSetPlanHero">
+            <div>
+              <p class="brDjEyebrow">Set Plan</p>
+              <h2>Build the mix order</h2>
+              <p>
+                Choose your tracklist style, add songs from the library and shape the running order before opening DUO.
+              </p>
+            </div>
+
+            <div class="brDjSetPlanStatus">
+              <strong data-dj-setplan-status>Normal tracklist ready</strong>
+              <span data-dj-setplan-count>0 selected</span>
+            </div>
+          </div>
+
+          <div class="brDjSetPlanTypeGrid" aria-label="Set Plan type">
+            <button class="brDjSetPlanType is-active" data-dj-setplan-mode="normal" type="button">
+              <i class="fa-duotone fa-list-music"></i>
+              <strong>Normal tracklist</strong>
+              <span>A clean ordered list of songs for this mix.</span>
+            </button>
+
+            <button class="brDjSetPlanType" data-dj-setplan-mode="timestamps" type="button">
+              <i class="fa-duotone fa-timeline"></i>
+              <strong>Tracklist + timestamps</strong>
+              <span>Use timing points alongside the running order.</span>
+            </button>
+          </div>
+
+          <section class="brDjSetPlanLibraryOpen">
+            <div>
+              <p class="brDjEyebrow">Music library</p>
+              <h3>Add songs to this Set Plan</h3>
+              <p>
+                Browse your music library and add the tracks you want in the order you want to play them.
+              </p>
+            </div>
+
+            <button class="brDjButton primary" data-dj-setplan-open-library type="button">
+              <i class="fa-duotone fa-folder-music"></i>
+              <span>Open Set Plan Library</span>
+            </button>
+          </section>
+
+          <section class="brDjSetPlanListCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-arrow-down-1-9"></i>
+              <div>
+                <h3>Selected songs</h3>
+                <p>Use the arrows to rearrange the mix order. You can add or remove songs at any time.</p>
+              </div>
+            </div>
+
+            <div class="brDjSetPlanList" data-dj-setplan-list></div>
+          </section>
+
+          <div class="brDjSaveBar">
+            <button class="brDjButton" data-dj-setplan-save type="button">
+              <i class="fa-duotone fa-floppy-disk"></i>
+              <span>Save</span>
+            </button>
+
+            <button class="brDjButton primary" data-dj-setplan-save-next type="button">
+              <i class="fa-duotone fa-arrow-right"></i>
+              <span>Save &amp; Next</span>
+            </button>
+          </div>
+
+          <div class="brDjSetPlanLibrarySheet" data-dj-setplan-library aria-hidden="true">
+            <div class="brDjSetPlanLibraryPanel">
+              <div class="brDjSetPlanLibraryHead">
+                <div>
+                  <p class="brDjEyebrow">Set Plan Library</p>
+                  <h3>Select songs for this mix</h3>
+                  <span>Add tracks to the set list, then close the library when you are done.</span>
+                </div>
+
+                <button class="brDjIconRound" data-dj-setplan-close-library type="button" aria-label="Close Set Plan library">
+                  <i class="fa-duotone fa-xmark"></i>
+                </button>
+              </div>
+
+              <div class="brDjSetPlanLibraryList" data-dj-setplan-library-list></div>
+            </div>
+          </div>
+        </section>
+				
+        <section class="brDjPanel brDjFxSetupPanel" data-dj-studio-view="fx-setup">
+          <div class="brDjFxSetupHero">
+            <div>
+              <p class="brDjEyebrow">FX Setup</p>
+              <h2>Choose the 4 FX boards</h2>
+<p>
+  In DUO, the FX navigation will cycle Board 1, Board 2, Board 3 and Board 4. Each board can hold up to 9 effect pads.
+</p>
+            </div>
+
+            <div class="brDjFxSetupStatus">
+              <strong data-dj-fx-status>4 boards ready</strong>
+              <span data-dj-fx-status-counts>Board 1 0 / 9 · Board 2 0 / 9 · Board 3 0 / 9 · Board 4 0 / 9</span>
+            </div>
+          </div>
+
+          <div class="brDjFxBoardSummaryGrid">
+            <article class="brDjFxBoardSummary is-board-1">
+              <span>Orange board</span>
+              <strong>Board 1</strong>
+              <em data-dj-fx-count="board1">0 / 9</em>
+            </article>
+
+            <article class="brDjFxBoardSummary is-board-2">
+              <span>Blue board</span>
+              <strong>Board 2</strong>
+              <em data-dj-fx-count="board2">0 / 9</em>
+            </article>
+
+            <article class="brDjFxBoardSummary is-board-3">
+              <span>Green board</span>
+              <strong>Board 3</strong>
+              <em data-dj-fx-count="board3">0 / 9</em>
+            </article>
+
+            <article class="brDjFxBoardSummary is-board-4">
+              <span>Red board</span>
+              <strong>Board 4</strong>
+              <em data-dj-fx-count="board4">0 / 9</em>
+            </article>
+          </div>
+
+          <section class="brDjFxLibraryCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-waveform-lines"></i>
+              <div>
+                <h3>FX library</h3>
+                <p>Tap Board 1, Board 2, Board 3 or Board 4 on each effect card to place it on that board.</p>
+              </div>
+            </div>
+
+            <div class="brDjFxEffectGrid" data-dj-fx-grid></div>
+          </section>
+
+          <div class="brDjSaveBar">
+            <button class="brDjButton" data-dj-fx-save type="button">
+              <i class="fa-duotone fa-floppy-disk"></i>
+              <span>Save</span>
+            </button>
+
+            <button class="brDjButton primary" data-dj-fx-save-next type="button">
+              <i class="fa-duotone fa-arrow-right"></i>
+              <span>Save &amp; Next</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="brDjPanel brDjRecordSetupPanel" data-dj-studio-view="record-setup">
+          <div class="brDjRecordSetupHero">
+            <div>
+              <p class="brDjEyebrow">Record Setup</p>
+              <h2>Recording options</h2>
+              <p>
+                Choose the recording preset, final format, channels, countdown, filename style and safety options before opening DUO.
+              </p>
+            </div>
+
+            <div class="brDjRecordSetupStatus">
+              <strong data-dj-record-status>Recording setup ready</strong>
+              <span data-dj-record-summary>Club MP3 · Stereo · 5 sec countdown</span>
+            </div>
+          </div>
+
+          <section class="brDjRecordCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-gauge-high"></i>
+              <div>
+                <h3>Recording preset</h3>
+                <p>Pick a quick starting point, then adjust the details below.</p>
+              </div>
+            </div>
+
+            <div class="brDjRecordGrid is-presets" data-dj-record-group="preset">
+              <button class="brDjRecordChoice" data-dj-record-option="preset" data-value="quick-mp3" type="button">
+                <strong>Quick MP3</strong>
+                <span>MP3 192 · fast draft</span>
+              </button>
+              <button class="brDjRecordChoice is-active" data-dj-record-option="preset" data-value="club-mp3" type="button">
+                <strong>Club / Upload MP3</strong>
+                <span>MP3 320 · clean share copy</span>
+              </button>
+              <button class="brDjRecordChoice" data-dj-record-option="preset" data-value="lossless-flac" type="button">
+                <strong>Lossless FLAC</strong>
+                <span>FLAC 24-bit · archive friendly</span>
+              </button>
+              <button class="brDjRecordChoice" data-dj-record-option="preset" data-value="archive-wav" type="button">
+                <strong>Archive WAV</strong>
+                <span>WAV 24-bit · master copy</span>
+              </button>
+              <button class="brDjRecordChoice" data-dj-record-option="preset" data-value="custom" type="button">
+                <strong>Custom</strong>
+                <span>Manual format choices</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="brDjRecordCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-compact-disc"></i>
+              <div>
+                <h3>Recording type</h3>
+                <p>Used later for session labels, saved recordings and export defaults.</p>
+              </div>
+            </div>
+
+            <div class="brDjRecordGrid is-types" data-dj-record-group="recordingType">
+              <button class="brDjRecordChoice is-active" data-dj-record-option="recordingType" data-value="full-mix" type="button"><strong>Full DJ Mix</strong><span>Main finished mix.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="recordingType" data-value="radio-show" type="button"><strong>Radio Show</strong><span>Radio metadata preset.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="recordingType" data-value="practice" type="button"><strong>Practice Take</strong><span>Draft session.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="recordingType" data-value="live-set" type="button"><strong>Live Set</strong><span>Event/location focused.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="recordingType" data-value="quick-test" type="button"><strong>Quick Test</strong><span>Short chain check.</span></button>
+            </div>
+          </section>
+
+          <section class="brDjRecordCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-file-audio"></i>
+              <div>
+                <h3>Format and quality</h3>
+                <p>Select the final audio format and quality options.</p>
+              </div>
+            </div>
+
+            <div class="brDjRecordGrid is-format" data-dj-record-group="format">
+              <button class="brDjRecordChoice" data-dj-record-option="format" data-value="wav" type="button"><strong>WAV</strong><span>Best raw archive.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="format" data-value="flac" type="button"><strong>FLAC</strong><span>Lossless compressed.</span></button>
+              <button class="brDjRecordChoice is-active" data-dj-record-option="format" data-value="mp3" type="button"><strong>MP3</strong><span>Small share/export file.</span></button>
+            </div>
+
+            <div class="brDjRecordOptionMatrix">
+              <label class="brDjField">
+                <span>MP3 bitrate</span>
+                <select data-dj-record-field="mp3Bitrate">
+                  <option>320</option>
+                  <option>256</option>
+                  <option>192</option>
+                  <option>128</option>
+                  <option>96</option>
+                  <option>64</option>
+                </select>
+              </label>
+
+              <label class="brDjField">
+                <span>MP3 mode</span>
+                <select data-dj-record-field="mp3Mode">
+                  <option>CBR</option>
+                  <option>VBR High</option>
+                  <option>VBR Medium</option>
+                </select>
+              </label>
+
+              <label class="brDjField">
+                <span>WAV bit depth</span>
+                <select data-dj-record-field="wavBitDepth">
+                  <option>24-bit</option>
+                  <option>16-bit</option>
+                  <option>32-bit float</option>
+                </select>
+              </label>
+
+              <label class="brDjField">
+                <span>FLAC compression</span>
+                <select data-dj-record-field="flacCompression">
+                  <option>5 balanced</option>
+                  <option>0 fast</option>
+                  <option>8 smallest</option>
+                </select>
+              </label>
+
+              <label class="brDjField">
+                <span>Sample rate</span>
+                <select data-dj-record-field="sampleRate">
+                  <option>Source/default</option>
+                  <option>44.1 kHz</option>
+                  <option>48 kHz</option>
+                  <option>96 kHz</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="brDjRecordCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-speakers"></i>
+              <div>
+                <h3>Channels and capture source</h3>
+                <p>Choose how the master recording is captured.</p>
+              </div>
+            </div>
+
+            <div class="brDjRecordGrid is-channels" data-dj-record-group="channels">
+              <button class="brDjRecordChoice is-active" data-dj-record-option="channels" data-value="stereo" type="button"><strong>Stereo</strong><span>Normal left/right mix.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="channels" data-value="mono" type="button"><strong>Mono</strong><span>Fold down to one channel.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="channels" data-value="dual-mono" type="button"><strong>Dual Mono</strong><span>Same signal both sides.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="channels" data-value="left-only" type="button"><strong>Left Only</strong><span>Export left channel.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="channels" data-value="right-only" type="button"><strong>Right Only</strong><span>Export right channel.</span></button>
+            </div>
+
+            <div class="brDjRecordGrid is-source" data-dj-record-group="source">
+              <button class="brDjRecordChoice is-active" data-dj-record-option="source" data-value="master-post" type="button"><strong>Master / Post Mixer</strong><span>Full DUO output.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="source" data-value="master-fx" type="button"><strong>Master + FX</strong><span>Include live FX chain.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="source" data-value="dry-master" type="button"><strong>Dry Master</strong><span>No final limiter.</span></button>
+            </div>
+          </section>
+
+          <section class="brDjRecordCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-timer"></i>
+              <div>
+                <h3>Countdown and REC behaviour</h3>
+                <p>Control how recording starts, stops and protects the session.</p>
+              </div>
+            </div>
+
+            <div class="brDjRecordGrid is-countdown" data-dj-record-group="countdown">
+              <button class="brDjRecordChoice" data-dj-record-option="countdown" data-value="0" type="button"><strong>No countdown</strong><span>Start instantly.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="countdown" data-value="3" type="button"><strong>3 sec</strong><span>Quick start.</span></button>
+              <button class="brDjRecordChoice is-active" data-dj-record-option="countdown" data-value="5" type="button"><strong>5 sec</strong><span>Default start.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="countdown" data-value="10" type="button"><strong>10 sec</strong><span>Extra time.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="countdown" data-value="30" type="button"><strong>30 sec</strong><span>Long setup.</span></button>
+              <button class="brDjRecordChoice" data-dj-record-option="countdown" data-value="custom" type="button"><strong>Custom</strong><span>Use your own countdown.</span></button>
+            </div>
+
+            <div class="brDjRecordCustomCountdown">
+              <label class="brDjField">
+                <span>Custom countdown seconds</span>
+                <input data-dj-record-field="customCountdown" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="7" />
+              </label>
+              <p>Use this for awkward countdowns like 7 seconds. Choosing this field selects Custom automatically.</p>
+            </div>
+
+            <div class="brDjRecordToggleGrid">
+              <label class="brDjToggle"><input data-dj-record-field="showCountdown" type="checkbox" checked /><span><strong>Show countdown overlay</strong><em>Display the pre-record countdown.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="allowCountdownCancel" type="checkbox" checked /><span><strong>Allow cancel during countdown</strong><em>Stop before REC LIVE starts.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="recBeaconControl" type="checkbox" checked /><span><strong>REC beacon controls recording</strong><em>Use the DUO REC button.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="confirmBeforeStop" type="checkbox" /><span><strong>Confirm before stop</strong><em>Ask before ending REC LIVE.</em></span></label>
+            </div>
+          </section>
+
+          <section class="brDjRecordCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-folder-open"></i>
+              <div>
+                <h3>Filename and destination</h3>
+                <p>Choose the save folder and naming style.</p>
+              </div>
+            </div>
+
+            <div class="brDjRecordOptionMatrix">
+              <label class="brDjField wide">
+                <span>Destination</span>
+                <input data-dj-record-field="destination" value="BRMedia DJ Recordings" />
+              </label>
+              <label class="brDjField">
+                <span>Filename template</span>
+                <select data-dj-record-field="filenameTemplate">
+                  <option>{artist} - {title}</option>
+                  <option>{series} EP{episode} - {title}</option>
+                  <option>{date} - {title}</option>
+                  <option>Custom</option>
+                </select>
+              </label>
+              <label class="brDjField">
+                <span>Preview</span>
+                <input data-dj-record-field="filenamePreview" value="Upalnite - The Hardcore Medley EP001.mp3" />
+              </label>
+            </div>
+
+            <div class="brDjRecordToggleGrid">
+              <label class="brDjToggle"><input data-dj-record-field="createSessionFolder" type="checkbox" checked />t<span><strong>Create session folder</strong><em>Save audio and sidecars together.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="saveArtwork" type="checkbox" checked /><span><strong>Save artwork beside audio</strong><em>Keep cover image with the mix.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="autoNumberDuplicates" type="checkbox" checked /><span><strong>Auto-number duplicates</strong><em>Protect existing files.</em></span></label>
+            </div>
+          </section>
+
+          <section class="brDjRecordCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-file-lines"></i>
+              <div>
+                <h3>Sidecars, metadata and safety</h3>
+                <p>Choose the extra files and recovery protection created with the recording.</p>
+              </div>
+            </div>
+
+            <div class="brDjRecordToggleGrid">
+              <label class="brDjToggle"><input data-dj-record-field="txtTracklist" type="checkbox" checked /><span><strong>TXT tracklist</strong><em>Plain text list from Set Plan/live logging.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="timestampJson" type="checkbox" checked /><span><strong>Timestamp JSON</strong><em>Timing data for Player.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="sessionJson" type="checkbox" checked /><span><strong>Session JSON</strong><em>Full DJ session data.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="metadataJson" type="checkbox" checked /><span><strong>Metadata JSON</strong><em>Mix Setup tags and artwork info.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="embedArtwork" type="checkbox" checked /><span><strong>Embed artwork</strong><em>Use Mix Setup cover in final audio.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="browserSafetyCapture" type="checkbox" checked /><span><strong>Browser safety capture</strong><em>Keep recovery capture while finalising.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="serverFinalise" type="checkbox" checked /><span><strong>Server finalise</strong><em>Use FFmpeg for final WAV/FLAC/MP3.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="warnBeforeClose" type="checkbox" checked /><span><strong>Warn before close</strong><em>Protect long recordings.</em></span></label>
+            </div>
+          </section>
+
+          <section class="brDjRecordCard">
+            <div class="brDjFormHead">
+              <i class="fa-duotone fa-share-nodes"></i>
+              <div>
+                <h3>After recording</h3>
+                <p>Choose which handoff buttons appear after the mix is saved.</p>
+              </div>
+            </div>
+
+            <div class="brDjRecordToggleGrid">
+              <label class="brDjToggle"><input data-dj-record-field="showSavedPage" type="checkbox" checked /><span><strong>Show saved recording page</strong><em>Open the finished-session view.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="openPlayer" type="checkbox" checked /><span><strong>Open in Player</strong><em>Play the final recording.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="sendMastering" type="checkbox" checked /><span><strong>Send to Mastering</strong><em>Prepare for mastering tools.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="sendConverter" type="checkbox" checked /><span><strong>Send to Converter</strong><em>Make extra output formats.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="sendTagger" type="checkbox" checked /><span><strong>Send to Tagger</strong><em>Edit tags/artwork later.</em></span></label>
+              <label class="brDjToggle"><input data-dj-record-field="openViewFiles" type="checkbox" /><span><strong>Open View Files</strong><em>Jump to the saved folder.</em></span></label>
+            </div>
+          </section>
+
+          <div class="brDjSaveBar">
+            <button class="brDjButton" data-dj-record-save type="button">
+              <i class="fa-duotone fa-floppy-disk"></i>
+              <span>Save</span>
+            </button>
+
+            <button class="brDjButton primary" data-dj-record-save-next type="button">
+              <i class="fa-duotone fa-rocket-launch"></i>
+              <span>Save &amp; Launch Main Mixer</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="brDjPanel" data-dj-studio-view="engine">
+          <div class="brDjChecklistHero">
+            <p class="brDjEyebrow">Restart tracker</p>
+            <h2>DJ Mixer A → B build plan</h2>
+            <p>
+              Tick these off as we rebuild the mixer. Layouts first, then Deck 1 audio, then the rest layer by layer.
+            </p>
+            <strong data-dj-check-progress>0 / 0 complete</strong>
+          </div>
+
+          <div class="brDjChecklistGroup">
+            <h3>Patch 1 — shell and placeholder layouts</h3>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p1-old-mixer-removed" checked />
+              <span><strong>1-A · Old mixer removed</strong><em>Broken legacy mixer deleted and no old engine code carried forward.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p1-studio-shell" checked />
+              <span><strong>1-B · BRMedia DJ Studio shell</strong><em>Home card, route, navigation, light Studio page and dark DUO page created.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p1-template-match" checked />
+              <span><strong>1-C · Match Player/Video shell</strong><em>Studio page uses the proper BRMedia module header, sidebar and footer pattern.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p1-shell-polish" checked />
+              <span><strong>1-D/E · Shell polish</strong><em>Icons, sidebar alignment, footer spacing, DUO top boxes and section switching polished.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p1-studio-placeholders" />
+              <span><strong>1-F · Studio placeholder pages</strong><em>Finish Mix Setup, Set Plan, FX Boards, Record Setup and Engine placeholder layouts.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p1-performance-placeholders" />
+              <span><strong>1-G · Performance placeholder pages</strong><em>Finish Deck 1, DUO, Deck 2, Mixer, FX, Vinyl and REC placeholder layouts.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p1-final-layout-pass" />
+              <span><strong>1-H · Final layout pass</strong><em>iPhone/Android spacing, safe areas, no-scroll performance page and final icon checks.</em></span>
+            </label>
+          </div>
+
+          <div class="brDjChecklistGroup">
+            <h3>Patch 2 — boring but bulletproof audio foundation</h3>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p2-deck1-engine" />
+              <span><strong>2-A · Deck 1 engine</strong><em>Load local file, decode, play, pause, resume, seek, stop and debug state.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p2-deck2-engine" />
+              <span><strong>2-B · Deck 2 engine</strong><em>Same clean DeckEngine class, independent play/pause and no duplicate sources.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p2-mixer-core" />
+              <span><strong>2-C · Basic mixer core</strong><em>Deck volumes, master volume, crossfader and meters without cue/loop yet.</em></span>
+            </label>
+          </div>
+
+          <div class="brDjChecklistGroup">
+            <h3>Patch 3 — deck control layers</h3>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p3-waveforms" />
+              <span><strong>3-A · Canvas waveforms</strong><em>Overview waveform, detailed waveform, playhead, time boxes and tap seek.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p3-cue" />
+              <span><strong>3-B · Cue behaviour</strong><em>Cue while paused sets cue; cue while playing jumps/stops at cue without breaking pause.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p3-loops" />
+              <span><strong>3-C · Loops</strong><em>Manual loop, Auto Loop action-only start, loop clear and highlighted waveform loop region.</em></span>
+            </label>
+          </div>
+
+          <div class="brDjChecklistGroup">
+            <h3>Patch 4 — library, prep and sync</h3>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p4-setplan-library" />
+              <span><strong>4-A · Set Plan library</strong><em>Search, filter, Add to Set, analysis status and set-plan builder.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p4-analysis" />
+              <span><strong>4-B · Analysis and prep cache</strong><em>BPM, grid, downbeat, cue, hot cues, memory cues and saved corrections.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p4-sync" />
+              <span><strong>4-C · Sync</strong><em>BPM Sync, Beat Sync, master deck, quantised play/cue/loops and beat jump.</em></span>
+            </label>
+          </div>
+
+          <div class="brDjChecklistGroup">
+            <h3>Patch 5 — performance features</h3>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p5-fx" />
+              <span><strong>5-A · FX boards</strong><em>Four 9-pad boards, large FX registry, depth/intensity and real FX routing.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p5-vinyl" />
+              <span><strong>5-B · Vinyl mode</strong><em>Two platters, jog/scratch preview, cue/play inside and later inertia polish.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p5-stems" />
+              <span><strong>5-C · Pseudo-stems</strong><em>Drums, bass, harmonic and vocals with phone-safe faders.</em></span>
+            </label>
+          </div>
+
+          <div class="brDjChecklistGroup">
+            <h3>Patch 6 — recording and handoff</h3>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p6-recording" />
+              <span><strong>6-A · Recording master bus</strong><em>REC READY, countdown, REC LIVE, stop/save and browser capture.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p6-finalise" />
+              <span><strong>6-B · Server finalise</strong><em>FFmpeg WAV/FLAC/MP3 finalise, sidecars, metadata, artwork and module handoff.</em></span>
+            </label>
+
+            <label class="brDjCheckItem">
+              <input type="checkbox" data-dj-check-item="p6-stats-settings" />
+              <span><strong>6-C · Settings and Stats</strong><em>Universal DJ settings, server settings, cache health and DJ stats logging.</em></span>
+            </label>
+          </div>
+        </section>
+      </div>
+
+      <footer class="playerSiteFooter">
+        <div class="playerSiteFooterInner">
+          <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" class="playerSiteFooterLogo" />
+
+          <div class="playerSiteFooterCopy">
+            <span class="footerLine">
+              <span class="footerCopyOrange">©</span>
+              <span class="footerCopyWhite">The Blackburn Ravers</span>
+            </span>
+
+            <span class="footerLine">
+              <span class="footerCopyWhite">DJ NJ &amp; Upalnite</span>
+              <span class="footerCopyBlue">2026</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+<script src="/dj-mixer/components/grid.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/components/grid-editor.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/engine/spectral-waveform.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/engine/audio-engine.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/shared/icons.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/components/library.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="/dj-mixer/app.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+</body>
+</html>

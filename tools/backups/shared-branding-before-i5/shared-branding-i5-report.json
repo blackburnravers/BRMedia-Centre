@@ -1,0 +1,33 @@
+{
+  "patch": "I5",
+  "updatedAt": "2026-05-10T19:37:47.513Z",
+  "copied": [],
+  "skipped": [
+    "public\\shared\\branding\\logos\\blackburn-ravers-header.png",
+    "public\\shared\\branding\\logos\\apple-touch-icon.png",
+    "public\\shared\\branding\\logos\\icon-192.png",
+    "public\\shared\\branding\\logos\\icon-512.png",
+    "public\\shared\\branding\\logos\\blackburn_ravers_layered.svg",
+    "public\\shared\\branding\\logos\\blackburn_ravers_layered_preview.png"
+  ],
+  "missing": [],
+  "updatedHtml": [
+    "public\\converter\\index.html",
+    "public\\tagger\\index.html",
+    "public\\mastering\\index.html",
+    "public\\video-player\\index.html",
+    "public\\stats\\index.html",
+    "public\\settings\\index.html",
+    "public\\server-settings\\index.html"
+  ],
+  "updatedServer": [
+    "src\\index.ts"
+  ],
+  "auditMissing": [],
+  "remainingHomeRefs": [],
+  "notes": [
+    "Player and Home pages were not changed.",
+    "Dedicated split modules and Settings/Stats/Server Settings now use shared logo/icon assets.",
+    "Dynamic webmanifest icons now point to /shared/branding/logos."
+  ]
+}

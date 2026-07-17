@@ -1,0 +1,30 @@
+{
+  "sharedIconCount": 187,
+  "modules": {
+    "converter": {
+      "mappedIconCount": 64,
+      "missingShared": [],
+      "usesSharedFirst": true,
+      "hasPlayerFallback": true
+    },
+    "tagger": {
+      "mappedIconCount": 64,
+      "missingShared": [],
+      "usesSharedFirst": true,
+      "hasPlayerFallback": true
+    },
+    "mastering": {
+      "mappedIconCount": 64,
+      "missingShared": [],
+      "usesSharedFirst": true,
+      "hasPlayerFallback": true
+    },
+    "video-player": {
+      "mappedIconCount": 64,
+      "missingShared": [],
+      "usesSharedFirst": true,
+      "hasPlayerFallback": true
+    }
+  },
+  "sharedCssMissing": []
+}

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>BRMedia Centre</title>
+<link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260516" />
+<link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260516" />
+<link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260516" />
+<link rel="manifest" href="/home/site.webmanifest?v=20260516" />
+<meta name="theme-color" content="#182E5B" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="BRMedia" />
+  <link rel="stylesheet" href="./styles.css?v=20260526-home-module-icons" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body class="homeSplashBody">
+  <div id="homeSplash" class="homeSplash" aria-hidden="true">
+    <div class="homeSplashPulseLine"></div>
+
+    <div id="homeSplashPanel" class="homeSplashPanel">
+      <div class="homeSplashInner">
+        <div class="homeSplashLogoWrap">
+          <div class="homeSplashStage">
+            <img
+              src="/shared/branding/global/blackburn-ravers-header.png?v=20260428"
+              alt="The Blackburn Ravers"
+              class="homeSplashHeroLogo"
+            />
+          </div>
+        </div>
+
+        <div class="homeSplashLoader" aria-hidden="true">
+          <span id="homeSplashProgressFill"></span>
+        </div>
+
+        <div class="homeSplashText">
+          <span id="homeSplashProgressText">0%</span>
+          <span>Loading Blackburn Ravers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+<header class="top topHeader">
+  <a class="headerLogoWrap headerLogoLink" href="/" aria-label="Open BRMedia Home">
+    <img src="/shared/branding/global/blackburn-ravers-header.png?v=20260326" alt="The Blackburn Ravers" class="headerLogo" />
+  </a>
+</header>
+
+    <main>
+      <div class="grid">
+        <a class="card" href="/player">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/player.png" alt="" /></div>
+          <div class="label">Player</div>
+          <div class="hint">Stream & queue</div>
+        </a>
+				
+        <a class="card" href="/settings?module=cloud&amp;tab=add-files">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/categories/icons/upload-media-trans.png" alt="" /></div>
+          <div class="label">Upload Media</div>
+          <div class="hint">Add files &amp; imports</div>
+        </a>
+
+        <a class="card" href="/dj-mixer">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/dj-mixer.png" alt="" /></div>
+          <div class="label">DJ Mixer</div>
+          <div class="hint">Decks & performance</div>
+        </a>
+
+        <a class="card" href="/converter">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/converter.png" alt="" /></div>
+          <div class="label">Converter</div>
+          <div class="hint">Formats & presets</div>
+        </a>
+
+        <a class="card" href="/tagger">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/tagger.png" alt="" /></div>
+          <div class="label">Tagger</div>
+          <div class="hint">ID3 & artwork</div>
+        </a>
+
+        <a class="card" href="/mastering">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/mastering.png" alt="" /></div>
+          <div class="label">Mastering</div>
+          <div class="hint">Preview renders</div>
+        </a>
+
+        <a class="card" href="/video-player">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/video-player.png" alt="" /></div>
+          <div class="label">Video Player</div>
+          <div class="hint">Video playback</div>
+        </a>
+
+        <a class="card" href="/settings">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/settings.png" alt="" /></div>
+          <div class="label">Universal Settings</div>
+          <div class="hint">Apps & preferences</div>
+        </a>
+				
+        <a class="card" href="/settings?module=cloud&amp;tab=files">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/categories/icons/source-links-trans.png" alt="" /></div>
+          <div class="label">View Files</div>
+          <div class="hint">Manage library files</div>
+        </a>
+
+        <a class="card" href="/server-settings?section=sources">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/server-settings.png" alt="" /></div>
+          <div class="label">Library Sources</div>
+          <div class="hint">Drives &amp; folders</div>
+        </a>
+
+        <a class="card" href="/server-settings">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/server-settings.png" alt="" /></div>
+          <div class="label">Server Settings</div>
+          <div class="hint">Sources & admin</div>
+        </a>
+
+        <a class="card" href="/stats">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/stats.png" alt="" /></div>
+          <div class="label">Stats</div>
+          <div class="hint">Plays & devices</div>
+        </a>
+
+        <a class="card" href="/torrents">
+          <div class="icon" aria-hidden="true"><img class="homeModuleIconImage" src="/shared/branding/module-icons/torrents.png" alt="" /></div>
+          <div class="label">Torrents</div>
+          <div class="hint">Queue & safe scan</div>
+        </a>
+      </div>
+
+      <footer class="homeSiteFooter">
+        <div class="homeSiteFooterInner">
+          <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" class="homeSiteFooterLogo" />
+          <div class="homeSiteFooterCopy">
+            <span><b>©</b> The Blackburn Ravers</span>
+            <span>DJ NJ &amp; Upalnite <strong>2026</strong></span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const body = document.body;
+      const splash = document.getElementById("homeSplash");
+      const progressText = document.getElementById("homeSplashProgressText");
+      const progressFill = document.getElementById("homeSplashProgressFill");
+
+      if (!body || !splash) return;
+
+      const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function finishSplash() {
+        body.classList.add("homeSplashDone");
+        splash.classList.add("hidden");
+        splash.setAttribute("aria-hidden", "true");
+      }
+
+      if (reduceMotion) {
+        finishSplash();
+        return;
+      }
+
+      splash.setAttribute("aria-hidden", "false");
+
+      const startedAt = performance.now();
+      const progressDuration = 1650;
+
+      function animateProgress(now) {
+        const ratio = Math.min(1, (now - startedAt) / progressDuration);
+        const eased = 1 - Math.pow(1 - ratio, 3);
+        const percent = Math.min(100, Math.round(eased * 100));
+
+        if (progressText) progressText.textContent = `${percent}%`;
+        if (progressFill) progressFill.style.width = `${percent}%`;
+
+        if (ratio < 1) {
+          requestAnimationFrame(animateProgress);
+          return;
+        }
+
+        body.classList.add("homeSplashHold");
+
+        window.setTimeout(() => {
+          body.classList.add("homeSplashDock");
+        }, 260);
+
+        window.setTimeout(() => {
+          finishSplash();
+        }, 980);
+      }
+
+      requestAnimationFrame(() => {
+        body.classList.add("homeSplashRun");
+        requestAnimationFrame(animateProgress);
+      });
+    })();
+  </script>
+
+<script src="/shared/icons.js?v=20260529-bars-fix-v1"></script>
+<script src="/shared/profile-link.js?v=20260529-sidebar-match-v9"></script>
+</body>
+</html>

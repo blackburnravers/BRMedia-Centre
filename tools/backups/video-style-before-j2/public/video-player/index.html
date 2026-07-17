@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Video Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260510-j1" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260510-j1" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260510-j1" />
+  <link id="moduleManifest" rel="manifest" href="/video-player/site.webmanifest?v=20260510-j1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Video" />
+  <link rel="stylesheet" href="/video-player/styles.css?v=20260510-j1" />
+</head>
+<body class="videoPlayerBody moduleVideoMode moduleToolLive">
+  <div class="videoAppShell">
+    <header class="videoTopbar">
+      <div class="videoTopbarInner">
+        <a class="moduleSearchBtn videoTopbarBtn" href="/player" aria-label="Open BRMedia Player">
+          <i class="fa-solid fa-headphones"></i>
+        </a>
+
+        <a class="videoBrandLink" href="/" aria-label="Open BRMedia Home">
+          <img src="/shared/branding/logos/blackburn-ravers-header.png?v=20260510-j1" alt="Blackburn Ravers" class="videoBrandLogo" />
+        </a>
+
+        <button id="btnModuleMenu" class="moduleMenuBtn videoTopbarBtn" type="button" aria-label="Open video navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <div id="moduleSidebarBackdrop" class="moduleSidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="moduleSidebar videoSidebar hidden">
+      <div class="moduleSidebarHeader videoSidebarHeader">
+        <a href="/" aria-label="Open BRMedia Home">
+          <img src="/shared/branding/logos/blackburn-ravers-header.png?v=20260510-j1" alt="Blackburn Ravers" class="moduleSidebarLogo" />
+        </a>
+        <button id="btnModuleSidebarClose" class="videoSidebarClose" type="button" aria-label="Close video navigation">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="videoSidebarNav" class="videoSidebarNav hidden" aria-label="Video genres">
+        <div class="videoSidebarSectionTitle">Video Library</div>
+
+        <button id="btnVideoSidebarHome" class="videoSidebarHome is-active" type="button" data-video-sidebar-home="1">
+          <span class="videoSidebarGenreIcon"><i class="fa-solid fa-house"></i></span>
+          <span>
+            <strong>All videos</strong>
+            <small>Poster wall home</small>
+          </span>
+        </button>
+
+        <div class="videoSidebarSectionTitle">Genres</div>
+        <div id="videoSidebarGenreList" class="videoSidebarGenreList">
+          <div class="videoSidebarEmpty">Scan C:\Videos to build your genre list.</div>
+        </div>
+      </div>
+
+      <div class="videoSidebarSectionTitle videoSidebarModulesTitle">BRMedia Centre</div>
+      <div class="moduleSidebarLinks videoCompactModuleLinks">
+        <a class="moduleSidebarLink" href="/player" data-path="/player">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-play"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Player</span><span class="moduleSidebarSub">Music player</span></span>
+        </a>
+        <a class="moduleSidebarLink is-active" href="/video-player" data-path="/video-player">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-film"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Video</span><span class="moduleSidebarSub">Watch page</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/converter" data-path="/converter">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-right-left"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Converter</span><span class="moduleSidebarSub">Convert files</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/tagger" data-path="/tagger">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-tag"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Tagger</span><span class="moduleSidebarSub">Metadata</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/mastering" data-path="/mastering">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-sliders"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Mastering</span><span class="moduleSidebarSub">Audio polish</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/settings?tab=video" data-path="/settings">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-gear"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Video Settings</span><span class="moduleSidebarSub">Preferences</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/server-settings" data-path="/server-settings">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-server"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Server</span><span class="moduleSidebarSub">Sources</span></span>
+        </a>
+      </div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="moduleSidebarFloatingClose hidden" type="button" aria-label="Close video navigation">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="videoMain">
+      <section class="moduleHeroCard videoHeroCard">
+        <div class="moduleEyebrow" id="moduleEyebrow">BRMedia Video Player</div>
+        <h1 class="moduleTitle" id="moduleTitle">Video Player</h1>
+        <div class="moduleSubtitle" id="moduleSubtitle">Poster-wall streaming from C:\Videos with resume, ratings, subtitles and BRMedia watch controls.</div>
+
+        <div class="moduleComingSoonCard videoIntroCard">
+          <div class="moduleComingSoonIcon" id="moduleStatusIcon">
+            <i class="fa-solid fa-film"></i>
+          </div>
+
+          <div class="moduleComingSoonText">
+            <div class="moduleComingSoonTitle" id="moduleStatusTitle">Open video</div>
+            <div class="moduleComingSoonBody" id="moduleComingSoonBody">
+              A BRMedia-style watch experience for your local video library.
+            </div>
+          </div>
+        </div>
+
+        <div class="moduleSettingsHandoff videoSettingsHandoff">
+          <a class="moduleSettingsHandoffBtn" href="/settings?tab=video"><span>VID</span><div><strong>Video Settings</strong><small>Video source, resume and subtitle defaults.</small></div></a>
+          <a class="moduleSettingsHandoffBtn" href="/server-settings"><span>SRV</span><div><strong>Server Settings</strong><small>Sources, storage and deeper admin.</small></div></a>
+        </div>
+
+        <div id="moduleTrackPanel" class="moduleTrackPanel hidden">
+          <div class="moduleTrackTop">
+            <div>
+              <div class="moduleTrackKicker">Selected file</div>
+              <div id="moduleTrackTitle" class="moduleTrackTitle">No file selected</div>
+              <div id="moduleTrackMeta" class="moduleTrackMeta">Open this module from View Files to pass a file in.</div>
+            </div>
+          </div>
+
+          <div class="moduleTrackActions">
+            <a id="moduleTrackOpenPlayer" class="moduleActionBtn primary" href="/player">
+              <i class="fa-solid fa-play"></i>
+              <span>Open in Player</span>
+            </a>
+
+            <button id="moduleTrackClear" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Clear selected file</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="videoPanel" class="videoPanel hidden">
+          <section class="videoHero">
+            <div class="videoHeroCopy">
+              <div class="moduleTrackKicker">BRMedia Theatre</div>
+              <div class="videoPanelTitle">Video Player</div>
+              <div class="videoPanelSub">A clean Player-style video home for <strong>C:\Videos</strong>. Scan, browse, open a poster, then watch on its own dedicated page.</div>
+            </div>
+
+            <div class="videoHeroBadge">
+              <i class="fa-solid fa-film"></i>
+              <span>Streaming only</span>
+            </div>
+          </section>
+
+          <section class="videoControlDeck">
+            <div class="videoToolbar">
+              <button id="btnVideoRefresh" class="moduleActionBtn primary" type="button">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <span>Scan C:\Videos</span>
+              </button>
+
+              <button id="btnVideoMatchMissing" class="moduleActionBtn subtle" type="button">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Match info</span>
+              </button>
+
+              <div class="videoSearchBox">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="videoSearchInput" type="search" placeholder="Search films, series, ratings or folders�" autocomplete="off" />
+              </div>
+
+              <select id="videoSortSelect" class="videoSortSelect" aria-label="Sort videos">
+                <option value="title">Sort: Title</option>
+                <option value="recent">Sort: Recently added</option>
+                <option value="rating">Sort: Rating</option>
+                <option value="resume">Sort: Continue watching</option>
+              </select>
+            </div>
+
+            <div id="videoStatus" class="videoStatus">Ready to scan your video folder.</div>
+
+            <div class="videoModeTabs" role="tablist" aria-label="Video Player sections">
+              <button class="videoModeTab is-active" type="button" data-video-tab="browse"><i class="fa-solid fa-house"></i><span>Home</span></button>
+              <button class="videoModeTab" type="button" data-video-tab="watch"><i class="fa-solid fa-circle-play"></i><span>Watch</span></button>
+              <button class="videoModeTab" type="button" data-video-tab="favourites"><i class="fa-solid fa-heart"></i><span>Favourites</span></button>
+              <button class="videoModeTab" type="button" data-video-tab="bookmarks"><i class="fa-solid fa-bookmark"></i><span>Bookmarks</span></button>
+            </div>
+          </section>
+
+          <div class="videoStatsStrip" data-video-tab-panel="browse" aria-label="Video library stats">
+            <div><strong id="videoStatTotal">0</strong><span>Videos</span></div>
+            <div><strong id="videoStatRated">0</strong><span>Matched</span></div>
+            <div><strong id="videoStatContinue">0</strong><span>Continue</span></div>
+            <div><strong id="videoStatSubtitle">0</strong><span>Subtitles</span></div>
+          </div>
+
+          <div class="videoQuickFilters" data-video-tab-panel="browse" aria-label="Video quick filters">
+            <button class="videoFilterChip is-active" type="button" data-video-filter="all"><i class="fa-solid fa-list-ul"></i><span>All</span></button>
+            <button class="videoFilterChip" type="button" data-video-filter="continue"><i class="fa-solid fa-circle-play"></i><span>Continue</span></button>
+            <button class="videoFilterChip" type="button" data-video-filter="matched"><i class="fa-solid fa-star"></i><span>Rated</span></button>
+            <button class="videoFilterChip" type="button" data-video-filter="subtitles"><i class="fa-solid fa-closed-captioning"></i><span>Subtitles</span></button>
+            <button class="videoFilterChip" type="button" data-video-filter="needs-info"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Needs info</span></button>
+          </div>
+
+          <section id="videoSpotlightSection" class="videoSpotlightSection hidden" data-video-tab-panel="browse">
+            <div id="videoSpotlightBackdrop" class="videoSpotlightBackdrop"></div>
+            <div class="videoSpotlightCopy">
+              <div id="videoSpotlightKicker" class="videoDetailKicker">Tonight's pick</div>
+              <h2 id="videoSpotlightTitle">Choose a film</h2>
+              <p id="videoSpotlightMeta">Your best matched film or latest continue-watching item will appear here.</p>
+              <div id="videoSpotlightBadges" class="videoDetailBadges"></div>
+              <button id="btnVideoOpenSpotlight" class="moduleActionBtn primary" type="button">
+                <i class="fa-solid fa-circle-play"></i>
+                <span>Open video</span>
+              </button>
+            </div>
+          </section>
+
+          <section id="videoContinueSection" class="videoRailSection hidden" data-video-tab-panel="browse">
+            <div class="videoSectionHead">
+              <strong>Continue watching</strong>
+              <span>Resume where you left off.</span>
+            </div>
+            <div id="videoContinueRail" class="videoContinueRail"></div>
+          </section>
+
+          <section class="videoWallSection" data-video-tab-panel="browse">
+            <div class="videoSectionHead">
+              <strong>Poster wall</strong>
+              <span id="videoCountText">No videos loaded yet.</span>
+            </div>
+            <div id="videoPosterWall" class="videoPosterWall"></div>
+          </section>
+
+          <section id="videoFavouritesSection" class="videoWallSection" data-video-tab-panel="favourites">
+            <div class="videoSectionHead">
+              <strong>Video favourites</strong>
+              <span id="videoFavouritesCountText">No favourite videos yet.</span>
+            </div>
+            <div id="videoFavouritesWall" class="videoPosterWall"></div>
+          </section>
+
+          <section id="videoBookmarksSection" class="videoWallSection" data-video-tab-panel="bookmarks">
+            <div class="videoSectionHead">
+              <strong>Video bookmarks</strong>
+              <span id="videoBookmarksCountText">Save scenes and resume points from the watch page.</span>
+            </div>
+            <div id="videoBookmarksList" class="videoBookmarkList"></div>
+          </section>
+
+          <div id="videoDetailView" class="videoDetailView hidden" data-video-tab-panel="watch">
+            <div id="videoDetailBackdrop" class="videoDetailBackdrop"></div>
+
+            <div class="videoWatchTop">
+              <button id="btnVideoBackToWall" class="videoBackBtn" type="button">
+                <i class="fa-solid fa-arrow-rotate-left"></i>
+                <span>Back to poster wall</span>
+              </button>
+              <div class="videoWatchPill">Watch page</div>
+            </div>
+
+            <div class="videoWatchLayout">
+              <section class="videoPlayerShell">
+                <video id="brVideoElement" class="brVideoElement" playsinline preload="metadata"></video>
+
+                <div class="videoCustomControls" aria-label="BRMedia video controls">
+                  <div class="videoProgressWrap">
+                    <input id="videoCustomProgress" class="videoCustomProgress" type="range" min="0" max="1000" value="0" step="1" aria-label="Video progress" />
+                  </div>
+
+                  <div class="videoCustomControlsRow">
+                    <button id="btnVideoCustomBack" class="videoCustomBtn" type="button" aria-label="Rewind 10 seconds"><i class="fa-solid fa-backward-step"></i></button>
+                    <button id="btnVideoCustomPlay" class="videoCustomPlayBtn" type="button" aria-label="Play or pause"><i class="fa-solid fa-play"></i></button>
+                    <button id="btnVideoCustomForward" class="videoCustomBtn" type="button" aria-label="Forward 10 seconds"><i class="fa-solid fa-forward-step"></i></button>
+
+                    <span id="videoCustomTime" class="videoCustomTime">0:00 / 0:00</span>
+
+                    <button id="btnVideoCustomMute" class="videoCustomBtn" type="button" aria-label="Mute video"><i class="fa-solid fa-volume-high"></i></button>
+                    <input id="videoCustomVolume" class="videoCustomVolume" type="range" min="0" max="1" value="1" step="0.01" aria-label="Volume" />
+
+                    <button id="btnVideoFullscreen" class="videoCustomBtn" type="button" aria-label="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+                  </div>
+                </div>
+
+                <div class="videoPlaybackTools">
+                  <button id="btnVideoResume" class="moduleActionBtn primary" type="button"><i class="fa-solid fa-play"></i><span>Resume</span></button>
+                  <button id="btnVideoRestart" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-backward-fast"></i><span>Start over</span></button>
+                  <button id="btnVideoPiP" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-tv"></i><span>Picture in picture</span></button>
+                </div>
+              </section>
+
+              <aside class="videoDetailInfo">
+                <div id="videoDetailPoster" class="videoDetailPoster"></div>
+                <div id="videoDetailKicker" class="videoDetailKicker">BRMedia Video</div>
+                <h2 id="videoDetailTitle">Select a video</h2>
+                <div id="videoDetailMeta" class="videoDetailMeta"></div>
+                <div id="videoDetailProgress" class="videoDetailProgress hidden"><span></span></div>
+                <p id="videoDetailOverview">Film information and online ratings will appear here when metadata is matched.</p>
+                <div id="videoDetailBadges" class="videoDetailBadges"></div>
+                <div id="videoDetailCredits" class="videoDetailCredits"></div>
+
+                <div class="videoDetailActions">
+                  <button id="btnVideoToggleFavourite" class="moduleActionBtn subtle" type="button">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Favourite</span>
+                  </button>
+                  <button id="btnVideoAddBookmark" class="moduleActionBtn subtle" type="button">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <span>Bookmark time</span>
+                  </button>
+                  <button id="btnVideoMatchSelected" class="moduleActionBtn subtle" type="button">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Refresh info</span>
+                  </button>
+                </div>
+
+                <div class="videoRatingControl" aria-label="Your video rating">
+                  <span>Your rating</span>
+                  <div id="videoRatingStars" class="videoRatingStars">
+                    <button type="button" data-video-rating="1">?</button>
+                    <button type="button" data-video-rating="2">?</button>
+                    <button type="button" data-video-rating="3">?</button>
+                    <button type="button" data-video-rating="4">?</button>
+                    <button type="button" data-video-rating="5">?</button>
+                  </div>
+                </div>
+              </aside>
+            </div>
+
+            <div class="videoOptionsGrid">
+              <div class="videoOptionCard">
+                <label for="videoAudioSelect"><i class="fa-solid fa-language"></i><span>Audio / English dub</span></label>
+                <select id="videoAudioSelect"><option value="default">Browser default / English dub if available</option></select>
+                <small>Prefers English/dub-labelled tracks when the browser exposes them.</small>
+              </div>
+
+              <div class="videoOptionCard">
+                <label for="videoSubtitleSelect"><i class="fa-solid fa-closed-captioning"></i><span>Subtitles</span></label>
+                <select id="videoSubtitleSelect"><option value="off">Off</option></select>
+                <small>External .vtt and .srt subtitles are supported.</small>
+              </div>
+
+              <div class="videoOptionCard videoTimerCard">
+                <label for="videoTimerSelect"><i class="fa-solid fa-timer"></i><span>Sleep timer</span></label>
+                <select id="videoTimerSelect">
+                  <option value="0">Off</option>
+                  <option value="900">15 minutes</option>
+                  <option value="1800">30 minutes</option>
+                  <option value="3600">1 hour</option>
+                  <option value="end">End of current video</option>
+                </select>
+                <button id="btnVideoTimerApply" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-clock"></i><span>Set timer</span></button>
+                <small id="videoTimerStatus">No video timer set.</small>
+              </div>
+
+              <div class="videoOptionCard videoCastCard">
+                <label><i class="fa-solid fa-tv"></i><span>Cast / output</span></label>
+                <div class="videoCastActions">
+                  <button id="btnVideoCast" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-share-nodes"></i><span>Cast / AirPlay</span></button>
+                </div>
+                <small id="videoCastStatus">Uses browser support where available. Unsupported devices can use Send to Device later.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="moduleLibraryPicker" class="moduleLibraryPicker hidden" aria-modal="true" role="dialog">
+        <div class="moduleLibraryPickerCard">
+          <div class="moduleLibraryPickerHead">
+            <div>
+              <div id="moduleLibraryPickerTitle" class="moduleLibraryPickerTitle">Choose media</div>
+              <div id="moduleLibraryPickerSub" class="moduleLibraryPickerSub">Pick a BRMedia library file.</div>
+            </div>
+            <button id="btnModuleLibraryPickerClose" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Close</span>
+            </button>
+          </div>
+          <input id="moduleLibraryPickerSearch" class="moduleLibraryPickerSearch" type="search" placeholder="Search library�" autocomplete="off" />
+          <div id="moduleLibraryPickerList" class="moduleLibraryPickerList"></div>
+        </div>
+      </div>
+
+      <div id="moduleMiniPlayer" class="moduleMiniPlayer hidden">
+        <audio id="moduleMiniAudio" preload="metadata"></audio>
+        <a id="moduleMiniArtLink" href="/player" class="moduleMiniArtLink"><img id="moduleMiniArt" alt="" /></a>
+        <div class="moduleMiniText">
+          <div id="moduleMiniTitle">BRMedia</div>
+          <div id="moduleMiniSub">Mini player</div>
+          <div class="moduleMiniProgress"><span id="moduleMiniProgressFill"></span></div>
+        </div>
+        <button id="btnModuleMiniPrev" type="button"><i class="fa-solid fa-backward-step"></i></button>
+        <button id="btnModuleMiniPlay" type="button"><i class="fa-solid fa-play"></i></button>
+        <button id="btnModuleMiniNext" type="button"><i class="fa-solid fa-forward-step"></i></button>
+      </div>
+
+      <footer class="moduleFooter">
+        <span id="moduleFooterCopy">� The Blackburn Ravers � DJ NJ & Upalnite</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="/video-player/app.js?v=20260510-j1"></script>
+</body>
+</html>

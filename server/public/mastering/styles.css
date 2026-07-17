@@ -1,0 +1,1207 @@
+@import url("/player/styles.css");
+
+/* BRMedia Mastering — pro player-style studio */
+body.moduleTemplateBody {
+  background: #ffffff;
+  color: #ffffff;
+}
+
+.moduleTemplateMain {
+  min-height: 48vh;
+}
+
+.moduleTemplateContent {
+  width: min(940px, calc(100% - 24px));
+  margin: 0 auto;
+  min-height: 42vh;
+  padding-bottom: 18px;
+}
+
+.sidebarModuleBtn.is-active,
+.sidebarMasteringTabBtn.active {
+  border-color: rgba(242, 160, 7, 0.48);
+  background: #354766;
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarMasteringTabBtn.active i,
+.sidebarMasteringTabBtn.active .brSvgIconHost {
+  color: #f2a007;
+}
+
+.sidebarMasteringNav {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(31, 169, 255, 0.14);
+}
+
+.sidebarMasteringTabBtn {
+  grid-template-columns: 44px minmax(0, 1fr);
+  min-height: 70px;
+  cursor: pointer;
+}
+
+.sidebarMasteringTabBtn > i,
+.sidebarMasteringTabBtn > .brSvgIconHost {
+  width: 36px;
+  height: 36px;
+  color: #f2a007;
+  display: grid;
+  place-items: center;
+}
+
+.masteringShell {
+  display: grid;
+  gap: 14px;
+  padding-bottom: 18px;
+}
+
+.masteringHeroCard,
+.masteringPanel,
+.masteringStatus {
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: #182e5b;
+  box-shadow: 0 14px 34px rgba(10, 22, 48, 0.18);
+}
+
+.masteringHeroCard {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.masteringHeroCard::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: #f2a007;
+}
+
+.masteringHeroIcon,
+.masteringPanelHead > span {
+  width: 92px;
+  height: 92px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: #203a70;
+  border: 1px solid rgba(31, 169, 255, 0.24);
+  color: #f2a007;
+}
+
+.masteringHeroIcon i,
+.masteringHeroIcon .brSvgIconHost {
+  width: 42px;
+  height: 42px;
+}
+
+.masteringHeroText {
+  min-width: 0;
+}
+
+.masteringHeroText > span {
+  display: block;
+  color: #f2a007;
+  letter-spacing: 0.18em;
+  font-weight: 950;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.masteringHeroText h2 {
+  margin: 5px 0 6px;
+  color: #ffffff;
+  font-size: clamp(1.45rem, 6vw, 2.7rem);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.masteringHeroText p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.35;
+  font-weight: 760;
+}
+
+.masteringHeroChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.masteringHeroChips b {
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: #143363;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  color: #7bd0ff;
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.masteringTabs {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  padding: 8px 0 9px;
+  background: #ffffff;
+}
+
+.masteringTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.masteringTab {
+  flex: 0 0 auto;
+  min-height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #182e5b;
+  color: rgba(255, 255, 255, 0.76);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  font-weight: 950;
+  box-shadow: 0 8px 18px rgba(8, 18, 38, 0.14);
+}
+
+.masteringTab.active {
+  color: #ffffff;
+  border-color: rgba(242, 160, 7, 0.52);
+  background: #354766;
+}
+
+.masteringTab i,
+.masteringTab .brSvgIconHost,
+.masteringBtn i,
+.masteringBtn .brSvgIconHost,
+.masteringMiniBtn i,
+.masteringMiniBtn .brSvgIconHost {
+  color: #f2a007;
+}
+
+.masteringPanel {
+  padding: 16px;
+}
+
+.masteringPanelHead {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.masteringPanelHead > span {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+}
+
+.masteringPanelHead h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.25rem;
+  line-height: 1.05;
+}
+
+.masteringPanelHead p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.64);
+  line-height: 1.34;
+  font-weight: 720;
+}
+
+.masteringSearch,
+.masteringPickerRow select,
+.masteringField input,
+.masteringField select {
+  width: 100%;
+  min-height: 54px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #0f2449;
+  color: #ffffff;
+  padding: 0 13px;
+  font-size: 16px;
+  font-weight: 850;
+  outline: none;
+}
+
+.masteringPickerRow select,
+.masteringField select {
+  padding-right: 46px;
+  color-scheme: dark;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #0f2449;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round' d='M5 7l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 15px 15px;
+}
+
+.masteringSearch::placeholder,
+.masteringField input::placeholder {
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.masteringSearch:focus,
+.masteringPickerRow select:focus,
+.masteringField input:focus,
+.masteringField select:focus {
+  border-color: rgba(31, 169, 255, 0.54);
+  box-shadow: 0 0 0 3px rgba(31, 169, 255, 0.12);
+}
+
+.masteringPickerRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.masteringBtn,
+.masteringMiniBtn {
+  min-height: 54px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #223d72;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 14px;
+  font-weight: 950;
+  box-shadow: 0 10px 22px rgba(8, 18, 38, 0.18);
+}
+
+.masteringMiniBtn {
+  min-height: 38px;
+  border-radius: 13px;
+  padding: 0 11px;
+}
+
+.masteringBtn.primary {
+  border-color: rgba(31, 169, 255, 0.45);
+  background: #1fa9ff;
+  color: #ffffff;
+}
+
+.masteringBtn.primary i,
+.masteringBtn.primary .brSvgIconHost {
+  color: #ffffff;
+}
+
+.masteringBtn:disabled,
+.masteringMiniBtn:disabled {
+  opacity: 0.5;
+}
+
+.masteringWideBtn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.masteringSourceNotice,
+.masteringRecommendation,
+.masteringWarning {
+  border-radius: 18px;
+  padding: 12px;
+  margin: 10px 0;
+  background: #143363;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.74);
+  font-weight: 820;
+}
+
+.masteringSourceNotice {
+  background: #193e34;
+  border-color: rgba(28, 164, 91, 0.38);
+  color: #adffd1;
+}
+
+.masteringRecommendation {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.masteringRecommendation strong,
+.masteringWarning strong {
+  color: #ffffff;
+}
+
+.masteringRecommendation p,
+.masteringWarning p {
+  margin: 3px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.28;
+}
+
+.masteringWarnings {
+  display: grid;
+  gap: 9px;
+}
+
+.masteringWarning.warn {
+  background: #3f3025;
+  border-color: rgba(242, 160, 7, 0.34);
+}
+
+.masteringWarning.good {
+  background: #193e34;
+  border-color: rgba(28, 164, 91, 0.30);
+}
+
+.masteringMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.masteringMetricCard,
+.masteringPresetCard,
+.masteringField,
+.masteringToggle,
+.masteringJobCard,
+.masteringResultCard {
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #0f2449;
+  color: #ffffff;
+  padding: 13px;
+  box-shadow: 0 10px 22px rgba(8, 18, 38, 0.14);
+}
+
+.masteringMetricCard {
+  display: grid;
+  gap: 5px;
+}
+
+.masteringMetricCard i,
+.masteringMetricCard .brSvgIconHost {
+  color: #f2a007;
+  width: 28px;
+  height: 28px;
+}
+
+.masteringMetricCard strong {
+  font-size: 1.18rem;
+  line-height: 1;
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+
+.masteringMetricCard span,
+.masteringField span {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 900;
+}
+
+.masteringMetricCard em,
+.masteringField em {
+  color: rgba(255, 255, 255, 0.54);
+  font-style: normal;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.masteringPresetGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.masteringPresetCard {
+  min-height: 86px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+}
+
+.masteringPresetCard.active {
+  border-color: rgba(242, 160, 7, 0.62);
+  background: #354766;
+  box-shadow: 0 0 0 1px rgba(242, 160, 7, 0.18), 0 12px 24px rgba(8, 18, 38, 0.18);
+}
+
+.masteringPresetIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: #203a70;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  color: #f2a007;
+}
+
+.masteringPresetText {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.masteringPresetText strong {
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.masteringPresetText em,
+.masteringJobCard em {
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.25;
+}
+
+.masteringPresetBadge,
+.masteringJobCard span {
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: #143363;
+  color: #7bd0ff;
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.masteringChainGrid,
+.masteringOutputGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.masteringField {
+  display: grid;
+  gap: 7px;
+}
+
+.masteringToggle {
+  min-height: 70px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.masteringToggle span {
+  display: grid;
+  gap: 4px;
+}
+
+.masteringToggle strong {
+  color: #ffffff;
+}
+
+.masteringToggle em {
+  color: rgba(255, 255, 255, 0.58);
+  font-style: normal;
+  font-weight: 720;
+}
+
+.masteringToggle input {
+  width: 26px;
+  height: 26px;
+  accent-color: #f2a007;
+}
+
+.masteringCompareWall {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #071631;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+}
+
+.masteringCompareWall canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.masteringCompareLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  background: #0f2449;
+}
+
+.masteringCompareLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 850;
+  font-size: 0.8rem;
+}
+
+.masteringCompareLegend b {
+  width: 18px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.masteringCompareLegend .before { background: #7bd0ff; }
+.masteringCompareLegend .after { background: #f2a007; }
+.masteringCompareLegend .ceiling { background: rgba(255, 255, 255, 0.55); }
+
+.masteringCompareStats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.masteringCompareStats div {
+  border-radius: 16px;
+  background: #0f2449;
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.masteringCompareStats strong {
+  color: #ffffff;
+}
+
+.masteringCompareStats span {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.76rem;
+  font-weight: 820;
+}
+
+.masteringJobCard {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+
+.masteringJobCard.running,
+.masteringJobCard.queued {
+  border-color: rgba(31, 169, 255, 0.34);
+  background: #143363;
+}
+
+.masteringJobCard.done {
+  border-color: rgba(28, 164, 91, 0.38);
+  background: #193e34;
+}
+
+.masteringJobCard.error {
+  border-color: rgba(255, 93, 93, 0.38);
+  background: #472333;
+}
+
+.masteringJobCard strong {
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+
+.masteringActionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.masteringResultCard {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.masteringResultCard.done {
+  border-color: rgba(28, 164, 91, 0.42);
+  background: #193e34;
+}
+
+.masteringResultCard > i,
+.masteringResultCard > .brSvgIconHost {
+  width: 42px;
+  height: 42px;
+  color: #f2a007;
+}
+
+.masteringResultCard strong {
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+
+.masteringResultCard p {
+  margin: 4px 0;
+  color: rgba(255, 255, 255, 0.66);
+  font-weight: 760;
+}
+
+.masteringResultCard em {
+  color: #7bd0ff;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.masteringProgressGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.masteringProgressGrid span {
+  display: grid;
+  gap: 3px;
+  padding: 8px 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(123, 208, 255, 0.2);
+  background: rgba(6, 22, 49, 0.34);
+}
+
+.masteringProgressGrid b {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.masteringProgressGrid em {
+  color: #7bd0ff;
+  font-style: normal;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.masteringTechnicalLog {
+  margin-top: 10px;
+  border-radius: 13px;
+  border: 1px solid rgba(123, 208, 255, 0.2);
+  background: rgba(6, 22, 49, 0.32);
+  overflow: hidden;
+}
+
+.masteringTechnicalLog summary {
+  cursor: pointer;
+  padding: 9px 11px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.masteringTechnicalLog pre {
+  max-height: 135px;
+  overflow: auto;
+  margin: 0;
+  padding: 9px 11px;
+  background: #061631;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  line-height: 1.25;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.masteringStatus {
+  padding: 12px;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 850;
+}
+
+.masteringStatus.is-success {
+  border-color: rgba(28, 164, 91, 0.38);
+  background: #193e34;
+  color: #adffd1;
+}
+
+.masteringStatus.is-error {
+  border-color: rgba(255, 93, 93, 0.38);
+  background: #472333;
+  color: #ffd1d1;
+}
+
+.masteringStatus.is-loading {
+  border-color: rgba(31, 169, 255, 0.32);
+  background: #143363;
+  color: #7bd0ff;
+}
+
+.masteringBusy .masteringBtn,
+.masteringBusy .masteringPresetCard,
+.masteringBusy .masteringTab {
+  pointer-events: none;
+  opacity: 0.72;
+}
+
+@media (min-width: 760px) {
+  .masteringPresetGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .masteringHeroCard {
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .masteringHeroIcon {
+    width: 78px;
+    height: 78px;
+    border-radius: 20px;
+  }
+
+  .masteringHeroText h2 {
+    font-size: clamp(1.35rem, 7vw, 2rem);
+  }
+
+  .masteringMetricGrid,
+  .masteringChainGrid,
+  .masteringOutputGrid,
+  .masteringCompareStats,
+  .masteringActionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .masteringPresetCard {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .masteringPresetBadge {
+    grid-column: 2;
+    width: fit-content;
+  }
+}
+
+/* BRMedia Mastering V2 — light-blue active states + tab position fix */
+.sidebarModuleBtn.is-active,
+.sidebarMasteringTabBtn.active,
+.masteringTab.active {
+  border-color: rgba(123, 208, 255, 0.72) !important;
+  background: #173f74 !important;
+  box-shadow:
+    0 10px 24px rgba(31, 169, 255, 0.18),
+    inset 0 0 0 1px rgba(123, 208, 255, 0.18) !important;
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarMasteringTabBtn.active i,
+.sidebarMasteringTabBtn.active .brSvgIconHost,
+.masteringTab.active i,
+.masteringTab.active .brSvgIconHost {
+  color: #7bd0ff !important;
+}
+
+.masteringTabs {
+  scroll-behavior: auto;
+  overscroll-behavior-x: contain;
+}
+
+.masteringField select,
+.masteringField input {
+  min-height: 56px;
+}
+
+/* BRMedia Mastering V3 — Key/BPM + preview plugins */
+.masteringPluginGrid,
+.masteringKeyBpmSummary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.masteringKeyBpmSummary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 12px;
+}
+
+.masteringKeyBpmSummary div,
+.masteringPreviewCard {
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #0f2449;
+  color: #ffffff;
+  padding: 12px;
+  box-shadow: 0 10px 22px rgba(8, 18, 38, 0.14);
+}
+
+.masteringKeyBpmSummary strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.masteringKeyBpmSummary span {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.masteringRangeField {
+  gap: 9px;
+}
+
+.masteringRangeRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 86px auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.masteringRangeRow input[type="range"] {
+  min-height: 34px;
+  padding: 0;
+  accent-color: #7bd0ff;
+}
+
+.masteringRangeRow input[type="number"] {
+  min-height: 44px;
+  text-align: center;
+}
+
+.masteringRangeRow b {
+  color: #7bd0ff;
+  font-size: 0.78rem;
+  font-weight: 950;
+}
+
+.masteringPreviewCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.masteringPreviewCard.done {
+  border-color: rgba(28, 164, 91, 0.38);
+  background: #193e34;
+}
+
+.masteringPreviewCard.running,
+.masteringPreviewCard.queued {
+  border-color: rgba(31, 169, 255, 0.34);
+  background: #143363;
+}
+
+.masteringPreviewCard.error {
+  border-color: rgba(255, 93, 93, 0.38);
+  background: #472333;
+}
+
+.masteringPreviewCard strong {
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+
+.masteringPreviewCard p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-weight: 760;
+  line-height: 1.25;
+}
+
+.masteringPreviewCard > span {
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: #143363;
+  color: #7bd0ff;
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.masteringPreviewActions {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 700px) {
+  .masteringPluginGrid,
+  .masteringKeyBpmSummary,
+  .masteringPreviewActions {
+    grid-template-columns: 1fr;
+  }
+
+  .masteringRangeRow {
+    grid-template-columns: minmax(0, 1fr) 76px auto;
+  }
+}
+
+/* BRMedia Mastering V4 — BPM/key analysis + target BPM + Rubber Band */
+.masteringV4Summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.masteringBpmGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.masteringNumberField .masteringNumberOnlyRow {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.masteringNumberField input[type="number"] {
+  width: 100%;
+}
+
+.masteringCompareStats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 820px) {
+  .masteringV4Summary,
+  .masteringBpmGrid,
+  .masteringCompareStats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* BRMedia Mastering V4b — red warnings + analysis progress */
+.masteringWarning.warn {
+  background: #461f2a;
+  border-color: rgba(255, 80, 104, 0.48);
+}
+
+.masteringWarning.warn > i,
+.masteringWarning.warn > .brSvgIconHost {
+  color: #ff5068;
+}
+
+.masteringAnalysisProgress {
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.26);
+  background: #102b58;
+  padding: 12px;
+  margin: 0 0 12px;
+  box-shadow: 0 10px 22px rgba(8, 18, 38, 0.14);
+}
+
+.masteringAnalysisProgress.success {
+  background: #193e34;
+  border-color: rgba(28, 164, 91, 0.38);
+}
+
+.masteringAnalysisProgress.error {
+  background: #461f2a;
+  border-color: rgba(255, 80, 104, 0.48);
+}
+
+.masteringAnalysisProgressHead {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.masteringAnalysisProgressHead > span {
+  width: 34px;
+  height: 34px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #203a70;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+}
+
+.masteringAnalysisProgress.running .masteringAnalysisProgressHead > span {
+  animation: masteringPulse 1.2s ease-in-out infinite;
+}
+
+.masteringAnalysisProgressHead strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.masteringAnalysisProgressHead p {
+  margin: 3px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.25;
+  font-weight: 750;
+}
+
+.masteringAnalysisProgressHead b {
+  color: #7bd0ff;
+  font-size: 0.82rem;
+  font-weight: 950;
+}
+
+.masteringAnalysisProgress.error .masteringAnalysisProgressHead b,
+.masteringAnalysisProgress.error .masteringAnalysisProgressHead > span {
+  color: #ff5068;
+}
+
+.masteringAnalysisProgress.success .masteringAnalysisProgressHead b,
+.masteringAnalysisProgress.success .masteringAnalysisProgressHead > span {
+  color: #adffd1;
+}
+
+.masteringAnalysisProgressTrack {
+  height: 9px;
+  margin-top: 11px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.masteringAnalysisProgressTrack i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #1fa9ff;
+  transition: width 0.4s ease;
+}
+
+.masteringAnalysisProgress.success .masteringAnalysisProgressTrack i {
+  background: #1ca45b;
+}
+
+.masteringAnalysisProgress.error .masteringAnalysisProgressTrack i {
+  background: #ff5068;
+}
+
+@keyframes masteringPulse {
+  0%, 100% { transform: scale(1); opacity: 0.82; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+/* BRMedia Sidebar Open Modules — shared full-width style */
+.sidebarModuleBlock {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(31, 169, 255, 0.14);
+}
+
+.sidebarSectionTitle {
+  margin: 0 0 12px;
+  color: #f2a007;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.sidebarModuleList {
+  display: grid;
+  gap: 11px;
+}
+
+.sidebarModuleBtn {
+  width: 100%;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  text-align: left;
+  padding: 12px 14px;
+  box-shadow: 0 10px 22px rgba(4, 12, 28, 0.10);
+}
+
+.sidebarModuleBtn i,
+.sidebarModuleBtn .brSvgIconHost {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+}
+
+.sidebarModuleText {
+  min-width: 0;
+  display: grid;
+}
+
+.sidebarModuleTitle {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.sidebarModuleSub {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.8rem;
+  line-height: 1.22;
+  font-weight: 760;
+  overflow-wrap: anywhere;
+}
+
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(242, 160, 7, 0.54);
+  background: rgba(31, 169, 255, 0.14);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost {
+  color: #ffffff;
+}
+
+/* BRMedia Open Modules active state — light blue */
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost {
+  color: #7bd0ff;
+}
+
+/* BRMedia shared module PNG nav icons */
+.sidebarModuleBtn .sidebarModuleIconImage {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,0.18));
+}
+
+.sidebarModuleBtn.is-active .sidebarModuleIconImage,
+.sidebarModuleBtn.active .sidebarModuleIconImage {
+  filter: drop-shadow(0 0 10px rgba(123,208,255,0.22));
+}

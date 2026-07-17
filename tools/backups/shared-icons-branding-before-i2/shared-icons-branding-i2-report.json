@@ -1,0 +1,1256 @@
+{
+  "patch": "I2",
+  "copiedAt": "2026-05-10T18:18:35.503Z",
+  "copied": [
+    {
+      "label": "Player global branding",
+      "from": "public\\player\\branding\\global\\blackburn-ravers-header.png",
+      "to": "public\\shared\\branding\\global\\blackburn-ravers-header.png"
+    },
+    {
+      "label": "Player global branding",
+      "from": "public\\player\\branding\\global\\br-footer-logo-trans.png",
+      "to": "public\\shared\\branding\\global\\br-footer-logo-trans.png"
+    },
+    {
+      "label": "Player global branding",
+      "from": "public\\player\\branding\\global\\br-logo-trans.png",
+      "to": "public\\shared\\branding\\global\\br-logo-trans.png"
+    },
+    {
+      "label": "BRMedia brand images",
+      "from": "public\\player\\branding\\brands\\br-mixes-banner-trans.png",
+      "to": "public\\shared\\branding\\brands\\br-mixes-banner-trans.png"
+    },
+    {
+      "label": "BRMedia brand images",
+      "from": "public\\player\\branding\\brands\\br-mixes-trans.png",
+      "to": "public\\shared\\branding\\brands\\br-mixes-trans.png"
+    },
+    {
+      "label": "BRMedia brand images",
+      "from": "public\\player\\branding\\brands\\nasti-mixes-banner-trans.png",
+      "to": "public\\shared\\branding\\brands\\nasti-mixes-banner-trans.png"
+    },
+    {
+      "label": "BRMedia brand images",
+      "from": "public\\player\\branding\\brands\\nasti-mixes-trans.png",
+      "to": "public\\shared\\branding\\brands\\nasti-mixes-trans.png"
+    },
+    {
+      "label": "BRMedia brand images",
+      "from": "public\\player\\branding\\brands\\nj-mixes-banner-trans.png",
+      "to": "public\\shared\\branding\\brands\\nj-mixes-banner-trans.png"
+    },
+    {
+      "label": "BRMedia brand images",
+      "from": "public\\player\\branding\\brands\\nj-mixes-trans.png",
+      "to": "public\\shared\\branding\\brands\\nj-mixes-trans.png"
+    },
+    {
+      "label": "BRMedia brand images",
+      "from": "public\\player\\branding\\brands\\up-mixes-banner-trans.png",
+      "to": "public\\shared\\branding\\brands\\up-mixes-banner-trans.png"
+    },
+    {
+      "label": "BRMedia brand images",
+      "from": "public\\player\\branding\\brands\\up-mixes-trans.png",
+      "to": "public\\shared\\branding\\brands\\up-mixes-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\androidcore-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\androidcore-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\brutal-power-mix-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\brutal-power-mix-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\dj-mp3-wav-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\dj-mp3-wav-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\favourites-page-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\favourites-page-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\free-songs-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\free-songs-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\gabber-sessions-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\gabber-sessions-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\ghsv-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\ghsv-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\hardcore-medley-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\hardcore-medley-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\hardhousecore-series-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\hardhousecore-series-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\home-page-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\home-page-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\house-music-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\house-music-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\htid-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\htid-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\makina-mayhem-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\makina-mayhem-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\playlists-page-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\playlists-page-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\queue-media-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\queue-media-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\radio-shows-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\radio-shows-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\recently-played-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\recently-played-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\settings-page-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\settings-page-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\source-links-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\source-links-trans.png"
+    },
+    {
+      "label": "Category icons",
+      "from": "public\\player\\branding\\categories\\icons\\upload-media-trans.png",
+      "to": "public\\shared\\branding\\categories\\icons\\upload-media-trans.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\androidcore-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\androidcore-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\brutal-power-mix-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\brutal-power-mix-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\dj-mp3-wav-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\dj-mp3-wav-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\free-songs-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\free-songs-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\gabber-sessions-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\gabber-sessions-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\ghsv-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\ghsv-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\hardcore-medley-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\hardcore-medley-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\hardhousecore-series-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\hardhousecore-series-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\house-music-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\house-music-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\htid-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\htid-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\makina-mayhem-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\makina-mayhem-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\radio-shows-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\radio-shows-trans-banner.png"
+    },
+    {
+      "label": "Category banners",
+      "from": "public\\player\\branding\\categories\\banners\\source-links-trans-banner.png",
+      "to": "public\\shared\\branding\\categories\\banners\\source-links-trans-banner.png"
+    },
+    {
+      "label": "Home/shared logo assets",
+      "from": "public\\home\\blackburn-ravers-header.png",
+      "to": "public\\shared\\branding\\logos\\blackburn-ravers-header.png"
+    },
+    {
+      "label": "Home/shared logo assets",
+      "from": "public\\home\\blackburn_ravers_layered.svg",
+      "to": "public\\shared\\branding\\logos\\blackburn_ravers_layered.svg"
+    },
+    {
+      "label": "Home/shared logo assets",
+      "from": "public\\home\\blackburn_ravers_layered_preview.png",
+      "to": "public\\shared\\branding\\logos\\blackburn_ravers_layered_preview.png"
+    },
+    {
+      "label": "Home/shared logo assets",
+      "from": "public\\home\\icon-192.png",
+      "to": "public\\shared\\branding\\logos\\icon-192.png"
+    },
+    {
+      "label": "Home/shared logo assets",
+      "from": "public\\home\\icon-512.png",
+      "to": "public\\shared\\branding\\logos\\icon-512.png"
+    },
+    {
+      "label": "Home/shared logo assets",
+      "from": "public\\home\\apple-touch-icon.png",
+      "to": "public\\shared\\branding\\logos\\apple-touch-icon.png"
+    },
+    {
+      "label": "Home splash layers",
+      "from": "public\\home\\01_the.png",
+      "to": "public\\shared\\branding\\splash\\01_the.png"
+    },
+    {
+      "label": "Home splash layers",
+      "from": "public\\home\\02_bl.png",
+      "to": "public\\shared\\branding\\splash\\02_bl.png"
+    },
+    {
+      "label": "Home splash layers",
+      "from": "public\\home\\03_heartbeat_a_v.png",
+      "to": "public\\shared\\branding\\splash\\03_heartbeat_a_v.png"
+    },
+    {
+      "label": "Home splash layers",
+      "from": "public\\home\\04_ckburn.png",
+      "to": "public\\shared\\branding\\splash\\04_ckburn.png"
+    },
+    {
+      "label": "Home splash layers",
+      "from": "public\\home\\05_ra.png",
+      "to": "public\\shared\\branding\\splash\\05_ra.png"
+    },
+    {
+      "label": "Home splash layers",
+      "from": "public\\home\\06_ers.png",
+      "to": "public\\shared\\branding\\splash\\06_ers.png"
+    },
+    {
+      "label": "Home splash layers",
+      "from": "public\\home\\07_tagline_white.png",
+      "to": "public\\shared\\branding\\splash\\07_tagline_white.png"
+    },
+    {
+      "label": "Home splash layers",
+      "from": "public\\home\\08_tagline_blue.png",
+      "to": "public\\shared\\branding\\splash\\08_tagline_blue.png"
+    }
+  ],
+  "skipped": [
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\album-collection.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\album.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\angles-left.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\angles-right.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\arrow-rotate-left.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\arrow-rotate-right.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\arrows-rotate-reverse.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\arrows-rotate.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\backward-fast.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\backward-step.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\backward.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\ban.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\barcode-read.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\barcode-scan.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\barcode.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\bolt.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\bookmark.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\calendar-days.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\chart-column.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\check.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\chevron-down.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\chevron-left.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\chevron-right.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\chevron-up.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\child-reaching.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\circle-check.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\circle-info.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\circle-pause.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\circle-play.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\circle-plus.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\circle-question.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\circle-stop.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\circle.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\clapperboard-play.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\clapperboard.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\clock.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\closed-captioning-slash.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\closed-captioning.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\cloud-arrow-down.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\cloud-arrow-up.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\compact-disc.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\desktop.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\download.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\dragon.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\dropbox.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\ellipsis.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\expand-wide.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\expand.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file-audio.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file-circle-plus.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file-export.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file-image.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file-lines.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file-music.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file-pen.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file-video.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\file.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\film.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\filter-list.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\filter.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\filters.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\fingerprint.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\fire.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\flag.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\floppy-disk-pen.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\floppy-disk.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\floppy-disks.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\folder-open.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\folder-plus.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\folder.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\forward-fast.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\forward-step.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\forward.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\gauge-high.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\gauge-low.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\gauge-max.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\gauge-min.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\gear-complex.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\ghost.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\google-drive.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\grip-vertical.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\hashtag.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\hat-cowboy.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\headphones-simple.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\headphones.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\heart-circle-check.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\heart-circle-plus.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\heart.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\house.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\id-card.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\image.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\info.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\language.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\laptop-mobile.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\laptop.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\list-check.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\list-music.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\list-ol.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\list-radio.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\list-timeline.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\list-ul.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\list.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\location-dot.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\magnifying-glass-music.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\magnifying-glass.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\masks-theater.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\microphone.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\mixcloud.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\mobile-screen-button.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\mobile-screen.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\mp3-player.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\music-magnifying-glass.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\music-note-slash.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\music-note.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\music-slash.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\music.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\palette.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\pause.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\play-pause.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\play.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\plus.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\radio.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\record-vinyl.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\repeat-1.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\repeat.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\retweet.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\right-left-large.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\right-left.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\rocket.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\server.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\share-all.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\share-from-square.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\share-nodes.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\shield.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\shuffle.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\skull.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\sliders-up.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\sliders.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\soundcloud.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\spinner-scale.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\spinner-third.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\spinner.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\star-sharp-half-stroke.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\star-sharp-half.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\star-sharp.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\star.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\stars.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\stop.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\stopwatch-20.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\stopwatch.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\subtitles-slash.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\subtitles.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\tablet-screen-button.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\tag.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\tags.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\trash.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\triangle-exclamation.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\turntable.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\tv-music.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\tv-retro.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\tv.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\up-down-left-right.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\upload.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\user-music.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\user-tie.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\user.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\users.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\video-arrow-down-left.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\video-arrow-up-right.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\video-plus.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\video-slash.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\video.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\volume-high.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\volume-low.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\volume-off.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\volume-slash.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\volume-xmark.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\volume.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\wand-magic-sparkles.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\wave-pulse.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\wave-sine.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\wave-square.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\wave-triangle.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\waveform-lines.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\waveform.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\whatsapp.svg",
+      "reason": "already matched"
+    },
+    {
+      "label": "Font Awesome Duotone icons",
+      "to": "public\\shared\\icons\\fa-duotone\\xmark.svg",
+      "reason": "already matched"
+    }
+  ],
+  "missing": [],
+  "createdFolders": [
+    "public\\shared\\icons",
+    "public\\shared\\icons\\fa-duotone",
+    "public\\shared\\icons\\nav",
+    "public\\shared\\icons\\modules",
+    "public\\shared\\icons\\actions",
+    "public\\shared\\icons\\status",
+    "public\\shared\\branding",
+    "public\\shared\\branding\\logos",
+    "public\\shared\\branding\\global",
+    "public\\shared\\branding\\brands",
+    "public\\shared\\branding\\categories",
+    "public\\shared\\branding\\categories\\icons",
+    "public\\shared\\branding\\categories\\banners",
+    "public\\shared\\branding\\splash",
+    "public\\shared\\branding\\module-icons"
+  ],
+  "notes": [
+    "Player assets were copied only. Nothing was moved or deleted.",
+    "Split modules can later use /shared/icons/fa-duotone first, with /player/branding/icons as fallback.",
+    "Home/module PNG icons can later live under /shared/branding/module-icons once the new PNG set is created."
+  ]
+}

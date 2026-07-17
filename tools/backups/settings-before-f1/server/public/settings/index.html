@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/home/apple-touch-icon.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/home/icon-192.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/home/icon-512.png?v=20260505" />
+  <link rel="manifest" href="/settings/site.webmanifest?v=20260509" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Settings" />
+  <link rel="stylesheet" href="/shared/shell.css?v=20260509-split-a" />
+  <link rel="stylesheet" href="/shared/module-theme.css?v=20260509-split-a" />
+  <link rel="stylesheet" href="/settings/styles.css?v=20260509-split-a" />
+</head>
+<body class="brSharedBody settingsBody">
+  <div class="brSharedShell">
+    <header class="brSharedTopbar">
+      <div class="brSharedTopbarInner">
+        <a class="brSharedIconBtn" href="/home" aria-label="Open BRMedia Home">⌂</a>
+        <img class="brSharedLogo" src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" />
+        <button class="brSharedIconBtn" type="button" aria-label="Open BRMedia menu" data-br-shared-menu>☰</button>
+      </div>
+    </header>
+
+    <div class="brSharedBackdrop" data-br-shared-backdrop></div>
+    <aside class="brSharedSidebar" data-br-shared-sidebar>
+      <div class="brSharedSidebarHead">
+        <div class="brSharedSidebarTitle">BRMedia Centre</div>
+        <button class="brSharedIconBtn" type="button" aria-label="Close menu" data-br-shared-close>×</button>
+      </div>
+      <nav class="brSharedNav" data-br-shared-nav aria-label="BRMedia modules"></nav>
+    </aside>
+
+    <main class="brSharedMain settingsMain">
+      <section class="brSharedHero">
+        <div class="brSharedEyebrow">Universal Settings</div>
+        <h1>BRMedia Settings</h1>
+        <p>Shared settings home for Player, Video Player, Converter, Tagger, Mastering, Devices, Backups, Cloud, Imports and source folders.</p>
+      </section>
+
+      <section class="brSharedPanel settingsPanel">
+        <div class="settingsPanelHead">
+          <div>
+            <div class="settingsKicker">Patch A skeleton</div>
+            <h2 id="settingsActiveTitle">General</h2>
+            <p id="settingsActiveSummary">Choose a settings area to start wiring it into the shared module system.</p>
+          </div>
+          <a class="settingsServerLink" href="/server-settings">Server Settings</a>
+        </div>
+
+        <div id="settingsTabs" class="brSettingsGrid" aria-label="Settings tabs"></div>
+
+        <div class="settingsPlaceholder">
+          <h3 id="settingsPlaceholderTitle">General settings will go here.</h3>
+          <p id="settingsPlaceholderBody">This page is now separate from Server Settings. The detailed controls will be wired in during the Settings/source-system patch.</p>
+        </div>
+      </section>
+
+      <section class="brSharedPanel settingsPanel">
+        <div class="settingsPanelHead compact">
+          <div>
+            <div class="settingsKicker">Shared sources</div>
+            <h2>Available source types</h2>
+            <p>These source cards are loaded from the new shared source-manager skeleton.</p>
+          </div>
+        </div>
+        <div id="settingsSourceGrid" class="brSourceGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/shared/nav.js?v=20260509-split-a"></script>
+  <script src="/shared/icons.js?v=20260509-split-a"></script>
+  <script src="/shared/source-manager.js?v=20260509-split-a"></script>
+  <script src="/shared/source-picker.js?v=20260509-split-a"></script>
+  <script src="/shared/settings-schema.js?v=20260509-split-a"></script>
+  <script src="/shared/settings-ui.js?v=20260509-split-a"></script>
+  <script src="/shared/shell.js?v=20260509-split-a"></script>
+  <script src="/settings/app.js?v=20260509-split-a"></script>
+</body>
+</html>

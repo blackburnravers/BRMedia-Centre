@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Tagger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/home/apple-touch-icon.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/home/icon-192.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/home/icon-512.png?v=20260505" />
+  <link id="moduleManifest" rel="manifest" href="/tagger/site.webmanifest?v=20260510-split-e1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Tagger" />
+  <link rel="stylesheet" href="/tagger/styles.css?v=20260510-h2" />
+</head>
+<body>
+  <div class="moduleShell">
+    <header class="moduleTopbar">
+      <div class="moduleBrandHeader">
+        <a class="moduleSearchBtn" href="/player" aria-label="Open BRMedia Player">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
+
+        <img src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" class="moduleBrandLogo" />
+
+        <button id="btnModuleMenu" class="moduleMenuBtn" type="button" aria-label="Open sidebar menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <div id="moduleSidebarBackdrop" class="moduleSidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="moduleSidebar hidden">
+      <div class="moduleSidebarHeader">
+        <img src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" class="moduleSidebarLogo" />
+      </div>
+
+      <div class="moduleSidebarLinks">
+        <a class="moduleSidebarLink" href="/player" data-path="/player">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-headphones"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Player</span><span class="moduleSidebarSub">Back to the full BRMedia music player.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/converter" data-path="/converter">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-arrows-rotate"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Converter</span><span class="moduleSidebarSub">Convert audio, video and batch jobs.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/tagger" data-path="/tagger">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-tags"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Tagger</span><span class="moduleSidebarSub">Metadata, artwork and BRMedia tags.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/mastering" data-path="/mastering">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-sliders"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Mastering</span><span class="moduleSidebarSub">Loudness, polish and final masters.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/video-player" data-path="/video-player">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-film"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Video Player</span><span class="moduleSidebarSub">Video playback and linked media.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/stats" data-path="/stats">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-chart-column"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Stats</span><span class="moduleSidebarSub">Usage, history and reporting.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/settings?tab=tagger" data-path="/settings">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-gear"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Settings</span><span class="moduleSidebarSub">Universal BRMedia settings.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/server-settings" data-path="/server-settings">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-server"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Server Settings</span><span class="moduleSidebarSub">Sources, storage and networking.</span></span>
+        </a>
+      </div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="moduleSidebarFloatingClose hidden" type="button" aria-label="Close sidebar menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="moduleMain">
+      <section class="moduleHeroCard">
+        <div class="moduleEyebrow" id="moduleEyebrow">BRMedia Tagger</div>
+        <h1 class="moduleTitle" id="moduleTitle">Tagger</h1>
+        <div class="moduleSubtitle" id="moduleSubtitle">Metadata, artwork, BRMedia custom tags and safe save modes.</div>
+
+        <div class="moduleComingSoonCard">
+          <div class="moduleComingSoonIcon" id="moduleStatusIcon">
+            <i class="fa-solid fa-tags"></i>
+          </div>
+
+          <div class="moduleComingSoonText">
+            <div class="moduleComingSoonTitle" id="moduleStatusTitle">Tag this file</div>
+            <div class="moduleComingSoonBody" id="moduleComingSoonBody">
+              Tagger can receive Player files, library files or uploads, then save BRMedia metadata and write safe tagged copies.
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="moduleSettingsHandoff">
+          <a class="moduleSettingsHandoffBtn" href="/settings?tab=tagger"><span>TAG</span><div><strong>Tagger Settings</strong><small>Metadata, artwork and BRMedia tag defaults.</small></div></a>
+          <a class="moduleSettingsHandoffBtn" href="/server-settings"><span>SRV</span><div><strong>Server Settings</strong><small>Sources, storage and deeper admin.</small></div></a>
+        </div>
+
+        <div id="moduleTrackPanel" class="moduleTrackPanel hidden">
+          <div class="moduleTrackTop">
+            <div>
+              <div class="moduleTrackKicker">Selected file</div>
+              <div id="moduleTrackTitle" class="moduleTrackTitle">No file selected</div>
+              <div id="moduleTrackMeta" class="moduleTrackMeta">Open this module from View Files to pass a file in.</div>
+            </div>
+          </div>
+
+          <div class="moduleTrackActions">
+            <a id="moduleTrackOpenPlayer" class="moduleActionBtn primary" href="/player">
+              <i class="fa-solid fa-play"></i>
+              <span>Open in Player</span>
+            </a>
+
+            <button id="moduleTrackClear" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Clear selected file</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="taggerPanel" class="taggerPanel taggerProPanel hidden">
+          <div class="taggerProHeader">
+            <div>
+              <div class="moduleTrackKicker">Tagger v6</div>
+              <div class="taggerPanelTitle">Professional audio tag editor</div>
+              <div class="taggerPanelSub">Edit standard ID3 tags, artwork, BRMedia routing, extended FFmpeg metadata and safe save/write modes.</div>
+            </div>
+          </div>
+
+          <div class="taggerProHero" aria-label="Loaded tagger file">
+            <div id="taggerHeroArtwork" class="taggerProHeroArtwork">
+              <i class="fa-solid fa-file-music"></i>
+            </div>
+            <div class="taggerProHeroMain">
+              <div class="taggerProHeroKicker">Current file</div>
+              <div id="taggerHeroTitle" class="taggerProHeroTitle">No file loaded</div>
+              <div id="taggerHeroMeta" class="taggerProHeroMeta">Open from device, choose from library, or send a file from Player/View Files.</div>
+              <div id="taggerHeroPills" class="taggerProHeroPills">
+                <span class="taggerProPill isBlue">Safe / non-destructive first</span>
+                <span class="taggerProPill isGold">FFmpeg write-ready</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="taggerSourcePanel taggerProSourcePanel">
+            <input
+              id="taggerDeviceFileInput"
+              class="hidden"
+              type="file"
+              accept="audio/*,.mp3,.wav,.flac,.m4a,.aac,.ogg,.opus,.aiff,.aif"
+            />
+
+            <div class="taggerSourceHeader">
+              <div>
+                <div class="taggerPreviewTitle">Open file</div>
+                <div id="taggerSourceText" class="taggerSourceText">Use the selected Player file, or upload a random file from this phone/PC.</div>
+              </div>
+            </div>
+
+            <div class="taggerSourceActions">
+              <button id="btnTaggerPickDevice" class="moduleActionBtn primary" type="button">
+                <i class="fa-solid fa-upload"></i>
+                <span>Open from device</span>
+              </button>
+
+              <button id="btnTaggerChooseLibrary" class="moduleActionBtn subtle" type="button">
+                <i class="fa-solid fa-folder-open"></i>
+                <span>Choose from library</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="taggerProNav" aria-label="Tagger sections">
+            <button class="taggerProTab is-active" type="button" data-tagger-step="overview">
+              <i class="fa-solid fa-id-card"></i>
+              <span><strong>Overview</strong><small>File + route</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="basic">
+              <i class="fa-solid fa-file-pen"></i>
+              <span><strong>Main tags</strong><small>Title / artist</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="artwork">
+              <i class="fa-solid fa-image"></i>
+              <span><strong>Artwork</strong><small>Cover art</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="brmedia">
+              <i class="fa-solid fa-tags"></i>
+              <span><strong>BRMedia</strong><small>Sorting</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="extended">
+              <i class="fa-solid fa-list-ul"></i>
+              <span><strong>Extended</strong><small>All tags</small></span>
+            </button>
+            <button class="taggerProTab" type="button" data-tagger-step="save">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span><strong>Save</strong><small>Write file</small></span>
+            </button>
+          </div>
+
+          <div id="taggerStatus" class="taggerStatus taggerProStatus">Ready.</div>
+
+          <section class="taggerProStep is-active" data-tagger-step-panel="overview">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-id-card"></i>
+              <div>
+                <strong>Overview</strong>
+                <span>Quick file properties and where this track will appear in BRMedia.</span>
+              </div>
+            </div>
+
+            <div id="taggerAudioProperties" class="taggerAudioProperties">
+              <div><span>Duration</span><strong>—</strong></div>
+              <div><span>Bitrate</span><strong>—</strong></div>
+              <div><span>Sample rate</span><strong>—</strong></div>
+              <div><span>Channels</span><strong>—</strong></div>
+              <div><span>Codec</span><strong>—</strong></div>
+            </div>
+
+            <div class="taggerModeGrid" aria-label="Tagger tools">
+              <button class="taggerModeCard" type="button" data-tagger-jump="basic">
+                <i class="fa-solid fa-file-pen"></i>
+                <div><strong>Main metadata</strong><span>Title, artist, album, year, BPM and comments.</span></div>
+              </button>
+              <button class="taggerModeCard" type="button" data-tagger-jump="artwork">
+                <i class="fa-solid fa-image"></i>
+                <div><strong>Artwork</strong><span>Stage cover art for tagged copies.</span></div>
+              </button>
+              <button class="taggerModeCard" type="button" data-tagger-jump="brmedia">
+                <i class="fa-solid fa-tags"></i>
+                <div><strong>BRMedia routing</strong><span>Control Player category, brand and series placement.</span></div>
+              </button>
+              <button class="taggerModeCard" type="button" data-tagger-jump="extended">
+                <i class="fa-solid fa-list-ul"></i>
+                <div><strong>Extended tags</strong><span>MusicBrainz, ReplayGain, podcast, WWW and raw FFmpeg tags.</span></div>
+              </button>
+            </div>
+
+            <div class="taggerPreviewCard" id="taggerPreviewCard">
+              <div class="taggerPreviewTitle">This file will appear in:</div>
+              <div id="taggerPreviewList" class="taggerPreviewList">Pick a brand/category to preview placement.</div>
+              <div id="taggerPlacementChips" class="taggerPlacementChips"></div>
+              <div id="taggerPlacementRule" class="taggerPlacementRule">Mixes can appear in one series category and also in the matching main artist folder.</div>
+            </div>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="basic">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-file-pen"></i>
+              <div>
+                <strong>Main ID3 tags</strong>
+                <span>The everyday metadata used by players, phones, cars and DJ software.</span>
+              </div>
+            </div>
+
+            <div class="taggerGrid">
+              <div class="taggerField"><label for="taggerTitle">Title</label><input id="taggerTitle" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerArtist">Artist</label><input id="taggerArtist" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerAlbumArtist">Album artist</label><input id="taggerAlbumArtist" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerAlbum">Album / Series</label><input id="taggerAlbum" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerGenre">Genre</label><input id="taggerGenre" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerLabel">Label</label><input id="taggerLabel" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerYear">Year</label><input id="taggerYear" type="number" inputmode="numeric" /></div>
+              <div class="taggerField"><label for="taggerBpm">BPM</label><input id="taggerBpm" type="number" inputmode="numeric" /></div>
+              <div class="taggerField"><label for="taggerKey">Key</label><input id="taggerKey" type="text" autocomplete="off" placeholder="A minor / 8A / etc." /></div>
+              <div class="taggerField"><label for="taggerCountry">Country</label><input id="taggerCountry" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerTrackNumber">Track number</label><input id="taggerTrackNumber" type="text" inputmode="numeric" /></div>
+              <div class="taggerField"><label for="taggerDiscNumber">Disc number</label><input id="taggerDiscNumber" type="text" inputmode="numeric" /></div>
+            </div>
+
+            <div class="taggerField taggerFieldFull">
+              <label for="taggerComment">Comment / Description</label>
+              <textarea id="taggerComment" rows="4"></textarea>
+            </div>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="artwork">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-image"></i>
+              <div>
+                <strong>Artwork</strong>
+                <span>Choose cover artwork. MP3/M4A/AAC tagged copies can embed it.</span>
+              </div>
+            </div>
+
+            <div class="taggerArtworkPanel">
+              <div class="taggerArtworkPreview" id="taggerArtworkPreview">
+                <i class="fa-solid fa-image"></i>
+                <span>No artwork selected</span>
+              </div>
+              <div class="taggerArtworkActions">
+                <input id="taggerArtworkInput" class="hidden" type="file" accept="image/*" />
+                <button id="btnTaggerPickArtwork" class="moduleActionBtn subtle" type="button">
+                  <i class="fa-solid fa-image"></i>
+                  <span>Choose artwork</span>
+                </button>
+                <button id="btnTaggerClearArtwork" class="moduleActionBtn subtle" type="button">
+                  <i class="fa-solid fa-xmark"></i>
+                  <span>Clear artwork</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="brmedia">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-tags"></i>
+              <div>
+                <strong>BRMedia routing tags</strong>
+                <span>These are the source of truth for Player category placement and brand images.</span>
+              </div>
+            </div>
+
+            <div class="taggerGrid">
+              <div class="taggerField">
+                <label for="taggerPrimaryBrand">Primary brand</label>
+                <select id="taggerPrimaryBrand">
+                  <option value="">Auto detect</option>
+                  <option value="Blackburn Ravers">Blackburn Ravers</option>
+                  <option value="DJ NJ">DJ NJ</option>
+                  <option value="Upalnite">Upalnite</option>
+                  <option value="DJ NJ & Upalnite">DJ NJ &amp; Upalnite</option>
+                </select>
+              </div>
+              <div class="taggerField">
+                <label for="taggerCategory">Player category</label>
+                <select id="taggerCategory">
+                  <option value="">Auto category</option>
+                  <option value="blackburn-ravers-mixes">Blackburn Ravers Mixes</option>
+                  <option value="dj-nj-mixes">DJ NJ Mixes</option>
+                  <option value="upalnite-mixes">Upalnite Mixes</option>
+                  <option value="hardcore-medley-series">The Hardcore Medley Series</option>
+                  <option value="ghsv-series">Gettin High Smashin Vibes Series</option>
+                  <option value="androidcore-ep">The Androidcore Epic</option>
+                  <option value="htid-mixes">HTID Mixes</option>
+                  <option value="makina-mayhem-series">Makina Mayhem Series</option>
+                  <option value="brutal-power-mixes">Brutal Power Mixes</option>
+                  <option value="house-music-series">House Music Series</option>
+                  <option value="hardhousecore-series">Hardhousecore Series</option>
+                  <option value="nasti-jam-mixes">Nasti Jam Mixes</option>
+                  <option value="radio-shows">Radio Shows</option>
+                  <option value="free-songs">Blackburn Ravers Free Songs</option>
+                  <option value="dj-mp3s-wavs">DJ MP3s | WAVs</option>
+                </select>
+              </div>
+              <div class="taggerField"><label for="taggerSeries">Series</label><input id="taggerSeries" type="text" autocomplete="off" /></div>
+              <div class="taggerField"><label for="taggerEpisode">Episode</label><input id="taggerEpisode" type="text" autocomplete="off" placeholder="#001" /></div>
+              <div class="taggerField">
+                <label for="taggerReleaseType">Release type</label>
+                <select id="taggerReleaseType">
+                  <option value="Mix">Mix</option>
+                  <option value="Song">Song</option>
+                  <option value="Radio Show">Radio Show</option>
+                  <option value="Clip">Clip</option>
+                  <option value="Preview">Preview</option>
+                </select>
+              </div>
+              <div class="taggerField">
+                <label for="taggerTracklistStatus">Tracklist status</label>
+                <select id="taggerTracklistStatus">
+                  <option value="None">None</option>
+                  <option value="Manual">Manual</option>
+                  <option value="Auto Scanned">Auto Scanned</option>
+                  <option value="Verified">Verified</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="taggerCheckGrid">
+              <label><input id="taggerExtraBlackburn" type="checkbox" /> Extra brand: Blackburn Ravers</label>
+              <label><input id="taggerExtraDjNj" type="checkbox" /> Extra brand: DJ NJ</label>
+              <label><input id="taggerExtraUpalnite" type="checkbox" /> Extra brand: Upalnite</label>
+              <label><input id="taggerRadioOnly" type="checkbox" /> Radio only</label>
+              <label><input id="taggerFreeSong" type="checkbox" /> Free song</label>
+            </div>
+
+            <div class="taggerField taggerFieldFull">
+              <label for="taggerCustomNotes">BRMedia notes</label>
+              <textarea id="taggerCustomNotes" rows="3" placeholder="Private BRMedia notes, routing reminders, artwork notes, etc."></textarea>
+            </div>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="extended">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-list-ul"></i>
+              <div>
+                <strong>Extended ID3 / FFmpeg tags</strong>
+                <span>Open only the groups you need, Evertag-style. Blank fields are skipped when writing.</span>
+              </div>
+            </div>
+
+            <div class="taggerAdvancedIntro">
+              <strong>Power tags</strong>
+              <span>Credits, MusicBrainz IDs, ReplayGain, podcast data, WWW links, lyrics, sort order and raw FFmpeg metadata.</span>
+            </div>
+
+            <div id="taggerAdvancedFields" class="taggerAdvancedFields"></div>
+
+            <details class="taggerAdvancedGroup">
+              <summary>
+                <span><strong>Raw FFmpeg metadata</strong><small>For any extra key=value metadata not listed above.</small></span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </summary>
+              <div class="taggerAdvancedGroupGrid">
+                <div class="taggerField taggerFieldFull taggerRawMetadataField">
+                  <label for="taggerRawMetadata">Raw FFmpeg metadata</label>
+                  <textarea id="taggerRawMetadata" rows="8" placeholder="One per line, for example:
+publisher=Blackburn Ravers
+comment=Mixed by Upalnite
+replaygain_track_gain=-7.40 dB"></textarea>
+                  <small>Use key=value lines. These are merged with the extended fields when writing a tagged copy.</small>
+                </div>
+              </div>
+            </details>
+          </section>
+
+          <section class="taggerProStep" data-tagger-step-panel="save">
+            <div class="taggerProStepHead">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <div>
+                <strong>Save / write</strong>
+                <span>Save BRMedia sidecars, create a tagged copy, replace with backup, or write + download.</span>
+              </div>
+            </div>
+
+            <div class="taggerSaveModePanel" aria-label="Tagger save mode">
+              <div class="taggerSaveModeHeader">
+                <strong>Save mode</strong>
+                <span>V6 can create a tagged copy or replace the original after making a backup.</span>
+              </div>
+              <div class="taggerSaveModeGrid">
+                <label class="taggerSaveModeOption">
+                  <input type="radio" name="taggerSaveMode" value="copy" checked />
+                  <span><strong>Save tagged copy</strong><small>Original stays untouched. Creates “BRMedia Tagged”.</small></span>
+                </label>
+                <label class="taggerSaveModeOption danger">
+                  <input type="radio" name="taggerSaveMode" value="replace" />
+                  <span><strong>Replace original with backup</strong><small>Creates automatic .brmedia-backup before replacing.</small></span>
+                </label>
+              </div>
+              <div id="taggerOverwriteWarning" class="taggerOverwriteWarning hidden">This will replace the original file. A backup will be created first.</div>
+            </div>
+
+            <div id="taggerWriteResult" class="taggerWriteResult hidden"></div>
+
+            <div class="taggerActions">
+              <button id="btnTaggerSave" class="moduleActionBtn primary" type="button"><i class="fa-solid fa-floppy-disk"></i><span>Save BRMedia tags</span></button>
+              <button id="btnTaggerWriteCopy" class="moduleActionBtn primary" type="button"><i class="fa-solid fa-file-export"></i><span>Apply save mode</span></button>
+              <button id="btnTaggerWriteDownload" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-download"></i><span>Write + download</span></button>
+              <button id="btnTaggerExportSidecar" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-file-export"></i><span>Export sidecar JSON</span></button>
+              <button id="btnTaggerReset" class="moduleActionBtn subtle" type="button"><i class="fa-solid fa-arrow-rotate-left"></i><span>Reset fields</span></button>
+            </div>
+          </section>
+        </div>
+      </section>
+      </section>
+
+      <div id="moduleMiniPlayer" class="moduleMiniPlayer hidden" aria-label="BRMedia mini player">
+        <audio id="moduleMiniAudio" preload="metadata"></audio>
+        <a id="moduleMiniArtLink" class="moduleMiniArtLink" href="/player" aria-label="Open current track in Player">
+          <img id="moduleMiniArt" class="moduleMiniArt" src="/player/br-footer-logo-trans.png" alt="" />
+        </a>
+        <button id="btnModuleMiniPrev" class="moduleMiniBtn" type="button" aria-label="Previous track">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button id="btnModuleMiniPlay" class="moduleMiniPlayBtn" type="button" aria-label="Play or pause">
+          <i class="fa-solid fa-play"></i>
+        </button>
+        <button id="btnModuleMiniNext" class="moduleMiniBtn" type="button" aria-label="Next track">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+        <div class="moduleMiniText">
+          <div id="moduleMiniTitle" class="moduleMiniTitle">Nothing playing</div>
+          <div id="moduleMiniSub" class="moduleMiniSub">Open Player to start a mix.</div>
+        </div>
+        <div class="moduleMiniProgress"><span id="moduleMiniProgressFill"></span></div>
+      </div>
+
+      <div id="moduleLibraryPicker" class="moduleLibraryPicker hidden" role="dialog" aria-modal="true" aria-label="Choose from BRMedia library">
+        <div class="moduleLibraryPickerCard">
+          <div class="moduleLibraryPickerHead">
+            <div>
+              <strong id="moduleLibraryPickerTitle">Choose from library</strong>
+              <span id="moduleLibraryPickerSub">Pick a BRMedia library file for this module.</span>
+            </div>
+            <button id="btnModuleLibraryPickerClose" class="moduleLibraryPickerClose" type="button" aria-label="Close library picker">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="moduleLibraryPickerSearch">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="moduleLibraryPickerSearch" type="search" placeholder="Search title, artist, format or path…" autocomplete="off" />
+          </div>
+
+          <div id="moduleLibraryPickerList" class="moduleLibraryPickerList">
+            <div class="moduleLibraryPickerEmpty">Loading BRMedia library…</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="moduleFooter">
+        <div class="moduleFooterInner">
+          <img src="/player/br-footer-logo-trans.png" alt="BR" class="moduleFooterLogo" />
+          <div class="moduleFooterCopy">
+            <span class="moduleFooterLine">
+              <span class="moduleFooterOrange">©</span>
+              <span class="moduleFooterWhite">The Blackburn Ravers</span>
+            </span>
+            <span class="moduleFooterLine">
+              <span class="moduleFooterWhite">DJ NJ &amp; Upalnite</span>
+              <span class="moduleFooterBlue">2026</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script src="/tagger/app.js?v=20260510-split-e2"></script>
+</body>
+</html>

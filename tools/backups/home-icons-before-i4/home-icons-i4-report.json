@@ -1,0 +1,12 @@
+{
+  "patch": "I4",
+  "updatedAt": "2026-05-10T18:37:22.307Z",
+  "changes": [
+    "Added Universal Settings tile to Home.",
+    "Made Home header logo clickable to /.",
+    "Changed Home Server Settings tile to use fa-server.",
+    "Updated Home icon loader to use /shared/icons/fa-duotone first with Player fallback.",
+    "Updated shared nav to use consistent Home-style module icons.",
+    "Added SVG icon styling to shared shell nav."
+  ]
+}

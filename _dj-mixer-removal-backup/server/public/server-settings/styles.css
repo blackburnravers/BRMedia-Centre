@@ -1,0 +1,2009 @@
+@import url("/player/styles.css");
+
+body.settingsMode {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(31, 169, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 85% 8%, rgba(242, 160, 7, 0.14), transparent 34%),
+    #07142d;
+}
+
+.settingsShell {
+  background: transparent;
+}
+
+.settingsTopbar {
+  margin-bottom: 18px;
+}
+
+.settingsBrandHeader {
+  min-height: 112px;
+  background:
+    linear-gradient(135deg, rgba(242, 160, 7, 0.18), transparent 26%),
+    linear-gradient(225deg, rgba(31, 169, 255, 0.18), transparent 30%),
+    #132851 !important;
+  border-color: rgba(31, 169, 255, 0.28) !important;
+}
+
+.settingsHeaderLogo {
+  width: min(250px, 48vw) !important;
+  max-height: 72px !important;
+}
+
+.settingsMain {
+  width: min(940px, calc(100% - 24px));
+  margin: 0 auto;
+  min-height: 52vh;
+}
+
+.settingsHeroShell {
+  min-height: 38vh;
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, rgba(242, 160, 7, 0.12), transparent 24%),
+    linear-gradient(225deg, rgba(31, 169, 255, 0.16), transparent 28%),
+    rgba(19, 40, 81, 0.92);
+  border: 1px solid rgba(31, 169, 255, 0.24);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.settingsHeroLine {
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, #f2a007, #1fa9ff, #f2a007);
+  box-shadow: 0 0 22px rgba(31, 169, 255, 0.35);
+}
+
+.settingsFooter {
+  margin-top: 34px;
+}
+
+.sidebarModuleBtn.is-active {
+  border-color: rgba(242, 160, 7, 0.45);
+}
+
+.sidebarModuleBtn.is-active i {
+  color: #f2a007;
+}
+
+/* BRMedia Sidebar Open Modules — shared full-width style */
+.sidebarModuleBlock {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(31, 169, 255, 0.14);
+}
+
+.sidebarSectionTitle {
+  margin: 0 0 12px;
+  color: #f2a007;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.sidebarModuleList {
+  display: grid;
+  gap: 11px;
+}
+
+.sidebarModuleBtn {
+  width: 100%;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  text-align: left;
+  padding: 12px 14px;
+  box-shadow: 0 10px 22px rgba(4, 12, 28, 0.10);
+}
+
+.sidebarModuleBtn i,
+.sidebarModuleBtn .brSvgIconHost {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+}
+
+.sidebarModuleText {
+  min-width: 0;
+  display: grid;
+}
+
+.sidebarModuleTitle {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.sidebarModuleSub {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.8rem;
+  line-height: 1.22;
+  font-weight: 760;
+  overflow-wrap: anywhere;
+}
+
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(242, 160, 7, 0.54);
+  background: rgba(31, 169, 255, 0.14);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost {
+  color: #ffffff;
+}
+
+/* BRMedia Open Modules active state — light blue */
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost {
+  color: #7bd0ff;
+}
+
+/* BRMedia Server Settings V1 — API key manager */
+.settingsHeroShell {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.settingsHeroLine {
+  display: none;
+}
+
+.serverSettingsDashboard {
+  display: grid;
+  gap: 14px;
+}
+
+.serverSettingsHero,
+.serverSettingsCard,
+.serverSettingsMetric {
+  border-radius: 28px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #102b58;
+  box-shadow: 0 18px 34px rgba(4, 12, 28, 0.18);
+}
+
+.serverSettingsHero {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 18px;
+}
+
+.serverSettingsHero > span,
+.serverSettingsCardHead > span {
+  width: 54px;
+  height: 54px;
+  border-radius: 19px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.serverSettingsEyebrow {
+  color: #f2a007;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.serverSettingsHero h2 {
+  margin: 6px 0 0;
+  color: #ffffff;
+  font-size: clamp(2.1rem, 8vw, 4rem);
+  line-height: 0.94;
+  letter-spacing: -0.06em;
+}
+
+.serverSettingsHero p,
+.serverSettingsCardHead p,
+.serverSettingsHelp p {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.66);
+  line-height: 1.34;
+  font-weight: 760;
+}
+
+.serverSettingsMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.serverSettingsMetric {
+  padding: 14px;
+}
+
+.serverSettingsMetric strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 950;
+}
+
+.serverSettingsMetric span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.78rem;
+  font-weight: 780;
+}
+
+.serverSettingsCard {
+  padding: 14px;
+}
+
+.serverSettingsCardHead {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.serverSettingsCardHead h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 950;
+}
+
+.serverSettingsNotice {
+  border-radius: 18px;
+  padding: 11px 12px;
+  margin-bottom: 12px;
+  color: #bfe9ff;
+  background: #0f2449;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  font-weight: 850;
+}
+
+.serverSecretGroups {
+  display: grid;
+  gap: 13px;
+}
+
+.serverSecretGroup {
+  display: grid;
+  gap: 10px;
+}
+
+.serverSecretGroup h4 {
+  margin: 0;
+  color: #f2a007;
+  letter-spacing: 0.2em;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.serverSecretGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.serverSecretField {
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #0f2449;
+  padding: 11px;
+}
+
+.serverSecretField.isSet {
+  border-color: rgba(28, 164, 91, 0.34);
+}
+
+.serverSecretField.isMissing {
+  border-color: rgba(255, 80, 104, 0.22);
+}
+
+.serverSecretField label {
+  display: grid;
+  gap: 6px;
+}
+
+.serverSecretField label > span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.serverSecretField input[type="text"],
+.serverSecretField input[type="password"] {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #071b39;
+  color: #ffffff;
+  padding: 0 12px;
+  font-weight: 850;
+}
+
+.serverSecretMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 9px;
+  flex-wrap: wrap;
+}
+
+.serverSecretMeta > span {
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.serverSecretMeta em {
+  color: rgba(255, 255, 255, 0.58);
+  font-style: normal;
+  font-size: 0.74rem;
+  font-weight: 780;
+}
+
+.serverSecretClear {
+  margin-left: auto;
+  display: inline-flex !important;
+  grid-template-columns: none !important;
+  align-items: center;
+  gap: 6px !important;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.74rem;
+}
+
+.serverSecretClear input {
+  width: 18px;
+  height: 18px;
+  accent-color: #1fa9ff;
+}
+
+.serverSecretClear b {
+  font-weight: 850;
+}
+
+.serverSettingsActions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.serverSettingsBtn {
+  flex: 1 1 170px;
+  min-height: 48px;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #223d72;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-weight: 950;
+}
+
+.serverSettingsBtn.primary {
+  background: #1fa9ff;
+}
+
+.serverSettingsBtn.danger {
+  border-color: rgba(255, 80, 104, 0.34);
+  background: #461f2a;
+}
+
+.serverSettingsHelp code {
+  color: #7bd0ff;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 860px) {
+  .serverSettingsMetricGrid,
+  .serverSecretGrid,
+  .serverSettingsHero,
+  .serverSettingsCardHead {
+    grid-template-columns: 1fr;
+  }
+
+  .serverSettingsBtn {
+    flex-basis: 100%;
+  }
+}
+
+/* BRMedia Server Settings V2 — sectioned final polish */
+.sidebarNavSectionTitle {
+  margin: 14px 0 8px;
+  color: #f2a007;
+  letter-spacing: 0.22em;
+  font-size: 0.7rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.serverSectionNavBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.serverSectionNavBtn.active .sidebarNavIconBadge i,
+.serverSectionNavBtn.active .sidebarNavIconBadge .brSvgIconHost {
+  color: #7bd0ff;
+}
+
+.serverSettingsSectionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.serverSettingsSectionCard {
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #0f2449;
+  color: #ffffff;
+  padding: 12px;
+}
+
+.serverSettingsSectionCard > span {
+  width: 46px;
+  height: 46px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.serverSettingsSectionCard strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.08;
+}
+
+.serverSettingsSectionCard em {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.24;
+}
+
+.serverSettingsSectionCard.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+}
+
+.serverSettingsInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.serverSettingsInfoBox {
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  background: #0f2449;
+  padding: 12px;
+}
+
+.serverSettingsInfoBox strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.serverSettingsInfoBox span {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.28;
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+
+@media (max-width: 720px) {
+  .serverSettingsSectionGrid,
+  .serverSettingsInfoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* BRMedia Server Settings V3 — overview card cleanup, command box, cache button */
+.serverSettingsSectionGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.serverSettingsSectionCard {
+  min-height: 96px;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  padding: 13px;
+}
+
+.serverSettingsSectionCard > div {
+  min-width: 0;
+}
+
+.serverSettingsSectionCard strong {
+  font-size: 1.06rem;
+}
+
+.serverSettingsSectionCard em {
+  max-width: 100%;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.serverCommandBox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  margin-top: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #071b39;
+  padding: 10px;
+}
+
+.serverCommandBox code {
+  display: block;
+  color: #7bd0ff;
+  font-weight: 950;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.serverCommandCopyBtn {
+  min-height: 42px;
+  border-radius: 15px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #1fa9ff;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.serverMaintenanceActions {
+  margin-top: 12px;
+}
+
+.serverMaintenanceActions .serverSettingsBtn.primary {
+  background: #1fa9ff;
+}
+
+@media (max-width: 720px) {
+  .serverSettingsSectionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .serverSettingsSectionCard {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  .serverCommandBox {
+    grid-template-columns: 1fr;
+  }
+
+  .serverCommandCopyBtn {
+    width: 100%;
+  }
+}
+
+/* BRMedia Server Settings V4 — real admin tools */
+.serverAdminHealthGrid,
+.serverAdminActionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.serverAdminHealthCard,
+.serverAdminActionBtn,
+.serverAdminLogEmpty,
+.serverAdminLogItem,
+.serverFolderCheckItem,
+.serverAdminWaveformJob {
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #0f2449;
+  padding: 12px;
+}
+
+.serverAdminHealthCard {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.serverAdminHealthCard > span,
+.serverAdminActionBtn > span {
+  width: 42px;
+  height: 42px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.serverAdminHealthCard strong {
+  color: #ffffff;
+  font-size: 1.08rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.serverAdminHealthCard em {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.76rem;
+  font-style: normal;
+  font-weight: 780;
+}
+
+.serverAdminActionBtn {
+  min-height: 118px;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  color: #ffffff;
+  text-align: left;
+}
+
+.serverAdminActionBtn strong {
+  display: block;
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-weight: 950;
+}
+
+.serverAdminActionBtn em {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.76rem;
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.22;
+}
+
+.serverAdminActionBtn.primary {
+  border-color: rgba(31, 169, 255, 0.42);
+  background: rgba(31, 169, 255, 0.16);
+}
+
+.serverAdminActionBtn.danger {
+  border-color: rgba(255, 80, 104, 0.34);
+  background: rgba(70, 31, 42, 0.88);
+}
+
+.serverAdminLogList,
+.serverFolderCheckList {
+  display: grid;
+  gap: 8px;
+}
+
+.serverAdminLogEmpty {
+  color: rgba(255, 255, 255, 0.62);
+  font-weight: 820;
+}
+
+.serverAdminLogItem,
+.serverFolderCheckItem {
+  display: grid;
+  gap: 4px;
+}
+
+.serverAdminLogItem.isOk,
+.serverFolderCheckItem.isOk,
+.serverAdminWaveformJob.isOk {
+  border-color: rgba(28, 164, 91, 0.36);
+  background: #193e34;
+}
+
+.serverAdminLogItem.isBad,
+.serverFolderCheckItem.isBad,
+.serverAdminWaveformJob.isBad {
+  border-color: rgba(255, 80, 104, 0.40);
+  background: #461f2a;
+}
+
+.serverAdminLogItem strong,
+.serverFolderCheckItem strong,
+.serverAdminWaveformJob strong {
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.serverAdminLogItem span,
+.serverFolderCheckItem span,
+.serverAdminLogItem em,
+.serverFolderCheckItem em,
+.serverAdminWaveformJob p {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 760;
+  overflow-wrap: anywhere;
+}
+
+.serverAdminWaveformJobTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.serverAdminWaveformJobTop em {
+  color: #7bd0ff;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.serverAdminProgress {
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.serverAdminProgress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #1fa9ff;
+}
+
+@media (max-width: 900px) {
+  .serverAdminHealthGrid,
+  .serverAdminActionGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* BRMedia Server Settings V4b — fix Overview + Maintenance card text stacking */
+.serverAdminHealthCard {
+  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  min-height: 96px;
+}
+
+.serverAdminHealthCard > span {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  width: 46px;
+  height: 46px;
+  align-self: center;
+}
+
+.serverAdminHealthCard strong {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.serverAdminHealthCard em {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  margin-top: 5px;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.serverAdminActionBtn {
+  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  min-height: 104px;
+  align-items: center;
+}
+
+.serverAdminActionBtn > span {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  width: 46px;
+  height: 46px;
+  align-self: center;
+}
+
+.serverAdminActionBtn strong {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.serverAdminActionBtn em {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  margin-top: 5px;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.serverSettingsSectionCard {
+  grid-template-columns: 52px minmax(0, 1fr);
+}
+
+.serverSettingsSectionCard > div {
+  min-width: 0;
+}
+
+.serverSettingsSectionCard em {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+@media (max-width: 900px) {
+  .serverAdminHealthCard,
+  .serverAdminActionBtn,
+  .serverSettingsSectionCard {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+}
+
+/* BRMedia Server Settings V4c — compact server health numbers */
+.serverAdminHealthCard {
+  min-height: 82px;
+  align-content: center;
+  row-gap: 3px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.serverAdminHealthCard strong {
+  align-self: end;
+  font-size: 1.18rem;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.serverAdminHealthCard em {
+  align-self: start;
+  margin-top: 0;
+  font-size: 0.74rem;
+  line-height: 1.12;
+}
+
+.serverAdminHealthCard > span {
+  align-self: center;
+}
+
+@media (max-width: 900px) {
+  .serverAdminHealthCard {
+    min-height: 78px;
+    row-gap: 2px;
+  }
+
+  .serverAdminHealthCard strong {
+    font-size: 1.12rem;
+  }
+}
+
+/* BRMedia Server Settings V4d — compact Maintenance action cards */
+.serverAdminActionBtn {
+  min-height: 86px;
+  align-content: center;
+  row-gap: 3px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.serverAdminActionBtn strong {
+  align-self: end;
+  font-size: 1.04rem;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.serverAdminActionBtn em {
+  align-self: start;
+  margin-top: 0;
+  font-size: 0.76rem;
+  line-height: 1.16;
+}
+
+.serverAdminActionBtn > span {
+  align-self: center;
+}
+
+@media (max-width: 900px) {
+  .serverAdminActionBtn {
+    min-height: 82px;
+    row-gap: 2px;
+  }
+
+  .serverAdminActionBtn strong {
+    font-size: 1rem;
+  }
+
+  .serverAdminActionBtn em {
+    font-size: 0.74rem;
+  }
+}
+
+/* BRMedia Server Settings V4e — status polish, result boxes and copy tools */
+.serverSettingsMetric.isOk,
+.serverAdminHealthCard.isOk,
+.serverAdminStatusPanel.isOk {
+  border-color: rgba(28, 164, 91, 0.38);
+  background: linear-gradient(180deg, rgba(28, 164, 91, 0.18), rgba(15, 36, 73, 0.92));
+}
+
+.serverSettingsMetric.isWarn,
+.serverAdminHealthCard.isWarn,
+.serverAdminStatusPanel.isWarn {
+  border-color: rgba(242, 160, 7, 0.42);
+  background: linear-gradient(180deg, rgba(242, 160, 7, 0.18), rgba(15, 36, 73, 0.92));
+}
+
+.serverSettingsMetric.isBad,
+.serverAdminHealthCard.isBad,
+.serverAdminStatusPanel.isBad {
+  border-color: rgba(255, 80, 104, 0.42);
+  background: linear-gradient(180deg, rgba(255, 80, 104, 0.18), rgba(70, 31, 42, 0.86));
+}
+
+.serverSettingsMetric.isOk strong,
+.serverAdminHealthCard.isOk strong,
+.serverAdminStatusPanel.isOk strong {
+  color: #9dffbd;
+}
+
+.serverSettingsMetric.isWarn strong,
+.serverAdminHealthCard.isWarn strong,
+.serverAdminStatusPanel.isWarn strong {
+  color: #ffd27a;
+}
+
+.serverSettingsMetric.isBad strong,
+.serverAdminHealthCard.isBad strong,
+.serverAdminStatusPanel.isBad strong {
+  color: #ffc0c9;
+}
+
+.serverAdminStatusPanel {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #0f2449;
+  padding: 12px;
+}
+
+.serverAdminStatusPanel > span {
+  width: 46px;
+  height: 46px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.serverAdminStatusPanel strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.serverAdminStatusPanel p {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.78rem;
+  font-weight: 780;
+  line-height: 1.24;
+  overflow-wrap: anywhere;
+}
+
+.serverAdminStatusPanel em {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.serverMiniCopyBtn {
+  min-height: 38px;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: rgba(31, 169, 255, 0.14);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 11px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.serverAdminLogItem,
+.serverFolderCheckItem {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.serverAdminLogItem > div,
+.serverFolderCheckItem > div {
+  min-width: 0;
+}
+
+.serverAdminLogItem span,
+.serverFolderCheckItem span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.serverAdminActionBtn.isBusy {
+  border-color: rgba(242, 160, 7, 0.55);
+  background: rgba(242, 160, 7, 0.18);
+}
+
+.serverAdminActionBtn:disabled {
+  opacity: 0.55;
+}
+
+@media (max-width: 760px) {
+  .serverAdminStatusPanel,
+  .serverAdminLogItem,
+  .serverFolderCheckItem {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  .serverAdminStatusPanel .serverMiniCopyBtn {
+    grid-column: 2;
+    width: max-content;
+  }
+
+  .serverAdminLogItem .serverMiniCopyBtn,
+  .serverFolderCheckItem .serverMiniCopyBtn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+/* BRMedia Server Settings V4f — folder access result layout fix */
+.serverFolderCheckItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.serverFolderCheckItem > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.serverFolderCheckItem strong,
+.serverFolderCheckItem span,
+.serverFolderCheckItem em {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+}
+
+.serverFolderCheckItem strong {
+  font-size: 1.05rem;
+  line-height: 1.1;
+}
+
+.serverFolderCheckItem span {
+  font-size: 0.8rem;
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.serverFolderCheckItem em {
+  margin-top: 1px;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.serverFolderCheckItem .serverMiniCopyBtn {
+  width: 100%;
+  justify-self: stretch;
+  margin-top: 4px;
+}
+
+@media (max-width: 760px) {
+  .serverFolderCheckItem {
+    grid-template-columns: 1fr;
+  }
+
+  .serverFolderCheckItem .serverMiniCopyBtn {
+    grid-column: 1;
+    width: 100%;
+  }
+}
+
+/* BRMedia Server Settings V4g — admin log layout + anti-pulse polish */
+.serverAdminLogItem {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+  align-items: start !important;
+}
+
+.serverAdminLogItem > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.serverAdminLogItem strong,
+.serverAdminLogItem span,
+.serverAdminLogItem em {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+}
+
+.serverAdminLogItem strong {
+  font-size: 1.05rem;
+  line-height: 1.12;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.serverAdminLogItem span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.8rem;
+  line-height: 1.22;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.serverAdminLogItem em {
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.74rem;
+  line-height: 1.15;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.serverAdminLogItem .serverMiniCopyBtn {
+  width: 100%;
+  justify-self: stretch;
+}
+
+.serverMiniCopyBtn .brSvgIconHost,
+.serverMiniCopyBtn .brSvgIconSvg,
+.serverAdminActionBtn .brSvgIconHost,
+.serverAdminActionBtn .brSvgIconSvg,
+.serverAdminHealthCard .brSvgIconHost,
+.serverAdminHealthCard .brSvgIconSvg,
+.serverSettingsCardHead .brSvgIconHost,
+.serverSettingsCardHead .brSvgIconSvg {
+  animation: none !important;
+  transition: none !important;
+}
+
+.brSvgIconHost,
+.brSvgIconSvg {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* BRMedia shared module PNG nav icons */
+.sidebarModuleBtn .sidebarModuleIconImage {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,0.18));
+}
+
+.sidebarModuleBtn.is-active .sidebarModuleIconImage,
+.sidebarModuleBtn.active .sidebarModuleIconImage {
+  filter: drop-shadow(0 0 10px rgba(123,208,255,0.22));
+}
+
+/* BRMedia Server Settings — Torrent Engine panel */
+.serverTorrentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.serverTorrentPanel {
+  border: 1px solid rgba(123, 208, 255, 0.16);
+  border-radius: 24px;
+  background: rgba(7, 20, 45, 0.38);
+  padding: 14px;
+  display: grid;
+  gap: 11px;
+  min-width: 0;
+}
+
+.serverTorrentPanel h4 {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 1000;
+}
+
+.serverTorrentPanel h4 .brSvgIconHost,
+.serverTorrentPanel h4 i {
+  color: #7bd0ff;
+  width: 22px;
+  height: 22px;
+}
+
+.serverTorrentField {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.serverTorrentField span {
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 950;
+  font-size: 0.78rem;
+}
+
+.serverTorrentField input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid rgba(123, 208, 255, 0.2);
+  border-radius: 15px;
+  background: rgba(5, 15, 35, 0.78);
+  color: #ffffff;
+  padding: 11px 12px;
+  font-weight: 850;
+  font-size: 0.86rem;
+  outline: none;
+}
+
+.serverTorrentField input:focus {
+  border-color: rgba(123, 208, 255, 0.62);
+  box-shadow: 0 0 0 3px rgba(31, 169, 255, 0.12);
+}
+
+.serverTorrentField em,
+.serverTorrentToggle em {
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.serverTorrentToggle {
+  border: 1px solid rgba(123, 208, 255, 0.14);
+  border-radius: 17px;
+  background: rgba(31, 169, 255, 0.06);
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 9px;
+  align-items: start;
+}
+
+.serverTorrentToggle input {
+  width: 20px;
+  height: 20px;
+  accent-color: #1fa9ff;
+  margin-top: 1px;
+}
+
+.serverTorrentToggle strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 1000;
+  font-size: 0.8rem;
+  line-height: 1.15;
+}
+
+.serverTorrentMiniGrid,
+.serverTorrentToggleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.serverSettingsBtn.isBusy {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .serverTorrentGrid,
+  .serverTorrentMiniGrid,
+  .serverTorrentToggleGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* BRMedia Server Settings — Library Sources / Drives V2 */
+.serverLibrarySourceList {
+  display: grid;
+  gap: 14px;
+}
+
+.serverLibrarySourcesHelp {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(123, 208, 255, 0.16);
+  background: rgba(7, 20, 45, 0.42);
+}
+
+.serverLibrarySourcesHelp p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.8rem;
+  line-height: 1.3;
+  font-weight: 780;
+}
+
+.serverLibrarySourcesHelp .brSvgIconHost,
+.serverLibrarySourcesHelp i {
+  width: 18px;
+  height: 18px;
+  color: #f2a007;
+  margin-right: 5px;
+}
+
+.serverLibrarySourceCard {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 24px;
+  border: 1px solid rgba(123, 208, 255, 0.18);
+  background:
+    radial-gradient(circle at 92% 6%, rgba(31, 169, 255, 0.12), transparent 34%),
+    rgba(15, 36, 73, 0.96);
+}
+
+.serverLibrarySourceCard.isOffline {
+  border-color: rgba(242, 160, 7, 0.42);
+  background:
+    radial-gradient(circle at 92% 6%, rgba(242, 160, 7, 0.13), transparent 34%),
+    rgba(15, 36, 73, 0.96);
+}
+
+.serverLibrarySourceCard.isDisabled {
+  opacity: 0.68;
+}
+
+.serverLibrarySourceCardTop {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+}
+
+.serverLibrarySourceCardTop > b {
+  grid-column: 1 / -1;
+  justify-self: start;
+  border-radius: 999px;
+  padding: 6px 9px;
+  color: #89e7a2;
+  background: rgba(45, 194, 92, 0.11);
+  border: 1px solid rgba(45, 194, 92, 0.2);
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.serverLibrarySourceCard.isOffline .serverLibrarySourceCardTop > b,
+.serverLibrarySourceCard.isWarn .serverLibrarySourceCardTop > b {
+  color: #ffd36d;
+  background: rgba(242, 160, 7, 0.1);
+  border-color: rgba(242, 160, 7, 0.24);
+}
+
+.serverLibrarySourceCardIcon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.1);
+  border: 1px solid rgba(123, 208, 255, 0.16);
+}
+
+.serverLibrarySourceCardIcon .brSvgIconHost,
+.serverLibrarySourceCardIcon i {
+  width: 24px;
+  height: 24px;
+}
+
+.serverLibrarySourceCardTop strong,
+.serverLibrarySourceCardTop em {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.serverLibrarySourceCardTop strong {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 1000;
+}
+
+.serverLibrarySourceCardTop em {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 780;
+}
+
+.serverLibrarySourceTags,
+.serverLibrarySourceActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.serverLibrarySourceTag {
+  border-radius: 999px;
+  padding: 6px 8px;
+  color: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(123, 208, 255, 0.16);
+  background: rgba(31, 169, 255, 0.07);
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.serverLibrarySourceTag.isType {
+  color: #7bd0ff;
+}
+
+.serverLibrarySourceTag.isDefault {
+  color: #ffd36d;
+  border-color: rgba(242, 160, 7, 0.22);
+  background: rgba(242, 160, 7, 0.08);
+}
+
+.serverLibrarySourceTag.isMuted {
+  opacity: 0.6;
+}
+
+.serverLibrarySourceMetrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.serverLibrarySourceMetrics span {
+  min-width: 0;
+  padding: 9px;
+  border-radius: 15px;
+  border: 1px solid rgba(123, 208, 255, 0.14);
+  background: rgba(7, 20, 45, 0.36);
+}
+
+.serverLibrarySourceMetrics strong,
+.serverLibrarySourceMetrics em {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.serverLibrarySourceMetrics strong {
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 1000;
+}
+
+.serverLibrarySourceMetrics em {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 780;
+}
+
+.serverLibrarySourceOfflineNote {
+  margin: 0;
+  padding: 10px;
+  border-radius: 15px;
+  color: #ffd36d;
+  background: rgba(242, 160, 7, 0.08);
+  border: 1px solid rgba(242, 160, 7, 0.18);
+  font-size: 0.76rem;
+  line-height: 1.25;
+  font-weight: 820;
+}
+
+.serverLibrarySourceOfflineNote .brSvgIconHost,
+.serverLibrarySourceOfflineNote i {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+.serverLibrarySourceBtn,
+.serverLibrarySourceBrowseBtn,
+.serverLibraryBrowserActions button,
+.serverLibraryBrowserList button {
+  border: 1px solid rgba(123, 208, 255, 0.18);
+  background: rgba(31, 169, 255, 0.08);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 900;
+}
+
+.serverLibrarySourceBtn,
+.serverLibrarySourceBrowseBtn {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 14px;
+  padding: 0 10px;
+}
+
+.serverLibrarySourceBtn.danger {
+  color: #ffadb7;
+  border-color: rgba(237, 36, 69, 0.2);
+  background: rgba(237, 36, 69, 0.08);
+}
+
+.serverLibrarySourceBtn .brSvgIconHost,
+.serverLibrarySourceBrowseBtn .brSvgIconHost,
+.serverLibrarySourceBtn i,
+.serverLibrarySourceBrowseBtn i {
+  width: 17px;
+  height: 17px;
+}
+
+.serverLibrarySourceEditorCard {
+  display: grid;
+  gap: 12px;
+}
+
+.serverLibrarySourceEditorGrid,
+.serverLibrarySourceToggleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.serverLibrarySourceEditorGrid label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.serverLibrarySourceEditorGrid label > span {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.78rem;
+  font-weight: 950;
+}
+
+.serverLibrarySourceEditorGrid input,
+.serverLibrarySourceEditorGrid select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid rgba(123, 208, 255, 0.2);
+  border-radius: 15px;
+  background: rgba(5, 15, 35, 0.78);
+  color: #ffffff;
+  padding: 11px 12px;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+  outline: none;
+}
+
+.serverLibrarySourcePathRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.serverLibrarySourceToggle {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  border: 1px solid rgba(123, 208, 255, 0.14);
+  border-radius: 17px;
+  background: rgba(31, 169, 255, 0.06);
+  padding: 10px;
+}
+
+.serverLibrarySourceToggle input {
+  width: 19px;
+  height: 19px;
+  accent-color: #1fa9ff;
+}
+
+.serverLibrarySourceToggle strong,
+.serverLibrarySourceToggle em {
+  display: block;
+}
+
+.serverLibrarySourceToggle strong {
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 1000;
+}
+
+.serverLibrarySourceToggle em {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.7rem;
+  line-height: 1.2;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.serverLibraryBrowserOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 14px max(16px, env(safe-area-inset-bottom));
+}
+
+.serverLibraryBrowserBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 9, 22, 0.68);
+  backdrop-filter: blur(4px);
+}
+
+.serverLibraryBrowserPanel {
+  position: relative;
+  width: min(680px, 100%);
+  max-height: min(82vh, 760px);
+  display: grid;
+  gap: 11px;
+  padding: 14px;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(123, 208, 255, 0.22);
+  background: #102f63;
+  box-shadow: 0 24px 68px rgba(0, 0, 0, 0.4);
+}
+
+.serverLibraryBrowserHead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 9px;
+  align-items: center;
+}
+
+.serverLibraryBrowserHead strong,
+.serverLibraryBrowserHead em {
+  display: block;
+}
+
+.serverLibraryBrowserHead strong {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 1000;
+}
+
+.serverLibraryBrowserHead em {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.74rem;
+  line-height: 1.2;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.serverLibraryBrowserHead button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 0;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+  background: #ffffff;
+}
+
+.serverLibraryBrowserPath {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 15px;
+  color: #7bd0ff;
+  background: rgba(5, 15, 35, 0.48);
+  border: 1px solid rgba(123, 208, 255, 0.14);
+}
+
+.serverLibraryBrowserPath code {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #ffffff;
+  font-weight: 850;
+}
+
+.serverLibraryBrowserActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.serverLibraryBrowserActions button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 14px;
+  padding: 0 10px;
+}
+
+.serverLibraryBrowserActions button.primary {
+  background: #1fa9ff;
+  border-color: rgba(123, 208, 255, 0.5);
+}
+
+.serverLibraryBrowserActions button:disabled {
+  opacity: 0.45;
+}
+
+.serverLibraryBrowserList {
+  display: grid;
+  gap: 8px;
+  min-height: 120px;
+  max-height: 48vh;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.serverLibraryBrowserList button {
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  border-radius: 17px;
+  padding: 9px 10px;
+  text-align: left;
+}
+
+.serverLibraryBrowserList button .brSvgIconHost,
+.serverLibraryBrowserList button i {
+  width: 24px;
+  height: 24px;
+  color: #f2a007;
+}
+
+.serverLibraryBrowserList strong,
+.serverLibraryBrowserList em {
+  display: block;
+}
+
+.serverLibraryBrowserList strong {
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 950;
+}
+
+.serverLibraryBrowserList em {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.serverLibraryBrowserEmpty,
+.serverLibraryBrowserError {
+  padding: 12px;
+  border-radius: 15px;
+  border: 1px dashed rgba(123, 208, 255, 0.2);
+  color: rgba(255, 255, 255, 0.68);
+  background: rgba(5, 15, 35, 0.34);
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.serverLibraryBrowserError {
+  color: #ffb8c1;
+  border-color: rgba(237, 36, 69, 0.24);
+  background: rgba(237, 36, 69, 0.08);
+}
+
+@media (max-width: 720px) {
+  .serverLibrarySourceMetrics,
+  .serverLibrarySourceEditorGrid,
+  .serverLibrarySourceToggleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .serverLibrarySourcePathRow {
+    grid-template-columns: 1fr;
+  }
+
+  .serverLibrarySourceBrowseBtn {
+    width: 100%;
+  }
+}
+
+/* BRMedia Library Sources / Drives V1 access links */
+.serverLibrarySourceBtn[href],
+.serverSettingsBtn[href] {
+  text-decoration: none;
+}
+
+/* BRMedia DJ V2I — Server Settings DJ Mixer status panel */
+.serverDjCard {
+  display: grid;
+  gap: 12px;
+}
+
+.serverDjPathGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.serverDjPathGrid span {
+  min-width: 0;
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid rgba(123, 208, 255, 0.14);
+  background: rgba(4, 16, 34, 0.42);
+}
+
+.serverDjPathGrid strong,
+.serverDjPathGrid code {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.serverDjPathGrid strong {
+  color: #7bd0ff;
+  font-size: 0.76rem;
+  font-weight: 950;
+}
+
+.serverDjPathGrid code {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.68rem;
+  font-weight: 760;
+}
+
+.serverDjFlagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.serverDjFlagRow span {
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: #bfe9ff;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(31, 169, 255, 0.08);
+  font-size: 0.67rem;
+  font-weight: 900;
+}
+
+.serverDjDriverNote {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 15px;
+  color: #ffd36d;
+  border: 1px solid rgba(242, 160, 7, 0.24);
+  background: rgba(242, 160, 7, 0.08);
+  font-size: 0.75rem;
+  font-weight: 820;
+  line-height: 1.35;
+}
+
+.serverDjDriverNote .brSvgIconHost,
+.serverDjDriverNote i {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 720px) {
+  .serverDjPathGrid {
+    grid-template-columns: 1fr;
+  }
+}
+

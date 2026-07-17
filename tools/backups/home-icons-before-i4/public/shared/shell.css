@@ -1,0 +1,209 @@
+:root {
+  --br-blue: #182e5b;
+  --br-blue-2: #23477f;
+  --br-orange: #ff9f1c;
+  --br-panel: rgba(11, 24, 50, 0.78);
+  --br-panel-strong: rgba(10, 22, 46, 0.94);
+  --br-border: rgba(255, 255, 255, 0.14);
+  --br-text: #f7fbff;
+  --br-muted: rgba(247, 251, 255, 0.68);
+}
+
+* { box-sizing: border-box; }
+html { min-height: 100%; background: #08152f; }
+
+body.brSharedBody {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--br-text);
+  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 159, 28, 0.22), transparent 28rem),
+    radial-gradient(circle at 80% 0%, rgba(67, 129, 255, 0.26), transparent 26rem),
+    linear-gradient(180deg, #102551 0%, #061124 100%);
+}
+
+.brSharedShell {
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.brSharedTopbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: max(12px, env(safe-area-inset-top)) 16px 10px;
+  background: rgba(8, 19, 42, 0.88);
+  border-bottom: 1px solid var(--br-border);
+  backdrop-filter: blur(18px);
+}
+
+.brSharedTopbarInner {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.brSharedIconBtn {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--br-border);
+  border-radius: 16px;
+  color: var(--br-text);
+  background: rgba(255,255,255,0.08);
+  font-weight: 900;
+  font-size: 22px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+}
+
+.brSharedLogo {
+  max-width: min(310px, 68vw);
+  max-height: 48px;
+  justify-self: center;
+  object-fit: contain;
+}
+
+.brSharedMain {
+  width: min(1100px, calc(100% - 28px));
+  margin: 18px auto 46px;
+}
+
+.brSharedBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 39;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+.brSharedBackdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.brSharedSidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 40;
+  width: min(360px, 88vw);
+  padding: max(18px, env(safe-area-inset-top)) 16px 18px;
+  background: var(--br-panel-strong);
+  border-right: 1px solid var(--br-border);
+  transform: translateX(-105%);
+  transition: transform 0.2s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.brSharedSidebar.is-open {
+  transform: translateX(0);
+}
+
+.brSharedSidebarHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.brSharedSidebarTitle {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.brSharedNav {
+  display: grid;
+  gap: 10px;
+}
+
+.brSharedNavLink {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 12px;
+  align-items: center;
+  min-height: 66px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid var(--br-border);
+  color: var(--br-text);
+  text-decoration: none;
+  background: rgba(255,255,255,0.07);
+}
+
+.brSharedNavLink.is-active {
+  border-color: rgba(255,159,28,0.72);
+  background: rgba(255,159,28,0.16);
+}
+
+.brSharedNavIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.1);
+  color: var(--br-orange);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.brSharedNavText {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.brSharedNavTitle {
+  font-weight: 900;
+}
+
+.brSharedNavSub {
+  color: var(--br-muted);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.brSharedHero,
+.brSharedPanel {
+  border: 1px solid var(--br-border);
+  border-radius: 28px;
+  background: var(--br-panel);
+  box-shadow: 0 24px 70px rgba(0,0,0,0.34);
+}
+
+.brSharedHero {
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.brSharedEyebrow {
+  color: var(--br-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.brSharedHero h1 {
+  margin: 8px 0;
+  font-size: clamp(30px, 8vw, 54px);
+  line-height: 0.95;
+}
+
+.brSharedHero p {
+  color: var(--br-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.brSharedPanel {
+  padding: 18px;
+}

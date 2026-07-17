@@ -1,0 +1,1688 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Player</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260515" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260515" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260515" />
+  <link rel="manifest" href="/player/site.webmanifest?v=20260505" />
+  <meta name="theme-color" content="#182E5B" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="BRMedia" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="stylesheet" href="/player/styles.css?v=20260618-torrent-handoff-v1" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+</head>
+<body class="skin-1">
+  <div class="appShell">
+  <header class="topbar">
+  <div class="brandHeader">
+    <button id="btnTopSearch" class="topSearchBtn" aria-label="Open search" aria-pressed="false">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+
+    <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="brandLogoFull" />
+    <div class="brandHeaderMeta">
+      <div class="eyebrow">BRMedia</div>
+      <h1 id="pageTitle">Library</h1>
+    </div>
+  </div>
+
+  <button id="btnTopSettings" class="topMenuBtn" aria-label="Open menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+</header>
+
+<div id="sidebarBackdrop" class="sidebarBackdrop hidden"></div>
+
+<aside id="sidebarMenu" class="sidebarMenu hidden">
+  <div class="sidebarMenuHeader">
+    <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="sidebarLogoFull" />
+  </div>
+
+  <div class="sidebarNav">
+<button class="sidebarNavBtn active" data-tab="Library" type="button">
+  <span class="sidebarNavIconBadge">
+    <img class="sidebarNavIconImage" src="/shared/branding/module-icons/home.png" alt="" />
+  </span>
+      <span class="sidebarNavText">
+        <span class="sidebarNavBtnTitle">Home</span>
+        <span class="sidebarNavBtnSub">Mix navigation first, then your mixes underneath.</span>
+      </span>
+    </button>
+
+    <div class="sidebarCategoryBlock sidebarCategoryBlockInline">
+      <div id="sidebarCategoryList" class="sidebarCategoryList"></div>
+    </div>
+
+    <div class="sidebarQuickGrid">
+      <button class="sidebarNavBtn sidebarQuickTile" data-tab="Favourites" type="button">
+        <span class="sidebarNavIconBadge">
+          <img class="sidebarNavIconImage" src="/shared/branding/categories/icons/favourites-page-trans.png" alt="" />
+        </span>
+        <span class="sidebarNavText">
+          <span class="sidebarNavBtnTitle">Favourites</span>
+          <span class="sidebarNavBtnSub">Your saved mixes.</span>
+        </span>
+      </button>
+
+      <button class="sidebarNavBtn sidebarQuickTile" data-tab="Playlists" type="button">
+        <span class="sidebarNavIconBadge">
+          <img class="sidebarNavIconImage" src="/shared/branding/categories/icons/playlists-page-trans.png" alt="" />
+        </span>
+        <span class="sidebarNavText">
+          <span class="sidebarNavBtnTitle">Playlists</span>
+          <span class="sidebarNavBtnSub">Saved collections.</span>
+        </span>
+      </button>
+
+      <button class="sidebarNavBtn sidebarQuickTile" data-tab="Recents" type="button">
+        <span class="sidebarNavIconBadge">
+          <img class="sidebarNavIconImage" src="/shared/branding/categories/icons/recently-played-trans.png" alt="" />
+        </span>
+        <span class="sidebarNavText">
+          <span class="sidebarNavBtnTitle">Recently played</span>
+          <span class="sidebarNavBtnSub">Your latest mixes.</span>
+        </span>
+      </button>
+
+      <button class="sidebarNavBtn sidebarQuickTile sidebarRouteBtn" data-route="/settings?module=player&tab=overview" type="button">
+        <span class="sidebarNavIconBadge">
+          <img class="sidebarNavIconImage" src="/shared/branding/categories/icons/settings-page-trans.png" alt="" />
+        </span>
+        <span class="sidebarNavText">
+          <span class="sidebarNavBtnTitle">Settings</span>
+          <span class="sidebarNavBtnSub">Player and app setup.</span>
+        </span>
+      </button>
+
+      <button class="sidebarNavBtn sidebarQuickTile" data-tab="Queue" type="button">
+        <span class="sidebarNavIconBadge">
+          <img class="sidebarNavIconImage" src="/shared/branding/categories/icons/queue-media-trans.png" alt="" />
+        </span>
+        <span class="sidebarNavText">
+          <span class="sidebarNavBtnTitle">Queue media</span>
+          <span class="sidebarNavBtnSub">Sort, remove and play upcoming mixes.</span>
+        </span>
+      </button>
+
+      <button class="sidebarNavBtn sidebarQuickTile sidebarRouteBtn" data-route="/settings?module=cloud&amp;tab=add-files" type="button">
+        <span class="sidebarNavIconBadge">
+          <img class="sidebarNavIconImage" src="/shared/branding/categories/icons/upload-media-trans.png" alt="" />
+        </span>
+        <span class="sidebarNavText">
+          <span class="sidebarNavBtnTitle">Upload media</span>
+          <span class="sidebarNavBtnSub">Add files, cloud media and source links.</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebarModuleBlock">
+    <div class="sidebarSectionTitle">Open modules</div>
+
+    <div class="sidebarModuleList">
+      <button class="sidebarModuleBtn is-active" data-route="/player" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/audio-home.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Player</span>
+          <span class="sidebarModuleSub">Audio player, queue, playlists and tracklists.</span>
+        </span>
+      </button>
+
+      <button class="sidebarModuleBtn" data-route="/video-player" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/video-player.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Video</span>
+          <span class="sidebarModuleSub">Films, posters, playback and subtitles.</span>
+        </span>
+      </button>
+
+      <button class="sidebarModuleBtn" data-route="/mastering" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/mastering.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Mastering</span>
+          <span class="sidebarModuleSub">Audio polish, previews and compare tools.</span>
+        </span>
+      </button>
+
+      <button class="sidebarModuleBtn" data-route="/tagger" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/tagger.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Tagger</span>
+          <span class="sidebarModuleSub">Metadata, artwork and BRMedia tags.</span>
+        </span>
+      </button>
+
+      <button class="sidebarModuleBtn" data-route="/converter" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/converter.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Converter</span>
+          <span class="sidebarModuleSub">Convert audio/video and batch jobs.</span>
+        </span>
+      </button>
+
+      <button class="sidebarModuleBtn" data-route="/stats" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/stats.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Stats</span>
+          <span class="sidebarModuleSub">Charts, history and library analytics.</span>
+        </span>
+      </button>
+				
+      <button class="sidebarModuleBtn" data-route="/torrents" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/torrents.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Torrents</span>
+          <span class="sidebarModuleSub">Legal torrents, queue, speed limits and safe scanning.</span>
+        </span>
+      </button>
+
+      <button class="sidebarModuleBtn" data-route="/server-settings" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/server-settings.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Server Settings</span>
+          <span class="sidebarModuleSub">Sources, storage, FFmpeg and networking.</span>
+        </span>
+      </button>
+
+      <button class="sidebarModuleBtn" data-route="/settings?module=player&tab=overview" type="button">
+        <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/settings.png" alt="" width="34" height="34" />
+        <span class="sidebarModuleText">
+          <span class="sidebarModuleTitle">Settings</span>
+          <span class="sidebarModuleSub">Global BRMedia control centre.</span>
+        </span>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<button id="btnSidebarCloseFloating" class="sidebarFloatingCloseBtn hidden" type="button" aria-label="Close menu">
+  <i class="fa-solid fa-xmark"></i>
+</button>
+
+<nav class="tabs hiddenTabs">
+  <button class="tab" data-tab="Lists">
+    <i class="fa-solid fa-list-ul"></i>
+    <span>Lists</span>
+  </button>
+  <button class="tab active" data-tab="Library">
+    <i class="fa-solid fa-music"></i>
+    <span>Library</span>
+  </button>
+  <button class="tab" data-tab="Favourites">
+    <i class="fa-regular fa-heart"></i>
+    <span>Favourites</span>
+  </button>
+  <button class="tab" data-tab="Connect">
+    <i class="fa-solid fa-tower-broadcast"></i>
+    <span>Connect</span>
+  </button>
+  <button class="tab" data-tab="Queue">
+    <i class="fa-solid fa-list-check"></i>
+    <span>Queue</span>
+  </button>
+  <button class="tab" data-tab="Playlists">
+    <i class="fa-regular fa-bookmark"></i>
+    <span>Playlists</span>
+  </button>
+</nav>
+
+    <main class="mainContent">
+      <section id="viewLists" class="view hidden">
+  <div class="card">
+    <div class="listsHeader">
+      <button id="btnListsBack" class="pill hidden">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back</span>
+      </button>
+
+      <div>
+        <div id="listsTitle" class="sectionTitle">Mix navigation</div>
+        <div id="listsSub" class="sectionSub">Browse mixes by brand and series.</div>
+      </div>
+
+      <button id="btnListsFilter" class="listsFilterBtn hidden" type="button" aria-label="Filter category">
+        <i class="fa-solid fa-filter"></i>
+      </button>
+    </div>
+
+<div id="listsFilterPanel" class="listsFilterPanel hidden">
+  <div class="listsFilterGrid">
+    <label class="listsFilterField">
+      <span class="listsFilterLabel">Filter</span>
+      <span class="listsFilterSelectWrap">
+        <select id="categoryFilterMode" class="stepperInput">
+          <option value="all">All</option>
+          <option value="favourites">Favourites</option>
+          <option value="branded">BRMedia branded</option>
+          <option value="under10">Under 10 mins</option>
+          <option value="over10">Over 10 mins</option>
+          <option value="hasArtwork">Has artwork</option>
+          <option value="hasTracklist">Has tracklist</option>
+        </select>
+        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+      </span>
+    </label>
+
+    <label class="listsFilterField">
+      <span class="listsFilterLabel">Sort</span>
+      <span class="listsFilterSelectWrap">
+        <select id="categorySortMode" class="stepperInput">
+          <option value="default">Default</option>
+          <option value="episode">Episode order</option>
+          <option value="az">A-Z</option>
+          <option value="za">Z-A</option>
+          <option value="newest">Newest added</option>
+          <option value="durationShort">Shortest first</option>
+          <option value="durationLong">Longest first</option>
+        </select>
+        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+      </span>
+    </label>
+  </div>
+
+  <div class="listsFilterActions">
+    <button id="btnCategoryFilterClear" class="pill subtle" type="button">
+      <i class="fa-solid fa-rotate-left"></i>
+      <span>Clear</span>
+    </button>
+<button id="btnCategoryFilterApply" class="pill primary" type="button">
+  <i class="fa-solid fa-filter"></i>
+  <span>Apply filter</span>
+</button>
+      </div>
+    </div>
+
+    <div id="listsBrowser" class="trackList"></div>
+  </div>
+</section>
+
+      <section id="viewLibrary" class="view">
+        <div class="card homeIntroCard">
+          <div class="sectionTitle">Home</div>
+          <div class="sectionSub">Pick a category to browse. Use search to show individual mixes on the Home page.</div>
+
+          <div id="homeSearchPanel" class="homeSearchPanel hidden">
+            <input id="search" class="searchInput" type="text" placeholder="Search title, artist, album, genre…" />
+          </div>
+
+          <div id="homeCategoryShowcase" class="homeCategoryShowcase"></div>
+        </div>
+
+        <div id="trackList" class="trackList"></div>
+
+        <div class="libraryLoadMoreWrap">
+          <button id="btnLibraryLoadMore" class="pill primary libraryLoadMoreBtn hidden" type="button">Load 15 more mixes</button>
+        </div>
+      </section>
+
+      <section id="viewFavourites" class="view hidden">
+        <div class="card">
+          <div class="sectionTitle">Favourites</div>
+          <div class="sectionSub">Your saved favourites on this device.</div>
+          <div id="favouritesList" class="trackList"></div>
+        </div>
+      </section>
+			
+      <section id="viewRecents" class="view hidden">
+        <div class="card">
+          <div class="sectionTitle">Recents</div>
+          <div class="sectionSub">Your recently opened or played mixes on this device.</div>
+          <div id="recentsList" class="trackList"></div>
+        </div>
+      </section>		
+
+      <section id="viewConnect" class="view hidden">
+        <div class="card">
+          <div class="sectionTitle">Connect</div>
+          <div class="sectionSub">Send playback, queues and track positions between your BRMedia devices on the same server.</div>
+
+          <div class="connectHeroGrid">
+            <div class="connectDeviceCard">
+              <div class="connectDeviceTop">
+                <div class="connectDeviceIcon">
+                  <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <div>
+                  <div id="connectLocalDeviceName" class="connectDeviceName">This device</div>
+                  <div id="connectLocalDeviceMeta" class="connectDeviceMeta">Phone • —</div>
+                </div>
+              </div>
+
+              <div class="connectStatusList">
+                <div id="connectReceiveStatus" class="connectStatusPill">Receiving enabled</div>
+                <div id="connectRemoteStatus" class="connectStatusPill">Remote control allowed</div>
+              </div>
+
+              <div class="deviceButtonRow">
+                <button id="btnConnectOpenDevices" class="popupActionBtn subtle" type="button">Device settings</button>
+                <button id="btnConnectOpenSend" class="popupActionBtn primary" type="button">Open send popup</button>
+              </div>
+            </div>
+
+            <div class="connectDeviceCard">
+              <div class="sectionTitle" style="margin-bottom:6px;">Online devices</div>
+              <div class="sectionSub">Open BRMedia on another phone, tablet or PC and it will appear here for handoff.</div>
+
+              <div id="connectKnownDevicesList" class="knownDevicesList">
+                <div class="deviceEmptyState">No other online devices are showing yet.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="viewQueue" class="view hidden">
+        <div class="card">
+          <div class="sectionTitle">Queue</div>
+          <div class="sectionSub">Sort, play from, or remove upcoming mixes.</div>
+          <div class="queueActions">
+            <button id="btnClearQueue" class="pill danger">Clear queue</button>
+          </div>
+          <div id="queueList" class="trackList"></div>
+        </div>
+      </section>
+
+<section id="viewPlaylists" class="view hidden">
+  <div class="playlistShell">
+    <div id="playlistHomePane">
+      <div class="card playlistHeaderCard">
+        <div class="playlistHeaderRow">
+          <button id="btnPlaylistCreateMenu" class="playlistHeaderBtn" type="button" aria-label="Create playlist">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+
+          <div class="playlistHeaderCenter">
+            <div class="sectionTitle playlistHeroTitle">Playlists</div>
+            <div class="sectionSub playlistHeroSub">Create your own mix collections.</div>
+          </div>
+
+          <button id="btnPlaylistMoreMenu" class="playlistHeaderBtn" type="button" aria-label="Playlist options">
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+        </div>
+
+        <div id="playlistCreateMenu" class="playlistPopover hidden">
+          <button id="btnPlaylistCreateNew" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-plus"></i>
+            <span>New playlist</span>
+          </button>
+          <button id="btnPlaylistImport" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-file-import"></i>
+            <span>Import playlist</span>
+          </button>
+        </div>
+
+        <div id="playlistMoreMenu" class="playlistPopover playlistPopoverWide hidden">
+          <button id="btnPlaylistSelectMode" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Select</span>
+          </button>
+          <button id="btnPlaylistMenuNew" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-plus"></i>
+            <span>New playlist</span>
+          </button>
+          <button id="btnPlaylistMenuImport" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-file-import"></i>
+            <span>Import playlist</span>
+          </button>
+          <button id="btnPlaylistMenuSearch" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search</span>
+          </button>
+          <button id="btnPlaylistMenuSort" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-arrow-up-wide-short"></i>
+            <span>Sort</span>
+          </button>
+          <button id="btnPlaylistMenuToggleView" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span id="playlistMenuToggleViewText">List view</span>
+          </button>
+          <button id="btnPlaylistMenuHelp" class="playlistMenuBtn" type="button">
+            <i class="fa-regular fa-circle-question"></i>
+            <span>Help</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="playlistQuickRow">
+        <button id="btnPlaylistSearchToggle" class="playlistQuickBtn" type="button">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search</span>
+        </button>
+        <button id="btnPlaylistPlayAll" class="playlistQuickBtn" type="button">
+          <i class="fa-solid fa-circle-play"></i>
+          <span>Play all</span>
+        </button>
+        <button id="btnPlaylistShuffleAll" class="playlistQuickBtn" type="button">
+          <i class="fa-solid fa-shuffle"></i>
+          <span>Shuffle</span>
+        </button>
+      </div>
+
+      <div id="playlistSearchPanel" class="card playlistSearchPanel hidden">
+        <input id="playlistSearchInput" class="searchInput" type="text" placeholder="Search playlists…" />
+      </div>
+
+      <div class="playlistCountWrap">
+        <div id="playlistSummaryText" class="playlistSummaryText">Playlists (0)</div>
+      </div>
+
+      <div id="playlistEmptyState" class="card playlistEmptyState hidden">
+        <div class="sectionTitle">No playlists yet</div>
+        <div class="sectionSub">Tap the + button to create one, or import your current queue into a playlist.</div>
+      </div>
+
+      <div id="playlistGrid" class="playlistGrid"></div>
+      <div id="playlistList" class="playlistList hidden"></div>
+    </div>
+
+    <div id="playlistDetailPane" class="hidden">
+      <div class="card playlistDetailCard">
+        <div class="playlistHeaderRow playlistHeaderRowDetail">
+          <button id="btnPlaylistBack" class="playlistHeaderBtn" type="button" aria-label="Back to playlists">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+
+          <div id="playlistDetailTopTitle" class="playlistDetailTopTitle">Playlist</div>
+
+          <button id="btnPlaylistDetailMenuToggle" class="playlistHeaderBtn" type="button" aria-label="Playlist options">
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+        </div>
+
+        <div id="playlistDetailMenu" class="playlistPopover playlistPopoverWide hidden">
+          <button id="btnPlaylistDetailRename" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-pen"></i>
+            <span>Rename playlist</span>
+          </button>
+          <button id="btnPlaylistDetailDelete" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-trash"></i>
+            <span>Delete playlist</span>
+          </button>
+          <button id="btnPlaylistDetailSearchToggle" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search tracks</span>
+          </button>
+          <button id="btnPlaylistDetailSort" class="playlistMenuBtn" type="button">
+            <i class="fa-solid fa-arrow-up-wide-short"></i>
+            <span>Sort tracks</span>
+          </button>
+        </div>
+
+        <div class="playlistDetailHero">
+          <div id="playlistDetailCover" class="playlistDetailCover"></div>
+          <div class="playlistDetailInfo">
+            <div id="playlistDetailName" class="playlistDetailName">Playlist</div>
+            <div id="playlistDetailStats" class="playlistDetailStats">0 tracks • 0 minutes</div>
+          </div>
+        </div>
+
+        <div class="playlistQuickRow playlistQuickRowDetail">
+          <button id="btnPlaylistDetailSearch" class="playlistQuickBtn" type="button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search</span>
+          </button>
+          <button id="btnPlaylistDetailPlay" class="playlistQuickBtn" type="button">
+            <i class="fa-solid fa-circle-play"></i>
+            <span>Play all</span>
+          </button>
+          <button id="btnPlaylistDetailShuffle" class="playlistQuickBtn" type="button">
+            <i class="fa-solid fa-shuffle"></i>
+            <span>Shuffle</span>
+          </button>
+        </div>
+
+        <div id="playlistDetailSearchPanel" class="card playlistSearchPanel hidden">
+          <input id="playlistDetailSearchInput" class="searchInput" type="text" placeholder="Search tracks in this playlist…" />
+        </div>
+      </div>
+
+      <div id="playlistDetailTracks" class="playlistTrackList"></div>
+    </div>
+  </div>
+</section>
+
+      <footer class="playerSiteFooter">
+        <div class="playerSiteFooterInner">
+          <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" class="playerSiteFooterLogo" />
+          <div class="playerSiteFooterCopy">
+            <span class="footerLine">
+              <span class="footerCopyOrange">©</span>
+              <span class="footerCopyWhite">The Blackburn Ravers</span>
+            </span>
+            <span class="footerLine">
+              <span class="footerCopyWhite">DJ NJ &amp; Upalnite</span>
+              <span class="footerCopyBlue">2026</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <div id="miniPlayer" class="miniPlayer">
+      <div class="miniProgressBar" aria-hidden="true">
+        <span id="miniProgressFill" class="miniProgressFill"></span>
+      </div>
+
+      <div class="miniDockTools">
+        <button id="btnMiniCollapse" class="miniUtilityBtn miniCollapseBtn" aria-label="Minimise mini player" aria-pressed="false">
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+
+<button id="btnMiniEq" class="miniUtilityBtn miniEqBtn" aria-label="Now playing" type="button">
+  <i class="fa-solid fa-waveform-lines"></i>
+</button>
+      </div>
+
+      <div id="miniArt" class="miniArt"></div>
+
+      <div class="miniMeta">
+        <div id="miniTitle" class="miniTitle">Nothing playing</div>
+        <div id="miniSub" class="miniSub">—</div>
+      </div>
+
+      <div class="miniControls">
+        <button id="btnPrev" class="miniIconBtn" aria-label="Previous">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button id="btnPlay" class="miniPlayBtn" type="button" aria-label="Play">
+          <i id="btnPlayIcon" class="fa-solid fa-play transportFa playFa"></i>
+        </button>
+        <button id="btnNext" class="miniIconBtn" aria-label="Next">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="nowPlayingModal" class="modal hidden">
+    <div class="sheet nowPlayingSheet">
+      <div class="sheetTop skin1TopBar">
+        <div class="skin1TopLeft">
+          <div id="mixBadgeWrap" class="brandMixWrap">
+            <img id="brandMixIcon" class="brandMixIcon" src="/shared/branding/global/br-logo-trans.png" alt="BR logo" />
+
+            <div class="brandMixText">
+              <span id="brandMixArtist" class="brandMixArtist">Blackburn Ravers</span>
+              <span class="brandMixSuffix">Mixes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skin1TopActions">
+<button id="btnSleep" class="iconTopBtn topActionBtn" aria-label="Sleep timer">
+  <i class="fa-solid fa-stopwatch-20"></i>
+</button>
+
+          <button id="btnTopDownload" class="iconTopBtn topActionBtn" aria-label="Download">
+            <i class="fa-solid fa-download"></i>
+          </button>
+
+          <button id="btnOpenBookmarksTop" class="iconTopBtn topActionBtn" aria-label="Bookmarks">
+            <i class="fa-solid fa-bookmark"></i>
+          </button>
+
+          <button id="btnTopMenu" class="iconTopBtn topActionBtn" aria-label="More">
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+        </div>
+      </div>
+
+      <section class="heroPlayer">
+<div class="heroArtWrap">
+  <div id="artwork" class="artwork"></div>
+
+  <button id="btnOpenStagePlayer" class="stageLaunchBtn" aria-label="Open fullscreen player">
+    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+  </button>
+
+  <div id="sleepStatus" class="sleepStatus artworkSleepStatus"></div>
+</div>
+
+<div class="heroContent heroContentReflow">
+  <div class="landscapeTopPane">
+  <div class="heroMetaRow heroMetaRowTop">
+    <div class="npMeta heroMeta">
+      <div class="marqueeLine marqueeTitle">
+        <div class="marqueeClip">
+          <div class="marqueeTrack" id="npTitleTrack">
+            <span id="npTitleTextA">—</span>
+            <span class="marqueeSpacer"></span>
+            <span id="npTitleTextB">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="marqueeLine marqueeSub tightSub">
+        <div class="marqueeClip">
+          <div class="marqueeTrack" id="npSubTrack">
+            <span id="npSubTextA">—</span>
+            <span class="marqueeSpacer"></span>
+            <span id="npSubTextB">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="heroQuickColumn">
+      <div class="heroQuickActions heroQuickActionsInline">
+        <button id="btnFavQuick" class="heroQuickBtn" type="button" aria-label="Favourite">
+          <i id="btnFavQuickIcon" class="fa-regular fa-heart"></i>
+        </button>
+
+        <button id="btnBookmarkQuick" class="heroQuickBtn" type="button" aria-label="Add bookmark">
+          <i class="fa-solid fa-bookmark"></i>
+          <span class="bookmarkPlusBadge">+</span>
+        </button>
+
+        <button id="btnPlayerMoreQuick" class="heroQuickBtn" type="button" aria-label="More player options">
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+      </div>
+
+      <div class="heroActions heroActionsRowTimer cycleControlsRow">
+        <div class="cycleControlsWrap" aria-label="Playback mode controls">
+          <button id="btnMenuShuffle" class="heroCycleBtn" type="button" aria-label="Shuffle">
+            <i class="fa-solid fa-shuffle"></i>
+            <span id="menuShuffleText" class="cycleBtnText">Shuffle off</span>
+          </button>
+
+          <button id="btnMenuRepeat" class="heroCycleBtn" type="button" aria-label="Repeat">
+            <i class="fa-solid fa-repeat"></i>
+            <span id="menuRepeatText" class="cycleBtnText">Repeat off</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="landscapeWaveBlock">
+  <div class="waveScrollerWrap landscapeWaveScroller">
+    <div id="waveformViewport" class="waveformViewport">
+      <div id="waveform" class="waveform waveformScroller"></div>
+      <div class="waveCursor"></div>
+    </div>
+  </div>
+</div>
+<div class="seekWrap">
+  <input id="seek" type="range" min="0" max="1000" value="0" />
+  <div class="times timesWithInfo">
+    <span id="timeCur">0:00</span>
+    <span id="fileInfoLine" class="fileInfoLine">—</span>
+    <span id="timeRem">-0:00</span>
+  </div>
+</div>
+
+<div class="transportRow newTransportRow newTransportRowWide">
+  <button id="btnNPPrev" class="transportCoreBtn transportPlainBtn" aria-label="Previous">
+    <i class="fa-solid fa-backward-step transportFa coreFa"></i>
+  </button>
+
+  <button id="btnTimedPrev" class="transportSkipBtn transportPlainBtn transportTimedBtn is-disabled" aria-label="Previous timestamp" disabled>
+    <i class="fa-solid fa-angles-left transportFa skipFa"></i>
+  </button>
+
+  <button id="btnBackN" class="transportSkipBtn transportPlainBtn" aria-label="Rewind">
+    <span class="skipIconWrap">
+      <i class="fa-solid fa-rotate-left transportFa skipFa"></i>
+      <span id="btnBackNText" class="skipNumber">25</span>
+    </span>
+  </button>
+
+  <button id="btnNPPlay" class="transportPlayBtn" type="button" aria-label="Play">
+    <span class="playSvgWrap">
+      <i id="btnNPPlayIcon" class="fa-solid fa-play transportFa playFa"></i>
+    </span>
+  </button>
+
+  <button id="btnFwdN" class="transportSkipBtn transportPlainBtn" aria-label="Forward">
+    <span class="skipIconWrap">
+      <i class="fa-solid fa-rotate-right transportFa skipFa"></i>
+      <span id="btnFwdNText" class="skipNumber">25</span>
+    </span>
+  </button>
+
+  <button id="btnTimedNext" class="transportSkipBtn transportPlainBtn transportTimedBtn is-disabled" aria-label="Next timestamp" disabled>
+    <i class="fa-solid fa-angles-right transportFa skipFa"></i>
+  </button>
+
+  <button id="btnNPNext" class="transportCoreBtn transportPlainBtn" aria-label="Next">
+    <i class="fa-solid fa-forward-step transportFa coreFa"></i>
+  </button>
+</div>
+</div>
+<div class="tracklistSection">
+  <div class="card tracklistCard">
+    <div id="tracklistEditToolbar" class="tracklistEditToolbar hidden">
+  <button id="btnTracklistMarkNow" class="pill primary" type="button">
+    <i class="fa-solid fa-stopwatch"></i>
+    <span>Mark current time</span>
+  </button>
+
+  <button id="btnTracklistAddRow" class="pill" type="button">
+    <i class="fa-solid fa-plus"></i>
+    <span>Add track</span>
+  </button>
+
+  <button id="btnTracklistAddMeta" class="pill" type="button">
+    <i class="fa-solid fa-circle-info"></i>
+    <span>Add detail</span>
+  </button>
+
+  <button id="btnTracklistNewBlank" class="pill" type="button">
+    <i class="fa-solid fa-file-circle-plus"></i>
+    <span>New blank</span>
+  </button>
+
+  <button id="btnTracklistScanLocal" class="pill" type="button">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span>Scan local</span>
+  </button>
+	
+  <button id="btnTracklistAttachFile" class="pill" type="button">
+    <i class="fa-solid fa-folder-open"></i>
+    <span>Choose tracklist</span>
+  </button>
+
+  <input id="tracklistAttachFileInput" class="hidden" type="file" accept=".txt,.cue,.json,text/plain,application/json" />
+
+<button id="btnTracklistAutoScan" class="pill" type="button">
+  <i class="fa-solid fa-waveform-lines"></i>
+  <span>Auto scan</span>
+</button>
+
+<button id="btnTracklistNameDetect" class="pill" type="button">
+  <i class="fa-solid fa-magnifying-glass-chart"></i>
+  <span>Detect names</span>
+</button>
+
+<button id="btnTracklistSave" class="pill" type="button">
+    <i class="fa-solid fa-floppy-disk"></i>
+    <span>Save</span>
+  </button>
+
+  <button id="btnTracklistCancel" class="pill subtle" type="button">
+    <i class="fa-solid fa-xmark"></i>
+    <span>Done</span>
+  </button>
+</div>
+
+    <div id="tracklistEditStatus" class="tracklistEditStatus hidden"></div>
+
+    <div id="tracklistMeta" class="tracklistMeta hidden"></div>
+
+    <div id="tracklistDescription" class="tracklistDescription hidden"></div>
+
+    <div id="tracklistTracks" class="tracklistTracks hidden"></div>
+
+    <div id="tracklistEmpty" class="tracklistEmpty hidden">No tracklist loaded.</div>
+  </div>
+</div>
+        </div>
+      </section>
+
+      <div id="topPopupBackdrop" class="topPopupBackdrop hidden"></div>
+
+<div id="sleepPopup" class="topPopup anchoredPopup hidden">
+  <div class="popupPointer"></div>
+  <div class="popupCard popupCardWide">
+    <div class="popupHeader">
+      <div class="popupTitle">Sleep timer</div>
+      <button id="btnSleepFlip" class="popupIconBtn" aria-label="Switch timer mode">
+        <i class="fa-solid fa-sliders"></i>
+      </button>
+    </div>
+
+    <div id="sleepPopupCountdown" class="popupTimerStatus sleepPopupCountdownTop"></div>
+
+    <div id="sleepActivePanel" class="sleepActivePanel hidden">
+      <div id="sleepActiveCountdown" class="sleepActiveCountdown">00:00</div>
+      <button id="btnSleepStopActive" class="sleepActiveStop" type="button">Stop</button>
+    </div>
+
+    <div id="sleepPagePresets" class="popupPage">
+      <div class="popupList">
+        <button class="popupListItem sleepPresetBtn" data-seconds="900">15 minutes</button>
+        <button class="popupListItem sleepPresetBtn" data-seconds="1800">30 minutes</button>
+        <button class="popupListItem sleepPresetBtn" data-seconds="2700">45 minutes</button>
+        <button class="popupListItem sleepPresetBtn" data-seconds="3600">1 hour</button>
+        <button class="popupListItem sleepPresetBtn" data-seconds="songend">Song end</button>
+      </div>
+
+      <div class="popupActionRow">
+        <button id="btnSleepCancelPopup" class="popupActionBtn subtle">Cancel</button>
+      </div>
+    </div>
+
+          <div id="sleepPageCustom" class="popupPage hidden">
+            <div class="pickerRow pickerWheelRow">
+              <div class="pickerCol">
+                <label>Hours</label>
+                <input id="customHours" type="hidden" value="0" />
+                <div id="hoursWheel" class="wheelPicker"></div>
+              </div>
+
+              <div class="pickerCol">
+                <label>Minutes</label>
+                <input id="customMinutes" type="hidden" value="15" />
+                <div id="minutesWheel" class="wheelPicker"></div>
+              </div>
+
+              <div class="pickerCol">
+                <label>Seconds</label>
+                <input id="customSeconds" type="hidden" value="0" />
+                <div id="secondsWheel" class="wheelPicker"></div>
+              </div>
+            </div>
+
+            <div id="sleepHint" class="popupHelpText"></div>
+
+            <div class="popupActionRow">
+              <button id="btnSleepStart" class="popupActionBtn primary">Start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div id="speedPopup" class="topPopup anchoredPopup hidden">
+  <div class="popupPointer"></div>
+  <div class="popupCard popupCardNarrow popupCardSpeed">
+    <div class="popupHeader">
+      <div>
+        <div class="popupTitle">Playback speed</div>
+        <div id="speedCurrentText" class="popupHelpText speedCurrentText">Currently: 1.0x</div>
+      </div>
+
+      <button id="btnSpeedCloseTop" class="popupIconBtn" aria-label="Close playback speed">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="pickerRow pickerSingleWheelRow">
+      <div class="pickerCol pickerColSingle">
+        <label>Speed</label>
+        <input id="speedValue" type="hidden" value="1" />
+        <div id="speedWheel" class="wheelPicker"></div>
+      </div>
+    </div>
+
+    <div class="popupActionRow">
+      <button id="btnSpeedDone" class="popupActionBtn primary">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="eqPopup" class="topPopup anchoredPopup hidden">
+  <div class="popupPointer"></div>
+  <div class="popupCard popupCardEq">
+    <div class="popupHeader">
+      <div>
+        <div class="popupTitle">Audio equalizer</div>
+        <div id="eqStatusText" class="popupHelpText speedCurrentText">Off</div>
+      </div>
+
+      <div class="eqHeaderActions">
+        <label class="eqToggle" for="eqEnabled">
+          <input id="eqEnabled" type="checkbox" />
+          <span class="eqToggleTrack">
+            <span class="eqToggleKnob"></span>
+          </span>
+        </label>
+
+        <button id="btnEqCloseTop" class="popupIconBtn" aria-label="Close equalizer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="eqBandsWrap">
+      <div class="eqBandsGrid">
+        <div class="eqBandCol">
+          <div id="eqVal32" class="eqBandValue">0.0</div>
+          <input id="eqBand32" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">32</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal64" class="eqBandValue">0.0</div>
+          <input id="eqBand64" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">64</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal125" class="eqBandValue">0.0</div>
+          <input id="eqBand125" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">125</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal250" class="eqBandValue">0.0</div>
+          <input id="eqBand250" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">250</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal500" class="eqBandValue">0.0</div>
+          <input id="eqBand500" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">500</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal1k" class="eqBandValue">0.0</div>
+          <input id="eqBand1k" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">1K</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal2k" class="eqBandValue">0.0</div>
+          <input id="eqBand2k" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">2K</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal4k" class="eqBandValue">0.0</div>
+          <input id="eqBand4k" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">4K</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal8k" class="eqBandValue">0.0</div>
+          <input id="eqBand8k" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">8K</div>
+        </div>
+
+        <div class="eqBandCol">
+          <div id="eqVal16k" class="eqBandValue">0.0</div>
+          <input id="eqBand16k" class="eqBandSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+          <div class="eqBandLabel">16K</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eqPresetRow">
+      <label for="eqPreset">Preset</label>
+      <select id="eqPreset" class="eqPresetSelect">
+        <option value="flat">Flat</option>
+        <option value="bass_boost">Bass Boost</option>
+        <option value="treble_boost">Treble Boost</option>
+        <option value="vocal">Vocal</option>
+        <option value="loudness">Loudness</option>
+        <option value="dance">Dance</option>
+        <option value="hardcore">Hardcore</option>
+        <option value="spoken_word">Spoken Word</option>
+      </select>
+    </div>
+
+    <div class="eqPreampWrap">
+      <div class="eqPreampText">Preamplifier: <span id="eqPreampValue">0.0 dB</span></div>
+      <input id="eqPreamp" class="eqPreampSlider" type="range" min="-12" max="12" step="0.1" value="0" />
+    </div>
+
+    <div class="popupActionRow">
+      <button id="btnEqReset" class="popupActionBtn subtle">Flat</button>
+      <button id="btnEqDone" class="popupActionBtn primary">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="castPopup" class="topPopup anchoredPopup hidden">
+  <div class="popupPointer"></div>
+  <div class="popupCard popupCardNarrow popupCardCast">
+    <div class="popupHeader">
+      <div>
+        <div class="popupTitle">Cast</div>
+        <div id="castStatusText" class="popupHelpText">Checking device support…</div>
+      </div>
+
+      <button id="btnCastCloseTop" class="popupIconBtn" aria-label="Close cast popup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="castInfoCard">
+      <div class="castInfoLabel">Current route</div>
+      <div id="castCurrentRoute" class="castInfoValue">This device</div>
+      <div id="castHintText" class="castHintText">
+        BRMedia will check whether this browser can hand playback to another device.
+      </div>
+    </div>
+
+    <div class="popupActionRow castActionRow">
+      <button id="btnCastStart" class="popupActionBtn primary">Cast to device</button>
+      <button id="btnCastDone" class="popupActionBtn subtle">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="mirrorPopup" class="topPopup anchoredPopup hidden">
+  <div class="popupPointer"></div>
+  <div class="popupCard popupCardNarrow popupCardCast">
+    <div class="popupHeader">
+      <div>
+        <div class="popupTitle">Mirror screen</div>
+        <div id="mirrorStatusText" class="popupHelpText">Checking device support…</div>
+      </div>
+
+      <button id="btnMirrorCloseTop" class="popupIconBtn" aria-label="Close mirror popup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="castInfoCard">
+      <div class="castInfoLabel">Current state</div>
+      <div id="mirrorCurrentRoute" class="castInfoValue">Not active</div>
+      <div id="mirrorHintText" class="castHintText">
+        BRMedia will check whether this browser can start screen sharing / mirroring assistance.
+      </div>
+    </div>
+
+    <div class="popupActionRow castActionRow">
+      <button id="btnMirrorStart" class="popupActionBtn primary">Start mirror</button>
+      <button id="btnMirrorDone" class="popupActionBtn subtle">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="outputPopup" class="topPopup anchoredPopup hidden">
+  <div class="popupPointer"></div>
+  <div class="popupCard popupCardNarrow popupCardCast">
+    <div class="popupHeader">
+      <div>
+        <div class="popupTitle">Audio output</div>
+        <div id="outputStatusText" class="popupHelpText">Checking device support…</div>
+      </div>
+
+      <button id="btnOutputCloseTop" class="popupIconBtn" aria-label="Close audio output popup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="castInfoCard">
+      <div class="castInfoLabel">Current output</div>
+      <div id="outputCurrentRoute" class="castInfoValue">This device</div>
+      <div id="outputHintText" class="castHintText">
+        BRMedia will check whether this browser can switch audio to another output device.
+      </div>
+    </div>
+
+    <div id="outputDeviceList" class="outputDeviceList hidden"></div>
+
+    <div class="popupActionRow castActionRow">
+      <button id="btnOutputChoose" class="popupActionBtn primary">Choose output</button>
+      <button id="btnOutputDone" class="popupActionBtn subtle">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="sendDevicePopup" class="topPopup anchoredPopup hidden">
+  <div class="popupPointer"></div>
+  <div class="popupCard popupCardNarrow popupCardCast">
+    <div class="popupHeader">
+      <div>
+        <div class="popupTitle">Send to device</div>
+        <div class="popupHelpText">Choose an online device, then choose what to hand over.</div>
+      </div>
+
+      <button id="btnSendDeviceCloseTop" class="popupIconBtn" aria-label="Close send to device popup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="sendDeviceTrackCard">
+      <div class="sendDeviceTrackLabel">Current mix</div>
+      <div id="sendDeviceCurrentTrack" class="sendDeviceTrackTitle">No mix selected</div>
+      <div id="sendDeviceCurrentMeta" class="sendDeviceTrackMeta">Open or play a mix, then choose a device.</div>
+    </div>
+
+    <div class="sendDeviceSectionTitle">Online devices</div>
+    <div id="sendDeviceDeviceList" class="sendDeviceList">
+      <div class="deviceEmptyState">No online target devices yet.</div>
+    </div>
+
+    <div class="sendDeviceSectionTitle">Actions</div>
+    <div id="sendDeviceActionGrid" class="sendDeviceActionGrid">
+      <button class="popupActionBtn primary" type="button" data-send-action="play_now">Play now</button>
+      <button class="popupActionBtn subtle" type="button" data-send-action="add_queue">Add to queue</button>
+      <button class="popupActionBtn subtle" type="button" data-send-action="open_mix">Open mix</button>
+      <button class="popupActionBtn subtle" type="button" data-send-action="open_current_time">Open at current time</button>
+      <button class="popupActionBtn subtle" type="button" data-send-action="send_tracklist">Send full tracklist</button>
+      <button class="popupActionBtn subtle" type="button" data-send-action="send_current_track">Send current track number</button>
+      <button class="popupActionBtn subtle" type="button" data-send-action="sync_current_track">Sync current track</button>
+      <button class="popupActionBtn subtle" type="button" data-send-action="full_queue_handoff">Full queue handoff</button>
+    </div>
+
+    <div class="popupActionRow">
+      <button id="btnSendDeviceOpenDevices" class="popupActionBtn subtle" type="button">Device settings</button>
+      <button id="btnSendDeviceDone" class="popupActionBtn primary" type="button">Done</button>
+    </div>
+  </div>
+</div>
+
+      <div id="downloadPopup" class="topPopup anchoredPopup hidden">
+        <div class="popupPointer"></div>
+        <div class="popupCard popupCardNarrow downloadPopupCard">
+          <div class="popupTitle">Download</div>
+          <div id="downloadStatusText" class="downloadStatusText">Ready to download</div>
+
+          <div class="downloadInfoGrid">
+            <div class="downloadInfoRow">
+              <div class="downloadInfoLabel">Name</div>
+              <div id="downloadInfoName" class="downloadInfoValue">—</div>
+            </div>
+
+            <div class="downloadInfoRow split">
+              <div>
+                <div class="downloadInfoLabel">Type</div>
+                <div id="downloadInfoType" class="downloadInfoValue">—</div>
+              </div>
+              <div>
+                <div class="downloadInfoLabel">Length</div>
+                <div id="downloadInfoLength" class="downloadInfoValue">—</div>
+              </div>
+            </div>
+
+            <div class="downloadInfoRow">
+              <div class="downloadInfoLabel">Size</div>
+              <div id="downloadInfoSize" class="downloadInfoValue">Checking…</div>
+            </div>
+          </div>
+
+			<div class="downloadProgressWrap">
+			  <div class="downloadProgressBar">
+				<div id="downloadProgressFill" class="downloadProgressFill"></div>
+
+				<div class="downloadProgressMeta">
+				  <span id="downloadProgressText">0%</span>
+				  <span id="downloadProgressBytes">Waiting to start</span>
+				</div>
+			  </div>
+			</div>
+
+          <div class="popupActionRow">
+            <button id="btnDownloadConfirm" class="popupActionBtn primary">
+              <i class="fa-solid fa-download"></i>
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="bookmarkPopup" class="topPopup anchoredPopup hidden">
+        <div class="popupPointer"></div>
+        <div class="popupCard popupCardWide">
+          <div class="popupSegmentWrap">
+            <button id="btnBookmarkTabCurrent" class="popupSegment active">Current song</button>
+            <button id="btnBookmarkTabAll" class="popupSegment">All songs</button>
+            <button id="btnBookmarkPopupMenu" class="popupSegmentIcon" aria-label="Bookmark tools">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+          </div>
+
+          <div id="bookmarkSubHeader" class="bookmarkSubHeader hidden">
+            <button id="btnBookmarkBackToSongs" class="popupBackBtn">
+              <i class="fa-solid fa-arrow-left"></i>
+              <span>Back</span>
+            </button>
+            <div id="bookmarkSubTitle" class="bookmarkSubTitle"></div>
+          </div>
+
+          <div class="popupActionBlock">
+            <button id="btnAddBookmark" class="popupListItem">
+              <i class="fa-solid fa-plus"></i>
+              <span>Add bookmark at current time</span>
+            </button>
+          </div>
+
+          <div id="bookmarkList" class="bookmarkList popupBookmarkList"></div>
+        </div>
+      </div>
+
+      <div id="bookmarkToolsPopup" class="topPopup anchoredPopup hidden">
+        <div class="popupPointer"></div>
+        <div class="popupCard popupCardNarrow">
+          <div class="popupList">
+            <button id="btnBookmarkSortNewest" class="popupListItem">Sort newest first</button>
+            <button id="btnBookmarkSortOldest" class="popupListItem">Sort oldest first</button>
+            <button id="btnBookmarkManualSort" class="popupListItem">Manual sort</button>
+            <button id="btnBookmarkDeleteSong" class="popupListItem">Delete all for this song</button>
+            <button id="btnBookmarkDeleteAll" class="popupListItem">Delete all bookmarks</button>
+            <button id="btnBookmarkToolsClose" class="popupListItem">Close</button>
+          </div>
+        </div>
+      </div>
+			
+<div
+  id="tracklistLibraryOverlay"
+  class="trackActionPrompt tracklistLibraryOverlay hidden"
+>
+  <div class="popupCard tracklistLibraryCard">
+    <div id="tracklistLibraryBody"></div>
+  </div>
+</div>
+			
+<div id="trackEditLauncherOverlay" class="trackActionPrompt hidden">
+  <div class="popupCard trackActionPromptCard trackEditLauncherCard">
+    <div class="trackEditLauncherHead">
+      <div>
+        <div class="popupTitle">Edit track</div>
+        <div id="trackEditLauncherSub" class="popupBodyText">
+          Choose where you want to edit this track.
+        </div>
+      </div>
+
+      <button
+        id="btnTrackEditLauncherClose"
+        class="popupIconBtn"
+        type="button"
+        aria-label="Close edit launcher"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="trackActionPromptActions trackEditLauncherGrid">
+      <button id="btnTrackEditQuickEdit" class="trackActionPromptBtn primary" type="button">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Edit details</span>
+      </button>
+
+      <button id="btnTrackEditTagger" class="trackActionPromptBtn" type="button">
+        <i class="fa-solid fa-tag"></i>
+        <span>Tagger</span>
+      </button>
+
+      <button id="btnTrackEditConverter" class="trackActionPromptBtn" type="button">
+        <i class="fa-solid fa-arrows-rotate"></i>
+        <span>Converter</span>
+      </button>
+
+      <button id="btnTrackEditMastering" class="trackActionPromptBtn" type="button">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Mastering</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="bookmarkEditOverlay" class="bookmarkEditOverlay hidden">
+  <div class="popupCard popupCardNarrow bookmarkEditCard">
+    <div class="popupTitle">Edit bookmark</div>
+
+    <div class="bookmarkEditFields">
+      <label class="bookmarkEditLabel" for="bookmarkEditTime">Time</label>
+      <input id="bookmarkEditTime" class="bookmarkEditInput" type="text" placeholder="HH:MM:SS or MM:SS" />
+
+      <label class="bookmarkEditLabel" for="bookmarkEditName">Name</label>
+      <input id="bookmarkEditName" class="bookmarkEditInput" type="text" placeholder="Bookmark name" />
+    </div>
+
+    <div class="popupActionRow">
+      <button id="btnBookmarkEditCancel" class="popupActionBtn subtle">Cancel</button>
+      <button id="btnBookmarkEditSave" class="popupActionBtn primary">Save</button>
+    </div>
+  </div>
+</div>
+
+      <div id="playerQuickMenuPopup" class="topPopup anchoredPopup hidden">
+        <div class="popupPointer"></div>
+        <div class="popupCard popupMenuCard playerQuickMenuCard">
+          <div class="popupMenuList">
+            <button id="btnPlayerQuickEQ" class="popupMenuItem">
+              <i class="fa-solid fa-sliders"></i>
+              <span>Audio equalizer</span>
+            </button>
+
+            <button id="btnPlayerQuickSpeed" class="popupMenuItem">
+              <i class="fa-solid fa-gauge-high"></i>
+              <span>Playback speed</span>
+            </button>
+
+            <button id="btnPlayerQuickMirror" class="popupMenuItem">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+              <span>Mirror screen</span>
+            </button>
+
+            <button id="btnPlayerQuickCast" class="popupMenuItem">
+              <i class="fa-solid fa-tv"></i>
+              <span>Cast</span>
+            </button>
+
+            <button id="btnPlayerQuickOutput" class="popupMenuItem">
+              <i class="fa-solid fa-volume-high"></i>
+              <span>Audio output</span>
+            </button>
+
+            <button id="btnMenuSendToDevice" class="popupMenuItem">
+              <i class="fa-solid fa-mobile-screen"></i>
+              <span>Send to device</span>
+            </button>
+
+            <button id="btnMenuPreviewShare" class="popupMenuItem">
+              <i class="fa-solid fa-share-nodes"></i>
+              <span>Preview share</span>
+            </button>
+
+            <button id="btnMenuEditTrack" class="popupMenuItem">
+              <i class="fa-solid fa-pen-ruler"></i>
+              <span>Edit track</span>
+            </button>
+
+            <button id="btnMenuEditTimestamps" class="popupMenuItem">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <span>Edit timestamps</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="menuPopup" class="topPopup anchoredPopup hidden">
+        <div class="popupPointer"></div>
+        <div class="popupCard popupMenuCard">
+          <div class="popupMenuList">
+            <button id="btnMenuClosePlayer" class="popupMenuItem">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Close player</span>
+            </button>
+
+            <button id="btnMenuContinuePlayback" class="popupMenuItem">
+              <i class="fa-solid fa-play"></i>
+              <span>Continue playback</span>
+            </button>
+
+            <button id="btnMenuSearch" class="popupMenuItem">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Search</span>
+            </button>
+
+            <button id="btnMenuRecents" class="popupMenuItem">
+              <i class="fa-regular fa-clock"></i>
+              <span>Recents</span>
+            </button>
+
+            <button id="btnMenuFavorites" class="popupMenuItem">
+              <i class="fa-regular fa-heart"></i>
+              <span>Favorites</span>
+            </button>
+
+            <button id="btnMenuBookmarks" class="popupMenuItem">
+              <i class="fa-solid fa-bookmark"></i>
+              <span>Bookmarks</span>
+            </button>
+
+            <button id="btnMenuQueue" class="popupMenuItem">
+              <i class="fa-solid fa-list-check"></i>
+              <span>Queue</span>
+            </button>
+
+            <button id="btnMenuSaveQueue" class="popupMenuItem">
+              <i class="fa-solid fa-list-check"></i>
+              <span>Save queue to playlist</span>
+            </button>
+
+            <button id="btnMenuDeleteQueue" class="popupMenuItem">
+              <i class="fa-solid fa-trash"></i>
+              <span>Delete queue</span>
+            </button>
+
+            <button id="btnMenuSettings" class="popupMenuItem">
+              <i class="fa-solid fa-gear"></i>
+              <span>Player settings</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+<div id="sleepFinalOverlay" class="sleepFinalOverlay hidden">
+  <div class="sleepFinalOverlayInner">
+    <button id="btnSleepFinalCancel" class="sleepFinalCancelBtn" aria-label="Cancel sleep timer">
+      Cancel timer
+    </button>
+
+    <div class="sleepFinalOverlayText">Stopping in</div>
+    <div id="sleepFinalCountdownNumber" class="sleepFinalCountdownNumber">5</div>
+  </div>
+</div>
+
+<div id="trackActionPrompt" class="trackActionPrompt hidden">
+  <div class="trackActionPromptCard popupCard popupCardNarrow">
+    <div id="trackActionPromptTitle" class="popupTitle">What do you want to do with this mix?</div>
+    <div id="trackActionPromptSub" class="popupBodyText">Choose an action for this track.</div>
+
+    <div class="trackActionPromptActions">
+      <button id="btnTrackActionPlayNow" class="trackActionPromptBtn primary" aria-label="Play instantly">
+        <i class="fa-solid fa-play"></i>
+        <span>Play now</span>
+      </button>
+
+      <button id="btnTrackActionAddQueue" class="trackActionPromptBtn" aria-label="Add to queue">
+        <i class="fa-solid fa-plus"></i>
+        <span>Add to queue</span>
+      </button>
+
+      <button id="btnTrackActionPlaylist" class="trackActionPromptBtn" aria-label="Add to playlist">
+        <i class="fa-regular fa-bookmark"></i>
+        <span>Playlist</span>
+      </button>
+
+      <button id="btnTrackActionCancel" class="trackActionPromptBtn subtle" aria-label="Cancel">
+        <i class="fa-solid fa-xmark"></i>
+        <span>Cancel</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="themeDialogOverlay" class="themeDialogOverlay hidden">
+  <div class="themeDialogCard popupCard popupCardNarrow">
+    <div id="themeDialogTitle" class="popupTitle">BRMedia</div>
+    <div id="themeDialogMessage" class="themeDialogMessage"></div>
+
+    <input
+      id="themeDialogInput"
+      class="bookmarkEditInput hidden"
+      type="text"
+      placeholder=""
+      autocapitalize="sentences"
+      autocomplete="off"
+    />
+
+    <div class="popupActionRow">
+      <button id="btnThemeDialogCancel" class="popupActionBtn subtle" type="button">Cancel</button>
+      <button id="btnThemeDialogOk" class="popupActionBtn primary" type="button">OK</button>
+    </div>
+  </div>
+</div>
+
+<div id="previewShareOverlay" class="previewShareOverlay hidden">
+  <div class="previewShareCard popupCard popupCardWide">
+    <div class="previewShareHeader">
+      <div>
+        <div class="popupTitle">Preview share</div>
+        <div class="popupHelpText">Set a start point, choose a length or stop point, then preview and share the clip.</div>
+      </div>
+
+      <button id="btnPreviewShareClose" class="popupIconBtn" aria-label="Close preview share">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="previewShareTopRow">
+      <button id="btnPreviewShareStartNow" class="popupActionBtn primary" type="button">
+        <i class="fa-solid fa-flag"></i>
+        <span>Start here</span>
+      </button>
+
+      <button id="btnPreviewShareStopNow" class="popupActionBtn subtle" type="button">
+        <i class="fa-solid fa-stop"></i>
+        <span>Stop here</span>
+      </button>
+    </div>
+
+    <div class="previewSharePresetRow">
+      <button class="previewSharePresetBtn" data-preview-seconds="15" type="button">15s</button>
+      <button class="previewSharePresetBtn" data-preview-seconds="30" type="button">30s</button>
+      <button class="previewSharePresetBtn" data-preview-seconds="45" type="button">45s</button>
+      <button class="previewSharePresetBtn" data-preview-seconds="60" type="button">60s</button>
+    </div>
+
+    <div class="previewShareInputs">
+      <label class="previewShareField">
+        <span>Start</span>
+        <input id="previewShareStartInput" class="bookmarkEditInput" type="text" placeholder="MM:SS or HH:MM:SS" />
+      </label>
+
+      <label class="previewShareField">
+        <span>End</span>
+        <input id="previewShareEndInput" class="bookmarkEditInput" type="text" placeholder="MM:SS or HH:MM:SS" />
+      </label>
+
+      <label class="previewShareField">
+        <span>Length</span>
+        <input id="previewShareDurationInput" class="bookmarkEditInput" type="number" min="1" max="120" step="1" placeholder="Seconds" />
+      </label>
+    </div>
+
+    <div id="previewShareSummary" class="waveformGenStatus">No preview selected yet.</div>
+
+    <div class="previewShareAudioWrap">
+      <audio id="previewShareAudio" controls preload="none"></audio>
+    </div>
+
+    <div class="popupActionRow previewShareActionRow">
+      <button id="btnPreviewShareBuild" class="popupActionBtn subtle" type="button">Update preview</button>
+      <button id="btnPreviewShareSend" class="popupActionBtn primary" type="button">Share clip</button>
+    </div>
+  </div>
+</div>
+
+      <div id="bookmarkToast" class="bookmarkToast hidden">
+        <div class="bookmarkToastCard">
+          <div class="bookmarkToastText">
+            <div id="bookmarkToastTitle" class="bookmarkToastTitle">Bookmark added</div>
+            <div id="bookmarkToastSub" class="bookmarkToastSub">Saved at 0:00</div>
+          </div>
+
+          <button id="btnBookmarkToastClose" class="bookmarkToastClose" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div id="stagePlayerModal" class="modal hidden stagePlayerModal">
+  <div class="sheet stagePlayerSheet">
+    <div id="stageBackdrop" class="stageBackdrop"></div>
+
+    <div class="stagePlayerInner">
+      <div class="stageTopBar">
+        <div class="stageMetaStack">
+          <div class="stageMetaFrame">
+            <div class="marqueeClip">
+              <div id="stageTitleTrack" class="marqueeTrack">
+                <span id="stageTitleTextA">—</span>
+                <span class="marqueeSpacer"></span>
+                <span id="stageTitleTextB">—</span>
+              </div>
+            </div>
+
+            <div class="marqueeClip">
+              <div id="stageSubTrack" class="marqueeTrack">
+                <span id="stageSubTextA">—</span>
+                <span class="marqueeSpacer"></span>
+                <span id="stageSubTextB">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="stageSleepTimerBox" class="stageSleepTimerBox hidden">
+            <div class="stageSleepTimerLabel">Timer</div>
+            <div id="stageSleepTimerText" class="stageSleepTimerValue">00:00:00</div>
+          </div>
+        </div>
+
+        <div class="stageTopActions">
+          <button id="btnStageFlip" class="stageCircleBtn" aria-label="Show tracklist">
+            <i class="fa-solid fa-list"></i>
+          </button>
+
+          <button id="btnCloseStagePlayer" class="stageCircleBtn stageCloseBtn" aria-label="Close fullscreen player">
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="stageCardZone">
+        <div id="stageCard" class="stageCard">
+          <div class="stageCardFace stageCardFront">
+            <div id="stageArtwork" class="stageArtwork"></div>
+          </div>
+
+          <div class="stageCardFace stageCardBack">
+            <div class="stageTracklistCard">
+              <div class="stageTracklistHeader">
+                <div id="stageTracklistTitle" class="stageTracklistTitle">Tracklist</div>
+                <div id="stageTracklistSub" class="stageTracklistSub">—</div>
+              </div>
+
+              <div id="stageTracklistMeta" class="stageTracklistMeta"></div>
+              <div id="stageTracklistList" class="stageTracklistList"></div>
+              <div id="stageTracklistEmpty" class="stageTracklistEmpty hidden">No tracklist loaded.</div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnStageResume" class="stageResumeBtn hidden" aria-label="Resume playback">
+          <i class="fa-solid fa-play"></i>
+        </button>
+      </div>
+
+      <div id="stagePauseMeta" class="stagePauseMeta hidden">
+        <div id="stagePauseTitle" class="stagePauseTitle">—</div>
+        <div id="stagePauseSub" class="stagePauseSub">—</div>
+      </div>
+
+      <div class="stageWaveRegion">
+        <div id="stageWaveformViewport" class="stageWaveformViewport">
+          <div id="stageWaveform" class="waveform waveformScroller stageWaveform"></div>
+          <div class="stageWaveCursor"></div>
+        </div>
+
+        <div class="stageTimes">
+          <span id="stageTimeCur">0:00</span>
+          <span id="stageTimeTotal">0:00</span>
+        </div>
+      </div>
+
+      <div id="stageCurrentTrackBox" class="stageCurrentTrackBox hidden">
+        <div class="stageCurrentTrackLabel">Currently playing</div>
+
+        <div class="stageCurrentTrackClip">
+          <div id="stageCurrentTrackTrack" class="marqueeTrack stageCurrentTrackTrack">
+            <span id="stageCurrentTrackTextA">—</span>
+            <span class="marqueeSpacer"></span>
+            <span id="stageCurrentTrackTextB">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="audio" preload="metadata"></audio>
+
+<script src="/shared/icons.js?v=20260529-bars-fix-v1"></script>
+<script src="/shared/profile-link.js?v=20260530-nav-compact-v10"></script>
+<script src="/player/app.js?v=20260622-dj-recording-handoff"></script>
+</body>
+</html>

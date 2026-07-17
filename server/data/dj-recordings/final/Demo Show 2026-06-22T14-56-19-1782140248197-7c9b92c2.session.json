@@ -1,0 +1,83 @@
+{
+  "createdAt": 1782140249610,
+  "masterDeck": "d2",
+  "setup": {
+    "title": "Demo Show",
+    "artist": "Upalnite",
+    "series": "",
+    "episode": "",
+    "genre": "Hardcore",
+    "year": "2026",
+    "format": "wav",
+    "tracklistMode": "tracklist-info-timestamps",
+    "timestampSource": "load-time",
+    "sidecars": "TXT + timestamp JSON + session JSON"
+  },
+  "linkedSet": {
+    "id": "set-1782074775234-1f9b6f",
+    "name": "Demo Show",
+    "ready": false,
+    "trackCount": 0
+  },
+  "trackCount": 2,
+  "plannedTrackCount": 0,
+  "loadedTrackCount": 2,
+  "tracks": [
+    {
+      "index": 1,
+      "id": "trk_19e7bbf1de6_792afd7227ad9",
+      "title": "Have It!",
+      "artist": "Gammer",
+      "bpm": "",
+      "key": "—",
+      "source": "H: drive",
+      "duration": 352.6530612244898,
+      "role": "main",
+      "note": "",
+      "seconds": 0,
+      "time": "0:00",
+      "loaded": true,
+      "planned": false,
+      "deck": "d2"
+    },
+    {
+      "index": 2,
+      "id": "trk_19e9ee5e3b4_89966cc0e4f3b8",
+      "title": "What A Great Drug (Dougal & Gammer Remix)",
+      "artist": "Sy & Unknown",
+      "bpm": "",
+      "key": "—",
+      "source": "C: drive",
+      "duration": 197.69469387755103,
+      "role": "main",
+      "note": "",
+      "seconds": 0,
+      "time": "0:00",
+      "loaded": true,
+      "planned": false,
+      "deck": "d1"
+    }
+  ],
+  "recording": {
+    "id": "djrec-1782140179302",
+    "title": "Demo Show",
+    "artist": "Upalnite",
+    "format": "wav",
+    "captureFilename": "Demo Show 2026-06-22T14-56-19-1782140248197-7c9b92c2.capture.webm",
+    "finalFilename": "Demo Show 2026-06-22T14-56-19-1782140248197-7c9b92c2.wav",
+    "capturePath": "",
+    "finalPath": "",
+    "bytes": 20202618,
+    "durationSeconds": 70,
+    "createdAt": 1782140250530,
+    "trackCount": 2,
+    "plannedTrackCount": 0,
+    "loadedTrackCount": 2,
+    "linkedSetName": "Demo Show",
+    "tracklistMode": "tracklist-info-timestamps",
+    "timestampSource": "load-time",
+    "finalDownloadUrl": "/dj-mixer/recordings/djrec-1782140179302/download?kind=final",
+    "finalStreamUrl": "/dj-mixer/recordings/djrec-1782140179302/stream?kind=final",
+    "captureDownloadUrl": "/dj-mixer/recordings/djrec-1782140179302/download?kind=capture"
+  }
+}

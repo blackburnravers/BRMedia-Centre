@@ -1,0 +1,641 @@
+{
+  "state": {
+    "queue": [
+      {
+        "id": "trk_19e785eb427_c02eff183358b8",
+        "title": "Androidcore v14.0",
+        "source": "local",
+        "locator": "C:\\DJMixes\\Test\\upalnite_androidcore_v14.0.mp3",
+        "mimeType": "audio/mpeg",
+        "sizeBytes": 279541865,
+        "sourceOnline": true,
+        "sourceStatus": "online",
+        "artist": "Upalnite",
+        "album": "Androidcore EP",
+        "albumArtist": "Upalnite",
+        "genre": "UK Hardcore",
+        "comment": "",
+        "year": 2025,
+        "duration": 6973.910204081632,
+        "bitrate": 320000,
+        "sampleRate": 44100,
+        "numberOfChannels": 2,
+        "codec": "MPEG 1 Layer 3",
+        "hasArtwork": true,
+        "brmediaTags": {},
+        "bpm": 184,
+        "label": null,
+        "key": null,
+        "country": null,
+        "trackNumber": "1",
+        "discNumber": "1",
+        "hasPicture": true,
+        "advancedTags": {
+          "composer": "Various",
+          "encoded_by": "WavePad © NCH Software",
+          "TENC": "WavePad © NCH Software",
+          "TSSE": "Lavf58.76.100",
+          "disc": "1",
+          "TPE2": "Upalnite",
+          "TPE1": "Upalnite",
+          "TIT2": "Androidcore v14.0 - The Circus Master",
+          "TCOM": "Various",
+          "track": "1",
+          "TBPM": "184",
+          "TALB": "Androidcore EP",
+          "TYER": "2025",
+          "TCON": "UK Hardcore"
+        },
+        "mixBadge": "up",
+        "subtitle": "Upalnite • Androidcore EP",
+        "searchText": "androidcore v14.0 upalnite androidcore ep upalnite uk hardcore trk_19e785eb427_c02eff183358b8 local",
+        "bookmarkKey": "C:\\DJMixes\\Test\\upalnite_androidcore_v14.0.mp3"
+      }
+    ],
+    "queueIndex": 0,
+    "lastTrackId": "trk_19e785eb427_c02eff183358b8",
+    "lastTime": 6974.589387755102,
+    "shuffle": false,
+    "repeatMode": "off",
+    "miniPlayerCollapsed": false,
+    "savedAt": 1784104590669
+  },
+  "position": {
+    "id": "trk_19e785eb427_c02eff183358b8",
+    "title": "Androidcore v14.0",
+    "artist": "Upalnite",
+    "time": 6974.589387755102,
+    "duration": 6974.589387755102,
+    "savedAt": 1784104590667
+  },
+  "trackProgress": {
+    "trk_19e785eb427_c02eff183358b8": {
+      "time": 6974.589387755102,
+      "duration": 6974.589387755102,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1784104590667
+    },
+    "trk_19e785eb418_a1e9237050747": {
+      "time": 2958.8210319676714,
+      "duration": 4988.368979591837,
+      "percent": 59.314398034160064,
+      "complete": false,
+      "savedAt": 1784082997317
+    },
+    "trk_19e785eb420_65cac93416095": {
+      "time": 1277.4357507229647,
+      "duration": 8014.6808163265305,
+      "percent": 15.938697747273084,
+      "complete": false,
+      "savedAt": 1783644959962
+    },
+    "trk_19e785eb40e_3c426885a87b9": {
+      "time": 184.308,
+      "duration": 184.308,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1782418833771
+    },
+    "trk_19e785eb420_22f324850fcb3": {
+      "time": 1259.612518776667,
+      "duration": 7947.49387755102,
+      "percent": 15.849178850387617,
+      "complete": false,
+      "savedAt": 1782270570953
+    },
+    "trk_19e785eb41f_2e3c418a34132": {
+      "time": 17.192913880333432,
+      "duration": 8478.406530612245,
+      "percent": 0.20278473104888844,
+      "complete": false,
+      "savedAt": 1782265218334
+    },
+    "trk_19e785eb41e_6b67f9c65c13a": {
+      "time": 317.4237484103332,
+      "duration": 8451.657142857142,
+      "percent": 3.755757516484227,
+      "complete": false,
+      "savedAt": 1782265198054
+    },
+    "trk_19e785eb428_6ba3789ea94de": {
+      "time": 191.99589438730413,
+      "duration": 2725.0155102040817,
+      "percent": 7.045680792214104,
+      "complete": false,
+      "savedAt": 1782223368141
+    },
+    "djrec-djrec-1782140179302": {
+      "time": 54.92434895020847,
+      "duration": 70.1475,
+      "percent": 78.29836979252072,
+      "complete": false,
+      "savedAt": 1782140323944
+    },
+    "trk_19eb9a90a17_9405e77b0ca7d8": {
+      "time": 14.385934592643087,
+      "duration": 149.904,
+      "percent": 9.596764991356526,
+      "complete": false,
+      "savedAt": 1781231359304
+    },
+    "trk_19eb96aafb0_8eee25c79f4718": {
+      "time": 53.5492096,
+      "duration": 84.56533333333333,
+      "percent": 63.322885973763874,
+      "complete": false,
+      "savedAt": 1781230932092
+    },
+    "trk_19e7bbf1e06_47b93d0bc0d598": {
+      "time": 1.7059057236653314,
+      "duration": 275.6963265306122,
+      "percent": 0.6187625874934951,
+      "complete": false,
+      "savedAt": 1780800884847
+    },
+    "trk_19e7bbf1e10_d79341a2003e3": {
+      "time": 295.3665306122449,
+      "duration": 295.3665306122449,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1780800880815
+    },
+    "trk_19e9ee5cde0_7db3f46526c18": {
+      "time": 19.9289046970077,
+      "duration": 406.59591836734694,
+      "percent": 4.9014030384344744,
+      "complete": false,
+      "savedAt": 1780800545644
+    },
+    "trk_19e9ee5d4df_d81140c9bd3a8": {
+      "time": 0,
+      "duration": 242.78204081632654,
+      "percent": 0,
+      "complete": false,
+      "savedAt": 1780800523085
+    },
+    "trk_19e9ee65007_c9dddf6b938288": {
+      "time": 262.66267573696143,
+      "duration": 262.66267573696143,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1780800513284
+    },
+    "trk_19e9ee6c315_9e3096eeb18d6": {
+      "time": 0,
+      "duration": 376.56,
+      "percent": 0,
+      "complete": false,
+      "savedAt": 1780799995041
+    },
+    "trk_19e9ee635af_4f9c4c5ba10ca": {
+      "time": 3.344970126989883,
+      "duration": 331.7289795918367,
+      "percent": 1.0083442607593627,
+      "complete": false,
+      "savedAt": 1780799992142
+    },
+    "trk_19e9ee6b8c8_d08c7941dc7d38": {
+      "time": 0,
+      "duration": 417.264,
+      "percent": 0,
+      "complete": false,
+      "savedAt": 1780799985934
+    },
+    "trk_19e9ee6fa0a_f9e553e54de1": {
+      "time": 402.5411337868481,
+      "duration": 402.5411337868481,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1780799985381
+    },
+    "trk_19e9ee6a921_39e45d9c9e40a8": {
+      "time": 362.076,
+      "duration": 362.076,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1780799160231
+    },
+    "trk_19e785eb40f_30db814c11b2c": {
+      "time": 2.1991977,
+      "duration": 176.43997916666666,
+      "percent": 1.2464282247067258,
+      "complete": false,
+      "savedAt": 1780798536042
+    },
+    "trk_19e9915f06c_49b468e3bf7c48": {
+      "time": 372.7191836,
+      "duration": 375.7191836734694,
+      "percent": 99.2015313021449,
+      "complete": true,
+      "savedAt": 1780689714580
+    },
+    "trk_19e785eb413_692b735021afc8": {
+      "time": 22.8456483,
+      "duration": 7762.311836734694,
+      "percent": 0.29431500280476086,
+      "complete": false,
+      "savedAt": 1780650172196
+    },
+    "trk_19e785eb413_037f6466fed9b": {
+      "time": 0.08851367339957505,
+      "duration": 6190.288979591836,
+      "percent": 0.0014298795046788157,
+      "complete": false,
+      "savedAt": 1780620951332
+    },
+    "trk_19e785eb413_592b63f44d75b8": {
+      "time": 37.405898704654284,
+      "duration": 5660.682448979592,
+      "percent": 0.6608019270078851,
+      "complete": false,
+      "savedAt": 1780620931898
+    },
+    "trk_19e785eb410_e3739f71c46db8": {
+      "time": 502.3392914,
+      "duration": 3646.06693877551,
+      "percent": 13.777566343000409,
+      "complete": false,
+      "savedAt": 1780540037389
+    },
+    "trk_19e785eb414_75dbd6679f8ef": {
+      "time": 472.99988495,
+      "duration": 6061.844897959184,
+      "percent": 7.802903124579168,
+      "complete": false,
+      "savedAt": 1780533624778
+    },
+    "trk_19e785eb40f_a696fc1ef6daf8": {
+      "time": 5.8309198,
+      "duration": 3565.9755102040817,
+      "percent": 0.1635154190855981,
+      "complete": false,
+      "savedAt": 1780519347800
+    },
+    "trk_19e785eb413_4602cc7bc9d78": {
+      "time": 244.73495344561084,
+      "duration": 6816.65306122449,
+      "percent": 3.5902509816400805,
+      "complete": false,
+      "savedAt": 1780197138891
+    },
+    "trk_19e7bbf1dd4_d858582d79a158": {
+      "time": 365.38775510204084,
+      "duration": 365.4008163265306,
+      "percent": 99.99642550757794,
+      "complete": true,
+      "savedAt": 1780196857786
+    },
+    "trk_19e7bbf1ddb_c2afc4f837995": {
+      "time": 63.90280695370945,
+      "duration": 280.0326530612245,
+      "percent": 22.81976985724524,
+      "complete": false,
+      "savedAt": 1780194526035
+    },
+    "trk_19e7bbf1dd8_9da53c6ef38a58": {
+      "time": 37.285898210694484,
+      "duration": 325.5379591836735,
+      "percent": 11.453625348083358,
+      "complete": false,
+      "savedAt": 1780194459996
+    },
+    "trk_19e7bbf1df3_12fd90693fee8": {
+      "time": 238.8938775510204,
+      "duration": 241.8938775510204,
+      "percent": 98.75978671706264,
+      "complete": true,
+      "savedAt": 1780194406482
+    },
+    "trk_19e7bbf1df0_64ba35a3a3e31": {
+      "time": 32.344993893325324,
+      "duration": 322.79510204081635,
+      "percent": 10.020286456897791,
+      "complete": false,
+      "savedAt": 1780193540916
+    },
+    "trk_19e7bbf1de7_d1a90ee8154158": {
+      "time": 319.9085714285714,
+      "duration": 319.9085714285714,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1780193507036
+    },
+    "trk_19e7bbf1ded_602355adf08e78": {
+      "time": 352.9273469387755,
+      "duration": 352.9273469387755,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1780193179670
+    },
+    "trk_19e7bbf1de4_3d8de3743261f8": {
+      "time": 162.30462960700288,
+      "duration": 344.71183673469386,
+      "percent": 47.08414748517035,
+      "complete": false,
+      "savedAt": 1780192822849
+    },
+    "trk_19e785eb410_b82f49f9c9f418": {
+      "time": 4.686147,
+      "duration": 3390.984,
+      "percent": 0.13819431173960126,
+      "complete": false,
+      "savedAt": 1780192634346
+    },
+    "trk_19e6210baf1_660da563e8ee9": {
+      "time": 1347.3699925813073,
+      "duration": 6276.075102040816,
+      "percent": 21.468353559745925,
+      "complete": false,
+      "savedAt": 1779763574972
+    },
+    "trk_19e5a96db6e_80b43fb0cd2ca": {
+      "time": 4890.5943194,
+      "duration": 6190.288979591836,
+      "percent": 79.00429746532555,
+      "complete": false,
+      "savedAt": 1779666356369
+    },
+    "trk_19e5760410a_a043c4d6c74248": {
+      "time": 2027.9332136283274,
+      "duration": 7361.25387755102,
+      "percent": 27.548747093382286,
+      "complete": false,
+      "savedAt": 1779585713485
+    },
+    "trk_19e50124607_22f166f8355138": {
+      "time": 0,
+      "duration": 3540.375510204082,
+      "percent": 0,
+      "complete": false,
+      "savedAt": 1779459911932
+    },
+    "trk_19e4d3bc731_22eb2c6df7021": {
+      "time": 360.16192931333904,
+      "duration": 6913.227755102041,
+      "percent": 5.209750670336811,
+      "complete": false,
+      "savedAt": 1779413903551
+    },
+    "trk_19e4c491dbd_6f89874ae6765": {
+      "time": 379.71231273399997,
+      "duration": 7762.311836734694,
+      "percent": 4.891742572580418,
+      "complete": false,
+      "savedAt": 1779397782525
+    },
+    "trk_19e46fc7e60_a1407bfeceac2": {
+      "time": 1.7794199,
+      "duration": 5660.682448979592,
+      "percent": 0.03143472392309804,
+      "complete": false,
+      "savedAt": 1779308234530
+    },
+    "trk_19e45d04508_f23d40261d7078": {
+      "time": 4.075766135010997,
+      "duration": 4608.744,
+      "percent": 0.08843550726642654,
+      "complete": false,
+      "savedAt": 1779288551551
+    },
+    "trk_19e38b925cc_1f06d5dfcc3418": {
+      "time": 1.5703828723313316,
+      "duration": 7361.25387755102,
+      "percent": 0.021333089422719036,
+      "complete": false,
+      "savedAt": 1779068535179
+    },
+    "trk_19e38b925dc_9749c2465e718": {
+      "time": 36.16364635335081,
+      "duration": 5660.682448979592,
+      "percent": 0.6388566516369375,
+      "complete": false,
+      "savedAt": 1779068510210
+    },
+    "trk_19e38b925cb_1e5bb35380d2": {
+      "time": 112.50929061536397,
+      "duration": 5660.682448979592,
+      "percent": 1.9875570062342072,
+      "complete": false,
+      "savedAt": 1779068469565
+    },
+    "trk_19e38790f12_b322cba37f59c": {
+      "time": 25.01315151929262,
+      "duration": 6913.227755102041,
+      "percent": 0.36181581752217884,
+      "complete": false,
+      "savedAt": 1779064130677
+    },
+    "trk_19e38236fb9_83e159d8a2a2c": {
+      "time": 1.54481871500415,
+      "duration": 6143.242448979592,
+      "percent": 0.025146634335761045,
+      "complete": false,
+      "savedAt": 1779058568366
+    },
+    "trk_19e38236fba_44f416882389b": {
+      "time": 1.819841845299756,
+      "duration": 5837.740408163265,
+      "percent": 0.031173737063658422,
+      "complete": false,
+      "savedAt": 1779058505615
+    },
+    "trk_19e37622df1_4100628ec18b08": {
+      "time": 3.75508560735872,
+      "duration": 3722.840816326531,
+      "percent": 0.1008661340256822,
+      "complete": false,
+      "savedAt": 1779045777640
+    },
+    "trk_19e371b7668_1defcbb96819d8": {
+      "time": 0,
+      "duration": 6973.910204081632,
+      "percent": 0,
+      "complete": false,
+      "savedAt": 1779041550775
+    },
+    "trk_19e371b7668_fecbc741b30e28": {
+      "time": 66.36669010069281,
+      "duration": 6334.197551020408,
+      "percent": 1.0477521353908745,
+      "complete": false,
+      "savedAt": 1779041522866
+    },
+    "trk_19e33f225cd_cdfe1c20048d58": {
+      "time": 4578.755652589639,
+      "duration": 5660.682448979592,
+      "percent": 80.88699010867526,
+      "complete": false,
+      "savedAt": 1778989385988
+    },
+    "trk_19e33f225cd_3df3100319a1f8": {
+      "time": 16.154314188705357,
+      "duration": 6975.137959183673,
+      "percent": 0.2315984899974073,
+      "complete": false,
+      "savedAt": 1778988015079
+    },
+    "trk_19e2e77b507_7131d2f8c786a8": {
+      "time": 5289.950949362633,
+      "duration": 6975.085714285714,
+      "percent": 75.84065868220449,
+      "complete": false,
+      "savedAt": 1778897857081
+    },
+    "trk_19e2e77b507_5275b651f87df": {
+      "time": 232.73171405600834,
+      "duration": 3540.375510204082,
+      "percent": 6.573644896854253,
+      "complete": false,
+      "savedAt": 1778896606393
+    },
+    "gdrive_gdrive_mozqdyms_hitzhuon_1SsjKxEzwHs2fxDXiu_2gcTgDQvifkcn0": {
+      "time": 116.43618215935773,
+      "duration": 5851.115102040816,
+      "percent": 1.9899827661695777,
+      "complete": false,
+      "savedAt": 1778896363735
+    },
+    "trk_19e23f2fef2_c38163f4865258": {
+      "time": 1382.9494632,
+      "duration": 4739.664,
+      "percent": 29.178217341988805,
+      "complete": false,
+      "savedAt": 1778807458268
+    },
+    "trk_19e23f2fef0_6483c914d12118": {
+      "time": 57.8974819,
+      "duration": 6190.288979591836,
+      "percent": 0.9352953002820482,
+      "complete": false,
+      "savedAt": 1778723401627
+    },
+    "trk_19e18d603cb_721dee4ce059b8": {
+      "time": 81.5674179336346,
+      "duration": 3540.375510204082,
+      "percent": 2.303919957036781,
+      "complete": false,
+      "savedAt": 1778694865366
+    },
+    "trk_19e1125c75a_5cd67e5552778": {
+      "time": 4123.4598279,
+      "duration": 6190.288979591836,
+      "percent": 66.61175013790528,
+      "complete": false,
+      "savedAt": 1778529939631
+    },
+    "gdrive_gdrive_mozqdyms_hitzhuon_1F1EpTEeeToduaCbIUU1sGN-PqhuXfMZX": {
+      "time": 2.8737195,
+      "duration": 6913.227755102041,
+      "percent": 0.041568419294144655,
+      "complete": false,
+      "savedAt": 1778458734665
+    },
+    "trk_19e1125c75b_4b7a16567963": {
+      "time": 810.1111155,
+      "duration": 3540.375510204082,
+      "percent": 22.8820675424145,
+      "complete": false,
+      "savedAt": 1778443120543
+    },
+    "trk_19e1125c75c_f049c23eb0832": {
+      "time": 3.1650444376763835,
+      "duration": 8014.368,
+      "percent": 0.039492127609767655,
+      "complete": false,
+      "savedAt": 1778416042141
+    },
+    "trk_19e0e356b0c_4784d43ca92cf8": {
+      "time": 198.35997916666668,
+      "duration": 198.35997916666668,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1778358792102
+    },
+    "trk_19e0e356b0c_48d2df7d47b8e": {
+      "time": 165.19997916666668,
+      "duration": 165.19997916666668,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1778358580995
+    },
+    "trk_19e0e356b0c_1102b1c68b0328": {
+      "time": 178.35997916666668,
+      "duration": 178.35997916666668,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1778358401509
+    },
+    "trk_19e0e356b0c_e773c9f634118": {
+      "time": 187.9887528344671,
+      "duration": 187.9887528344671,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1778358218731
+    },
+    "trk_19e0e356b0c_153480bf51c94": {
+      "time": 184.27997916666666,
+      "duration": 184.27997916666666,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1778358025947
+    },
+    "trk_19e0e356b0c_095d4fbb04e21": {
+      "time": 208.05079365079365,
+      "duration": 208.05079365079365,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1778357824247
+    },
+    "trk_19e0e356b0b_43c10ee8d0f76": {
+      "time": 184.27997916666666,
+      "duration": 184.27997916666666,
+      "percent": 100,
+      "complete": true,
+      "savedAt": 1778357559282
+    },
+    "trk_19e0ab5ae56_f936e3dbc09318": {
+      "time": 3887.8505536890043,
+      "duration": 6190.288979591836,
+      "percent": 62.805639066390626,
+      "complete": false,
+      "savedAt": 1778353817601
+    },
+    "trk_19e00182ed0_3a073744dfc04": {
+      "time": 6146.4517343,
+      "duration": 6975.555918367347,
+      "percent": 88.11414898296161,
+      "complete": false,
+      "savedAt": 1778274368927
+    },
+    "trk_19e00182ecf_c1bd13617b026": {
+      "time": 68.02189096600297,
+      "duration": 6190.288979591836,
+      "percent": 1.0988483928659512,
+      "complete": false,
+      "savedAt": 1778205701637
+    },
+    "trk_19dfadd1b2f_0decc3a61257f": {
+      "time": 95.417216,
+      "duration": 6219.583447,
+      "percent": 1.5341415838069388,
+      "complete": false,
+      "savedAt": 1778091076703
+    },
+    "trk_19dfa94f89c_e6a4ebb89dd9e": {
+      "time": 3.0917175,
+      "duration": 208.05079365079365,
+      "percent": 1.486039752960205,
+      "complete": false,
+      "savedAt": 1778028617963
+    },
+    "trk_19df06ec037_fd00b8f0974ae8": {
+      "time": 17.316832111666734,
+      "duration": 208.05079365079365,
+      "percent": 8.32336748531345,
+      "complete": false,
+      "savedAt": 1777866210597
+    }
+  },
+  "savedAt": 1784104589643
+}

@@ -1,0 +1,69 @@
+[
+  {
+    "id": "cloudsync_mpa4ulkt_nmcbmmc7",
+    "provider": "google_drive",
+    "accountId": "gdrive_mpa4prx1_4wsq07xv",
+    "title": "Blackburn Ravers Mixes",
+    "folderId": "14vxEADeWzSAPdAgyMefANHMl-OlXjHFA",
+    "path": "",
+    "recursive": true,
+    "autoSync": false,
+    "createdAt": 1779043976380,
+    "updatedAt": 1779043976380
+  },
+  {
+    "id": "cloudsync_mpa6tc2k_d29nqtsn",
+    "provider": "google_drive",
+    "accountId": "gdrive_mpa4qxyn_p8g3rpm1",
+    "title": "Blackburn Ravers Radio Mixes (60)",
+    "folderId": "19dZkHMLmLMWDQMAyb9xPNT3EBqCNVpnE",
+    "path": "",
+    "recursive": true,
+    "autoSync": false,
+    "createdAt": 1779047276634,
+    "updatedAt": 1779048446857,
+    "lastSyncAt": 1779048446857,
+    "lastJobId": "cloudsyncjob_mpa6tc5s_5v7okc90"
+  },
+  {
+    "id": "cloudsync_mpa6tt4t_2pmkdt8l",
+    "provider": "google_drive",
+    "accountId": "gdrive_mpa4rh08_vm2h0sso",
+    "title": "Blackburn Ravers Mixes (60)",
+    "folderId": "11QiDgtacV0AJZYwwsImU5cza52GlJi7f",
+    "path": "",
+    "recursive": true,
+    "autoSync": false,
+    "createdAt": 1779047298747,
+    "updatedAt": 1779047298747
+  },
+  {
+    "id": "cloudsync_mpa78dtm_54hoo32k",
+    "provider": "google_drive",
+    "accountId": "gdrive_mpa76yf8_2m0ayve3",
+    "title": "The Hardcore Medley",
+    "folderId": "1kbMACYo-Eqawd9PsB9bI2xtpzIILfysw",
+    "path": "",
+    "recursive": true,
+    "autoSync": false,
+    "createdAt": 1779047978745,
+    "updatedAt": 1779047978745
+  },
+  {
+    "id": "cloudsync_mq2vt0fi_k0pjjd9g",
+    "provider": "dropbox",
+    "accountId": "dropbox_moflb2ph_horv2xl8",
+    "title": "Dropbox Folder",
+    "folderId": "",
+    "path": "",
+    "category": "dj-mp3s-wavs",
+    "categoryLabel": "DJ MP3s | WAVs / Other",
+    "primaryBrand": "",
+    "recursive": true,
+    "autoSync": false,
+    "createdAt": 1780782304877,
+    "updatedAt": 1780782621564,
+    "lastSyncAt": 1780782621564,
+    "lastJobId": "cloudsyncjob_mq2vt0h8_r7iuyev2"
+  }
+]

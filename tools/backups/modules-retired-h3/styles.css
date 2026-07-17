@@ -1,0 +1,6 @@
+/* BRMedia H2: old duplicated module CSS retired.
+   Original full CSS is backed up at:
+   - public/modules/styles.legacy-before-h2.css
+   - tools/backups/css-before-h2/public/modules/styles.css
+   Active split modules now use /shared/module-shell.css plus their own tiny styles.css files.
+*/

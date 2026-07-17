@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Video Player</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260515" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260515" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260515" />
+  <link rel="manifest" href="/video-player/site.webmanifest?v=20260505" />
+
+  <meta name="theme-color" content="#182E5B" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Video" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <link rel="stylesheet" href="/video-player/styles.css?v=20260618-torrent-handoff-v1" />
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+</head>
+
+<body class="skin-1 moduleTemplateBody">
+  <div class="appShell">
+<header class="topbar">
+  <div class="brandHeader">
+    <button id="btnTopSearch" class="topSearchBtn" aria-label="Open search" aria-pressed="false">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+
+    <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="brandLogoFull" />
+    <div class="brandHeaderMeta">
+      <div class="eyebrow">BRMedia</div>
+      <h1 id="pageTitle">Video Player</h1>
+    </div>
+  </div>
+
+  <button id="btnTopSettings" class="topMenuBtn" aria-label="Open menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+</header>
+
+    <div id="sidebarBackdrop" class="sidebarBackdrop hidden"></div>
+
+    <aside id="sidebarMenu" class="sidebarMenu hidden">
+      <div class="sidebarMenuHeader">
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="sidebarLogoFull" />
+      </div>
+
+      <div class="sidebarNav">
+        <button class="sidebarNavBtn" data-route="/" type="button">
+          <span class="sidebarNavIconBadge">
+            <img class="sidebarNavIconImage" src="/shared/branding/module-icons/home.png" alt="" />
+          </span>
+          <span class="sidebarNavText">
+            <span class="sidebarNavBtnTitle">Home</span>
+            <span class="sidebarNavBtnSub">Back to BRMedia Centre home.</span>
+          </span>
+        </button>
+
+        <div class="sidebarVideoPanel">
+          <div class="sidebarSectionTitle">Video categories</div>
+          <div id="videoSidebarGenreList" class="sidebarModuleList videoSidebarGenreList">
+            <button class="sidebarModuleBtn videoSidebarCategory is-active" type="button">
+              <i class="fa-solid fa-film"></i>
+              <span class="sidebarModuleText">
+                <span class="sidebarModuleTitle">All Videos</span>
+                <span class="sidebarModuleSub">Loads after scan.</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebarModuleBlock">
+        <div class="sidebarSectionTitle">Open modules</div>
+
+        <div class="sidebarModuleList">
+          <button class="sidebarModuleBtn" data-route="/player" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/audio-home.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Player</span>
+              <span class="sidebarModuleSub">Audio player, queue, playlists and tracklists.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn is-active" data-route="/video-player" type="button">
+             <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/video-player.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Video</span>
+              <span class="sidebarModuleSub">Films, posters, playback and subtitles.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/mastering" type="button">
+             <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/mastering.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Mastering</span>
+              <span class="sidebarModuleSub">Audio polish, previews and compare tools.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/tagger" type="button">
+             <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/tagger.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Tagger</span>
+              <span class="sidebarModuleSub">Metadata, artwork and BRMedia tags.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/converter" type="button">
+             <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/converter.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Converter</span>
+              <span class="sidebarModuleSub">Convert audio/video and batch jobs.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/stats" type="button">
+             <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/stats.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Stats</span>
+              <span class="sidebarModuleSub">Charts, history and library analytics.</span>
+            </span>
+          </button>
+					
+          <button class="sidebarModuleBtn" data-route="/torrents" type="button">
+             <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/torrents.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Torrents</span>
+              <span class="sidebarModuleSub">Legal torrents, queue, speed limits and safe scanning.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/server-settings" type="button">
+             <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/server-settings.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Server Settings</span>
+              <span class="sidebarModuleSub">Sources, storage, FFmpeg and networking.</span>
+            </span>
+          </button>
+
+          <button class="sidebarModuleBtn" data-route="/settings?module=video&tab=overview" type="button">
+            <img class="sidebarModuleIconImage" src="/shared/branding/module-icons/settings.png" alt="" width="34" height="34" />
+            <span class="sidebarModuleText">
+              <span class="sidebarModuleTitle">Settings</span>
+              <span class="sidebarModuleSub">Global BRMedia control centre.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <button id="btnSidebarCloseFloating" class="sidebarFloatingCloseBtn hidden" type="button" aria-label="Close menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="mainContent moduleTemplateMain">
+      <div id="moduleContent" class="moduleTemplateContent"></div>
+
+      <footer class="playerSiteFooter">
+        <div class="playerSiteFooterInner">
+          <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" class="playerSiteFooterLogo" />
+
+          <div class="playerSiteFooterCopy">
+            <span class="footerLine">
+              <span class="footerCopyOrange">©</span>
+              <span class="footerCopyWhite">The Blackburn Ravers</span>
+            </span>
+
+            <span class="footerLine">
+              <span class="footerCopyWhite">DJ NJ &amp; Upalnite</span>
+              <span class="footerCopyBlue">2026</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+<script src="/shared/icons.js?v=20260529-bars-fix-v1"></script>
+<script src="/shared/profile-link.js?v=20260530-nav-compact-v10"></script>
+<script src="/video-player/app.js?v=20260618-torrent-handoff-v1"></script>
+</body>
+</html>

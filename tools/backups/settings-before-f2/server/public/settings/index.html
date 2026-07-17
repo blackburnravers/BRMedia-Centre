@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/home/apple-touch-icon.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/home/icon-192.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/home/icon-512.png?v=20260505" />
+  <link rel="manifest" href="/settings/site.webmanifest?v=20260510-f1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Settings" />
+  <link rel="stylesheet" href="/shared/shell.css?v=20260509-split-a" />
+  <link rel="stylesheet" href="/shared/module-theme.css?v=20260509-split-a" />
+  <link rel="stylesheet" href="/settings/styles.css?v=20260510-f1" />
+</head>
+<body class="brSharedBody settingsBody">
+  <div class="brSharedShell settingsShell">
+    <header class="brSharedTopbar settingsTopbar">
+      <div class="brSharedTopbarInner">
+        <a class="brSharedIconBtn" href="/home" aria-label="Open BRMedia Home">�</a>
+        <img class="brSharedLogo" src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" />
+        <button class="brSharedIconBtn" type="button" aria-label="Open BRMedia menu" data-br-shared-menu>?</button>
+      </div>
+    </header>
+
+    <div class="brSharedBackdrop" data-br-shared-backdrop></div>
+    <aside class="brSharedSidebar" data-br-shared-sidebar>
+      <div class="brSharedSidebarHead">
+        <div class="brSharedSidebarTitle">BRMedia Centre</div>
+        <button class="brSharedIconBtn" type="button" aria-label="Close menu" data-br-shared-close>�</button>
+      </div>
+      <nav class="brSharedNav" data-br-shared-nav aria-label="BRMedia modules"></nav>
+    </aside>
+
+    <main class="brSharedMain settingsMain">
+      <section class="settingsHero">
+        <div class="settingsHeroText">
+          <div class="brSharedEyebrow">Universal Settings</div>
+          <h1>BRMedia Control Centre</h1>
+          <p>One place for module settings, sources, cloud/imports, devices and backups. Server Settings stays separate for deeper admin setup.</p>
+          <div class="settingsHeroActions">
+            <a class="settingsHeroBtn primary" href="/player">Open Player</a>
+            <a class="settingsHeroBtn" href="/server-settings">Server Settings</a>
+          </div>
+        </div>
+        <div class="settingsHeroStack" aria-label="Settings status cards">
+          <div class="settingsStatusCard"><span>Split</span><strong>Modules separated</strong><small>Mastering, Video, Converter and Tagger now have their own JS.</small></div>
+          <div class="settingsStatusCard"><span>Sources</span><strong>Audio + Video paths</strong><small>C:\DJMixes and C:\Videos are tracked as shared sources.</small></div>
+          <div class="settingsStatusCard"><span>Next</span><strong>Stats + Server polish</strong><small>Siri/device controls stay parked until the foundations are done.</small></div>
+        </div>
+      </section>
+
+      <section class="settingsDashboard" aria-label="BRMedia Settings dashboard">
+        <aside class="settingsRail">
+          <div class="settingsRailSearchWrap">
+            <label for="settingsSearch">Search settings</label>
+            <input id="settingsSearch" type="search" placeholder="Player, Drive, sources�" autocomplete="off" />
+          </div>
+          <div id="settingsTabs" class="settingsRailTabs" aria-label="Settings sections"></div>
+        </aside>
+
+        <section class="settingsWorkspace">
+          <div class="settingsWorkspaceHead">
+            <div>
+              <div class="settingsKicker" id="settingsActiveSection">Core</div>
+              <h2 id="settingsActiveTitle">General</h2>
+              <p id="settingsActiveSummary">Branding, app behaviour and shared UI.</p>
+            </div>
+            <a id="settingsActiveLink" class="settingsServerLink" href="/server-settings">Open section</a>
+          </div>
+
+          <div id="settingsSearchEmpty" class="settingsEmpty hidden">No settings sections matched that search.</div>
+          <div id="settingsActivePanel" class="settingsActivePanel"></div>
+        </section>
+      </section>
+
+      <section class="settingsQuickPanel">
+        <div class="settingsPanelHead compact">
+          <div>
+            <div class="settingsKicker">Quick module links</div>
+            <h2>Jump straight into a module</h2>
+            <p>These stay handy while Universal Settings grows into the proper shared control centre.</p>
+          </div>
+        </div>
+        <div id="settingsModuleGrid" class="settingsModuleGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/shared/nav.js?v=20260509-split-a"></script>
+  <script src="/shared/icons.js?v=20260509-split-a"></script>
+  <script src="/shared/source-manager.js?v=20260510-f1"></script>
+  <script src="/shared/source-picker.js?v=20260509-split-a"></script>
+  <script src="/shared/settings-schema.js?v=20260510-f1"></script>
+  <script src="/shared/settings-ui.js?v=20260509-split-a"></script>
+  <script src="/shared/shell.js?v=20260509-split-a"></script>
+  <script src="/settings/app.js?v=20260510-f1"></script>
+</body>
+</html>

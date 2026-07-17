@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#182E5B" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/home/apple-touch-icon.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/home/icon-192.png?v=20260505" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/home/icon-512.png?v=20260505" />
+  <link id="moduleManifest" rel="manifest" href="/converter/site.webmanifest?v=20260510-split-d1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Converter" />
+  <link rel="stylesheet" href="/converter/styles.css?v=20260510-split-d1" />
+</head>
+<body>
+  <div class="moduleShell">
+    <header class="moduleTopbar">
+      <div class="moduleBrandHeader">
+        <a class="moduleSearchBtn" href="/player" aria-label="Open BRMedia Player">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
+
+        <img src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" class="moduleBrandLogo" />
+
+        <button id="btnModuleMenu" class="moduleMenuBtn" type="button" aria-label="Open sidebar menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <div id="moduleSidebarBackdrop" class="moduleSidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="moduleSidebar hidden">
+      <div class="moduleSidebarHeader">
+        <img src="/home/blackburn-ravers-header.png" alt="Blackburn Ravers" class="moduleSidebarLogo" />
+      </div>
+
+      <div class="moduleSidebarLinks">
+        <a class="moduleSidebarLink" href="/player" data-path="/player">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-headphones"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Player</span><span class="moduleSidebarSub">Back to the full BRMedia music player.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/converter" data-path="/converter">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-arrows-rotate"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Converter</span><span class="moduleSidebarSub">Convert audio, video and batch jobs.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/tagger" data-path="/tagger">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-tags"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Tagger</span><span class="moduleSidebarSub">Metadata, artwork and BRMedia tags.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/mastering" data-path="/mastering">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-sliders"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Mastering</span><span class="moduleSidebarSub">Loudness, polish and final masters.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/video-player" data-path="/video-player">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-film"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Video Player</span><span class="moduleSidebarSub">Video playback and linked media.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/stats" data-path="/stats">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-chart-column"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Stats</span><span class="moduleSidebarSub">Usage, history and reporting.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/settings?tab=converter" data-path="/settings">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-gear"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Settings</span><span class="moduleSidebarSub">Universal BRMedia settings.</span></span>
+        </a>
+        <a class="moduleSidebarLink" href="/server-settings" data-path="/server-settings">
+          <span class="moduleSidebarIconBadge"><i class="fa-solid fa-server"></i></span>
+          <span class="moduleSidebarText"><span class="moduleSidebarTitle">Server Settings</span><span class="moduleSidebarSub">Sources, storage and networking.</span></span>
+        </a>
+      </div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="moduleSidebarFloatingClose hidden" type="button" aria-label="Close sidebar menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="moduleMain">
+      <section class="moduleHeroCard">
+        <div class="moduleEyebrow" id="moduleEyebrow">BRMedia Converter</div>
+        <h1 class="moduleTitle" id="moduleTitle">Converter</h1>
+        <div class="moduleSubtitle" id="moduleSubtitle">Audio and video conversion, queues, presets, and output rules.</div>
+
+        <div class="moduleComingSoonCard">
+          <div class="moduleComingSoonIcon" id="moduleStatusIcon">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </div>
+
+          <div class="moduleComingSoonText">
+            <div class="moduleComingSoonTitle" id="moduleStatusTitle">Convert this file</div>
+            <div class="moduleComingSoonBody" id="moduleComingSoonBody">
+              Converter can receive Player files, library files or uploads, then render a safe converted copy with FFmpeg.
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="moduleSettingsHandoff">
+          <a class="moduleSettingsHandoffBtn" href="/settings?tab=converter"><span>CVT</span><div><strong>Converter Settings</strong><small>Defaults, formats and output preferences.</small></div></a>
+          <a class="moduleSettingsHandoffBtn" href="/server-settings"><span>SRV</span><div><strong>Server Settings</strong><small>Sources, storage and deeper admin.</small></div></a>
+        </div>
+
+        <div id="moduleTrackPanel" class="moduleTrackPanel hidden">
+          <div class="moduleTrackTop">
+            <div>
+              <div class="moduleTrackKicker">Selected file</div>
+              <div id="moduleTrackTitle" class="moduleTrackTitle">No file selected</div>
+              <div id="moduleTrackMeta" class="moduleTrackMeta">Open this module from View Files to pass a file in.</div>
+            </div>
+          </div>
+
+          <div class="moduleTrackActions">
+            <a id="moduleTrackOpenPlayer" class="moduleActionBtn primary" href="/player">
+              <i class="fa-solid fa-play"></i>
+              <span>Open in Player</span>
+            </a>
+
+            <button id="moduleTrackClear" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Clear selected file</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="converterPanel" class="converterPanel hidden">
+          <div class="converterProHeader">
+            <div>
+              <div class="moduleTrackKicker">Converter v2</div>
+              <div class="converterPanelTitle">Professional media converter</div>
+              <div class="converterPanelSub">Convert, extract, trim and export audio/video with live FFmpeg jobs, safe downloads, library import, presets and queue-ready output settings.</div>
+            </div>
+          </div>
+
+          <div class="converterHero" aria-label="Converter source file">
+            <div class="converterHeroIcon">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+            <div class="converterHeroMain">
+              <div class="converterHeroKicker">Current source</div>
+              <div id="converterHeroTitle" class="converterHeroTitle">No file loaded</div>
+              <div id="converterHeroMeta" class="converterHeroMeta">Open media from this device, or send a file from Player/View Files.</div>
+              <div id="converterHeroPills" class="converterHeroPills">
+                <span class="converterPill isBlue">Audio + video</span>
+                <span class="converterPill isGold">FFmpeg powered</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="converterOpenPanel">
+            <input id="converterDeviceFileInput" class="hidden" type="file" accept="audio/*,video/*,.mp3,.wav,.flac,.m4a,.aac,.ogg,.opus,.aiff,.aif,.mp4,.mov,.mkv,.webm,.avi,.m4v,.wmv,.vob,.mpg,.mpeg" />
+
+            <button id="btnConverterPickDevice" class="moduleActionBtn primary" type="button">
+              <i class="fa-solid fa-upload"></i>
+              <span>Open media from device</span>
+            </button>
+
+            <button id="btnConverterUseSelected" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-file-pen"></i>
+              <span>Choose from library</span>
+            </button>
+          </div>
+
+          <div class="converterFormatTabs" aria-label="Converter output type">
+            <button class="converterFormatTab is-active" type="button" data-converter-kind="audio">
+              <i class="fa-solid fa-file-audio"></i>
+              <span><strong>Audio</strong><small>MP3, WAV, FLAC, AAC, OGG, OPUS</small></span>
+            </button>
+
+            <button class="converterFormatTab" type="button" data-converter-kind="video">
+              <i class="fa-solid fa-video"></i>
+              <span><strong>Video</strong><small>MP4, MOV, MKV, WEBM, AVI, VOB</small></span>
+            </button>
+
+            <button class="converterFormatTab" type="button" data-converter-kind="extract">
+              <i class="fa-solid fa-music-note"></i>
+              <span><strong>Extract audio</strong><small>Pull audio from video</small></span>
+            </button>
+          </div>
+
+          <div class="converterPresetGrid">
+            <button class="converterPresetCard" type="button" data-converter-preset="mp3-phone">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+              <span><strong>Phone MP3</strong><small>MP3 320k, stereo, 44.1k</small></span>
+            </button>
+
+            <button class="converterPresetCard" type="button" data-converter-preset="wav-master">
+              <i class="fa-solid fa-waveform"></i>
+              <span><strong>WAV master</strong><small>PCM WAV, 48k, stereo</small></span>
+            </button>
+
+            <button class="converterPresetCard" type="button" data-converter-preset="flac-archive">
+              <i class="fa-solid fa-compact-disc"></i>
+              <span><strong>FLAC archive</strong><small>Lossless archive output</small></span>
+            </button>
+
+            <button class="converterPresetCard" type="button" data-converter-preset="mp4-share">
+              <i class="fa-solid fa-film"></i>
+              <span><strong>MP4 share</strong><small>H.264 + AAC, fast start</small></span>
+            </button>
+          </div>
+
+          <div class="converterSettingsPanel">
+            <div class="converterSectionHead">
+              <strong>Output settings</strong>
+              <span>Choose the format and extras. Auto values let FFmpeg pick safe defaults.</span>
+            </div>
+
+            <div class="converterGrid">
+              <div class="converterField">
+                <label for="converterOutputFormat">Output format</label>
+                <select id="converterOutputFormat">
+                  <optgroup label="Audio">
+                    <option value="mp3">MP3</option>
+                    <option value="wav">WAV</option>
+                    <option value="flac">FLAC</option>
+                    <option value="m4a">M4A</option>
+                    <option value="aac">AAC</option>
+                    <option value="ogg">OGG Vorbis</option>
+                    <option value="opus">OPUS</option>
+                    <option value="aiff">AIFF</option>
+                  </optgroup>
+                  <optgroup label="Video">
+                    <option value="mp4">MP4</option>
+                    <option value="mov">MOV</option>
+                    <option value="mkv">MKV</option>
+                    <option value="webm">WEBM</option>
+                    <option value="avi">AVI</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div class="converterField"><label for="converterOutputName">Output suffix</label><input id="converterOutputName" type="text" value="BRMedia Converted" autocomplete="off" /></div>
+              <div class="converterField"><label for="converterAudioCodec">Audio codec</label><select id="converterAudioCodec"><option value="auto">Auto for format</option><option value="copy">Copy original audio</option><option value="libmp3lame">MP3 / libmp3lame</option><option value="aac">AAC</option><option value="pcm_s16le">PCM 16-bit LE</option><option value="pcm_s24le">PCM 24-bit LE</option><option value="flac">FLAC</option><option value="libvorbis">Vorbis</option><option value="libopus">Opus</option></select></div>
+              <div class="converterField"><label for="converterVideoCodec">Video codec</label><select id="converterVideoCodec"><option value="auto">Auto for format</option><option value="copy">Copy original video</option><option value="libx264">H.264 / libx264</option><option value="libx265">H.265 / HEVC</option><option value="libvpx-vp9">VP9</option><option value="libaom-av1">AV1</option><option value="prores_ks">Apple ProRes</option><option value="mpeg4">MPEG-4</option></select></div>
+              <div class="converterField"><label for="converterAudioBitrate">Audio bitrate</label><select id="converterAudioBitrate"><option value="">Auto</option><option value="128k">128k</option><option value="192k">192k</option><option value="256k">256k</option><option value="320k">320k</option><option value="512k">512k</option></select></div>
+              <div class="converterField"><label for="converterSampleRate">Sample rate</label><select id="converterSampleRate"><option value="">Auto</option><option value="44100">44.1 kHz</option><option value="48000">48 kHz</option><option value="88200">88.2 kHz</option><option value="96000">96 kHz</option></select></div>
+              <div class="converterField"><label for="converterChannels">Channels</label><select id="converterChannels"><option value="">Auto</option><option value="1">Mono</option><option value="2">Stereo</option><option value="6">5.1 / 6 channels</option></select></div>
+              <div class="converterField"><label for="converterVideoBitrate">Video bitrate</label><select id="converterVideoBitrate"><option value="">CRF / Auto</option><option value="1500k">1.5 Mbps</option><option value="3000k">3 Mbps</option><option value="6000k">6 Mbps</option><option value="10000k">10 Mbps</option><option value="20000k">20 Mbps</option></select></div>
+              <div class="converterField"><label for="converterCrf">CRF quality</label><select id="converterCrf"><option value="">Auto</option><option value="16">16 very high</option><option value="18">18 high</option><option value="20">20 clean</option><option value="23">23 standard</option><option value="28">28 smaller</option></select></div>
+              <div class="converterField"><label for="converterPreset">Encoder preset</label><select id="converterPreset"><option value="">Auto</option><option value="ultrafast">ultrafast</option><option value="veryfast">veryfast</option><option value="fast">fast</option><option value="medium">medium</option><option value="slow">slow</option></select></div>
+              <div class="converterField"><label for="converterFrameRate">Frame rate</label><select id="converterFrameRate"><option value="">Original</option><option value="24">24 fps</option><option value="25">25 fps</option><option value="30">30 fps</option><option value="50">50 fps</option><option value="60">60 fps</option></select></div>
+              <div class="converterField"><label for="converterResolution">Resolution</label><select id="converterResolution"><option value="">Original</option><option value="720p">720p</option><option value="1080p">1080p</option><option value="1440p">1440p</option><option value="2160p">4K / 2160p</option></select></div>
+              <div class="converterField"><label for="converterTrimStart">Trim start seconds</label><input id="converterTrimStart" type="number" min="0" step="0.1" inputmode="decimal" placeholder="0" /></div>
+              <div class="converterField"><label for="converterTrimDuration">Duration seconds</label><input id="converterTrimDuration" type="number" min="0" step="0.1" inputmode="decimal" placeholder="Full file" /></div>
+              <div class="converterField"><label for="converterVolume">Volume</label><select id="converterVolume"><option value="">Original</option><option value="0.5">50%</option><option value="0.75">75%</option><option value="1">100%</option><option value="1.25">125%</option><option value="1.5">150%</option></select></div>
+            </div>
+
+            <div class="converterCheckGrid">
+              <label><input id="converterNormalize" type="checkbox" /> Loudness normalize audio</label>
+              <label><input id="converterFastStart" type="checkbox" checked /> Web/iPhone fast start for MP4/MOV</label>
+              <label><input id="converterRemoveAudio" type="checkbox" /> Remove audio from video</label>
+              <label><input id="converterAddToLibrary" type="checkbox" checked /> Add audio outputs back to BRMedia library</label>
+            </div>
+          </div>
+
+          <div class="converterSummaryPanel">
+            <div class="converterSectionHead">
+              <strong>Ready check</strong>
+              <span id="converterSummaryText">Choose a source file and output format.</span>
+            </div>
+            <div id="converterCommandPreview" class="converterCommandPreview">No conversion queued yet.</div>
+            <div id="converterReadinessPanel" class="converterReadinessPanel"></div>
+            <div id="converterHistoryPanel" class="converterHistoryPanel hidden"></div>
+          </div>
+
+          <div class="converterActions">
+            <button id="btnConverterStart" class="moduleActionBtn primary" type="button">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              <span>Start conversion</span>
+            </button>
+            <a id="btnConverterDownload" class="moduleActionBtn subtle hidden" href="#">
+              <i class="fa-solid fa-download"></i>
+              <span>Download result</span>
+            </a>
+            <button id="btnConverterCancel" class="moduleActionBtn subtle danger hidden" type="button">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Cancel job</span>
+            </button>
+
+            <button id="btnConverterReset" class="moduleActionBtn subtle" type="button">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+              <span>Reset converter</span>
+            </button>
+          </div>
+
+          <div id="converterProgress" class="converterProgress hidden">
+            <div class="converterProgressTop">
+              <strong>Conversion running…</strong>
+              <span id="converterProgressStatus">Waiting for FFmpeg.</span>
+            </div>
+            <div class="converterProgressBar"><span id="converterProgressFill"></span></div>
+          </div>
+
+          <div id="converterResult" class="converterResult hidden"></div>
+        </div>
+      </section>
+
+      <div id="moduleMiniPlayer" class="moduleMiniPlayer hidden" aria-label="BRMedia mini player">
+        <audio id="moduleMiniAudio" preload="metadata"></audio>
+        <a id="moduleMiniArtLink" class="moduleMiniArtLink" href="/player" aria-label="Open current track in Player">
+          <img id="moduleMiniArt" class="moduleMiniArt" src="/player/br-footer-logo-trans.png" alt="" />
+        </a>
+        <button id="btnModuleMiniPrev" class="moduleMiniBtn" type="button" aria-label="Previous track">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button id="btnModuleMiniPlay" class="moduleMiniPlayBtn" type="button" aria-label="Play or pause">
+          <i class="fa-solid fa-play"></i>
+        </button>
+        <button id="btnModuleMiniNext" class="moduleMiniBtn" type="button" aria-label="Next track">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+        <div class="moduleMiniText">
+          <div id="moduleMiniTitle" class="moduleMiniTitle">Nothing playing</div>
+          <div id="moduleMiniSub" class="moduleMiniSub">Open Player to start a mix.</div>
+        </div>
+        <div class="moduleMiniProgress"><span id="moduleMiniProgressFill"></span></div>
+      </div>
+
+      <div id="moduleLibraryPicker" class="moduleLibraryPicker hidden" role="dialog" aria-modal="true" aria-label="Choose from BRMedia library">
+        <div class="moduleLibraryPickerCard">
+          <div class="moduleLibraryPickerHead">
+            <div>
+              <strong id="moduleLibraryPickerTitle">Choose from library</strong>
+              <span id="moduleLibraryPickerSub">Pick a BRMedia library file for this module.</span>
+            </div>
+            <button id="btnModuleLibraryPickerClose" class="moduleLibraryPickerClose" type="button" aria-label="Close library picker">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="moduleLibraryPickerSearch">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="moduleLibraryPickerSearch" type="search" placeholder="Search title, artist, format or path…" autocomplete="off" />
+          </div>
+
+          <div id="moduleLibraryPickerList" class="moduleLibraryPickerList">
+            <div class="moduleLibraryPickerEmpty">Loading BRMedia library…</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="moduleFooter">
+        <div class="moduleFooterInner">
+          <img src="/player/br-footer-logo-trans.png" alt="BR" class="moduleFooterLogo" />
+          <div class="moduleFooterCopy">
+            <span class="moduleFooterLine">
+              <span class="moduleFooterOrange">©</span>
+              <span class="moduleFooterWhite">The Blackburn Ravers</span>
+            </span>
+            <span class="moduleFooterLine">
+              <span class="moduleFooterWhite">DJ NJ &amp; Upalnite</span>
+              <span class="moduleFooterBlue">2026</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script src="/converter/app.js?v=20260510-split-d2"></script>
+</body>
+</html>

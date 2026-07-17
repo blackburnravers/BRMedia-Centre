@@ -1,0 +1,11 @@
+{
+  "patch": "J1",
+  "updatedAt": "2026-05-10T19:55:58.795Z",
+  "changes": [
+    "Replaced video-player/index.html with new Player-style layout.",
+    "Replaced video-player/styles.css with new Video-only layout CSS.",
+    "Added custom video controls.",
+    "Added videoId URL handoff for individual watch pages.",
+    "Made module links smaller in the video sidebar."
+  ]
+}

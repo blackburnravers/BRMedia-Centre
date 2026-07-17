@@ -1,0 +1,14 @@
+{
+  "patch": "H3",
+  "retiredAt": "2026-05-10T14:44:33.023Z",
+  "publicModulesKept": [
+    "server/public/modules/index.html",
+    "server/public/modules/styles.css"
+  ],
+  "movedToBackup": [
+    "app.js",
+    "index.legacy-before-h1.html",
+    "styles.legacy-before-h2.css"
+  ],
+  "backupDir": "tools\\backups\\modules-retired-h3"
+}

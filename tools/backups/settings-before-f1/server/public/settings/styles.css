@@ -1,0 +1,75 @@
+.settingsPanel {
+  margin-bottom: 16px;
+}
+
+.settingsPanelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.settingsPanelHead.compact {
+  margin-bottom: 12px;
+}
+
+.settingsPanelHead h2 {
+  margin: 4px 0 4px;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.settingsPanelHead p {
+  margin: 0;
+  color: var(--br-muted);
+  line-height: 1.45;
+}
+
+.settingsKicker {
+  color: var(--br-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.settingsServerLink {
+  flex: 0 0 auto;
+  border: 1px solid rgba(255,159,28,0.6);
+  border-radius: 999px;
+  padding: 11px 14px;
+  color: #08152f;
+  background: var(--br-orange);
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.settingsPlaceholder {
+  margin-top: 16px;
+  border: 1px dashed rgba(255,255,255,0.2);
+  border-radius: 22px;
+  padding: 16px;
+  background: rgba(0,0,0,0.15);
+}
+
+.settingsPlaceholder h3 {
+  margin: 0 0 6px;
+}
+
+.settingsPlaceholder p {
+  margin: 0;
+  color: var(--br-muted);
+  line-height: 1.45;
+}
+
+@media (max-width: 640px) {
+  .settingsPanelHead {
+    display: grid;
+  }
+
+  .settingsServerLink {
+    width: 100%;
+    text-align: center;
+  }
+}

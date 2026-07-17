@@ -1,0 +1,5525 @@
+@import url("/player/styles.css");
+
+/* BRMedia module template shell — Video Player V1 */
+
+body.moduleTemplateBody {
+  background: #f4f7fb;
+}
+
+.moduleTemplateMain {
+  min-height: 48vh;
+}
+
+.moduleTemplateContent {
+  width: min(940px, calc(100% - 24px));
+  margin: 0 auto;
+  min-height: 42vh;
+}
+
+/* Keep footer as the final page block for empty templates */
+.moduleTemplateMain .playerSiteFooter {
+  margin-top: 34px;
+}
+
+/* Current module marker inside copied Player sidebar */
+.sidebarModuleBtn.is-active {
+  border-color: rgba(242, 160, 7, 0.45);
+}
+
+.sidebarModuleBtn.is-active i {
+  color: #f2a007;
+}
+
+/* BRMedia Video Player V1 — native player + poster library */
+body.moduleTemplateBody {
+  background: #f4f7fb;
+}
+
+.moduleTemplateContent {
+  display: grid;
+  gap: 14px;
+  padding-bottom: 18px;
+}
+
+.brVideoHero,
+.brVideoPlayerPanel,
+.brVideoControlsPanel,
+.brVideoLibrarySection {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #102b58;
+  box-shadow: 0 18px 34px rgba(4, 12, 28, 0.18);
+}
+
+.brVideoHero {
+  min-height: 360px;
+  background-image: linear-gradient(90deg, rgba(12, 35, 75, 0.96), rgba(12, 35, 75, 0.76)), var(--video-backdrop);
+  background-position: center;
+  background-size: cover;
+  padding: 16px;
+}
+
+.brVideoHeroShade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(31, 169, 255, 0.18), transparent 45%);
+  pointer-events: none;
+}
+
+.brVideoHeroContent {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 15px;
+  align-items: end;
+  min-height: 328px;
+}
+
+.brVideoPoster,
+.brVideoCardPoster {
+  overflow: hidden;
+  border-radius: 22px;
+  background: #071b39;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+}
+
+.brVideoPoster img,
+.brVideoCardPoster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brVideoPoster {
+  aspect-ratio: 2 / 3;
+  min-height: 250px;
+}
+
+.brVideoPosterFallback {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 14px;
+  color: #7bd0ff;
+  text-align: center;
+  font-weight: 950;
+}
+
+.brVideoPosterFallback i,
+.brVideoPosterFallback .brSvgIconHost {
+  width: 42px;
+  height: 42px;
+}
+
+.brVideoEyebrow {
+  display: inline-block;
+  color: #f2a007;
+  letter-spacing: 0.34em;
+  font-size: 0.75rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.brVideoHeroText h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(2rem, 7vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.brVideoHeroText p {
+  margin: 11px 0 0;
+  color: rgba(255, 255, 255, 0.74);
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.brVideoMetaPills,
+.brVideoHeroActions,
+.brVideoNowButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.brVideoMetaPills span,
+.brVideoSmallBtn {
+  border-radius: 999px;
+  padding: 8px 10px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: rgba(7, 20, 45, 0.58);
+  color: #bfe9ff;
+  font-size: 0.76rem;
+  font-weight: 950;
+}
+
+.brVideoBtn,
+.brVideoSmallBtn {
+  min-height: 44px;
+  border: 1px solid rgba(31, 169, 255, 0.24);
+  background: #223d72;
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 950;
+}
+
+.brVideoBtn.primary {
+  background: #1fa9ff;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.brVideoBtn:disabled,
+.brVideoSmallBtn:disabled {
+  opacity: 0.48;
+}
+
+.brVideoPlayerPanel {
+  padding: 12px;
+}
+
+.brVideoElement {
+  display: block;
+  width: 100%;
+  max-height: 68vh;
+  border-radius: 22px;
+  background: #000000;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.brVideoNowMeta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 18px;
+  background: #0f2449;
+}
+
+.brVideoNowMeta strong,
+.brVideoSectionHead strong,
+.brVideoCard strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.brVideoNowMeta span,
+.brVideoSectionHead span,
+.brVideoCard span,
+.brVideoCard em {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.brVideoControlsPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 10px;
+  padding: 12px;
+}
+
+.brVideoSearchBox {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  min-height: 52px;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #0f2449;
+  padding: 0 12px;
+  color: #7bd0ff;
+}
+
+.brVideoSearchBox input,
+.brVideoSelect {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1rem;
+  color-scheme: dark;
+}
+
+.brVideoSelect {
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #0f2449;
+  padding: 0 12px;
+}
+
+.brVideoLibrarySection {
+  padding: 12px;
+}
+
+.brVideoSectionHead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.brVideoSectionHead b {
+  border-radius: 999px;
+  padding: 8px 10px;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  font-size: 0.75rem;
+  font-weight: 950;
+}
+
+.brVideoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.brVideoCard {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 128px;
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  background: #0f2449;
+  padding: 9px;
+  text-align: left;
+}
+
+.brVideoCard.is-active {
+  border-color: rgba(31, 169, 255, 0.46);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset;
+}
+
+.brVideoCardPoster {
+  aspect-ratio: 2 / 3;
+}
+
+.brVideoCardBody {
+  align-self: center;
+  min-width: 0;
+}
+
+.brVideoCard strong,
+.brVideoCard span,
+.brVideoCard em {
+  overflow-wrap: anywhere;
+}
+
+.brVideoResumeBar {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 7px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.10);
+  overflow: hidden;
+}
+
+.brVideoResumeBar b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #1fa9ff;
+}
+
+.brVideoEmpty {
+  border-radius: 20px;
+  padding: 18px;
+  background: #0f2449;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 850;
+}
+
+@media (max-width: 820px) {
+  .brVideoHeroContent,
+  .brVideoControlsPanel,
+  .brVideoNowMeta,
+  .brVideoSectionHead,
+  .brVideoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .brVideoHero {
+    min-height: auto;
+  }
+
+  .brVideoHeroContent {
+    min-height: auto;
+  }
+
+  .brVideoPoster {
+    width: min(210px, 70vw);
+    min-height: 270px;
+  }
+
+  .brVideoNowButtons {
+    justify-content: stretch;
+  }
+
+  .brVideoNowButtons .brVideoSmallBtn,
+  .brVideoHeroActions .brVideoBtn {
+    flex: 1 1 160px;
+  }
+
+  .brVideoCard {
+    grid-template-columns: 78px minmax(0, 1fr);
+  }
+}
+
+/* BRMedia Video V1b — sidebar categories + safer unsupported video states */
+.sidebarVideoPanel {
+  display: grid;
+  gap: 10px;
+}
+
+.videoSidebarGenreList {
+  display: grid;
+  gap: 9px;
+}
+
+.videoSidebarCategory.is-active {
+  border-color: rgba(31, 169, 255, 0.52);
+  background: #1fa9ff;
+  color: #ffffff;
+}
+
+.videoSidebarCategory.is-active i,
+.videoSidebarCategory.is-active .brSvgIconHost {
+  color: #ffffff;
+}
+
+.brVideoUnsupported {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-height: 190px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 80, 104, 0.38);
+  background: #461f2a;
+  padding: 15px;
+}
+
+.brVideoUnsupported > span {
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 80, 104, 0.14);
+  color: #ff6f82;
+  border: 1px solid rgba(255, 80, 104, 0.22);
+}
+
+.brVideoUnsupported strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 950;
+}
+
+.brVideoUnsupported p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.35;
+  font-weight: 760;
+}
+
+@media (max-width: 820px) {
+  .brVideoUnsupported {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* BRMedia Sidebar Open Modules — shared full-width style */
+.sidebarModuleBlock {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(31, 169, 255, 0.14);
+}
+
+.sidebarSectionTitle {
+  margin: 0 0 12px;
+  color: #f2a007;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.sidebarModuleList {
+  display: grid;
+  gap: 11px;
+}
+
+.sidebarModuleBtn {
+  width: 100%;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  text-align: left;
+  padding: 12px 14px;
+  box-shadow: 0 10px 22px rgba(4, 12, 28, 0.10);
+}
+
+.sidebarModuleBtn i,
+.sidebarModuleBtn .brSvgIconHost,
+.sidebarModuleBtn .sidebarModuleIconImage {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+  object-fit: contain;
+}
+
+.sidebarModuleText {
+  min-width: 0;
+  display: grid;
+}
+
+.sidebarModuleTitle {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.sidebarModuleSub {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.8rem;
+  line-height: 1.22;
+  font-weight: 760;
+  overflow-wrap: anywhere;
+}
+
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(242, 160, 7, 0.54);
+  background: rgba(31, 169, 255, 0.14);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost {
+  color: #ffffff;
+}
+
+/* BRMedia Open Modules active state — light blue */
+.sidebarModuleBtn.is-active,
+.sidebarModuleBtn.active {
+  border-color: rgba(31, 169, 255, 0.68);
+  background: rgba(31, 169, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset, 0 12px 24px rgba(4, 12, 28, 0.12);
+}
+
+.sidebarModuleBtn.is-active i,
+.sidebarModuleBtn.is-active .brSvgIconHost,
+.sidebarModuleBtn.is-active .sidebarModuleIconImage,
+.sidebarModuleBtn.active i,
+.sidebarModuleBtn.active .brSvgIconHost,
+.sidebarModuleBtn.active .sidebarModuleIconImage {
+  color: #7bd0ff;
+}
+
+/* BRMedia Video V2b — create MP4 copy inside Video Player */
+.brVideoCopyStatus {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: #0f2449;
+}
+
+.brVideoCopyStatus.isDone {
+  border-color: rgba(28, 164, 91, 0.35);
+  background: #193e34;
+}
+
+.brVideoCopyStatus.isError {
+  border-color: rgba(255, 80, 104, 0.42);
+  background: #461f2a;
+}
+
+.brVideoCopyStatus.isPaused {
+  border-color: rgba(242, 160, 7, 0.45);
+  background: #352c19;
+}
+
+.brVideoCopyStatus.isCancelled {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: #1c2a42;
+}
+
+.brVideoCopyStatus > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--copy-progress, 0%);
+  background: rgba(31, 169, 255, 0.15);
+  pointer-events: none;
+}
+
+.brVideoCopyStatus > span,
+.brVideoCopyStatus > div,
+.brVideoCopyStatus > b {
+  position: relative;
+  z-index: 1;
+}
+
+.brVideoCopyStatus > span {
+  width: 42px;
+  height: 42px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  background: rgba(31, 169, 255, 0.10);
+  color: #7bd0ff;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.brVideoCopyStatus strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.brVideoCopyStatus em,
+.brVideoCopyStatus small {
+  display: block;
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 760;
+  overflow-wrap: anywhere;
+}
+
+.brVideoCopyStatus small {
+  color: rgba(255, 255, 255, 0.44);
+  font-size: 0.68rem;
+}
+
+.brVideoCopyStatus b {
+  color: #7bd0ff;
+  font-weight: 950;
+}
+
+.brVideoCopyMetrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.brVideoCopyMetrics span {
+  display: grid;
+  gap: 2px;
+  padding: 7px 8px;
+  border-radius: 11px;
+  border: 1px solid rgba(123, 208, 255, 0.18);
+  background: rgba(6, 22, 49, 0.35);
+}
+
+.brVideoCopyMetrics b {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.brVideoCopyMetrics em {
+  margin: 0;
+  color: #7bd0ff;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.brVideoCopyTechnicalLog {
+  margin-top: 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(123, 208, 255, 0.2);
+  background: rgba(6, 22, 49, 0.32);
+  overflow: hidden;
+}
+
+.brVideoCopyTechnicalLog summary {
+  cursor: pointer;
+  padding: 8px 10px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.brVideoCopyTechnicalLog pre {
+  max-height: 135px;
+  overflow: auto;
+  margin: 0;
+  padding: 9px 10px;
+  background: #061631;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.75rem;
+  line-height: 1.25;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.brVideoCopyActions {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.brVideoCopyActions button {
+  min-height: 38px;
+  border: 1px solid rgba(123, 208, 255, 0.24);
+  border-radius: 14px;
+  background: rgba(31, 169, 255, 0.13);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 11px;
+  font-weight: 950;
+}
+
+.brVideoCopyActions button.danger {
+  border-color: rgba(255, 80, 104, 0.36);
+  background: rgba(255, 80, 104, 0.13);
+}
+
+@media (max-width: 760px) {
+  .brVideoCopyStatus {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .brVideoCopyStatus b {
+    grid-column: 2;
+  }
+}
+
+/* BRMedia Video Finish A — Player-style video tools, shelves, details, bookmarks and timer */
+.brVideoShelfSection,
+.brVideoToolPanel,
+.brVideoDetailPanel,
+.brVideoBookmarksPanel {
+  border-radius: 28px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #102b58;
+  box-shadow: 0 18px 34px rgba(4, 12, 28, 0.18);
+  padding: 12px;
+  overflow: hidden;
+}
+
+.brVideoHeroPro .brVideoBtn.isActive,
+.brVideoBtn.isActive {
+  border-color: rgba(242, 160, 7, 0.50);
+  background: rgba(242, 160, 7, 0.18);
+}
+
+.brVideoShelf {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px 2px 8px;
+  scroll-snap-type: x mandatory;
+}
+
+.brVideoShelfCard {
+  flex: 0 0 148px;
+  position: relative;
+  display: grid;
+  gap: 7px;
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #0f2449;
+  color: #ffffff;
+  padding: 8px;
+  text-align: left;
+  scroll-snap-align: start;
+}
+
+.brVideoShelfPoster {
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #071b39;
+}
+
+.brVideoShelfPoster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brVideoShelfCard strong {
+  color: #ffffff;
+  font-size: 0.86rem;
+  line-height: 1.08;
+  font-weight: 950;
+}
+
+.brVideoShelfCard span {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.brVideoToolPanel {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.brVideoToolBtn {
+  min-height: 88px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #0f2449;
+  color: #ffffff;
+  text-align: left;
+  padding: 10px;
+}
+
+.brVideoToolBtn.warn {
+  border-color: rgba(242, 160, 7, 0.45);
+  background: rgba(242, 160, 7, 0.14);
+}
+
+.brVideoToolBtn > i,
+.brVideoToolBtn > .brSvgIconHost {
+  width: 42px;
+  height: 42px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.brVideoToolBtn strong,
+.brVideoBookmarkRow strong,
+.brVideoMetadataResult strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 950;
+  line-height: 1.08;
+}
+
+.brVideoToolBtn em,
+.brVideoBookmarkRow span,
+.brVideoMetadataResult span,
+.brVideoMetadataResult em {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-weight: 760;
+  font-size: 0.76rem;
+  line-height: 1.2;
+}
+
+.brVideoToolWide {
+  grid-column: 1 / -1;
+}
+
+.brVideoDetailGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.brVideoDetailGrid label {
+  display: grid;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.brVideoDetailGrid label.wide {
+  grid-column: 1 / -1;
+}
+
+.brVideoDetailGrid input,
+.brVideoDetailGrid textarea,
+.brVideoDetailGrid select,
+.brVideoMetadataSearch input {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #071b39;
+  color: #ffffff;
+  padding: 0 12px;
+  font-weight: 850;
+}
+
+.brVideoLinkupEditor {
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(7, 27, 57, 0.56);
+  padding: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.brVideoToggleLine {
+  display: grid !important;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px !important;
+}
+
+.brVideoToggleLine input {
+  width: 22px;
+  min-height: 22px;
+  height: 22px;
+  accent-color: #1fa9ff;
+}
+
+.brVideoToggleLine strong,
+.brVideoToggleLine em {
+  display: block;
+}
+
+.brVideoToggleLine strong {
+  color: #ffffff;
+  font-size: 0.96rem;
+  font-weight: 1000;
+}
+
+.brVideoToggleLine em {
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-size: 0.74rem;
+  line-height: 1.25;
+}
+
+.brVideoLinkupFields,
+.brVideoLinkupMode {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.brVideoLinkupFields > label:first-child {
+  grid-column: 1 / -1;
+}
+
+.brVideoLinkupMode {
+  grid-column: 1 / -1;
+}
+
+.brVideoLinkupFields.is-hidden,
+.brVideoLinkupMode.is-hidden {
+  display: none;
+}
+
+.brVideoDetailGrid textarea {
+  min-height: 96px;
+  padding-top: 11px;
+  resize: vertical;
+}
+
+.brVideoDetailActions,
+.brVideoMetadataSearch,
+.brVideoTimerBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.brVideoMetadataSearch .brVideoSearchBox {
+  flex: 1 1 220px;
+}
+
+.brVideoMetadataResults,
+.brVideoBookmarkList {
+  display: grid;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.brVideoMetadataResult,
+.brVideoBookmarkRow {
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  background: #0f2449;
+  color: #ffffff;
+  padding: 10px;
+  text-align: left;
+}
+
+.brVideoBookmarkRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 8px;
+  align-items: center;
+}
+
+.brVideoBookmarkRow button {
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  text-align: left;
+}
+
+.brVideoBookmarkRow button:last-child {
+  width: 44px;
+  height: 44px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 80, 104, 0.14);
+  border: 1px solid rgba(255, 80, 104, 0.24);
+}
+
+.brVideoCardBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.brVideoCardBadges b {
+  border-radius: 999px;
+  padding: 4px 7px;
+  background: rgba(31, 169, 255, 0.12);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  color: #bfe9ff;
+  font-size: 0.66rem;
+  font-weight: 950;
+}
+
+.brVideoCardBadges b.warn {
+  color: #ffd27a;
+  border-color: rgba(242, 160, 7, 0.32);
+  background: rgba(242, 160, 7, 0.12);
+}
+
+@media (max-width: 900px) {
+  .brVideoToolPanel,
+  .brVideoDetailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .brVideoToolBtn {
+    min-height: 78px;
+  }
+
+  .brVideoDetailGrid label.wide {
+    grid-column: 1;
+  }
+}
+
+/* BRMedia Video Finish B1 — cinema mode, device picker and video event polish */
+.videoCinemaMode {
+  overflow: hidden;
+}
+
+.brVideoCinemaOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 10px;
+  background: rgba(1, 8, 22, 0.96);
+  padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
+}
+
+.brVideoCinemaTop {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #102b58;
+  padding: 10px;
+}
+
+.brVideoCinemaTop strong {
+  color: #ffffff;
+  font-weight: 950;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brVideoCinemaClose {
+  min-height: 42px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #223d72;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 12px;
+  font-weight: 950;
+}
+
+.brVideoCinemaStage {
+  min-height: 0;
+  display: grid;
+  align-items: center;
+}
+
+.brVideoCinemaStage .brVideoElement {
+  width: 100%;
+  max-height: calc(100vh - 112px);
+  border-radius: 22px;
+}
+
+.brVideoSheetBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9980;
+  background: rgba(1, 8, 22, 0.62);
+  backdrop-filter: blur(8px);
+}
+
+.brVideoSendSheet {
+  position: fixed;
+  left: 50%;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 9981;
+  width: min(720px, calc(100% - 22px));
+  max-height: min(82vh, 760px);
+  overflow: auto;
+  transform: translateX(-50%);
+  border-radius: 28px;
+  border: 1px solid rgba(31, 169, 255, 0.28);
+  background: #102b58;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+  padding: 12px;
+}
+
+.brVideoSheetHead {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 46px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.brVideoSheetHead > span,
+.brVideoDeviceCard > span {
+  width: 46px;
+  height: 46px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.brVideoSheetHead strong,
+.brVideoDeviceCard strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.brVideoSheetHead em,
+.brVideoDeviceCard em {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-weight: 760;
+  font-size: 0.78rem;
+}
+
+.brVideoSheetHead button {
+  width: 46px;
+  height: 46px;
+  border-radius: 17px;
+  border: 1px solid rgba(255, 80, 104, 0.22);
+  background: rgba(255, 80, 104, 0.12);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+}
+
+.brVideoDeviceList {
+  display: grid;
+  gap: 9px;
+}
+
+.brVideoDeviceCard {
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #0f2449;
+  color: #ffffff;
+  padding: 10px;
+  text-align: left;
+}
+
+.brVideoDeviceCard:disabled {
+  opacity: 0.55;
+}
+
+.brVideoSheetActions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.brVideoSheetActions .brVideoBtn {
+  flex: 1 1 160px;
+}
+
+.brVideoSendError,
+.brVideoNoDevices {
+  border-radius: 18px;
+  border: 1px solid rgba(242, 160, 7, 0.32);
+  background: rgba(242, 160, 7, 0.12);
+  color: #ffd27a;
+  padding: 11px;
+  font-weight: 850;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+  .brVideoCinemaOverlay {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .brVideoCinemaTop,
+  .brVideoSheetHead {
+    grid-template-columns: 1fr;
+  }
+
+  .brVideoSheetHead button {
+    width: 100%;
+  }
+}
+
+/* BRMedia Video Rebuild A — poster library + film detail tabs */
+.brVideoLibraryHero .brVideoHeroContent {
+  grid-template-columns: 1fr;
+}
+
+.brVideoLibraryHero .brVideoHeroText {
+  max-width: 100%;
+}
+
+.brVideoLibraryControls {
+  position: sticky;
+  top: 10px;
+  z-index: 8;
+}
+
+.brVideoPosterLibraryOnly {
+  padding-bottom: 16px;
+}
+
+.brVideoPosterGrid {
+  grid-template-columns: repeat(auto-fill, minmax(142px, 1fr));
+  align-items: stretch;
+}
+
+.brVideoPosterCard {
+  min-height: 0;
+  padding: 8px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.brVideoPosterCard .brVideoCardPoster {
+  aspect-ratio: 2 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.brVideoPosterCard .brVideoCardPoster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brVideoPosterCard .brVideoCardBody {
+  padding: 9px 3px 2px;
+}
+
+.brVideoPosterCard .brVideoCardBody strong {
+  font-size: 0.92rem;
+  line-height: 1.08;
+}
+
+.brVideoPosterCard .brVideoCardBody span {
+  font-size: 0.72rem;
+  line-height: 1.15;
+}
+
+.brVideoBackBtn {
+  width: max-content;
+  min-height: 42px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 169, 255, 0.24);
+  background: rgba(31, 169, 255, 0.14);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  font-weight: 950;
+  margin-bottom: 10px;
+}
+
+.brVideoTabsShell,
+.brVideoInfoPanel {
+  border-radius: 28px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: #102b58;
+  box-shadow: 0 18px 34px rgba(4, 12, 28, 0.18);
+  padding: 12px;
+  overflow: hidden;
+}
+
+.brVideoTabsScroller {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scroll-snap-type: x proximity;
+}
+
+.brVideoTabBtn {
+  flex: 0 0 178px;
+  min-height: 76px;
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: #0f2449;
+  color: #ffffff;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  text-align: left;
+  padding: 9px;
+  scroll-snap-align: start;
+}
+
+.brVideoTabBtn > i,
+.brVideoTabBtn > .brSvgIconHost {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.brVideoTabBtn strong {
+  display: block;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 950;
+}
+
+.brVideoTabBtn em {
+  display: block;
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.16;
+}
+
+.brVideoTabBtn.is-active {
+  border-color: rgba(31, 169, 255, 0.62);
+  background: rgba(31, 169, 255, 0.20);
+  box-shadow: 0 0 0 2px rgba(31, 169, 255, 0.10) inset;
+}
+
+.brVideoOverviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.brVideoOverviewGrid article,
+.brVideoCastCard,
+.brVideoRelatedPlaceholder {
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  background: #0f2449;
+  color: #ffffff;
+  padding: 12px;
+}
+
+.brVideoOverviewGrid article strong,
+.brVideoCastCard strong,
+.brVideoRelatedPlaceholder strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.brVideoOverviewGrid article span,
+.brVideoOverviewGrid article p,
+.brVideoCastCard span,
+.brVideoRelatedPlaceholder p {
+  display: block;
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.82rem;
+  font-weight: 760;
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.brVideoOverviewStory {
+  grid-column: 1 / -1;
+}
+
+.brVideoCastGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(142px, 1fr));
+  gap: 10px;
+}
+
+.brVideoCastCard {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+}
+
+.brVideoCastCard > div,
+.brVideoRelatedPlaceholder > span {
+  width: 46px;
+  height: 46px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.10);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.brVideoRelatedPlaceholder {
+  display: grid;
+  gap: 8px;
+}
+
+@media (max-width: 760px) {
+  .brVideoPosterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .brVideoTabBtn {
+    flex-basis: 162px;
+  }
+
+  .brVideoOverviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .brVideoOverviewStory {
+    grid-column: 1;
+  }
+}
+
+/* BRMedia Video Patch C1 — Audio Player-style Watch Layout */
+
+.brVideoWatchShell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgba(31, 169, 255, 0.24);
+  background:
+    radial-gradient(circle at top right, rgba(31, 169, 255, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(22, 49, 96, 0.98), rgba(16, 43, 88, 0.98));
+  box-shadow: 0 18px 34px rgba(4, 12, 28, 0.18);
+  padding: 16px;
+}
+
+.brVideoWatchShell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(90deg, rgba(12, 35, 75, 0.92), rgba(12, 35, 75, 0.72)), var(--video-backdrop);
+  background-position: center;
+  background-size: cover;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.brVideoWatchGlow {
+  position: absolute;
+  inset: auto -25% -45% -25%;
+  height: 220px;
+  background: radial-gradient(circle, rgba(31, 169, 255, 0.16), transparent 66%);
+  pointer-events: none;
+}
+
+.brVideoWatchTopbar,
+.brVideoWatchTitle,
+.brVideoStageCard,
+.brVideoWatchMetaPills {
+  position: relative;
+  z-index: 1;
+}
+
+.brVideoWatchTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.brVideoBrandPill {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  display: inline-grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  padding: 0;
+}
+
+.brVideoBrandPill img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.brVideoBrandPill strong {
+  display: block;
+  max-width: 170px;
+  color: #ffffff;
+  font-size: 0.92rem;
+  line-height: 1;
+  font-weight: 950;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brVideoBrandPill em {
+  display: block;
+  color: #f2a007;
+  font-size: 0.86rem;
+  line-height: 1;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.brVideoTopIconBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.brVideoTopIconBtn {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.09);
+  color: #f2a007;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+.brVideoTopIconBtn.is-active {
+  border-color: rgba(242, 160, 7, 0.45);
+  box-shadow: 0 0 22px rgba(242, 160, 7, 0.23);
+}
+
+.brVideoTopIconBtn i,
+.brVideoTopIconBtn .brSvgIconHost {
+  width: 25px;
+  height: 25px;
+}
+
+.brVideoTopIconBtn b {
+  position: absolute;
+  right: 4px;
+  bottom: 3px;
+  min-width: 19px;
+  height: 19px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #f2a007;
+  color: #102b58;
+  font-size: 0.62rem;
+  font-weight: 950;
+}
+
+.brVideoWatchTitle {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: clamp(1.65rem, 6vw, 3.1rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  font-weight: 950;
+}
+
+.brVideoStageCard {
+  border-radius: 26px;
+  overflow: hidden;
+  background: rgba(7, 20, 45, 0.34);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.brVideoPlayerLikeAudio {
+  display: grid;
+  gap: 13px;
+}
+
+.brVideoScreenFrame {
+  overflow: hidden;
+  border-radius: 25px;
+  background: #000000;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+}
+
+.brVideoElementC1 {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  max-height: 62vh;
+  object-fit: contain;
+  background: #000000;
+  border: 0;
+  border-radius: 0;
+}
+
+.brVideoProgressStrip {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.brVideoProgressStrip span {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.9rem;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+
+.brVideoSeekRange {
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  outline: none;
+}
+
+.brVideoSeekRange::-webkit-slider-thumb {
+  appearance: none;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.brVideoControlDeck {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0 2px 4px;
+}
+
+.brVideoControlDeck button {
+  min-height: 56px;
+  border-radius: 20px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: transparent;
+  color: #f2a007;
+  display: grid;
+  place-items: center;
+}
+
+.brVideoControlDeck button i,
+.brVideoControlDeck button .brSvgIconHost {
+  width: 27px;
+  height: 27px;
+}
+
+.brVideoWatchMetaPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.brVideoWatchMetaPills span {
+  border-radius: 999px;
+  padding: 8px 10px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: rgba(7, 20, 45, 0.58);
+  color: #bfe9ff;
+  font-size: 0.76rem;
+  font-weight: 950;
+}
+
+.brVideoTabsShellC1 {
+  padding: 11px;
+  border-radius: 28px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #102b58;
+  box-shadow: 0 18px 34px rgba(4, 12, 28, 0.16);
+}
+
+.brVideoTabsShellC1 .brVideoTabsScroller {
+  gap: 8px;
+  padding: 0 0 2px;
+  scroll-snap-type: none;
+  scrollbar-width: none;
+}
+
+.brVideoTabsShellC1 .brVideoTabsScroller::-webkit-scrollbar {
+  display: none;
+}
+
+.brVideoTabsShellC1 .brVideoTabBtn {
+  flex: 0 0 auto;
+  min-width: 126px;
+  min-height: 58px;
+  border-radius: 20px;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 10px;
+  scroll-snap-align: none;
+}
+
+.brVideoTabsShellC1 .brVideoTabBtn > i,
+.brVideoTabsShellC1 .brVideoTabBtn > .brSvgIconHost {
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+}
+
+.brVideoTabsShellC1 .brVideoTabBtn strong {
+  font-size: 0.82rem;
+}
+
+.brVideoTabsShellC1 .brVideoTabBtn em {
+  display: block;
+  font-size: 0.66rem;
+}
+
+.brVideoTabsShellC1 .brVideoTabBtn.is-active {
+  background: rgba(31, 169, 255, 0.24);
+  border-color: rgba(31, 169, 255, 0.72);
+}
+
+.brVideoPosterInfoPanel {
+  overflow: hidden;
+}
+
+.brVideoPosterFocus {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.brVideoPosterFocusArt {
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: #071b39;
+}
+
+.brVideoPosterFocusInfo strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 950;
+}
+
+.brVideoPosterFocusInfo span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.66);
+  font-weight: 780;
+  line-height: 1.3;
+}
+
+.brVideoPlayerPopupBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: grid;
+  place-items: start center;
+  padding: max(96px, calc(78px + env(safe-area-inset-top))) 12px 18px;
+  background: rgba(2, 8, 20, 0.50);
+  backdrop-filter: blur(12px);
+}
+
+.brVideoPlayerPopupCard {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: min(76vh, 760px);
+  overflow: auto;
+  border-radius: 30px;
+  border: 1px solid rgba(31, 169, 255, 0.35);
+  background: #152f61;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 24px rgba(255, 255, 255, 0.14);
+  padding: 22px;
+}
+
+.brVideoPlayerPopupCard::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  right: 60px;
+  width: 26px;
+  height: 26px;
+  transform: rotate(45deg);
+  background: #152f61;
+  border-left: 1px solid rgba(31, 169, 255, 0.35);
+  border-top: 1px solid rgba(31, 169, 255, 0.35);
+}
+
+.brVideoPlayerPopupHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.brVideoPlayerPopupHead strong {
+  display: block;
+  color: #ffffff;
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  font-weight: 950;
+}
+
+.brVideoPlayerPopupHead em {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+
+.brVideoPlayerPopupHead > span {
+  width: 64px;
+  height: 64px;
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f2a007;
+  display: grid;
+  place-items: center;
+}
+
+.brVideoPopupTabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.brVideoPopupTab {
+  min-height: 58px;
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-weight: 950;
+  font-size: 1rem;
+}
+
+.brVideoPopupTab.is-active {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.brVideoPopupMainBtn,
+.brVideoTimerOption {
+  width: 100%;
+  min-height: 62px;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  padding: 0 18px;
+  font-weight: 950;
+  font-size: 1.02rem;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.brVideoPopupMainBtn i,
+.brVideoPopupMainBtn .brSvgIconHost {
+  color: #f2a007;
+}
+
+.brVideoPopupBookmarkList {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.brVideoPopupBookmarkList .brVideoEmpty,
+.brVideoPopupBookmarkList .brVideoBookmarkRow {
+  border-radius: 18px;
+  background: rgba(7, 20, 45, 0.36);
+}
+
+.brVideoTimerOptions {
+  display: grid;
+  gap: 12px;
+}
+
+.brVideoTimerStatus {
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: rgba(7, 20, 45, 0.38);
+  color: #7bd0ff;
+  padding: 12px 14px;
+  font-weight: 950;
+  margin-bottom: 12px;
+}
+
+.brVideoMenuPopup {
+  display: grid;
+  gap: 8px;
+}
+
+.brVideoMenuRow {
+  min-height: 62px;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  border-radius: 18px;
+  padding: 0 10px;
+  font-size: 1.04rem;
+  font-weight: 820;
+}
+
+.brVideoMenuRow:hover,
+.brVideoMenuRow:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.brVideoMenuRow.danger {
+  color: #ffd5dd;
+  background: rgba(255, 51, 95, 0.06);
+}
+
+.brVideoMenuRow.danger i,
+.brVideoMenuRow.danger .brSvgIconHost {
+  color: #ff7190;
+}
+
+.brVideoMenuRow i,
+.brVideoMenuRow .brSvgIconHost {
+  width: 25px;
+  height: 25px;
+  color: #f2a007;
+  justify-self: center;
+}
+
+.brVideoUnsupportedC1 {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .brVideoPosterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .brVideoPosterCard {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto;
+    padding: 8px;
+  }
+
+  .brVideoPosterCard .brVideoCardPoster {
+    width: 100%;
+  }
+
+  .brVideoPosterCard .brVideoCardBody strong {
+    font-size: 0.86rem;
+    line-height: 1.08;
+    word-break: normal;
+    overflow-wrap: normal;
+    hyphens: none;
+  }
+
+  .brVideoPosterCard .brVideoCardBody span {
+    font-size: 0.68rem;
+    line-height: 1.15;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .brVideoWatchShell {
+    padding: 14px;
+  }
+
+  .brVideoWatchTopbar {
+    align-items: center;
+  }
+
+  .brVideoTopIconBar {
+    gap: 7px;
+  }
+
+  .brVideoTopIconBtn {
+    width: 54px;
+    height: 54px;
+  }
+
+  .brVideoBrandPill {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .brVideoBrandPill img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brVideoBrandPill strong {
+    max-width: 116px;
+  }
+
+  .brVideoWatchTitle {
+    font-size: 1.75rem;
+  }
+
+  .brVideoStageCard {
+    border-radius: 24px;
+  }
+
+  .brVideoElementC1 {
+    max-height: 46vh;
+  }
+
+  .brVideoProgressStrip {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .brVideoProgressStrip span {
+    font-size: 0.8rem;
+  }
+
+  .brVideoControlDeck {
+    gap: 4px;
+  }
+
+  .brVideoControlDeck button {
+    min-height: 50px;
+    border-radius: 17px;
+  }
+
+  .brVideoControlDeck button i,
+  .brVideoControlDeck button .brSvgIconHost {
+    width: 24px;
+    height: 24px;
+  }
+
+  .brVideoTabsShellC1 .brVideoTabBtn {
+    min-width: 116px;
+  }
+
+  .brVideoPosterFocus {
+    grid-template-columns: 1fr;
+  }
+
+  .brVideoPosterFocusArt {
+    width: min(220px, 70vw);
+    justify-self: center;
+  }
+
+  .brVideoPlayerPopupBackdrop {
+    padding-top: max(106px, calc(88px + env(safe-area-inset-top)));
+  }
+
+  .brVideoPlayerPopupCard {
+    padding: 20px;
+  }
+
+  .brVideoPlayerPopupCard::before {
+    right: 51px;
+  }
+
+  .brVideoMenuRow {
+    min-height: 56px;
+  }
+}
+
+/* BRMedia Video Patch C1 polish — audio-player style watch page */
+
+body.videoWatchMode.moduleTemplateBody {
+  background: #182E5B;
+}
+
+body.videoWatchMode .topbar {
+  display: none;
+}
+
+body.videoWatchMode .appShell {
+  max-width: 940px;
+  background: #182E5B;
+}
+
+body.videoWatchMode .moduleTemplateMain {
+  min-height: 100vh;
+  padding: calc(env(safe-area-inset-top) + 8px) 0 28px;
+  background: #182E5B;
+}
+
+body.videoWatchMode .moduleTemplateContent {
+  width: 100%;
+  max-width: 940px;
+  gap: 14px;
+  padding-bottom: 22px;
+}
+
+body.videoWatchMode .playerSiteFooter {
+  display: none;
+}
+
+body.videoWatchMode .brVideoWatchShell {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 8px 12px 12px;
+  background: #182E5B;
+}
+
+body.videoWatchMode .brVideoWatchShell::before {
+  display: none;
+}
+
+body.videoWatchMode .brVideoWatchGlow {
+  display: none;
+}
+
+body.videoWatchMode .brVideoStageCard {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.videoWatchMode .brVideoScreenFrame {
+  border: 0;
+  border-radius: 24px;
+  background: #000;
+  box-shadow: 0 20px 46px rgba(0, 0, 0, 0.28);
+}
+
+body.videoWatchMode .brVideoPlayerLikeAudio {
+  gap: 14px;
+}
+
+body.videoWatchMode .brVideoElementC1 {
+  max-height: 58vh;
+}
+
+body.videoWatchMode .brVideoProgressStrip {
+  padding: 2px 2px 0;
+}
+
+body.videoWatchMode .brVideoControlDeck {
+  padding: 2px 0 0;
+}
+
+body.videoWatchMode .brVideoControlDeck button {
+  border: 0;
+  background: transparent;
+}
+
+body.videoWatchMode .brVideoWatchMetaPills {
+  margin-top: 12px;
+  gap: 7px;
+}
+
+body.videoWatchMode .brVideoWatchMetaPills span {
+  background: rgba(7, 20, 45, 0.42);
+  border-color: rgba(31, 169, 255, 0.16);
+}
+
+body.videoWatchMode .brVideoTabsShellC1 {
+  padding: 9px;
+  border-radius: 28px;
+  background: #102b58;
+  border-color: rgba(31, 169, 255, 0.18);
+}
+
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabsScroller {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  overflow: visible;
+}
+
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn {
+  min-width: 0;
+  min-height: 68px;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 5px;
+  padding: 8px 5px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn > i,
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn > .brSvgIconHost {
+  width: 26px;
+  height: 26px;
+  color: #f2a007;
+  background: rgba(242, 160, 7, 0.11);
+}
+
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn strong {
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn em {
+  display: none;
+}
+
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn.is-active {
+  background: linear-gradient(180deg, rgba(31, 169, 255, 0.34), rgba(31, 169, 255, 0.16));
+  border-color: rgba(31, 169, 255, 0.76);
+}
+
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn.is-active > i,
+body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn.is-active > .brSvgIconHost {
+  color: #ffffff;
+  background: rgba(31, 169, 255, 0.18);
+}
+
+body.videoWatchMode .brVideoInfoPanel {
+  background:
+    radial-gradient(circle at top right, rgba(31, 169, 255, 0.15), transparent 42%),
+    #102b58;
+  border-color: rgba(31, 169, 255, 0.20);
+}
+
+body.videoWatchMode .brVideoOverviewGrid {
+  gap: 10px;
+}
+
+body.videoWatchMode .brVideoOverviewGrid article {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border-color: rgba(31, 169, 255, 0.18);
+  background:
+    linear-gradient(90deg, rgba(242, 160, 7, 0.10), transparent 42%),
+    rgba(15, 36, 73, 0.92);
+}
+
+body.videoWatchMode .brVideoOverviewGrid article::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: #f2a007;
+}
+
+body.videoWatchMode .brVideoOverviewGrid article:nth-child(3n)::before {
+  background: #1fa9ff;
+}
+
+body.videoWatchMode .brVideoOverviewGrid article:nth-child(4n)::before {
+  background: #7bd0ff;
+}
+
+body.videoWatchMode .brVideoOverviewGrid article strong {
+  color: #f2a007;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+body.videoWatchMode .brVideoOverviewGrid article span,
+body.videoWatchMode .brVideoOverviewGrid article p {
+  color: #ffffff;
+  font-weight: 900;
+}
+
+body.videoWatchMode .brVideoOverviewStory p {
+  font-size: 1rem;
+  line-height: 1.45;
+  font-weight: 760;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.brVideoTimerEndBtn {
+  width: 100%;
+  min-height: 72px;
+  border-radius: 22px;
+  border: 1px solid rgba(242, 160, 7, 0.28);
+  background: rgba(242, 160, 7, 0.14);
+  color: #ffffff;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.brVideoTimerEndBtn i,
+.brVideoTimerEndBtn .brSvgIconHost {
+  width: 36px;
+  height: 36px;
+  color: #f2a007;
+  justify-self: center;
+}
+
+.brVideoTimerEndBtn strong,
+.brVideoTimerEndBtn em {
+  display: block;
+}
+
+.brVideoTimerEndBtn strong {
+  font-size: 1.1rem;
+  font-weight: 950;
+}
+
+.brVideoTimerEndBtn em {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.66);
+  font-style: normal;
+  font-weight: 760;
+}
+
+.brVideoTimerCarousel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.brVideoTimerWheelCol {
+  min-height: 238px;
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(7, 20, 45, 0.42);
+  display: grid;
+  grid-template-rows: auto repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.brVideoTimerWheelCol strong {
+  color: rgba(255, 255, 255, 0.70);
+  font-size: 0.9rem;
+  font-weight: 950;
+}
+
+.brVideoTimerWheelCol button {
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 1.8rem;
+  font-weight: 950;
+}
+
+.brVideoTimerWheelCol.isMain button:nth-of-type(2),
+.brVideoTimerWheelCol button:hover,
+.brVideoTimerWheelCol button:focus-visible {
+  background: rgba(255, 255, 255, 0.11);
+  color: #ffffff;
+}
+
+.brVideoTimerCancelBtn {
+  width: 100%;
+  min-height: 54px;
+  margin-top: 12px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-weight: 950;
+}
+
+@media (max-width: 760px) {
+  body.videoWatchMode .moduleTemplateContent {
+    width: 100%;
+  }
+
+  body.videoWatchMode .brVideoWatchShell {
+    padding: 6px 12px 10px;
+  }
+
+  body.videoWatchMode .brVideoWatchTopbar {
+    margin-bottom: 10px;
+  }
+
+  body.videoWatchMode .brVideoTopIconBtn {
+    width: 51px;
+    height: 51px;
+  }
+
+  body.videoWatchMode .brVideoWatchTitle {
+    font-size: 1.55rem;
+    margin-bottom: 8px;
+  }
+
+  body.videoWatchMode .brVideoElementC1 {
+    max-height: 44vh;
+  }
+
+  body.videoWatchMode .brVideoTabsShellC1 .brVideoTabBtn {
+    min-height: 62px;
+    border-radius: 18px;
+  }
+
+  .brVideoTimerCarousel {
+    gap: 8px;
+  }
+
+  .brVideoTimerWheelCol {
+    min-height: 210px;
+    padding: 10px 8px;
+  }
+
+  .brVideoTimerWheelCol button {
+    font-size: 1.6rem;
+  }
+}
+
+/* BRMedia Video Patch C2 — tighter watch page, timer flip + info cards */
+
+body.videoWatchMode {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  background: #182E5B !important;
+}
+
+body.videoWatchMode .appShell {
+  min-height: 100vh;
+}
+
+body.videoWatchMode .moduleTemplateMain {
+  padding-top: 0 !important;
+}
+
+body.videoWatchMode .moduleTemplateContent {
+  gap: 10px;
+}
+
+body.videoWatchMode .brVideoWatchShell {
+  padding-top: max(2px, env(safe-area-inset-top));
+  padding-bottom: 8px;
+}
+
+body.videoWatchMode .brVideoWatchTopbar {
+  margin-bottom: 4px;
+}
+
+body.videoWatchMode .brVideoTopIconBar {
+  align-items: flex-start;
+}
+
+.brVideoTopTimerDock {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  min-height: 0;
+  margin: -2px 2px 4px;
+}
+
+.brVideoTrafficTimer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(7, 20, 45, 0.58);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.brVideoTrafficTimer span {
+  color: rgba(255,255,255,0.62);
+  font-size: 0.62rem;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.brVideoTrafficTimer strong {
+  color: #8fe08f;
+  font-size: 0.82rem;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.brVideoTrafficTimer.timer-orange strong {
+  color: #ffb347;
+}
+
+.brVideoTrafficTimer.timer-red strong {
+  color: #ff6b6b;
+}
+
+body.videoWatchMode .brVideoWatchTitle {
+  margin-top: 0;
+  margin-bottom: 7px;
+}
+
+body.videoWatchMode .brVideoPlayerLikeAudio {
+  gap: 9px;
+}
+
+body.videoWatchMode .brVideoWatchMetaPills {
+  margin-top: 8px;
+}
+
+body.videoWatchMode .brVideoTabsShellC1 {
+  margin-top: 4px;
+}
+
+body.videoWatchMode .brVideoInfoPanel {
+  margin-top: 0;
+}
+
+.brVideoOverviewGridC2 {
+  display: grid;
+  gap: 10px;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRow {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  min-height: 92px;
+  padding: 14px 16px;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRow::before {
+  display: none;
+}
+
+.brVideoInfoRowIcon {
+  width: 54px;
+  height: 54px;
+  border-radius: 19px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+  background: rgba(242, 160, 7, 0.12);
+  border: 1px solid rgba(242, 160, 7, 0.20);
+}
+
+.brVideoInfoRowIcon i,
+.brVideoInfoRowIcon .brSvgIconHost {
+  width: 27px;
+  height: 27px;
+}
+
+.brVideoInfoRowText {
+  min-width: 0;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRowText strong {
+  display: block;
+  color: #f2a007;
+  font-size: 0.74rem;
+  font-weight: 950;
+  letter-spacing: 0.15em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRowText span {
+  display: block;
+  margin-top: 7px;
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 900;
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRowWide .brVideoInfoRowText span {
+  font-size: 1rem;
+  line-height: 1.42;
+  color: rgba(255,255,255,0.86);
+}
+
+.brVideoTimerFlipBtn {
+  width: 64px;
+  height: 64px;
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.20);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f2a007;
+  display: grid;
+  place-items: center;
+}
+
+.brVideoTimerPresetList {
+  display: grid;
+  gap: 10px;
+}
+
+.brVideoTimerPresetList .brVideoTimerOption {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
+  min-height: 72px;
+}
+
+.brVideoTimerPresetList .brVideoTimerOption i,
+.brVideoTimerPresetList .brVideoTimerOption .brSvgIconHost {
+  width: 30px;
+  height: 30px;
+  color: #f2a007;
+  justify-self: center;
+}
+
+.brVideoTimerPresetList .brVideoTimerOption strong,
+.brVideoTimerPresetList .brVideoTimerOption em {
+  display: block;
+}
+
+.brVideoTimerPresetList .brVideoTimerOption strong {
+  font-size: 1.02rem;
+  line-height: 1;
+}
+
+.brVideoTimerPresetList .brVideoTimerOption em {
+  margin-top: 4px;
+  color: rgba(255,255,255,0.62);
+  font-style: normal;
+  font-weight: 760;
+  font-size: 0.78rem;
+}
+
+.brVideoTimerCustomPage .brVideoTimerCarousel {
+  overscroll-behavior: contain;
+  touch-action: manipulation;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol {
+  min-height: 218px;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol button {
+  touch-action: manipulation;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol button:nth-of-type(2) {
+  background: rgba(255,255,255,0.11);
+  color: #ffffff;
+}
+
+.brVideoTimerStatus {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  body.videoWatchMode .moduleTemplateMain {
+    padding-top: 0 !important;
+  }
+
+  body.videoWatchMode .brVideoWatchShell {
+    padding-top: max(0px, env(safe-area-inset-top));
+  }
+
+  body.videoWatchMode .brVideoWatchTopbar {
+    margin-bottom: 2px;
+  }
+
+  body.videoWatchMode .brVideoWatchTitle {
+    margin-bottom: 5px;
+  }
+
+  body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRow {
+    grid-template-columns: 54px minmax(0, 1fr);
+    min-height: 86px;
+    padding: 13px 14px;
+  }
+
+  .brVideoInfoRowIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 17px;
+  }
+
+  .brVideoTimerPresetList .brVideoTimerOption {
+    min-height: 68px;
+  }
+}
+
+/* BRMedia Video Patch C3 — steady icons + usable timer wheel */
+
+body.videoWatchMode .appShell,
+body.videoWatchMode .moduleTemplateMain,
+body.videoWatchMode .moduleTemplateContent {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+body.videoWatchMode .brVideoWatchShell {
+  padding-top: 0 !important;
+}
+
+body.videoWatchMode .brVideoBrandPill,
+body.videoWatchMode .brVideoTopIconBtn,
+body.videoWatchMode .brVideoControlDeck button,
+body.videoWatchMode .brVideoTabBtn,
+.brVideoPlayerPopupCard button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.videoWatchMode .brVideoTopIconBtn,
+body.videoWatchMode .brVideoTopIconBtn *,
+body.videoWatchMode .brVideoControlDeck button,
+body.videoWatchMode .brVideoControlDeck button *,
+body.videoWatchMode .brVideoTabBtn,
+body.videoWatchMode .brVideoTabBtn * {
+  transition: none !important;
+  animation: none !important;
+}
+
+body.videoWatchMode .brSvgIconHost,
+body.videoWatchMode .brSvgIconHost svg {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.brVideoTimerCustomPage .brVideoTimerCarousel {
+  align-items: stretch;
+  overflow: hidden;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol {
+  grid-template-rows: auto;
+  align-content: start;
+  max-height: 240px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scroll-snap-type: y mandatory;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol strong {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 2px 0 8px;
+  background: rgba(7, 20, 45, 0.92);
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol button {
+  min-height: 58px;
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol button:nth-of-type(2) {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol button:active,
+.brVideoTimerCustomPage .brVideoTimerWheelCol button:focus-visible {
+  background: rgba(255,255,255,0.13);
+  color: #ffffff;
+}
+
+.brVideoPlayerPopupBackdrop {
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+.brVideoPlayerPopupCard,
+.brVideoTimerCustomPage,
+.brVideoTimerCustomPage * {
+  touch-action: auto;
+}
+
+/* BRMedia Video Patch C4 — home cards + popup scroll lock */
+
+body.videoPopupOpen {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+body.videoPopupOpen .moduleTemplateMain {
+  overscroll-behavior: none !important;
+}
+
+.brVideoPosterGrid {
+  gap: 14px !important;
+  grid-template-columns: repeat(auto-fill, minmax(156px, 1fr)) !important;
+}
+
+.brVideoPosterCard {
+  padding: 11px 11px 13px !important;
+  border-radius: 24px;
+  grid-template-rows: auto auto auto !important;
+  min-height: 0;
+}
+
+.brVideoPosterCard .brVideoCardPoster {
+  border-radius: 20px;
+}
+
+.brVideoPosterCard .brVideoCardBody {
+  padding: 12px 3px 0 !important;
+  min-height: 84px;
+  align-self: start;
+}
+
+.brVideoPosterCard .brVideoCardBody strong {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 2.1em;
+  overflow: hidden;
+  font-size: 0.92rem;
+  line-height: 1.08;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.brVideoPosterCard .brVideoCardBody span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 2.25em;
+  overflow: hidden;
+  margin-top: 5px;
+  font-size: 0.72rem;
+  line-height: 1.14;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.brVideoPosterCard .brVideoCardBadges {
+  min-height: 24px;
+  margin-top: 7px;
+}
+
+.brVideoPosterCard > .brVideoResumeBar {
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  grid-row: 3;
+  display: block;
+  width: calc(100% - 4px);
+  height: 7px;
+  margin: 10px 2px 0;
+}
+
+.brVideoPlayerPopupBackdrop {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+.brVideoPlayerPopupCard {
+  overscroll-behavior: contain !important;
+}
+
+.brVideoTimerCustomPage {
+  overflow: hidden !important;
+  overscroll-behavior: contain !important;
+}
+
+.brVideoTimerCustomPage .brVideoTimerCarousel {
+  overflow: hidden !important;
+  overscroll-behavior: contain !important;
+  touch-action: none !important;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol {
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: 242px !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol button {
+  flex: 0 0 auto;
+  min-height: 58px;
+  touch-action: manipulation !important;
+}
+
+@media (min-width: 520px) {
+  .brVideoPosterGrid {
+    grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .brVideoPosterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 11px !important;
+  }
+
+  .brVideoPosterCard {
+    padding: 9px 9px 12px !important;
+  }
+
+  .brVideoPosterCard .brVideoCardBody {
+    min-height: 88px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  body:not(.videoWatchMode) .moduleTemplateContent {
+    width: min(940px, calc(100% - 18px));
+  }
+
+  body:not(.videoWatchMode) .brVideoLibraryHero {
+    display: none;
+  }
+
+  body:not(.videoWatchMode) .brVideoLibraryControls {
+    position: static;
+  }
+
+  body:not(.videoWatchMode) .brVideoPosterGrid {
+    grid-template-columns: repeat(auto-fill, minmax(122px, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  body:not(.videoWatchMode) .brVideoPosterCard {
+    border-radius: 20px;
+  }
+
+  body:not(.videoWatchMode) .brVideoPosterCard .brVideoCardBody strong {
+    font-size: 0.78rem;
+  }
+
+  body:not(.videoWatchMode) .brVideoPosterCard .brVideoCardBody span {
+    font-size: 0.64rem;
+  }
+}
+
+/* BRMedia Video Patch C5 — safe top, bigger posters, fixed popup wheel + lock-screen polish */
+
+body.videoWatchMode .brVideoWatchShell {
+  padding-top: max(56px, calc(env(safe-area-inset-top) + 18px)) !important;
+}
+
+body.videoWatchMode .brVideoWatchTopbar {
+  position: relative;
+  z-index: 20;
+}
+
+body.videoWatchMode .brVideoTopIconBar,
+body.videoWatchMode .brVideoTopIconBtn {
+  position: relative;
+  z-index: 30;
+}
+
+body.videoWatchMode .brVideoWatchTitle {
+  position: relative;
+  z-index: 10;
+}
+
+/* Give poster artwork more presence */
+body.videoWatchMode .brVideoPosterFocus {
+  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
+}
+
+body.videoWatchMode .brVideoPosterFocusArt {
+  width: min(420px, 88vw);
+  justify-self: center;
+}
+
+/* Home posters: a bit larger, but still stable */
+body:not(.videoWatchMode) .brVideoPosterGrid {
+  grid-template-columns: repeat(auto-fill, minmax(172px, 1fr)) !important;
+  gap: 16px !important;
+}
+
+body:not(.videoWatchMode) .brVideoPosterCard {
+  padding: 13px 13px 15px !important;
+}
+
+body:not(.videoWatchMode) .brVideoPosterCard .brVideoCardBody {
+  min-height: 94px;
+}
+
+/* Popup should not drag the background page */
+.brVideoPlayerPopupBackdrop {
+  touch-action: auto !important;
+  overscroll-behavior: none !important;
+}
+
+.brVideoPlayerPopupCard {
+  touch-action: auto !important;
+  overscroll-behavior: contain !important;
+}
+
+.brVideoTimerCustomPage .brVideoTimerCarousel {
+  touch-action: auto !important;
+  overscroll-behavior: contain !important;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol {
+  touch-action: pan-y !important;
+  overscroll-behavior: contain !important;
+  max-height: 252px !important;
+}
+
+.brVideoTimerCustomPage .brVideoTimerWheelCol button {
+  min-height: 62px;
+}
+
+@media (max-width: 760px) {
+  body.videoWatchMode .brVideoWatchShell {
+    padding-top: max(54px, calc(env(safe-area-inset-top) + 16px)) !important;
+  }
+
+  body.videoWatchMode .brVideoPosterFocus {
+    grid-template-columns: 1fr;
+  }
+
+  body.videoWatchMode .brVideoPosterFocusArt {
+    width: min(340px, 90vw);
+  }
+
+  body:not(.videoWatchMode) .brVideoPosterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  body:not(.videoWatchMode) .brVideoPosterCard {
+    padding: 12px 12px 15px !important;
+  }
+}
+
+/* BRMedia Video Patch D1 — rich film metadata panels */
+
+.brVideoTinyAction {
+  min-height: 40px;
+  border-radius: 15px;
+  border: 1px solid rgba(31, 169, 255, 0.22);
+  background: rgba(31, 169, 255, 0.12);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  font-weight: 950;
+}
+
+.brVideoTinyAction i,
+.brVideoTinyAction .brSvgIconHost {
+  width: 18px;
+  height: 18px;
+  color: #f2a007;
+}
+
+.brVideoCastPanelRich,
+.brVideoRelatedPanelRich {
+  display: grid;
+  gap: 14px;
+}
+
+.brVideoMiniSection {
+  display: grid;
+  gap: 10px;
+}
+
+.brVideoCastGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.brVideoCastCardRich {
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background:
+    radial-gradient(circle at top left, rgba(242, 160, 7, 0.12), transparent 36%),
+    rgba(7, 20, 45, 0.48);
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px;
+  text-align: left;
+}
+
+.brVideoCastPhoto {
+  width: 86px;
+  height: 116px;
+  border-radius: 19px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 36, 73, 0.92);
+  border: 1px solid rgba(242, 160, 7, 0.18);
+  color: #f2a007;
+}
+
+.brVideoCastPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brVideoCastPhoto.noPhoto i,
+.brVideoCastPhoto.noPhoto .brSvgIconHost {
+  width: 34px;
+  height: 34px;
+}
+
+.brVideoCastCopy {
+  min-width: 0;
+}
+
+.brVideoCastCopy > span {
+  display: block;
+  color: #f2a007;
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.brVideoCastCopy strong {
+  display: block;
+  margin-top: 4px;
+  color: #ffffff;
+  font-size: 1.02rem;
+  line-height: 1.08;
+  font-weight: 950;
+}
+
+.brVideoCastCopy em {
+  display: block;
+  margin-top: 4px;
+  color: #7bd0ff;
+  font-style: normal;
+  font-weight: 850;
+  font-size: 0.82rem;
+  line-height: 1.16;
+}
+
+.brVideoCastCopy p {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 720;
+  font-size: 0.78rem;
+  line-height: 1.32;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.brVideoKnownFor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.brVideoKnownFor b {
+  border-radius: 999px;
+  background: rgba(31, 169, 255, 0.12);
+  border: 1px solid rgba(31, 169, 255, 0.14);
+  color: rgba(255,255,255,0.82);
+  font-size: 0.64rem;
+  font-weight: 900;
+  padding: 4px 7px;
+}
+
+.brVideoDirectorGrid .brVideoCastCardRich {
+  background:
+    radial-gradient(circle at top right, rgba(31, 169, 255, 0.18), transparent 42%),
+    rgba(7, 20, 45, 0.52);
+}
+
+.brVideoCollectionHero {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-height: 96px;
+  border-radius: 24px;
+  border: 1px solid rgba(242, 160, 7, 0.22);
+  background:
+    linear-gradient(90deg, rgba(242, 160, 7, 0.12), transparent 45%),
+    rgba(7, 20, 45, 0.46);
+  padding: 12px;
+}
+
+.brVideoCollectionHero > div {
+  width: 74px;
+  height: 74px;
+  border-radius: 20px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 36, 73, 0.92);
+  color: #f2a007;
+}
+
+.brVideoCollectionHero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brVideoCollectionHero strong,
+.brVideoCollectionHero em {
+  display: block;
+}
+
+.brVideoCollectionHero strong {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 950;
+}
+
+.brVideoCollectionHero em {
+  margin-top: 4px;
+  color: rgba(255,255,255,0.68);
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.28;
+}
+
+.brVideoRelatedRow {
+  display: grid;
+  gap: 10px;
+}
+
+.brVideoRelatedScroller {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(148px, 180px);
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.brVideoRelatedScroller::-webkit-scrollbar {
+  display: none;
+}
+
+.brVideoRelatedTile {
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(7, 20, 45, 0.44);
+  padding: 9px;
+}
+
+.brVideoRelatedPoster {
+  aspect-ratio: 2 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 36, 73, 0.92);
+  color: #f2a007;
+}
+
+.brVideoRelatedPoster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brVideoRelatedTile strong {
+  display: block;
+  margin-top: 8px;
+  color: #ffffff;
+  font-size: 0.86rem;
+  line-height: 1.08;
+  font-weight: 950;
+}
+
+.brVideoRelatedTile span {
+  display: block;
+  margin-top: 4px;
+  color: #7bd0ff;
+  font-size: 0.68rem;
+  font-weight: 850;
+}
+
+.brVideoRelatedTile p {
+  margin: 7px 0 0;
+  color: rgba(255,255,255,0.64);
+  font-size: 0.68rem;
+  font-weight: 720;
+  line-height: 1.24;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 760px) {
+  .brVideoCastGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .brVideoCastCardRich {
+    grid-template-columns: 78px minmax(0, 1fr);
+    padding: 11px;
+  }
+
+  .brVideoCastPhoto {
+    width: 78px;
+    height: 106px;
+  }
+
+  .brVideoRelatedScroller {
+    grid-auto-columns: minmax(132px, 152px);
+  }
+}
+
+/* BRMedia Video Patch D3 — cast polish, actor popup pro, title timer + related links */
+
+body.videoWatchMode .brVideoWatchTitleRow {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 0 0 7px !important;
+}
+
+body.videoWatchMode .brVideoWatchTitleRow .brVideoWatchTitle {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.videoWatchMode .brVideoWatchTitleRow .brVideoTrafficTimer {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.brVideoCastGridPro,
+.brVideoDirectorGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.brVideoCastCardPro {
+  position: relative;
+  width: 100%;
+  min-height: 126px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at top right, rgba(31, 169, 255, 0.18), transparent 42%),
+    linear-gradient(90deg, rgba(242, 160, 7, 0.08), rgba(7, 20, 45, 0.72));
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 30px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.brVideoCastCardPro .brVideoCastPhoto {
+  width: 86px;
+  height: 102px;
+  border-radius: 22px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.26);
+}
+
+.brVideoCastCardPro .brVideoCastCopy {
+  min-width: 0;
+  align-self: center;
+}
+
+.brVideoCastCardPro .brVideoCastCopy > span {
+  display: inline-flex;
+  max-width: 100%;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(31, 169, 255, 0.10);
+  color: #f2a007;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.brVideoCastCardPro .brVideoCastCopy strong {
+  display: block;
+  margin-top: 8px;
+  color: #ffffff;
+  font-size: 1.22rem;
+  line-height: 1.02;
+  font-weight: 950;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brVideoCastCardPro .brVideoCastCopy em {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 5px;
+  color: #7bd0ff;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.16;
+}
+
+.brVideoCastCardPro .brVideoKnownFor {
+  margin-top: 8px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.brVideoCastCardPro .brVideoKnownFor b {
+  flex: 0 1 auto;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brVideoCastOpenHint {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+  background: rgba(242, 160, 7, 0.12);
+  justify-self: end;
+}
+
+.brVideoActorBackdrop {
+  place-items: center !important;
+  padding: max(18px, env(safe-area-inset-top)) 12px 18px !important;
+}
+
+.brVideoActorPopupPro {
+  width: min(820px, calc(100vw - 24px));
+  max-height: min(88vh, 840px);
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 34px !important;
+  background:
+    radial-gradient(circle at top left, rgba(242, 160, 7, 0.20), transparent 38%),
+    linear-gradient(180deg, #19386f, #102b58) !important;
+}
+
+.brVideoActorPopupPro::before {
+  display: none !important;
+}
+
+.brVideoActorHeroPro {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) 46px;
+  gap: 16px;
+  align-items: center;
+  padding: 18px;
+  border-bottom: 1px solid rgba(31, 169, 255, 0.18);
+}
+
+.brVideoActorPhotoLarge {
+  width: 150px;
+  height: 205px;
+  border-radius: 28px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: rgba(7, 20, 45, 0.58);
+  border: 1px solid rgba(242, 160, 7, 0.24);
+  color: #f2a007;
+}
+
+.brVideoActorPhotoLarge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brVideoActorPhotoLarge.noPhoto i,
+.brVideoActorPhotoLarge.noPhoto .brSvgIconHost {
+  width: 58px;
+  height: 58px;
+}
+
+.brVideoActorHeroText {
+  min-width: 0;
+}
+
+.brVideoActorHeroText span {
+  display: block;
+  color: #f2a007;
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.brVideoActorHeroText strong {
+  display: block;
+  margin-top: 8px;
+  color: #ffffff;
+  font-size: clamp(1.7rem, 7vw, 3.1rem);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+  font-weight: 950;
+}
+
+.brVideoActorHeroText em {
+  display: block;
+  margin-top: 10px;
+  color: #7bd0ff;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.brVideoActorClose {
+  width: 46px;
+  height: 46px;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(7, 20, 45, 0.38);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  align-self: start;
+}
+
+.brVideoActorTabsPro {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 12px;
+  background: rgba(7, 20, 45, 0.28);
+}
+
+.brVideoActorTabsPro button {
+  min-height: 58px;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  font-weight: 950;
+}
+
+.brVideoActorTabsPro button i,
+.brVideoActorTabsPro button .brSvgIconHost {
+  width: 22px;
+  height: 22px;
+  color: #f2a007;
+}
+
+.brVideoActorTabsPro button.is-active {
+  background: rgba(31, 169, 255, 0.25);
+  border-color: rgba(31, 169, 255, 0.72);
+}
+
+.brVideoActorTabBodyPro {
+  padding: 14px;
+  max-height: 44vh;
+  overflow: auto;
+}
+
+.brVideoActorBioBox,
+.brVideoActorSocialBox,
+.brVideoActorFacts article {
+  border-radius: 24px;
+  background: rgba(7, 20, 45, 0.44);
+  border: 1px solid rgba(31, 169, 255, 0.16);
+  padding: 16px;
+}
+
+.brVideoActorBioBox strong,
+.brVideoActorSocialBox strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 950;
+}
+
+.brVideoActorBioBox p,
+.brVideoActorSocialBox p {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.46;
+  font-weight: 760;
+}
+
+.brVideoActorFilmGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 10px;
+}
+
+.brVideoActorLinkRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.brVideoActorLinkRow a,
+.brVideoRelatedLinkBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  border-radius: 999px;
+  background: rgba(31, 169, 255, 0.16);
+  color: #ffffff;
+  font-weight: 950;
+  text-decoration: none;
+  padding: 0 11px;
+}
+
+.brVideoActorFacts {
+  display: grid;
+  gap: 10px;
+}
+
+.brVideoActorFacts strong,
+.brVideoActorFacts span {
+  display: block;
+}
+
+.brVideoActorFacts strong {
+  color: #f2a007;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.brVideoActorFacts span {
+  margin-top: 6px;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.brVideoRelatedTile.isLinked {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.brVideoRelatedLinkBadge {
+  margin-top: 8px;
+  min-height: 28px;
+  font-size: 0.68rem;
+  background: rgba(242, 160, 7, 0.18);
+  color: #f2a007;
+}
+
+@media (max-width: 760px) {
+  body.videoWatchMode .brVideoWatchTitleRow {
+    align-items: center !important;
+  }
+
+  body.videoWatchMode .brVideoWatchTitleRow .brVideoWatchTitle {
+    font-size: 1.55rem;
+  }
+
+  body.videoWatchMode .brVideoWatchTitleRow .brVideoTrafficTimer {
+    transform: scale(0.86);
+    transform-origin: right center;
+  }
+
+  .brVideoCastGridPro,
+  .brVideoDirectorGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .brVideoCastCardPro {
+    grid-template-columns: 82px minmax(0, 1fr) 28px;
+    min-height: 116px;
+    padding: 10px;
+  }
+
+  .brVideoCastCardPro .brVideoCastPhoto {
+    width: 74px;
+    height: 92px;
+    border-radius: 20px;
+  }
+
+  .brVideoCastCardPro .brVideoCastCopy strong {
+    font-size: 1.05rem;
+  }
+
+  .brVideoCastCardPro .brVideoKnownFor {
+    display: none;
+  }
+
+  .brVideoActorHeroPro {
+    grid-template-columns: 112px minmax(0, 1fr) 40px;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .brVideoActorPhotoLarge {
+    width: 112px;
+    height: 154px;
+    border-radius: 24px;
+  }
+
+  .brVideoActorHeroText strong {
+    font-size: 1.75rem;
+  }
+
+  .brVideoActorTabsPro {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .brVideoActorTabsPro button {
+    min-height: 52px;
+    font-size: 0.72rem;
+  }
+
+  .brVideoActorTabBodyPro {
+    max-height: 42vh;
+  }
+}
+
+/* BRMedia Video Patch D4 — trailers, stronger cast polish, local related links */
+
+.brVideoTrailerScroller {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(230px, 290px);
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.brVideoTrailerScroller::-webkit-scrollbar {
+  display: none;
+}
+
+.brVideoTrailerTile {
+  min-height: 128px;
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(242, 160, 7, 0.14), transparent 42%),
+    rgba(7, 20, 45, 0.48);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.brVideoTrailerTile > span {
+  width: 54px;
+  height: 54px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+  background: rgba(242, 160, 7, 0.14);
+  border: 1px solid rgba(242, 160, 7, 0.18);
+}
+
+.brVideoTrailerTile strong,
+.brVideoTrailerTile em,
+.brVideoTrailerTile b {
+  display: block;
+}
+
+.brVideoTrailerTile strong {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.08;
+  font-weight: 950;
+}
+
+.brVideoTrailerTile em {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.66);
+  font-style: normal;
+  font-size: 0.74rem;
+  font-weight: 820;
+}
+
+.brVideoTrailerTile b {
+  margin-top: 8px;
+  color: #f2a007;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.brVideoRelatedTile.isLocal {
+  border-color: rgba(242, 160, 7, 0.36);
+  box-shadow: inset 0 0 0 1px rgba(242, 160, 7, 0.10);
+}
+
+.brVideoRelatedTile.isLocal .brVideoRelatedLinkBadge {
+  background: rgba(31, 169, 255, 0.18);
+  color: #7bd0ff;
+}
+
+.brVideoActorLinkRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+}
+
+.brVideoActorLinkRow a {
+  min-height: 48px;
+  justify-content: center;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+}
+
+.brVideoActorLinkRow a.isDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.brVideoActorBioBox {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.brVideoActorBioBox > i {
+  width: 54px;
+  height: 54px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+  background: rgba(242, 160, 7, 0.14);
+}
+
+.brVideoActorBioBox > div {
+  min-width: 0;
+}
+
+.brVideoActorFacts article {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.brVideoActorFacts article i,
+.brVideoActorFacts article .brSvgIconHost {
+  width: 28px;
+  height: 28px;
+  color: #f2a007;
+  justify-self: center;
+}
+
+.brVideoCastCardPro {
+  border-color: rgba(31, 169, 255, 0.22) !important;
+}
+
+.brVideoCastCardPro .brVideoCastCopy p {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .brVideoCastCardPro {
+    grid-template-columns: 74px minmax(0, 1fr) 28px !important;
+    min-height: 104px !important;
+    border-radius: 23px !important;
+  }
+
+  .brVideoCastCardPro .brVideoCastPhoto {
+    width: 64px !important;
+    height: 78px !important;
+    border-radius: 18px !important;
+  }
+
+  .brVideoCastCardPro .brVideoCastCopy > span {
+    font-size: 0.58rem !important;
+    letter-spacing: 0.14em !important;
+    padding: 4px 7px !important;
+  }
+
+  .brVideoCastCardPro .brVideoCastCopy strong {
+    font-size: 1rem !important;
+    line-height: 1.03 !important;
+    margin-top: 6px !important;
+  }
+
+  .brVideoCastCardPro .brVideoCastCopy em {
+    font-size: 0.76rem !important;
+    line-height: 1.12 !important;
+  }
+
+  .brVideoActorPopupPro {
+    width: min(720px, calc(100vw - 20px)) !important;
+    border-radius: 30px !important;
+  }
+
+  .brVideoActorHeroPro {
+    grid-template-columns: 96px minmax(0, 1fr) 38px !important;
+    gap: 10px !important;
+  }
+
+  .brVideoActorPhotoLarge {
+    width: 96px !important;
+    height: 132px !important;
+  }
+
+  .brVideoActorHeroText span {
+    font-size: 0.62rem !important;
+  }
+
+  .brVideoActorHeroText strong {
+    font-size: 1.52rem !important;
+  }
+
+  .brVideoActorHeroText em {
+    font-size: 0.84rem !important;
+  }
+
+  .brVideoActorTabsPro button {
+    border-radius: 15px !important;
+  }
+
+  .brVideoTrailerScroller {
+    grid-auto-columns: minmax(210px, 248px);
+  }
+
+  .brVideoActorBioBox {
+    grid-template-columns: 1fr;
+  }
+
+  .brVideoActorBioBox > i {
+    display: none;
+  }
+}
+
+/* BRMedia Video Patch D5 — cast clean-up + steady icons */
+
+body.videoWatchMode .brVideoIconStable,
+body.videoWatchMode i[class*="fa-"],
+body.videoWatchMode .brSvgIconHost {
+  display: inline-grid !important;
+  place-items: center !important;
+  flex: 0 0 auto !important;
+  line-height: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  contain: layout paint;
+}
+
+body.videoWatchMode .brVideoTopIconBtn .brVideoIconStable,
+body.videoWatchMode .brVideoTopIconBtn .brSvgIconHost {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+body.videoWatchMode .brVideoControlDeck button .brVideoIconStable,
+body.videoWatchMode .brVideoControlDeck button .brSvgIconHost {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+body.videoWatchMode .brVideoTabBtn .brVideoIconStable,
+body.videoWatchMode .brVideoTabBtn .brSvgIconHost {
+  width: 27px !important;
+  height: 27px !important;
+}
+
+.brVideoCastCardClean {
+  grid-template-columns: 88px minmax(0, 1fr) 34px !important;
+  align-items: center !important;
+  min-height: 128px !important;
+  padding: 12px !important;
+}
+
+.brVideoCastCardClean .brVideoCastPhoto {
+  width: 82px !important;
+  height: 98px !important;
+  border-radius: 22px !important;
+  align-self: center !important;
+}
+
+.brVideoCastCardClean .brVideoCastCopy {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  display: grid !important;
+  grid-template-rows: auto auto auto auto !important;
+  align-content: center !important;
+  gap: 5px !important;
+  overflow: hidden !important;
+}
+
+.brVideoCastCardClean .brVideoCastLabel {
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 5px 9px !important;
+  font-size: 0.62rem !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.brVideoCastCardClean .brVideoCastName {
+  margin: 0 !important;
+  max-width: 100% !important;
+  color: #ffffff !important;
+  font-size: 1.16rem !important;
+  line-height: 1.02 !important;
+  font-weight: 950 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.brVideoCastCardClean .brVideoCastRole {
+  margin: 0 !important;
+  max-width: 100% !important;
+  color: #7bd0ff !important;
+  font-size: 0.82rem !important;
+  line-height: 1.16 !important;
+  font-style: normal !important;
+  font-weight: 850 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.brVideoCastCardClean .brVideoKnownFor {
+  margin: 2px 0 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.brVideoCastCardClean .brVideoCastOpenHint {
+  width: 34px !important;
+  height: 34px !important;
+  align-self: center !important;
+  justify-self: end !important;
+}
+
+.brVideoActorPopupPro {
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.48),
+    inset 0 0 0 1px rgba(31, 169, 255, 0.18) !important;
+}
+
+.brVideoActorHeroPro {
+  background:
+    radial-gradient(circle at top left, rgba(242, 160, 7, 0.18), transparent 42%),
+    linear-gradient(135deg, rgba(31, 169, 255, 0.14), rgba(7, 20, 45, 0.18));
+}
+
+@media (max-width: 760px) {
+  .brVideoCastCardClean {
+    grid-template-columns: 74px minmax(0, 1fr) 30px !important;
+    min-height: 112px !important;
+    padding: 10px !important;
+    gap: 10px !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastPhoto {
+    width: 66px !important;
+    height: 82px !important;
+    border-radius: 18px !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastCopy {
+    gap: 4px !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastLabel {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.13em !important;
+    padding: 4px 7px !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastName {
+    font-size: 1rem !important;
+    line-height: 1.04 !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastRole {
+    font-size: 0.72rem !important;
+    line-height: 1.12 !important;
+  }
+
+  .brVideoCastCardClean .brVideoKnownFor {
+    display: none !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastOpenHint {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+/* BRMedia Video Patch D6 — cast cards true layout + popup tap fix */
+
+.brVideoCastCardClean {
+  display: grid !important;
+  grid-template-columns: 86px minmax(0, 1fr) 38px !important;
+  gap: 12px !important;
+  align-items: center !important;
+  min-height: 126px !important;
+  width: 100% !important;
+  padding: 12px !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+}
+
+.brVideoCastCardClean > .brVideoCastPhoto {
+  width: 82px !important;
+  height: 98px !important;
+  min-width: 82px !important;
+  min-height: 98px !important;
+  max-width: 82px !important;
+  max-height: 98px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 22px !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+}
+
+.brVideoCastCardClean > .brVideoCastPhoto img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.brVideoCastCardClean > .brVideoCastCopy {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  place-items: initial !important;
+  gap: 5px !important;
+  overflow: hidden !important;
+}
+
+.brVideoCastCardClean .brVideoCastLabel {
+  display: inline-flex !important;
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 5px 9px !important;
+  border-radius: 999px !important;
+  background: rgba(31, 169, 255, 0.10) !important;
+  color: #f2a007 !important;
+  font-size: 0.62rem !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.18em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.brVideoCastCardClean .brVideoCastName {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  color: #ffffff !important;
+  font-size: 1.15rem !important;
+  line-height: 1.04 !important;
+  font-weight: 950 !important;
+  letter-spacing: -0.025em !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.brVideoCastCardClean .brVideoCastRole {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  color: #7bd0ff !important;
+  font-size: 0.82rem !important;
+  line-height: 1.14 !important;
+  font-style: normal !important;
+  font-weight: 850 !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.brVideoCastCardClean > .brVideoCastOpenHint {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  max-width: 34px !important;
+  max-height: 34px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  display: grid !important;
+  place-items: center !important;
+  justify-self: end !important;
+  align-self: center !important;
+  background: rgba(242, 160, 7, 0.12) !important;
+  color: #f2a007 !important;
+  border: 1px solid rgba(242, 160, 7, 0.14) !important;
+  pointer-events: none !important;
+}
+
+.brVideoCastCardClean > .brVideoCastOpenHint i,
+.brVideoCastCardClean > .brVideoCastOpenHint .brSvgIconHost {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.brVideoCastCardClean .brVideoKnownFor {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .brVideoCastCardClean {
+    grid-template-columns: 76px minmax(0, 1fr) 34px !important;
+    gap: 10px !important;
+    min-height: 108px !important;
+    padding: 10px !important;
+  }
+
+  .brVideoCastCardClean > .brVideoCastPhoto {
+    width: 68px !important;
+    height: 84px !important;
+    min-width: 68px !important;
+    min-height: 84px !important;
+    max-width: 68px !important;
+    max-height: 84px !important;
+    border-radius: 18px !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastLabel {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.13em !important;
+    padding: 4px 7px !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastName {
+    font-size: 1.02rem !important;
+    line-height: 1.04 !important;
+  }
+
+  .brVideoCastCardClean .brVideoCastRole {
+    font-size: 0.74rem !important;
+    line-height: 1.12 !important;
+  }
+
+  .brVideoCastCardClean > .brVideoCastOpenHint {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+  }
+}
+
+/* BRMedia Video Patch D8 — actor popup fix + metadata control centre */
+
+.brVideoMetaControlPopup {
+  width: min(720px, calc(100vw - 24px));
+  display: grid;
+  gap: 14px;
+}
+
+.brVideoMetaControlHero {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at top right, rgba(31, 169, 255, 0.18), transparent 42%),
+    rgba(7, 20, 45, 0.44);
+  border: 1px solid rgba(31, 169, 255, 0.18);
+}
+
+.brVideoMetaControlHero > span {
+  width: 58px;
+  height: 58px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: rgba(242, 160, 7, 0.14);
+  color: #f2a007;
+  border: 1px solid rgba(242, 160, 7, 0.18);
+}
+
+.brVideoMetaControlHero strong,
+.brVideoMetaControlHero em {
+  display: block;
+}
+
+.brVideoMetaControlHero strong {
+  color: #ffffff;
+  font-size: 1.28rem;
+  font-weight: 950;
+}
+
+.brVideoMetaControlHero em {
+  margin-top: 4px;
+  color: rgba(255,255,255,0.70);
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.25;
+}
+
+.brVideoMetaControlGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.brVideoMetaControlBtn {
+  width: 100%;
+  min-height: 74px;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(255,255,255,0.07);
+  color: #ffffff;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  text-align: left;
+}
+
+.brVideoMetaControlBtn > span:first-child {
+  width: 46px;
+  height: 46px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  color: #f2a007;
+  background: rgba(242, 160, 7, 0.12);
+}
+
+.brVideoMetaControlBtn strong,
+.brVideoMetaControlBtn em {
+  display: block;
+}
+
+.brVideoMetaControlBtn strong {
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.brVideoMetaControlBtn em {
+  margin-top: 3px;
+  color: rgba(255,255,255,0.66);
+  font-style: normal;
+  font-size: 0.78rem;
+  font-weight: 760;
+  line-height: 1.22;
+}
+
+.brVideoMetaControlStatus {
+  border-radius: 20px;
+  padding: 12px 14px;
+  background: rgba(7, 20, 45, 0.55);
+  border: 1px solid rgba(31, 169, 255, 0.15);
+  color: #7bd0ff;
+  font-weight: 900;
+}
+
+.brVideoMetaControlStatus.warn {
+  color: #f2a007;
+}
+
+.brVideoMetaControlClose {
+  min-height: 48px;
+  border-radius: 18px;
+  border: 0;
+  background: rgba(255,255,255,0.10);
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.brVideoActorPopupPro {
+  z-index: 9999 !important;
+}
+
+.brVideoActorBackdrop,
+.brVideoPlayerPopupBackdrop {
+  z-index: 9990 !important;
+}
+
+/* BRMedia Video Patch D9 — actor popup launch hard-fix + metadata control polish */
+
+.brVideoCastCardClean {
+  -webkit-tap-highlight-color: transparent !important;
+  user-select: none !important;
+}
+
+.brVideoCastCardClean.is-opening {
+  transform: scale(0.985);
+  border-color: rgba(31, 169, 255, 0.55) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(31, 169, 255, 0.28),
+    0 0 24px rgba(31, 169, 255, 0.16) !important;
+}
+
+.brVideoActorBackdrop {
+  display: grid !important;
+  place-items: center !important;
+  pointer-events: auto !important;
+}
+
+.brVideoActorPopupPro {
+  pointer-events: auto !important;
+  width: min(780px, calc(100vw - 22px)) !important;
+  max-height: min(86vh, 820px) !important;
+}
+
+.brVideoActorTabBodyPro {
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.brVideoMetaControlPopup {
+  max-height: min(84vh, 780px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.brVideoMetaControlStatus strong,
+.brVideoMetaControlStatus span {
+  display: block;
+}
+
+.brVideoMetaControlStatus strong {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.brVideoMetaControlStatus span {
+  margin-top: 4px;
+  color: #7bd0ff;
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.brVideoMetaControlStatus.warn span {
+  color: #f2a007;
+}
+
+.brVideoMetaControlBtn.isBusy {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.brVideoMetaControlBtn.isBusy > span:first-child {
+  animation: brVideoMetaPulse 1.1s ease-in-out infinite;
+}
+
+@keyframes brVideoMetaPulse {
+  0%, 100% { transform: scale(1); opacity: 0.75; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+/* BRMedia Video Patch D12 — audio-player style timer popup */
+
+.brVideoAudioTimerPopup {
+  width: min(760px, calc(100vw - 24px));
+  display: grid;
+  gap: 14px;
+}
+
+.brVideoAudioTimerPopup .brVideoPlayerPopupHead {
+  margin-bottom: 0;
+}
+
+.brVideoAudioTimerPopup .brVideoPlayerPopupHead strong {
+  font-size: clamp(2rem, 7vw, 3.25rem);
+}
+
+.brVideoAudioTimerPopup .brVideoTimerFlipBtn {
+  flex: 0 0 auto;
+}
+
+.brVideoAudioTimerCountdownTop {
+  margin: 0;
+  min-height: 42px;
+  border-radius: 18px;
+  padding: 11px 14px;
+  background: rgba(7, 20, 45, 0.42);
+  border: 1px solid rgba(31, 169, 255, 0.15);
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 900;
+}
+
+.brVideoAudioTimerActivePanel {
+  padding: 24px 20px 22px;
+  border-radius: 28px;
+  background: rgba(9, 16, 32, 0.58);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.brVideoAudioTimerCountdown {
+  font-size: clamp(48px, 14vw, 62px);
+  line-height: 1;
+  font-weight: 950;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.brVideoAudioTimerStop {
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 950;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.brVideoAudioTimerActivePanel.timer-green .brVideoAudioTimerCountdown,
+.brVideoAudioTimerActivePanel.timer-green .brVideoAudioTimerStop {
+  color: #8fe08f;
+  border-color: rgba(143,224,143,0.85);
+}
+
+.brVideoAudioTimerActivePanel.timer-orange .brVideoAudioTimerCountdown,
+.brVideoAudioTimerActivePanel.timer-orange .brVideoAudioTimerStop {
+  color: #ffb347;
+  border-color: rgba(255,179,71,0.88);
+}
+
+.brVideoAudioTimerActivePanel.timer-red .brVideoAudioTimerCountdown,
+.brVideoAudioTimerActivePanel.timer-red .brVideoAudioTimerStop {
+  color: #ff6b6b;
+  border-color: rgba(255,107,107,0.9);
+}
+
+.brVideoAudioTimerPresetList {
+  display: grid;
+  gap: 10px;
+}
+
+.brVideoAudioTimerItem {
+  min-height: 72px;
+  border-radius: 22px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(255,255,255,0.07);
+  color: #ffffff;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.brVideoAudioTimerItem > i,
+.brVideoAudioTimerItem > .brSvgIconHost {
+  width: 32px;
+  height: 32px;
+  color: #f2a007;
+  justify-self: center;
+}
+
+.brVideoAudioTimerItem strong,
+.brVideoAudioTimerItem em {
+  display: block;
+}
+
+.brVideoAudioTimerItem strong {
+  color: #ffffff;
+  font-size: 1.02rem;
+  line-height: 1;
+  font-weight: 950;
+}
+
+.brVideoAudioTimerItem em {
+  margin-top: 4px;
+  color: rgba(255,255,255,0.62);
+  font-style: normal;
+  font-weight: 760;
+  font-size: 0.78rem;
+}
+
+.brVideoAudioTimerActionRow {
+  display: flex;
+  gap: 10px;
+}
+
+.brVideoAudioTimerActionBtn {
+  flex: 1;
+  min-height: 54px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,0.10);
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.brVideoAudioTimerActionBtn.primary {
+  background: rgba(31, 169, 255, 0.22);
+  border: 1px solid rgba(31, 169, 255, 0.35);
+}
+
+.brVideoAudioTimerPickerRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.brVideoAudioTimerPickerCol {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.brVideoAudioTimerPickerCol label {
+  color: rgba(255,255,255,0.70);
+  font-size: 0.82rem;
+  font-weight: 950;
+  text-align: center;
+}
+
+.brVideoAudioTimerWheel {
+  height: 232px;
+  overflow-y: auto;
+  border-radius: 24px;
+  border: 1px solid rgba(31, 169, 255, 0.18);
+  background: rgba(7, 20, 45, 0.42);
+  padding: 10px;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: grid;
+  gap: 8px;
+}
+
+.brVideoAudioTimerWheel button {
+  min-height: 54px;
+  border-radius: 18px;
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.58);
+  font-size: 1.55rem;
+  font-weight: 950;
+}
+
+.brVideoAudioTimerWheel button.is-selected,
+.brVideoAudioTimerWheel button:focus-visible,
+.brVideoAudioTimerWheel button:hover {
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+}
+
+@media (max-width: 760px) {
+  .brVideoAudioTimerPopup {
+    width: min(720px, calc(100vw - 20px));
+  }
+
+  .brVideoAudioTimerPickerRow {
+    gap: 8px;
+  }
+
+  .brVideoAudioTimerWheel {
+    height: 206px;
+    padding: 8px;
+  }
+
+  .brVideoAudioTimerWheel button {
+    min-height: 50px;
+    font-size: 1.38rem;
+  }
+
+  .brVideoAudioTimerStop {
+    width: 156px;
+    height: 156px;
+  }
+}
+
+/* BRMedia Video Patch D17B — multi-part films, softer cast links, brand/favourite polish */
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn {
+  color: rgba(255,255,255,0.94);
+  background: rgba(255,255,255,0.075);
+  border-color: rgba(255,255,255,0.18);
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn .brSvgIconHost,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn i {
+  color: rgba(255,255,255,0.96);
+  filter: drop-shadow(0 0 10px rgba(123,208,255,0.28));
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active {
+  color: #ff335f;
+  background: rgba(255,51,95,0.15);
+  border-color: rgba(255,51,95,0.62);
+  box-shadow: 0 0 24px rgba(255,51,95,0.24), inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active .brSvgIconHost,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active i {
+  color: #ff335f;
+  filter: drop-shadow(0 0 12px rgba(255,51,95,0.42));
+}
+
+.brVideoPartSwitcher {
+  margin: 0 0 10px;
+  border-radius: 24px;
+  border: 1px solid rgba(31,169,255,0.18);
+  background: rgba(7,20,45,0.42);
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.brVideoPartSwitcher > strong {
+  color: #f2a007;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.brVideoPartSwitcher > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.brVideoPartSwitcher button {
+  min-height: 52px;
+  border-radius: 17px;
+  border: 1px solid rgba(31,169,255,0.16);
+  background: rgba(255,255,255,0.07);
+  color: #ffffff;
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.brVideoPartSwitcher button.is-active {
+  border-color: rgba(31,169,255,0.7);
+  background: rgba(31,169,255,0.22);
+}
+
+.brVideoPartSwitcher span,
+.brVideoPartSwitcher em {
+  display: block;
+}
+
+.brVideoPartSwitcher span {
+  font-weight: 950;
+}
+
+.brVideoPartSwitcher em {
+  color: rgba(255,255,255,0.62);
+  font-size: 0.68rem;
+  font-style: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brVideoScreenFrame.is-switching {
+  animation: brVideoPartSwitch 0.36s ease both;
+}
+
+@keyframes brVideoPartSwitch {
+  0% { opacity: 0.52; transform: scale(0.992); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.brVideoCastCardClean {
+  cursor: default !important;
+}
+
+.brVideoCastCardClean .brVideoCastPhoto,
+.brVideoCastCardClean .brVideoCastCopy,
+.brVideoCastCardClean .brVideoCastOpenHint {
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.brVideoCastCardClean button.brVideoCastPhoto,
+.brVideoCastCardClean button.brVideoCastCopy,
+.brVideoCastCardClean button.brVideoCastOpenHint {
+  border: 0;
+  font: inherit;
+}
+
+.brVideoCastCardClean button.brVideoCastPhoto {
+  padding: 0;
+}
+
+.brVideoCastCardClean button.brVideoCastCopy {
+  text-align: left;
+}
+
+.brVideoBrandIcon,
+.brSvgIconHost.brIconBrandImdb,
+.brSvgIconHost.brIconBrandTmdb,
+.brSvgIconHost.brIconBrandRottenTomatoes,
+.brSvgIconHost.brIconBrandYouTube,
+.brSvgIconHost.brIconBrandFacebook,
+.brSvgIconHost.brIconBrandInstagram,
+.brSvgIconHost.brIconBrandXTwitter,
+.brSvgIconHost.brIconBrandTiktok {
+  color: inherit;
+}
+
+/* BRMedia Video Patch D18 — final polish: brand icons, favourite, parts */
+
+.brSvgIconSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.brIconBrandImdb,
+.brIconBrandTmdb,
+.brIconBrandRottenTomatoes,
+.brIconBrandYouTube,
+.brIconBrandFacebook,
+.brIconBrandInstagram,
+.brIconBrandXTwitter,
+.brIconBrandTiktok {
+  color: inherit;
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn {
+  color: #ffffff !important;
+  background: rgba(255,255,255,0.09) !important;
+  border-color: rgba(255,255,255,0.13) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03) !important;
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn .brSvgIconHost,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn .brSvgIconSvg,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn i {
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  filter: drop-shadow(0 0 10px rgba(123,208,255,0.18));
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active {
+  color: #ff335f !important;
+  background: rgba(255,255,255,0.09) !important;
+  border-color: rgba(255,255,255,0.13) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03) !important;
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active .brSvgIconHost,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active .brSvgIconSvg,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active i {
+  color: #ff335f !important;
+  fill: #ff335f !important;
+  stroke: #ff335f !important;
+  filter: drop-shadow(0 0 12px rgba(255,51,95,0.42));
+}
+
+.brVideoPartSwitcherGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.brVideoPartNav {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.brVideoPartNav b {
+  color: #7bd0ff;
+  font-size: 0.74rem;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.brVideoPartNav button {
+  min-height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(31,169,255,0.16);
+  background: rgba(255,255,255,0.07);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 10px;
+  font-weight: 950;
+}
+
+.brVideoPartNav button[disabled] {
+  opacity: 0.42;
+}
+
+.brVideoPartNav button .brSvgIconHost,
+.brVideoPartNav button i {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 760px) {
+  .brVideoPartNav {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brVideoPartNav b {
+    grid-column: 1 / -1;
+    text-align: center;
+    order: -1;
+  }
+
+  .brVideoPartNav button {
+    min-height: 40px;
+    font-size: 0.72rem;
+  }
+}
+
+/* BRMedia Video Patch D19 — reliable favourite heart colours + pop-out notice */
+.brVideoTopIconBtn.brVideoFavouriteTopBtn,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active {
+  background: rgba(255,255,255,0.09) !important;
+  border-color: rgba(255,255,255,0.13) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03) !important;
+}
+
+.brVideoFavouriteHeartGlyph {
+  display: block !important;
+  color: #ffffff !important;
+  font-size: 31px !important;
+  line-height: 1 !important;
+  font-weight: 1000 !important;
+  transform: translateY(-1px) !important;
+  text-shadow: 0 0 10px rgba(123,208,255,0.16) !important;
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active .brVideoFavouriteHeartGlyph {
+  color: #ff335f !important;
+  text-shadow: 0 0 12px rgba(255,51,95,0.42) !important;
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn .brSvgIconHost,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn .brSvgIconSvg,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn svg,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn path {
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+.brVideoPopoutNotice {
+  margin: 8px 2px 0;
+  border-radius: 16px;
+  border: 1px solid rgba(123, 208, 255, 0.22);
+  background: rgba(7, 20, 45, 0.58);
+  color: rgba(255,255,255,0.82);
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.brVideoPopoutNotice.hidden {
+  display: none !important;
+}
+
+/* BRMedia Video Patch D20 — roomier cards, favourite pills, browser spacing, blue info accents */
+body.videoWatchMode:not(.videoStandaloneMode) .brVideoWatchShell {
+  padding-top: 8px !important;
+}
+
+body.videoStandaloneMode.videoWatchMode .brVideoWatchShell {
+  padding-top: max(40px, calc(env(safe-area-inset-top) + 10px)) !important;
+}
+
+.brVideoWatchMetaPills span,
+body.videoWatchMode .brVideoWatchMetaPills span {
+  border-color: rgba(123, 208, 255, 0.42) !important;
+  background: linear-gradient(180deg, rgba(31, 169, 255, 0.22), rgba(7, 35, 72, 0.72)) !important;
+  color: #c9f0ff !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.035), 0 8px 18px rgba(31,169,255,0.10) !important;
+}
+
+.brVideoShelfSection {
+  padding: 16px !important;
+}
+
+.brVideoShelf {
+  gap: 14px !important;
+  padding: 4px 2px 12px !important;
+}
+
+.brVideoShelfCard {
+  flex: 0 0 176px !important;
+  padding: 12px !important;
+  gap: 10px !important;
+  border-radius: 24px !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.brVideoShelfOpen,
+.brVideoCardOpen {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: grid;
+  width: 100%;
+  color: inherit;
+}
+
+.brVideoShelfOpen {
+  gap: 9px;
+}
+
+.brVideoShelfPoster {
+  border-radius: 18px !important;
+}
+
+.brVideoShelfCard strong {
+  font-size: 0.94rem !important;
+  line-height: 1.08 !important;
+}
+
+.brVideoShelfCard span {
+  font-size: 0.76rem !important;
+  line-height: 1.2 !important;
+}
+
+.brVideoPosterGrid {
+  gap: 16px !important;
+  grid-template-columns: repeat(auto-fill, minmax(164px, 1fr)) !important;
+}
+
+.brVideoPosterCard {
+  padding: 14px !important;
+  gap: 10px !important;
+  border-radius: 26px !important;
+  grid-template-rows: auto auto auto !important;
+}
+
+.brVideoPosterCard .brVideoCardOpen {
+  gap: 11px;
+}
+
+.brVideoPosterCard .brVideoCardBody {
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+.brVideoPosterCard .brVideoCardBody strong {
+  font-size: 1rem !important;
+  line-height: 1.12 !important;
+  min-height: 0 !important;
+}
+
+.brVideoPosterCard .brVideoCardBody span {
+  font-size: 0.78rem !important;
+  line-height: 1.22 !important;
+  min-height: 0 !important;
+}
+
+.brVideoFavouriteAction {
+  width: max-content;
+  max-width: 100%;
+  min-height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(123, 208, 255, 0.25);
+  background: rgba(31, 169, 255, 0.13);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 11px;
+  font-size: 0.76rem;
+  font-weight: 1000;
+  line-height: 1;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.035);
+}
+
+.brVideoFavouriteAction span {
+  color: #ffffff !important;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  transform: translateY(-1px);
+}
+
+.brVideoFavouriteAction strong {
+  color: currentColor !important;
+  font-size: 0.76rem !important;
+  line-height: 1 !important;
+  min-height: 0 !important;
+}
+
+.brVideoFavouriteAction.is-active {
+  border-color: rgba(255, 51, 95, 0.42);
+  background: rgba(31, 169, 255, 0.13);
+  color: #ff335f;
+}
+
+.brVideoFavouriteAction.is-active span,
+.brVideoFavouriteAction.is-active strong {
+  color: #ff335f !important;
+}
+
+.brVideoPosterCard > .brVideoResumeBar,
+.brVideoShelfCard > .brVideoResumeBar {
+  position: static !important;
+  display: block;
+  width: 100% !important;
+  height: 7px !important;
+  margin: 2px 0 0 !important;
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn,
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active,
+body.videoWatchMode .brVideoTopIconBtn.brVideoFavouriteTopBtn,
+body.videoWatchMode .brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active {
+  background: rgba(255,255,255,0.09) !important;
+  border-color: rgba(255,255,255,0.13) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03) !important;
+}
+
+.brVideoFavouriteHeartGlyph,
+body.videoWatchMode .brVideoFavouriteHeartGlyph {
+  color: #ffffff !important;
+  font-size: 25px !important;
+  line-height: 1 !important;
+  font-weight: 1000 !important;
+  transform: translateY(-1px) !important;
+  text-shadow: 0 0 8px rgba(123,208,255,0.12) !important;
+}
+
+.brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active .brVideoFavouriteHeartGlyph,
+body.videoWatchMode .brVideoTopIconBtn.brVideoFavouriteTopBtn.is-active .brVideoFavouriteHeartGlyph {
+  color: #ff335f !important;
+  text-shadow: 0 0 10px rgba(255,51,95,0.30) !important;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRow:nth-child(odd) .brVideoInfoRowIcon {
+  color: #7bd0ff !important;
+  background: rgba(31, 169, 255, 0.14) !important;
+  border-color: rgba(123, 208, 255, 0.30) !important;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRow:nth-child(odd) .brVideoInfoRowText strong {
+  color: #7bd0ff !important;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRow:nth-child(even) .brVideoInfoRowIcon {
+  color: #f2a007 !important;
+  background: rgba(242, 160, 7, 0.11) !important;
+  border-color: rgba(242, 160, 7, 0.22) !important;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRow:nth-child(even) .brVideoInfoRowText strong {
+  color: #f2a007 !important;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRow {
+  min-height: 82px !important;
+  padding: 12px 14px !important;
+  gap: 12px !important;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRowText span {
+  font-size: 0.98rem !important;
+  line-height: 1.28 !important;
+}
+
+body.videoWatchMode .brVideoOverviewGridC2 .brVideoInfoRowWide .brVideoInfoRowText span {
+  font-size: 0.96rem !important;
+  line-height: 1.36 !important;
+}
+
+/* BRMedia Video Follow-up V1 */
+.brVideoScreenOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.brVideoScreenOptions label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border-radius: 14px;
+  background: rgba(31, 169, 255, 0.08);
+  border: 1px solid rgba(123, 208, 255, 0.16);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.brVideoScreenOptions select {
+  border: 1px solid rgba(123, 208, 255, 0.18);
+  border-radius: 10px;
+  background: #0b2146;
+  color: #ffffff;
+  padding: 5px 7px;
+  font: inherit;
+  font-weight: 850;
+}
+
+.brVideoCopyActions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 11px;
+  padding: 7px 9px;
+  color: #ffffff;
+  background: rgba(31, 169, 255, 0.18);
+  border: 1px solid rgba(123, 208, 255, 0.22);
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+/* BRMedia Video Follow-up V2 */
+.brVideoSourceMap {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(123, 208, 255, 0.18);
+  background: rgba(31, 169, 255, 0.08);
+}
+
+.brVideoSourceMap strong,
+.brVideoSourceMap em {
+  display: block;
+}
+
+.brVideoSourceMap strong {
+  color: #ffffff;
+  font-weight: 1000;
+}
+
+.brVideoSourceMap em {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.74rem;
+  line-height: 1.3;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.brVideoSourceMapActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.brVideoSourceMapActions a {
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: #7bd0ff;
+  background: rgba(31, 169, 255, 0.1);
+  border: 1px solid rgba(123, 208, 255, 0.2);
+  text-decoration: none;
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.brVideoLinkedPanel {
+  display: grid;
+  gap: 12px;
+}
+
+.brVideoLinkedGrid {
+  display: grid;
+  gap: 9px;
+}
+
+.brVideoLinkedCard {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(123, 208, 255, 0.14);
+  background: rgba(255, 255, 255, 0.055);
+  color: #ffffff;
+  text-align: left;
+}
+
+.brVideoLinkedCard.is-active {
+  border-color: rgba(123, 208, 255, 0.72);
+  background: rgba(31, 169, 255, 0.2);
+  box-shadow:
+    0 0 0 2px rgba(31, 169, 255, 0.1) inset;
+}
+
+.brVideoLinkedPoster {
+  width: 62px;
+  height: 84px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #071b39;
+}
+
+.brVideoLinkedPoster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brVideoLinkedText strong,
+.brVideoLinkedText b,
+.brVideoLinkedText em {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.brVideoLinkedText b {
+  color: #7bd0ff;
+  font-size: 0.7rem;
+  font-weight: 1000;
+}
+
+.brVideoLinkedText strong {
+  margin-top: 4px;
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 1000;
+}
+
+.brVideoLinkedText em,
+.brVideoLinkedCard small {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 760;
+}
+
+@media (max-width: 620px) {
+  .brVideoLinkedCard {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  .brVideoLinkedPoster {
+    width: 52px;
+    height: 72px;
+  }
+
+  .brVideoLinkedCard small {
+    grid-column: 2;
+  }
+}
+
+/* Video Player torrent handoff button */
+.brVideoCardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.brVideoTorrentAction {
+  width: max-content;
+  max-width: 100%;
+  min-height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(242,160,7,.36);
+  background: rgba(242,160,7,.12);
+  color: #f2a007;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 11px;
+  font-size: .76rem;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.brVideoTorrentAction strong,
+.brVideoTorrentAction .brSvgIconHost,
+.brVideoTorrentAction i {
+  color: #f2a007 !important;
+}
+

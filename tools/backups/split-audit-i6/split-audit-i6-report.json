@@ -1,0 +1,230 @@
+{
+  "patch": "I6",
+  "checkedAt": "2026-05-10T19:40:51.269Z",
+  "projectRoot": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre",
+  "serverRoot": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server",
+  "summary": {
+    "dedicatedPages": [
+      "converter",
+      "tagger",
+      "mastering",
+      "video-player",
+      "stats",
+      "settings",
+      "server-settings"
+    ],
+    "moduleToolPages": [
+      "converter",
+      "tagger",
+      "mastering",
+      "video-player"
+    ],
+    "sharedIconCount": 187,
+    "errorCount": 0,
+    "warnCount": 0,
+    "status": "pass"
+  },
+  "routeAudit": {
+    "/converter": {
+      "found": true,
+      "fallbackTrue": false,
+      "fallbackFalse": true
+    },
+    "/tagger": {
+      "found": true,
+      "fallbackTrue": false,
+      "fallbackFalse": true
+    },
+    "/mastering": {
+      "found": true,
+      "fallbackTrue": false,
+      "fallbackFalse": true
+    },
+    "/video-player": {
+      "found": true,
+      "fallbackTrue": false,
+      "fallbackFalse": true
+    },
+    "/stats": {
+      "found": true,
+      "fallbackTrue": false,
+      "fallbackFalse": true
+    },
+    "/settings": {
+      "found": true,
+      "fallbackTrue": false,
+      "fallbackFalse": true
+    },
+    "/server-settings": {
+      "found": true,
+      "fallbackTrue": false,
+      "fallbackFalse": true
+    }
+  },
+  "fileAudit": {
+    "converter": {
+      "index.html": true,
+      "styles.css": true,
+      "app.js": true,
+      "usesSharedBranding": true,
+      "hasOldHomeBrandingRefs": false,
+      "importsSharedModuleShell": true,
+      "usesSharedIcons": true,
+      "keepsPlayerIconFallback": true
+    },
+    "tagger": {
+      "index.html": true,
+      "styles.css": true,
+      "app.js": true,
+      "usesSharedBranding": true,
+      "hasOldHomeBrandingRefs": false,
+      "importsSharedModuleShell": true,
+      "usesSharedIcons": true,
+      "keepsPlayerIconFallback": true
+    },
+    "mastering": {
+      "index.html": true,
+      "styles.css": true,
+      "app.js": true,
+      "usesSharedBranding": true,
+      "hasOldHomeBrandingRefs": false,
+      "importsSharedModuleShell": true,
+      "usesSharedIcons": true,
+      "keepsPlayerIconFallback": true
+    },
+    "video-player": {
+      "index.html": true,
+      "styles.css": true,
+      "app.js": true,
+      "usesSharedBranding": true,
+      "hasOldHomeBrandingRefs": false,
+      "importsSharedModuleShell": true,
+      "usesSharedIcons": true,
+      "keepsPlayerIconFallback": true
+    },
+    "stats": {
+      "index.html": true,
+      "styles.css": true,
+      "app.js": true,
+      "usesSharedBranding": true,
+      "hasOldHomeBrandingRefs": false
+    },
+    "settings": {
+      "index.html": true,
+      "styles.css": true,
+      "app.js": true,
+      "usesSharedBranding": true,
+      "hasOldHomeBrandingRefs": false
+    },
+    "server-settings": {
+      "index.html": true,
+      "styles.css": true,
+      "app.js": true,
+      "usesSharedBranding": true,
+      "hasOldHomeBrandingRefs": false
+    }
+  },
+  "jsCheck": [
+    {
+      "file": "public/converter/app.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/tagger/app.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/mastering/app.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/video-player/app.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/stats/app.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/settings/app.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/server-settings/app.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/shared/nav.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/shared/shell.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/shared/source-manager.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "public/shared/settings-schema.js",
+      "ok": true,
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "modulesFolder": {
+    "files": [
+      "index.html",
+      "styles.css"
+    ],
+    "expectedOnly": [
+      "index.html",
+      "styles.css"
+    ],
+    "hasOldApp": false,
+    "hasLegacyCss": false,
+    "hasLegacyHtml": false
+  },
+  "sharedAssets": {
+    "iconsDirExists": true,
+    "sharedIconCount": 187,
+    "logos": {
+      "blackburn-ravers-header.png": true,
+      "apple-touch-icon.png": true,
+      "icon-192.png": true,
+      "icon-512.png": true
+    }
+  },
+  "issues": []
+}

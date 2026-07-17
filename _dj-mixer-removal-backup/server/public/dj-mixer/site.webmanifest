@@ -1,0 +1,13 @@
+{
+  "name": "BRMedia DJ Mixer",
+  "short_name": "DJ Mixer",
+  "start_url": "/dj-mixer",
+  "scope": "/dj-mixer",
+  "display": "standalone",
+  "background_color": "#07142d",
+  "theme_color": "#182e5b",
+  "icons": [
+    { "src": "/shared/branding/logos/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/shared/branding/logos/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BRMedia Universal Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07142d" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/shared/branding/logos/apple-touch-icon.png?v=20260510-j1" />
+<link rel="icon" type="image/png" sizes="192x192" href="/shared/branding/logos/icon-192.png?v=20260510-j1" />
+<link rel="icon" type="image/png" sizes="512x512" href="/shared/branding/logos/icon-512.png?v=20260510-j1" />
+<link rel="stylesheet" href="/settings/styles.css?v=20260620-dj-v2l-sources-nav" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Settings" />
+	
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body class="settingsMode moduleTemplateBody">
+  <div class="appShell settingsShell">
+    <header class="topbar settingsTopbar">
+      <div class="brandHeader settingsBrandHeader">
+<button class="moduleSearchBtn topSearchBtn settingsCloseBtn" type="button" aria-label="Close settings and return to previous page">
+  <i class="fa-solid fa-xmark"></i>
+</button>
+
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="brandLogoFull settingsHeaderLogo" />
+
+        <div class="brandHeaderMeta">
+          <div class="eyebrow">BRMedia</div>
+          <h1 id="pageTitle">Universal Settings</h1>
+        </div>
+      </div>
+
+      <button id="btnModuleMenu" class="moduleMenuBtn topMenuBtn" type="button" aria-label="Open Settings navigation">
+        <i class="fa-solid fa-list-music"></i>
+      </button>
+    </header>
+
+    <div id="moduleSidebarBackdrop" class="sidebarBackdrop hidden"></div>
+
+    <aside id="moduleSidebar" class="sidebarMenu hidden">
+      <div class="sidebarMenuHeader">
+        <img src="/shared/branding/global/blackburn-ravers-header.png" alt="Blackburn Ravers" class="sidebarLogoFull" />
+      </div>
+
+      <div id="settingsSidebarTree" class="sidebarNav settingsSidebarTree" aria-label="Settings navigation"></div>
+    </aside>
+
+    <button id="btnModuleSidebarCloseFloating" class="sidebarFloatingCloseBtn hidden" type="button" aria-label="Close Settings navigation">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <main class="settingsMain">
+      <section class="settingsHeroShell">
+        <div class="settingsHeroLine"></div>
+
+        <div class="settingsHeroContent">
+          <div>
+            <p class="settingsEyebrow">BRMedia Centre</p>
+            <h2>Universal Settings</h2>
+            <p class="settingsHeroText">
+              One pro control centre for Player, Video, Torrents, Devices, files, libraries and future DJ performance tools.
+            </p>
+          </div>
+
+          <div class="settingsHeroActions">
+            <button class="settingsActionBtn" data-route="/player" type="button">
+              <img class="settingsActionIconImage" src="/shared/branding/module-icons/player.png" alt="" />
+              Open Player
+            </button>
+            <button class="settingsActionBtn secondary" data-route="/server-settings" type="button">
+              <img class="settingsActionIconImage" src="/shared/branding/module-icons/server-settings.png" alt="" />
+              Server
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="settingsPanel">
+        <div class="settingsPanelHeader">
+          <div>
+            <p class="settingsEyebrow">Module settings</p>
+            <h3 id="settingsActiveTitle">Player Settings</h3>
+          </div>
+          <span id="settingsActiveBadge" class="settingsBadge">Audio</span>
+        </div>
+
+<div id="playerSettingsSubTabs" class="playerSettingsSubTabs hidden" aria-label="Audio Player settings tabs"></div>
+
+<div id="settingsSaveNotice" class="settingsSaveNotice" role="status" aria-live="polite">Settings saved. Reopen or reload Player if it is already open.</div>
+
+<div id="settingsCards" class="settingsCards"></div>
+      </section>
+
+      <footer class="playerSiteFooter settingsFooter">
+        <div class="playerSiteFooterInner">
+          <img src="/shared/branding/global/br-footer-logo-trans.png" alt="BR" class="playerSiteFooterLogo" />
+          <div class="playerSiteFooterCopy">
+            <span class="footerLine"><span class="footerCopyOrange">©</span><span class="footerCopyWhite">The Blackburn Ravers</span></span>
+            <span class="footerLine"><span class="footerCopyWhite">DJ NJ &amp; Upalnite</span><span class="footerCopyBlue">2026</span></span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+<script src="/shared/icons.js?v=20260529-bars-fix-v1"></script>
+<script src="/shared/profile-link.js?v=20260530-nav-compact-v10"></script>
+<script src="/settings/app.js?v=20260620-dj-v2l-fix1"></script>
+</body>
+</html>

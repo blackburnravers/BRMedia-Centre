@@ -1,0 +1,8 @@
+{
+  "port": 8787,
+  "rangeStreaming": true,
+  "localAllowedBases": [
+    "C:\\DJMixes",
+    "C:\\Videos"
+  ]
+}

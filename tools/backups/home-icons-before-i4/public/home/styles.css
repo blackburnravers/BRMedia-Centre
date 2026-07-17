@@ -1,0 +1,526 @@
+:root {
+	--bg: #ffffff;
+	--panel: #182E5B;
+	--panel-2: #1b3568;
+	--panel-3: #162a52;
+	--card: rgba(24, 46, 91, 0.98);
+	--line: rgba(31, 169, 255, 0.22);
+	--text: #ffffff;
+	--muted: rgba(255, 255, 255, 0.72);
+	--accent: #1FA9FF;
+	--safe-top: env(safe-area-inset-top, 0px);
+	--safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--bg);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: #fff;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	padding-top: calc(var(--safe-top) + 12px);
+	padding-bottom: calc(var(--safe-bottom) + 24px);
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+.wrap {
+	max-width: 940px;
+	margin: 0 auto;
+	padding: 0 14px 18px;
+}
+
+.top {
+	margin-bottom: 16px;
+}
+
+.topHeader {
+	background: linear-gradient(180deg, rgba(24, 46, 91, 0.99), rgba(22, 42, 82, 1));
+	border: 1px solid var(--line);
+	border-radius: 28px;
+	min-height: 132px;
+	padding: 18px 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 14px 30px rgba(0, 0, 0, .14);
+}
+
+.headerLogoWrap {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.headerLogo {
+	width: min(100%, 640px);
+	max-height: 110px;
+	object-fit: contain;
+}
+
+.pill {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 46px;
+	padding: 0 16px;
+	border-radius: 18px;
+	background: linear-gradient(180deg, rgba(24, 46, 91, 0.96), rgba(22, 42, 82, 0.99));
+	border: 1px solid var(--line);
+	color: #fff;
+	font-weight: 800;
+	white-space: nowrap;
+	box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+}
+
+.card {
+	min-height: 210px;
+	border-radius: 28px;
+	padding: 22px 16px;
+	background: linear-gradient(180deg, rgba(24, 46, 91, 0.98), rgba(22, 42, 82, 0.99));
+	border: 1px solid var(--line);
+	box-shadow: 0 14px 30px rgba(0, 0, 0, .14);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: #fff;
+}
+
+.card:active {
+	transform: scale(.99);
+}
+
+.icon {
+	width: 88px;
+	height: 88px;
+	border-radius: 28px;
+	display: grid;
+	place-items: center;
+	background: rgba(255, 255, 255, .04);
+	border: 1px solid rgba(255, 255, 255, .08);
+	color: var(--accent);
+	font-size: 34px;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+}
+
+.label {
+	margin-top: 16px;
+	font-size: 18px;
+	font-weight: 900;
+}
+
+.hint {
+	margin-top: 6px;
+	color: var(--muted);
+	font-size: 14px;
+}
+
+.foot {
+	margin-top: 16px;
+	padding: 6px 2px;
+}
+
+.muted {
+	color: #62759a;
+	font-size: 14px;
+}
+
+.homeSplashBody {
+	overflow-x: hidden;
+}
+
+.homeSplashBody .wrap {
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity .55s ease, transform .7s ease;
+}
+
+.homeSplashBody.homeSplashDock .wrap,
+.homeSplashBody.homeSplashDone .wrap {
+	opacity: 1;
+	transform: none;
+}
+
+.homeSplash {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: max(22px, var(--safe-top)) 18px max(22px, var(--safe-bottom));
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 50% 26%, rgba(31, 169, 255, .22), transparent 34%),
+		linear-gradient(180deg, #071632 0%, #102857 54%, #061226 100%);
+	overflow: hidden;
+	transition: opacity .55s ease, visibility .55s ease;
+}
+
+.homeSplash.hidden {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.homeSplash::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 50% 20%, rgba(255,255,255,.08), transparent 30%),
+		radial-gradient(circle at 50% 84%, rgba(242,160,7,.12), transparent 32%);
+	opacity: .95;
+	transition: opacity .55s ease;
+}
+
+.homeSplashPulseLine {
+	position: absolute;
+	left: -35%;
+	top: 50%;
+	width: 170%;
+	height: 4px;
+	background: linear-gradient(90deg, transparent, rgba(31,169,255,.1), rgba(31,169,255,.95), rgba(255,176,31,.82), transparent);
+	box-shadow: 0 0 32px rgba(31,169,255,.74);
+	transform: translate(-30%, -50%) scaleX(.35);
+	opacity: 0;
+}
+
+.homeSplashPanel {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	transform-origin: top center;
+	transition:
+		width .8s cubic-bezier(.22, .9, .2, 1),
+		min-height .8s cubic-bezier(.22, .9, .2, 1),
+		max-height .8s cubic-bezier(.22, .9, .2, 1),
+		padding .8s cubic-bezier(.22, .9, .2, 1),
+		background .8s cubic-bezier(.22, .9, .2, 1),
+		border-radius .8s cubic-bezier(.22, .9, .2, 1),
+		box-shadow .8s cubic-bezier(.22, .9, .2, 1);
+}
+
+.homeSplashInner {
+	width: min(100%, 940px);
+	display: grid;
+	justify-items: center;
+	gap: 20px;
+}
+
+.homeSplashLogoWrap {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.homeSplashStage {
+	width: min(86vw, 680px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: scale(.86) translateY(12px);
+	opacity: 0;
+	filter: drop-shadow(0 24px 40px rgba(0, 0, 0, .34));
+	transition:
+		width .85s cubic-bezier(.22, .9, .2, 1),
+		transform .85s cubic-bezier(.22, .9, .2, 1),
+		opacity .5s ease,
+		filter .5s ease;
+}
+
+.homeSplashHeroLogo {
+	display: block;
+	width: 100%;
+	height: auto;
+	-webkit-user-drag: none;
+	user-select: none;
+	pointer-events: none;
+}
+
+.homeSplashLoader {
+	width: min(64vw, 340px);
+	height: 9px;
+	padding: 2px;
+	border-radius: 999px;
+	background: rgba(255,255,255,.12);
+	border: 1px solid rgba(97,200,255,.28);
+	box-shadow: inset 0 0 16px rgba(0,0,0,.28);
+	overflow: hidden;
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity .45s ease, transform .45s ease;
+}
+
+.homeSplashLoader span {
+	display: block;
+	width: 0%;
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, #25b8ff, #ffb11f);
+	box-shadow: 0 0 18px rgba(37,184,255,.72);
+}
+
+.homeSplashText {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: center;
+	color: rgba(255,255,255,.88);
+	font-weight: 900;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	font-size: clamp(12px, 2.9vw, 15px);
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity .45s ease, transform .45s ease;
+}
+
+.homeSplashText span:first-child {
+	color: #ffb11f;
+}
+
+.homeSplashRun .homeSplashPulseLine {
+	animation: homeSplashPulseSweep 1.65s ease-in-out both;
+}
+
+.homeSplashRun .homeSplashStage,
+.homeSplashRun .homeSplashLoader,
+.homeSplashRun .homeSplashText {
+	opacity: 1;
+	transform: none;
+}
+
+.homeSplashHold .homeSplashStage {
+	transform: scale(1.02) translateY(0);
+}
+
+.homeSplashDock .homeSplash {
+	align-items: flex-start;
+	justify-content: center;
+	padding: calc(var(--safe-top) + 12px) 14px 0;
+	background: transparent;
+}
+
+.homeSplashDock .homeSplash::before,
+.homeSplashDock .homeSplashPulseLine,
+.homeSplashDock .homeSplashLoader,
+.homeSplashDock .homeSplashText {
+	opacity: 0;
+}
+
+.homeSplashDock .homeSplashPanel {
+	width: min(calc(100vw - 28px), 940px);
+	min-height: 132px;
+	padding: 18px;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(180deg, rgba(24, 46, 91, 0.99), rgba(22, 42, 82, 1));
+	border: 1px solid var(--line);
+	border-radius: 28px;
+	box-shadow: 0 14px 30px rgba(0, 0, 0, .14);
+	overflow: hidden;
+}
+
+.homeSplashDock .homeSplashInner {
+	width: 100%;
+	gap: 0;
+}
+
+.homeSplashDock .homeSplashStage {
+	width: min(100%, 640px);
+	max-height: 110px;
+	transform: scale(1) translateY(0);
+	filter: none;
+}
+
+.homeSplashDock .homeSplashHeroLogo {
+	max-height: 110px;
+	object-fit: contain;
+}
+
+@keyframes homeSplashPulseSweep {
+	0% {
+		transform: translate(-34%, -50%) scaleX(.35);
+		opacity: 0;
+	}
+
+	18% {
+		opacity: 1;
+	}
+
+	100% {
+		transform: translate(34%, -50%) scaleX(1);
+		opacity: .18;
+	}
+}
+
+@media (min-width: 720px) {
+	.grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 560px) {
+	.wrap {
+		padding-left: 10px;
+		padding-right: 10px
+	}
+
+	.topHeader {
+		min-height: 112px;
+		border-radius: 24px;
+		padding: 14px 14px;
+	}
+
+	.headerLogo {
+		width: 100%;
+		max-height: 92px;
+	}
+
+	.brandLogo {
+		width: 50px;
+		height: 50px;
+	}
+
+	.title {
+		font-size: 20px;
+	}
+
+	.grid {
+		gap: 12px;
+	}
+
+	.card {
+		min-height: 188px;
+		border-radius: 24px;
+		padding: 18px 12px;
+	}
+
+	.icon {
+		width: 78px;
+		height: 78px;
+		border-radius: 24px;
+		font-size: 30px;
+	}
+
+	.homeSplash {
+		padding: max(18px, var(--safe-top)) 10px max(18px, var(--safe-bottom));
+	}
+
+	.homeSplashPanel {
+		min-height: 100vh;
+		padding: 0;
+	}
+
+	.homeSplashInner {
+		width: 100%;
+		gap: 16px;
+	}
+
+	.homeSplashStage {
+		width: min(94vw, 520px);
+	}
+
+	.homeSplashDock .homeSplash {
+		padding: calc(var(--safe-top) + 12px) 10px 0;
+	}
+
+	.homeSplashDock .homeSplashPanel {
+		width: calc(100vw - 20px);
+		min-height: 112px;
+		padding: 14px;
+		border-radius: 24px;
+	}
+
+	.homeSplashDock .homeSplashStage {
+		width: 100%;
+		max-width: 100%;
+		max-height: 92px;
+	}
+
+	.homeSplashDock .homeSplashHeroLogo {
+		max-height: 92px;
+	}
+}
+
+/* BRMedia local FA6 SVG icon system */
+.brSvgIconHost {
+  --br-icon-primary: #ffffff;
+  --br-icon-secondary: #f2a007;
+  --br-icon-primary-opacity: 1;
+  --br-icon-secondary-opacity: 1;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  color: var(--br-icon-secondary);
+  vertical-align: -0.125em;
+}
+
+.brSvgIconHost::before {
+  content: none !important;
+  display: none !important;
+}
+
+.brSvgIconHost svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+  overflow: visible;
+}
+
+.brSvgIconHost svg .fa-primary {
+  fill: var(--br-icon-primary) !important;
+  opacity: var(--br-icon-primary-opacity) !important;
+}
+
+.brSvgIconHost svg .fa-secondary {
+  fill: var(--br-icon-secondary) !important;
+  opacity: var(--br-icon-secondary-opacity) !important;
+}
+
+.brSvgIconHost svg path:not(.fa-primary):not(.fa-secondary),
+.brSvgIconHost svg polygon:not(.fa-primary):not(.fa-secondary),
+.brSvgIconHost svg circle:not(.fa-primary):not(.fa-secondary),
+.brSvgIconHost svg rect:not(.fa-primary):not(.fa-secondary) {
+  fill: currentColor !important;
+}
+
+.card:hover .brSvgIconHost,
+.card:focus-visible .brSvgIconHost {
+  filter: drop-shadow(0 0 8px rgba(242,160,7,.38));
+}
