@@ -15,7 +15,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="DUO Mixer" />
 
-  <link rel="stylesheet" href="/dj-mixer/styles.css?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue" />
+  <link rel="stylesheet" href="/dj-mixer/styles.css?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 
@@ -1277,6 +1277,44 @@
             </button>
           </div>
         </section>
+				
+        <section class="brDjGridOptionGroup">
+          <h3>Grid metronome</h3>
+
+          <div class="brDjGridOptionButtons is-four">
+            <button
+              type="button"
+              data-dj-grid-metronome-level="off"
+            >
+              Off
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-metronome-level="low"
+            >
+              Low
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-metronome-level="mid"
+            >
+              Mid
+            </button>
+
+            <button
+              type="button"
+              data-dj-grid-metronome-level="high"
+            >
+              High
+            </button>
+          </div>
+
+          <p data-dj-grid-metronome-status>
+            Off • turn on to verify the saved grid against the track.
+          </p>
+        </section>
 
         <section class="brDjGridOptionGroup">
           <h3>Tempo segments</h3>
@@ -1388,14 +1426,15 @@
     </section>
   </main>
 	
-  <script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.7/dist/jsmediatags.min.js"></script>
-<script src="/dj-mixer/components/grid.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
-<script src="/dj-mixer/components/grid-editor.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
-<script src="/dj-mixer/engine/spectral-waveform.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
-<script src="/dj-mixer/engine/audio-engine.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
-<script src="/shared/icons.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
-<script src="/dj-mixer/components/library.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
-<script src="/dj-mixer/app.js?v=20260717-dj-restart-shell-v3w2a2-grid-runtime-rescue"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.7/dist/jsmediatags.min.js"></script>
+<script src="/dj-mixer/components/grid.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/dj-mixer/components/grid-editor.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/dj-mixer/engine/spectral-waveform.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/dj-mixer/engine/audio-engine.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/dj-mixer/components/grid-metronome.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/shared/icons.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/dj-mixer/components/library.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/dj-mixer/app.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
 	
 </body>
 </html>

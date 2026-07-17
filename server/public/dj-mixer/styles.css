@@ -12975,3 +12975,123 @@ body.brDjPerformanceBody
   }
 }
 
+/* Patch 3-W2B — synchronized Grid metronome + compact status */
+
+body.brDjPerformanceBody
+  .brDjGridStatus {
+  position: relative;
+  display: block;
+  height: 22px;
+  min-height: 22px;
+  max-height: 22px;
+  overflow: hidden;
+  padding: 0 72px 0 6px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.46rem !important;
+  line-height: 22px;
+  letter-spacing: 0.075em !important;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjGridStatus::after {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  content: "OPTIONS";
+  min-width: 58px;
+  padding: 3px 6px;
+  border:
+    1px solid
+    rgba(123, 216, 255, 0.22);
+  border-radius: 999px;
+  background:
+    rgba(4, 18, 34, 0.94);
+  color:
+    rgba(123, 216, 255, 0.94);
+  font-size: 0.43rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+body.brDjPerformanceBody
+  .brDjGridStatus.is-grid-locked::after {
+  border-color:
+    rgba(255, 184, 58, 0.28);
+  color:
+    rgba(255, 184, 58, 0.96);
+}
+
+body.brDjPerformanceBody
+  [data-dj-grid-metronome-level].is-active {
+  border-color:
+    rgba(255, 174, 35, 0.8) !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 174, 35, 0.34),
+      rgba(144, 79, 0, 0.28)
+    ) !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 0 0 1px
+      rgba(255, 174, 35, 0.12),
+    0 10px 24px
+      rgba(160, 88, 0, 0.2);
+}
+
+@media (max-width: 430px) {
+  body.brDjPerformanceBody
+    .brDjGridPage {
+    grid-template-rows:
+      44px
+      minmax(0, 1fr)
+      224px
+      22px
+      52px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjGridStatus {
+    font-size:
+      0.42rem !important;
+
+    letter-spacing:
+      0.055em !important;
+  }
+}
+
+body.brDjPerformanceBody.brDjAndroid
+  .brDjGridPage {
+  grid-template-rows:
+    38px
+    minmax(0, 1fr)
+    180px
+    18px
+    42px !important;
+}
+
+body.brDjPerformanceBody.brDjAndroid
+  .brDjGridStatus {
+  height: 18px;
+  min-height: 18px;
+  max-height: 18px;
+  padding-right: 62px;
+  font-size: 0.39rem !important;
+  line-height: 18px;
+}
+
+body.brDjPerformanceBody.brDjAndroid
+  .brDjGridStatus::after {
+  min-width: 50px;
+  padding: 2px 5px;
+  font-size: 0.38rem;
+}
+
