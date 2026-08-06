@@ -15,7 +15,8 @@
   <meta name="apple-mobile-web-app-title" content="DJ Studio" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-  <link rel="stylesheet" href="/dj-mixer/styles.css?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status" />
+  <link rel="stylesheet" href="/dj-mixer/styles.css?v=20260803-m25-no-fallback" />
+  <link rel="stylesheet" href="/dj-mixer/mixxx-catalogue-m21.css?v=20260801-m22-1-production" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 
@@ -75,12 +76,61 @@
                 <span class="sidebarNavBtnSub">Build the running order.</span>
               </span>
             </button>
+						
+            <button
+              class="sidebarNavBtn sidebarQuickTile"
+              data-route="/dj-mixer/performance.html?library=prep&amp;from=studio"
+              type="button"
+            >
+              <span class="sidebarNavIconBadge">
+                <i class="fa-duotone fa-music-magnifying-glass"></i>
+              </span>
+
+              <span class="sidebarNavText">
+                <span class="sidebarNavBtnTitle">
+                  Track Library
+                </span>
+
+                <span class="sidebarNavBtnSub">
+                  Scan, analyse and prepare tracks before opening a deck.
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="sidebarNavBtn sidebarQuickTile"
+              data-route="/dj-mixer/guest-upload.html"
+              type="button"
+            >
+              <span class="sidebarNavIconBadge"><i class="fa-duotone fa-cloud-arrow-up"></i></span>
+              <span class="sidebarNavText">
+                <span class="sidebarNavBtnTitle">Upload Guest Track</span>
+                <span class="sidebarNavBtnSub">Transfer and validate temporary audio from iPhone or Android.</span>
+              </span>
+            </button>
 
             <button class="sidebarNavBtn sidebarQuickTile" data-dj-view-link="fx-setup" type="button">
               <span class="sidebarNavIconBadge"><i class="fa-duotone fa-sliders-up"></i></span>
               <span class="sidebarNavText">
                 <span class="sidebarNavBtnTitle">FX Boards</span>
                 <span class="sidebarNavBtnSub">Choose up to 9 effects per board.</span>
+              </span>
+            </button>
+						
+            <button
+              class="sidebarNavBtn sidebarQuickTile"
+              data-dj-view-link="recordings"
+              type="button"
+            >
+              <span class="sidebarNavIconBadge">
+                <i class="fa-duotone fa-album-collection"></i>
+              </span>
+
+              <span class="sidebarNavText">
+                <span class="sidebarNavBtnTitle">Recordings</span>
+                <span class="sidebarNavBtnSub">
+                  Completed mixes, processing jobs and recovery.
+                </span>
               </span>
             </button>
 
@@ -211,6 +261,15 @@
                 <i class="fa-duotone fa-record-vinyl"></i>
                 <span>Open DUO Performance</span>
               </a>
+							
+              <button
+                class="brDjButton"
+                data-route="/dj-mixer/performance.html?library=prep&amp;from=studio"
+                type="button"
+              >
+                <i class="fa-duotone fa-music-magnifying-glass"></i>
+                <span>Prepare Track Library</span>
+              </button>
 
               <button class="brDjButton" data-dj-view-link="engine" type="button">
                 <i class="fa-duotone fa-list-check"></i>
@@ -278,18 +337,32 @@
             </article>
 
             <article class="brDjShowCard">
-              <div class="brDjShowArt"><i class="fa-duotone fa-compact-disc"></i></div>
-              <div class="brDjShowMeta">
-                <p class="brDjEyebrow">Past show</p>
-                <h3>Finished mix placeholder</h3>
-                <span>Saved recordings will appear here with Player, Mastering, Converter, Tagger and View Files actions.</span>
+              <div class="brDjShowArt">
+                <i class="fa-duotone fa-album-collection-circle-plus"></i>
               </div>
+
+              <div class="brDjShowMeta">
+                <p class="brDjEyebrow">Recording archive</p>
+                <h3>Saved DJ recordings</h3>
+                <span>
+                  Open completed mixes, processing jobs, failed recordings and server recovery copies.
+                </span>
+              </div>
+
               <div class="brDjShowActions">
-                <a href="/player">Player</a>
-                <a href="/mastering">Mastering</a>
-                <a href="/converter">Converter</a>
-                <a href="/tagger">Tagger</a>
-                <button data-dj-view-link="mix-setup" type="button">Edit setup</button>
+                <button
+                  data-dj-view-link="recordings"
+                  type="button"
+                >
+                  Open Recordings
+                </button>
+
+                <button
+                  data-dj-view-link="record-setup"
+                  type="button"
+                >
+                  Record Setup
+                </button>
               </div>
             </article>
 
@@ -307,6 +380,121 @@
                 <a href="/settings?module=dj-mixer&amp;tab=overview">Settings</a>
               </div>
             </article>
+          </div>
+        </section>
+				
+        <section
+          class="brDjPanel brDjRecordingsArchivePanel"
+          data-dj-studio-view="recordings"
+          aria-labelledby="djRecordingsArchiveTitle"
+        >
+          <div class="brDjRecordingsArchiveHero">
+            <div>
+              <p class="brDjEyebrow">DJ Recording Archive</p>
+              <h2 id="djRecordingsArchiveTitle">Recordings</h2>
+              <p>
+                Completed mixes, active finalisations, failed jobs and recoverable server recordings.
+              </p>
+            </div>
+
+            <button
+              class="brDjButton"
+              data-dj-recordings-refresh
+              type="button"
+            >
+              <i class="fa-duotone fa-arrows-rotate"></i>
+              <span>Refresh</span>
+            </button>
+          </div>
+
+          <div class="brDjRecordingArchiveSummary">
+            <article>
+              <span>Ready</span>
+              <strong data-dj-recordings-count="ready">0</strong>
+            </article>
+
+            <article>
+              <span>Processing</span>
+              <strong data-dj-recordings-count="processing">0</strong>
+            </article>
+
+            <article>
+              <span>Failed</span>
+              <strong data-dj-recordings-count="failed">0</strong>
+            </article>
+
+            <article>
+              <span>Recoverable</span>
+              <strong data-dj-recordings-count="recovery">0</strong>
+            </article>
+          </div>
+
+          <div
+            class="brDjRecordingArchiveFilters"
+            role="group"
+            aria-label="Recording archive filter"
+          >
+            <button
+              class="is-active"
+              data-dj-recordings-filter="all"
+              type="button"
+            >
+              All
+            </button>
+
+            <button
+              data-dj-recordings-filter="ready"
+              type="button"
+            >
+              Ready
+            </button>
+
+            <button
+              data-dj-recordings-filter="processing"
+              type="button"
+            >
+              Processing
+            </button>
+
+            <button
+              data-dj-recordings-filter="failed"
+              type="button"
+            >
+              Failed
+            </button>
+
+            <button
+              data-dj-recordings-filter="recovery"
+              type="button"
+            >
+              Recovery
+            </button>
+          </div>
+
+          <div
+            class="brDjRecordingArchiveNotice"
+            data-dj-recordings-notice
+            role="status"
+            aria-live="polite"
+          >
+            Open the archive to load recordings.
+          </div>
+
+          <div
+            class="brDjRecordingArchiveGrid"
+            data-dj-recordings-list
+          ></div>
+
+          <div
+            class="brDjRecordingArchiveEmpty"
+            data-dj-recordings-empty
+            hidden
+          >
+            <i class="fa-duotone fa-waveform-lines"></i>
+            <strong>No recordings in this section</strong>
+            <span>
+              Finished DJ recordings will appear here after server finalisation and permanent archiving.
+            </span>
           </div>
         </section>
 
@@ -1195,14 +1383,28 @@
     </main>
   </div>
 
-<script src="/dj-mixer/components/grid.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/components/grid-editor.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/engine/spectral-waveform.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/engine/audio-engine.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/components/grid-metronome.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/shared/icons.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/components/library.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/app.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/dj-mixer/components/grid.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/grid-editor.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/engine/waveform-clock-m12.js?v=20260728-m12-waveform-foundation"></script>
+<script src="/dj-mixer/engine/waveform-runtime-m13.js?v=20260729-m15-waveform-validation"></script>
+<script src="/dj-mixer/engine/m24-waveform-authority.js?v=20260802-m24-waveform-authority"></script>
+<script src="/dj-mixer/engine/m25-grid-authority.js?v=20260802-m25-grid-identity-fix"></script>
+<script src="/dj-mixer/engine/m25-live-readouts.js?v=20260803-m25-final-readouts"></script>
+<script src="/dj-mixer/engine/spectral-waveform.js?v=20260729-m15-waveform-validation"></script>
+<script src="/dj-mixer/components/grid-analysis.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/fx-engine.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/engine/audio-engine.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/engine/m26-pcm-http-transport.js?v=20260803-m26-audio"></script>
+<script src="/dj-mixer/engine/m26-master-receiver.js?v=20260803-m26-audio"></script>
+<script src="/dj-mixer/engine/m26-master-audio-controller.js?v=20260804-m26-peer-recovery"></script>
+<script src="/dj-mixer/components/grid-metronome.js?v=20260802-m25-grid"></script>
+<script src="/shared/icons.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/library.js?v=20260801-m22-part3-lan-fix"></script>
+<script src="/dj-mixer/components/mixxx-backend-m3.js?v=20260802-m25-physical-fix"></script>
+<script src="/dj-mixer/app.js?v=20260803-m25-visual-cleanup"></script>
+<script src="/dj-mixer/components/mixxx-catalogue-m21.js?v=20260801-m22-1-production"></script>
+<script src="/dj-mixer/components/collections-setplans-m22.js?v=20260801-m22-1-production"></script>
+<script src="/dj-mixer/components/analysis-queue-m9.js?v=20260729-mixxx-m9-analysis-regeneration"></script>
 
 </body>
 </html>

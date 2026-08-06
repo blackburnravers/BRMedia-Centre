@@ -1,13 +1,5 @@
-# Tagger
+# Tagger module boundary
 
-Fast tagging for audio files (templates, batch edits, artwork).
+This directory is an early module scaffold retained to describe the Tagger boundary. The active Tagger is server-hosted under `server/public/tagger` with backend catalogue/media services under `server/src`; this directory is not independently deployed.
 
-## Goals
-- Batch edit ID3/metadata
-- Tag templates (e.g. “Hardcore Medley” defaults)
-- Artwork import/replace (single + batch)
-- Filename → tag parsing rules
-- Clean export + validation warnings
-
-## Notes
-Scaffold only for now.
+Current capability includes metadata editing, artwork, filename/tag workflows and batch-oriented operations. Never test tagging against production media without explicit approval. See the [module inventory](../../README.md#current-status).

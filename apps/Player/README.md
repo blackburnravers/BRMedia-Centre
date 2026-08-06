@@ -1,12 +1,5 @@
-# Player
+# Audio Player module boundary
 
-Evermusic-style player with **server-first streaming** for long mixes.
+This directory is an early module scaffold retained to describe the Audio Player boundary. The active mobile-first Player is server-hosted under `server/public/player` and backed by the TypeScript server; this directory is not independently deployed.
 
-## Goals
-- Server-first playback (preferred for long mixes)
-- Range streaming support
-- Sources: server library, Google Drive, local (future)
-- Player settings: seek/rewind behaviours, cache rules, etc.
-
-## Notes
-Scaffold only for now.
+Current capability includes server-first range streaming for long mixes, queue/playlists/tracklists, library sources, artwork and mobile playback behaviour for iPhone Safari/PWA with Android Chrome/PWA as a support target. See the [module inventory](../../README.md#current-status).

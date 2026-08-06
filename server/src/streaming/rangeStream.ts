@@ -9,6 +9,7 @@ type StreamOpts = {
   maxChunkBytes?: number;
   cacheControl?: string;
   etag?: string;
+  onAborted?: () => void;
 };
 
 export function streamFileWithRange(
@@ -24,38 +25,105 @@ export function streamFileWithRange(
   const method = String(req.method || "GET").toUpperCase();
   const maxChunkBytes = Math.max(0, Number(opts?.maxChunkBytes || 0));
 
-  const pipeRange = (start: number, end: number) => {
-    const stream = fs.createReadStream(absPath, {
-      start,
-      end,
-      highWaterMark: 512 * 1024,
-    });
+  const pipeRange = (
+    start: number,
+    end: number
+  ) => {
+    const stream =
+      fs.createReadStream(
+        absPath,
+        {
+          start,
+          end,
 
-    const closeStream = () => {
-      try {
-        stream.destroy();
-      } catch {}
+          highWaterMark:
+            512 * 1024,
+        }
+      );
+
+    const cleanup = () => {
+      req.off(
+        "aborted",
+        closeStream
+      );
+
+      res.off(
+        "close",
+        closeStream
+      );
+
+      res.off(
+        "error",
+        closeStream
+      );
     };
 
-    req.on("close", closeStream);
-    res.on("close", closeStream);
-
-    stream.on("error", (err) => {
-      if (!res.headersSent) {
-        res.statusCode = 500;
-        res.end("Stream error");
-        return;
-      }
-
+    const closeStream = () => {
+      cleanup();
       try {
-        res.destroy(err);
+        opts?.onAborted?.();
       } catch {}
-    });
 
-    stream.on("end", () => {
-      req.off("close", closeStream);
-      res.off("close", closeStream);
-    });
+      if (!stream.destroyed) {
+        try {
+          stream.destroy();
+        } catch {}
+      }
+    };
+
+    /*
+      IncomingMessage "close" can fire after
+      the request has completed while the
+      response file is still being streamed.
+
+      Only an actual aborted request should
+      cancel the source file stream.
+    */
+    req.once(
+      "aborted",
+      closeStream
+    );
+
+    res.once(
+      "close",
+      closeStream
+    );
+
+    res.once(
+      "error",
+      closeStream
+    );
+
+    stream.on(
+      "error",
+      (err) => {
+        cleanup();
+
+        if (!res.headersSent) {
+          res.statusCode = 500;
+
+          res.end(
+            "Stream error"
+          );
+
+          return;
+        }
+
+        try {
+          res.destroy(err);
+        } catch {}
+      }
+    );
+
+    stream.once(
+      "end",
+      cleanup
+    );
+
+    stream.once(
+      "close",
+      cleanup
+    );
 
     stream.pipe(res);
   };
@@ -149,10 +217,31 @@ export function streamFileWithRange(
   const startStr = match[1];
   const endStr = match[2];
 
-  let start = startStr ? Number(startStr) : 0;
-  let end = endStr ? Number(endStr) : total - 1;
+  let start: number;
+  let end: number;
+  if (!startStr && endStr) {
+    const suffixLength = Number(endStr);
+    if (!Number.isSafeInteger(suffixLength) || suffixLength <= 0) {
+      res.statusCode = 416;
+      res.setHeader("Content-Range", `bytes */${total}`);
+      res.end();
+      return;
+    }
+    start = Math.max(0, total - suffixLength);
+    end = total - 1;
+  } else {
+    start = Number(startStr);
+    end = endStr ? Number(endStr) : total - 1;
+  }
 
-  if (Number.isNaN(start) || Number.isNaN(end) || start > end || start >= total) {
+  if (
+    !Number.isSafeInteger(start) ||
+    !Number.isSafeInteger(end) ||
+    start < 0 ||
+    end < 0 ||
+    start > end ||
+    start >= total
+  ) {
     res.statusCode = 416;
     res.setHeader("Content-Range", `bytes */${total}`);
     res.end();

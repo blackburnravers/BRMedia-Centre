@@ -1,94 +1,29 @@
 {
   "state": {
-    "queue": [
-      {
-        "id": "trk_19e785eb427_c02eff183358b8",
-        "title": "Androidcore v14.0",
-        "source": "local",
-        "locator": "C:\\DJMixes\\Test\\upalnite_androidcore_v14.0.mp3",
-        "mimeType": "audio/mpeg",
-        "sizeBytes": 279541865,
-        "sourceOnline": true,
-        "sourceStatus": "online",
-        "artist": "Upalnite",
-        "album": "Androidcore EP",
-        "albumArtist": "Upalnite",
-        "genre": "UK Hardcore",
-        "comment": "",
-        "year": 2025,
-        "duration": 6973.910204081632,
-        "bitrate": 320000,
-        "sampleRate": 44100,
-        "numberOfChannels": 2,
-        "codec": "MPEG 1 Layer 3",
-        "hasArtwork": true,
-        "brmediaTags": {},
-        "bpm": 184,
-        "label": null,
-        "key": null,
-        "country": null,
-        "trackNumber": "1",
-        "discNumber": "1",
-        "hasPicture": true,
-        "advancedTags": {
-          "composer": "Various",
-          "encoded_by": "WavePad © NCH Software",
-          "TENC": "WavePad © NCH Software",
-          "TSSE": "Lavf58.76.100",
-          "disc": "1",
-          "TPE2": "Upalnite",
-          "TPE1": "Upalnite",
-          "TIT2": "Androidcore v14.0 - The Circus Master",
-          "TCOM": "Various",
-          "track": "1",
-          "TBPM": "184",
-          "TALB": "Androidcore EP",
-          "TYER": "2025",
-          "TCON": "UK Hardcore"
-        },
-        "mixBadge": "up",
-        "subtitle": "Upalnite • Androidcore EP",
-        "searchText": "androidcore v14.0 upalnite androidcore ep upalnite uk hardcore trk_19e785eb427_c02eff183358b8 local",
-        "bookmarkKey": "C:\\DJMixes\\Test\\upalnite_androidcore_v14.0.mp3"
-      }
-    ],
-    "queueIndex": 0,
-    "lastTrackId": "trk_19e785eb427_c02eff183358b8",
-    "lastTime": 6974.589387755102,
+    "queue": [],
+    "queueIndex": -1,
+    "lastTrackId": "",
+    "lastTime": 0,
     "shuffle": false,
     "repeatMode": "off",
-    "miniPlayerCollapsed": false,
-    "savedAt": 1784104590669
+    "miniPlayerCollapsed": true,
+    "savedAt": 1785892510928
   },
   "position": {
     "id": "trk_19e785eb427_c02eff183358b8",
     "title": "Androidcore v14.0",
     "artist": "Upalnite",
-    "time": 6974.589387755102,
-    "duration": 6974.589387755102,
-    "savedAt": 1784104590667
+    "time": 6971.7722448,
+    "duration": 6974.772244897959,
+    "savedAt": 1782855956646
   },
   "trackProgress": {
     "trk_19e785eb427_c02eff183358b8": {
-      "time": 6974.589387755102,
-      "duration": 6974.589387755102,
-      "percent": 100,
+      "time": 6971.7722448,
+      "duration": 6974.772244897959,
+      "percent": 99.95698784142874,
       "complete": true,
-      "savedAt": 1784104590667
-    },
-    "trk_19e785eb418_a1e9237050747": {
-      "time": 2958.8210319676714,
-      "duration": 4988.368979591837,
-      "percent": 59.314398034160064,
-      "complete": false,
-      "savedAt": 1784082997317
-    },
-    "trk_19e785eb420_65cac93416095": {
-      "time": 1277.4357507229647,
-      "duration": 8014.6808163265305,
-      "percent": 15.938697747273084,
-      "complete": false,
-      "savedAt": 1783644959962
+      "savedAt": 1782855956646
     },
     "trk_19e785eb40e_3c426885a87b9": {
       "time": 184.308,
@@ -637,5 +572,5 @@
       "savedAt": 1777866210597
     }
   },
-  "savedAt": 1784104589643
+  "savedAt": 1785892505841
 }

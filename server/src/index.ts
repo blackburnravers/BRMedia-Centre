@@ -1,4 +1,5 @@
 import http from "node:http";
+import net from "node:net";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -9,7 +10,12 @@ import { applyCors } from "./middleware/cors";
 import { json as rawJson } from "./utils/json";
 import { handleApiRoute } from "./api/router";
 import { streamFileWithRange } from "./streaming/rangeStream";
-import { getDjPerformanceCopyStatus } from "./djPerformance";
+import { MixxxMasterStreamManager, MasterStreamError } from "./mixxxMasterStream";
+import { WasapiLoopbackCaptureFactory } from "./mixxxMasterCapture";
+import { MixxxWebRtcSidecar } from "./mixxxWebRtcSidecar";
+import { MixxxGStreamerWebRtc, parseMixxxMediaTransport } from "./mixxxGStreamerWebRtc";
+import { resolveM26DjPerformanceContext } from "./mixxxM26DjTrust";
+import { mixxxMidiBridge } from "./mixxxBridge";
 import {
   addLocalFileToLibraryWithMetadata,
   backfillMissingAudioLibraryMetadata,
@@ -20,6 +26,7 @@ import {
   listLibrary,
   removeLibraryItemsUnderRoot,
   syncAudioLibraryFromRoots,
+  syncAudioLibraryFromRootsYielding,
 } from "./db/library";
 import * as mm from "music-metadata";
 import { validateLocalPathAllowed } from "./sources/local/validateLocalPathAllowed";
@@ -1432,6 +1439,242 @@ function getCurrentBrMediaProfile(req: http.IncomingMessage) {
   if (!user) return null;
 
   return { store, user, session, token };
+}
+
+const mixxxMasterCapture = new WasapiLoopbackCaptureFactory({
+  projectRoot: BRMEDIA_PROJECT_ROOT,
+  endpointId: process.env.BRMEDIA_MIXXX_MASTER_ENDPOINT,
+});
+
+const mixxxMasterStream = new MixxxMasterStreamManager({
+  capture: mixxxMasterCapture,
+  allowedOrigins: [],
+  // The HTTP boundary below additionally requires the Origin host to match
+  // this request's Host header. This callback only validates URL shape.
+  originAllowed: (origin) => /^https?:\/\/[^/]+$/i.test(origin),
+  maxListeners: 2,
+  sessionTtlMs: 60_000,
+  idleStopMs: 30_000,
+  // At most 200 ms can wait behind observable child-stdin backpressure.
+  maxQueueBytes: 38_400,
+  maxCaptureRestarts: 3,
+});
+const mixxxWebRtcSidecar = new MixxxWebRtcSidecar(BRMEDIA_PROJECT_ROOT);
+// Internal-only M26 selector. Change the environment value to custom-webrtc for immediate rollback.
+const mixxxMediaTransport = parseMixxxMediaTransport(process.env.BRMEDIA_MIXXX_MEDIA_TRANSPORT || "gstreamer-webrtc");
+const mixxxGStreamerWebRtc = new MixxxGStreamerWebRtc(BRMEDIA_PROJECT_ROOT);
+const m26GStreamerUpgradeTokens = new Map<string, { sessionId: string; ownerId: string; expiresAt: number }>();
+const m26RealBrowserDiagnostics = new Map<string, any>();
+const m26IceEvidence = new Map<string, any>();
+process.once("exit", () => { mixxxMasterStream.stop(); mixxxWebRtcSidecar.stopNow(); mixxxGStreamerWebRtc.stopNow(); });
+
+function requireM26SameOrigin(req: http.IncomingMessage) {
+  const host = String(req.headers.host || "").toLowerCase();
+  const originHeader = String(req.headers.origin || "");
+  const fetchSite = String(req.headers["sec-fetch-site"] || "").toLowerCase();
+  const refererHeader = String(req.headers.referer || "");
+  // Safari may omit Origin on a same-origin GET (status and PCM attachment).
+  // Accept its Referer only when Fetch Metadata independently says same-origin;
+  // state-changing session requests still require the CSRF marker below.
+  const raw = originHeader || (fetchSite === "same-origin" ? refererHeader : "");
+  try {
+    const origin = new URL(raw);
+    if (!host || !["http:", "https:"].includes(origin.protocol) || origin.host.toLowerCase() !== host) {
+      throw new Error("origin mismatch");
+    }
+    return origin.origin;
+  } catch {
+    throw new MasterStreamError("invalid_origin", "A matching BRMedia origin is required");
+  }
+}
+
+function requireM26RequestedWith(req: http.IncomingMessage) {
+  if (String(req.headers["x-brmedia-requested-with"] || "") !== "dj-mixer-m26") {
+    throw new MasterStreamError("csrf_rejected", "The BRMedia request marker is required");
+  }
+}
+
+function requireM26DjPerformanceContext(req: http.IncomingMessage, origin: string) {
+  return resolveM26DjPerformanceContext(req.headers, origin);
+}
+
+function m26StreamErrorStatus(error: unknown) {
+  if (!(error instanceof MasterStreamError)) return 500;
+  if (error.code === "unauthenticated") return 401;
+  if (["forbidden", "invalid_origin", "csrf_rejected"].includes(error.code)) return 403;
+  if (["not_found", "stale_session"].includes(error.code)) return 404;
+  if (["listener_limit", "already_attached"].includes(error.code)) return 409;
+  if (error.code === "rate_limited") return 429;
+  return 400;
+}
+
+async function handleM26MasterStreamRoute(req: http.IncomingMessage, res: http.ServerResponse, url: URL) {
+  if (!url.pathname.startsWith("/api/dj/mixxx/master-stream")) return false;
+  res.setHeader("Cache-Control", "private, no-store");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  try {
+    const origin = requireM26SameOrigin(req);
+    const djContext = requireM26DjPerformanceContext(req, origin);
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+
+    if (req.method === "GET" && url.pathname === "/api/dj/mixxx/master-stream/status") {
+      const bridge = mixxxMidiBridge.status();
+      return json(res, 200, {
+        ok: true,
+        stream: mixxxMasterStream.diagnostics(),
+        capture: mixxxMasterCapture.diagnostics(),
+        webRtcSidecar: mixxxWebRtcSidecar.diagnostics(),
+        mediaTransport: { effective: mixxxMediaTransport, allowed: ["custom-webrtc", "gstreamer-webrtc"],
+          customWebRtc: { ...mixxxWebRtcSidecar.diagnostics(), active: mixxxMediaTransport === "custom-webrtc" && mixxxWebRtcSidecar.diagnostics().state === "running" },
+          gstreamerWebRtc: mixxxGStreamerWebRtc.diagnostics() },
+        sidecarRuntime: await mixxxWebRtcSidecar.remoteDiagnostics(),
+        djSession: { detected: true, ownerSource: djContext.ownerSource },
+        realBrowser: m26RealBrowserDiagnostics.get(djContext.ownerId) || null,
+        realBrowsers: [...m26RealBrowserDiagnostics.values()].slice(-2),
+        iceEvidence: [...m26IceEvidence.values()].slice(-4),
+        mixxxReady: bridge.effectiveBackend === "mixxx" && bridge.connected === true &&
+          bridge.heartbeatHealthy === true && bridge.stale !== true,
+      });
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/dj/mixxx/master-stream/webrtc/client-telemetry") {
+      requireM26RequestedWith(req); const body = await readJsonBody(req, 96 * 1024);
+      const receivedAt = Date.now();
+      const telemetry = body && typeof body === "object" ? body : {};
+      const diagnostic = { receivedAt, trustedOwner: djContext.ownerId.slice(0, 19),
+        ownerSource: djContext.ownerSource,
+        userAgent: String(req.headers["user-agent"] || "").slice(0, 500), remoteAddress: String(req.socket.remoteAddress || "").slice(0, 100),
+        telemetry };
+      m26RealBrowserDiagnostics.set(djContext.ownerId, diagnostic);
+      const receiverId = String(telemetry?.browser?.receiverIdentity || "unknown").slice(0, 128);
+      const sessionId = String(telemetry?.browser?.sessionId || "pending").slice(0, 128);
+      const evidenceKey = `${djContext.ownerId}:${receiverId}:${sessionId}`;
+      const previous = m26IceEvidence.get(evidenceKey);
+      m26IceEvidence.set(evidenceKey, { ...diagnostic, firstReceivedAt: previous?.firstReceivedAt || receivedAt,
+        lastReceivedAt: receivedAt, sampleCount: Number(previous?.sampleCount || 0) + 1 });
+      while (m26IceEvidence.size > 4) m26IceEvidence.delete(m26IceEvidence.keys().next().value as string);
+      return json(res, 200, { ok: true, receivedAt });
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/dj/mixxx/master-stream/webrtc/sessions") {
+      requireM26RequestedWith(req);
+      if (mixxxMediaTransport !== "custom-webrtc") return json(res, 409, { ok: false, code: "transport_inactive", error: "custom-webrtc is inactive" });
+      await mixxxGStreamerWebRtc.stop();
+      const bridge = mixxxMidiBridge.status();
+      if (bridge.effectiveBackend !== "mixxx" || bridge.connected !== true ||
+          bridge.heartbeatHealthy !== true || bridge.stale === true) {
+        return json(res, 409, { ok: false, code: "mixxx_unavailable", error: "Mixxx master authority is unavailable" });
+      }
+      const body = await readJsonBody(req, 512 * 1024);
+      const offer = String(body?.offer?.sdp || body?.sdp || "");
+      if (body?.offer?.type !== "offer" || !offer.startsWith("v=0") || offer.length > 256 * 1024) {
+        return json(res, 400, { ok: false, code: "invalid_offer", error: "A bounded WebRTC offer is required" });
+      }
+      const session = mixxxMasterStream.createSession({ authenticated: true, profileId: djContext.ownerId, origin, remoteAddress: req.socket.remoteAddress || "" });
+      try {
+        const answer = await mixxxWebRtcSidecar.createSession(session.id, offer, djContext.ownerId, () => {
+          try { mixxxMasterStream.disconnect(session.id, djContext.ownerId); } catch {}
+        });
+        mixxxMasterStream.attach(session.id, session.token, djContext.ownerId, origin, mixxxWebRtcSidecar.sink(session.id));
+        return json(res, 201, { ok: true, session: { id: session.id, token: session.token, expiresAt: session.expiresAt, transport: "webrtc", answer } });
+      } catch (error) {
+        try { mixxxMasterStream.disconnect(session.id, djContext.ownerId); } catch {}
+        await mixxxWebRtcSidecar.closeSession(session.id).catch(() => {});
+        throw error;
+      }
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/dj/mixxx/master-stream/gstreamer/sessions") {
+      requireM26RequestedWith(req);
+      if (mixxxMediaTransport !== "gstreamer-webrtc") return json(res, 409, { ok: false, code: "transport_inactive", error: "gstreamer-webrtc is inactive" });
+      const bridge = mixxxMidiBridge.status();
+      if (bridge.effectiveBackend !== "mixxx" || bridge.connected !== true || bridge.heartbeatHealthy !== true || bridge.stale === true) {
+        return json(res, 409, { ok: false, code: "mixxx_unavailable", error: "Mixxx master authority is unavailable" });
+      }
+      await mixxxWebRtcSidecar.stop();
+      const session = mixxxMasterStream.createSession({ authenticated: true, profileId: djContext.ownerId, origin, remoteAddress: req.socket.remoteAddress || "" });
+      try {
+        await mixxxGStreamerWebRtc.acquire(session.id);
+        const upgradeToken = crypto.randomBytes(32).toString("base64url");
+        m26GStreamerUpgradeTokens.set(upgradeToken, { sessionId: session.id, ownerId: djContext.ownerId, expiresAt: Date.now() + 60_000 });
+        return json(res, 201, { ok: true, session: { id: session.id, token: session.token, expiresAt: session.expiresAt,
+          transport: "gstreamer-webrtc", signallingEndpoint: `/api/dj/mixxx/master-stream/gstreamer/signalling?token=${upgradeToken}` } });
+      } catch (error) { try { mixxxMasterStream.disconnect(session.id, djContext.ownerId); } catch {} throw error; }
+    }
+
+    const gstSessionMatch = url.pathname.match(/^\/api\/dj\/mixxx\/master-stream\/gstreamer\/sessions\/([A-Za-z0-9_-]{16,64})$/);
+    if (gstSessionMatch && req.method === "DELETE") {
+      requireM26RequestedWith(req); const id = gstSessionMatch[1];
+      mixxxMasterStream.disconnect(id, djContext.ownerId); await mixxxGStreamerWebRtc.release(id);
+      for (const [token, value] of m26GStreamerUpgradeTokens) if (value.sessionId === id) m26GStreamerUpgradeTokens.delete(token);
+      return json(res, 200, { ok: true, stopped: true });
+    }
+
+    const webRtcMatch = url.pathname.match(/^\/api\/dj\/mixxx\/master-stream\/webrtc\/sessions\/([A-Za-z0-9_-]{16,64})$/);
+    if (webRtcMatch && req.method === "DELETE") {
+      requireM26RequestedWith(req); const id = webRtcMatch[1];
+      mixxxMasterStream.disconnect(id, djContext.ownerId); await mixxxWebRtcSidecar.closeSession(id);
+      return json(res, 200, { ok: true, stopped: true });
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/dj/mixxx/master-stream/sessions") {
+      requireM26RequestedWith(req);
+      const bridge = mixxxMidiBridge.status();
+      if (bridge.effectiveBackend !== "mixxx" || bridge.connected !== true ||
+          bridge.heartbeatHealthy !== true || bridge.stale === true) {
+        return json(res, 409, { ok: false, code: "mixxx_unavailable", error: "Mixxx master authority is unavailable" });
+      }
+      const session = mixxxMasterStream.createSession({ authenticated: true, profileId: djContext.ownerId, origin, remoteAddress: req.socket.remoteAddress || "" });
+      return json(res, 201, {
+        ok: true,
+        session: {
+          id: session.id,
+          token: session.token,
+          expiresAt: session.expiresAt,
+          endpoint: `/api/dj/mixxx/master-stream/sessions/${encodeURIComponent(session.id)}/audio`,
+        },
+      });
+    }
+
+    const match = url.pathname.match(/^\/api\/dj\/mixxx\/master-stream\/sessions\/([A-Za-z0-9_-]{16,64})(\/audio|\/telemetry)?$/);
+    if (!match) return json(res, 404, { ok: false, code: "not_found", error: "Stream route not found" });
+    const id = match[1];
+    if (req.method === "DELETE" && !match[2]) {
+      requireM26RequestedWith(req);
+      mixxxMasterStream.disconnect(id, djContext.ownerId);
+      return json(res, 200, { ok: true, stopped: true });
+    }
+    if (req.method === "GET" && match[2] === "/audio") {
+      const bearer = String(req.headers.authorization || "").match(/^Bearer\s+([A-Za-z0-9_-]{32,512})$/)?.[1] || "";
+      res.statusCode = 200; res.setHeader("Content-Type", "application/vnd.brmedia.pcm"); res.setHeader("Connection", "keep-alive");
+      const removeDrain = (callback: () => void) => { res.on("drain", callback); return () => res.off("drain", callback); };
+      mixxxMasterStream.attach(id, bearer, djContext.ownerId, origin, {
+        write: (chunk) => res.write(chunk), end: (error) => { if (res.writableEnded || res.destroyed) return; if (error) res.destroy(error); else res.end(); }, onDrain: removeDrain,
+      });
+      req.once("close", () => { try { mixxxMasterStream.disconnect(id, djContext.ownerId); } catch {} });
+      return true;
+    }
+    if (req.method === "POST" && match[2] === "/telemetry") {
+      requireM26RequestedWith(req);
+      const bearer = String(req.headers.authorization || "").match(/^Bearer\s+([A-Za-z0-9_-]{32,512})$/)?.[1] || "";
+      const body = await readJsonBody(req);
+      mixxxMasterStream.recordClientTelemetry(id, bearer, djContext.ownerId, origin, body || {});
+      if (mixxxMediaTransport === "gstreamer-webrtc") mixxxGStreamerWebRtc.touch(id);
+      return json(res, 200, { ok: true });
+    }
+    return json(res, 405, { ok: false, code: "method_not_allowed", error: "Method not allowed" });
+  } catch (error: any) {
+    if (res.headersSent) {
+      try { res.destroy(error instanceof Error ? error : new Error(String(error))); } catch {}
+      return true;
+    }
+    return json(res, m26StreamErrorStatus(error), {
+      ok: false,
+      code: error instanceof MasterStreamError ? error.code : "stream_failure",
+      error: error instanceof Error ? error.message : "Master stream request failed",
+    });
+  }
 }
 
 function createBrMediaProfileSession(store: any, userId: string) {
@@ -4537,7 +4780,7 @@ async function getQbitTorrentFiles(hash: string) {
     torrent: torrent || { id: hash, hash, name: hash },
     files,
     targets: {
-      audioRoot: path.resolve(getDefaultLibrarySourcePath("audio") || "C:\\DJMixes"),
+      audioRoot: path.resolve(getDefaultLibrarySourcePath("audio") || "H:\\Music"),
       videoRoot: path.resolve(getDefaultLibrarySourcePath("video") || "C:\\Videos"),
     },
   };
@@ -4799,7 +5042,7 @@ async function handoffTorrentFileToLibrary(hash: string, raw: any) {
 
   const sourcePath = resolveTorrentFilePath(filesPayload.torrent, file);
   const targetRoot = target === "audio"
-    ? path.resolve(getDefaultLibrarySourcePath("audio") || "C:\\DJMixes")
+    ? path.resolve(getDefaultLibrarySourcePath("audio") || "H:\\Music")
     : target === "video"
       ? path.resolve(getDefaultLibrarySourcePath("video") || "C:\\Videos")
       : "";
@@ -10925,7 +11168,12 @@ function refreshRuntimeAllowedBases() {
 function runAudioLibrarySync(reason = "automatic") {
   const result = syncAudioLibraryFromRoots(getAudioLibraryRoots());
 
-  if (result.addedItems.length) {
+  return finishAudioLibrarySync(result, reason);
+}
+
+function finishAudioLibrarySync(result: ReturnType<typeof syncAudioLibraryFromRoots>, reason: string) {
+
+  if (result.addedItems.length && reason !== "startup") {
     void backfillMissingAudioLibraryMetadata(result.addedItems).catch((err: any) => {
       console.warn(`[BRMedia Server] audio metadata backfill failed: ${String(err?.message || err)}`);
     });
@@ -10943,6 +11191,11 @@ function runAudioLibrarySync(reason = "automatic") {
   }
 
   return result;
+}
+
+async function runAudioLibrarySyncYielding(reason = "automatic") {
+  const result = await syncAudioLibraryFromRootsYielding(getAudioLibraryRoots());
+  return finishAudioLibrarySync(result, reason);
 }
 
 function runVideoLibrarySync(reason = "automatic") {
@@ -10965,11 +11218,9 @@ function scheduleAudioLibrarySync(reason = "watch", delayMs = 900) {
   audioLibrarySyncTimer = setTimeout(() => {
     audioLibrarySyncTimer = null;
 
-    try {
-      runAudioLibrarySync(reason);
-    } catch (err: any) {
+    void runAudioLibrarySyncYielding(reason).catch((err: any) => {
       logServerCrash("audioLibrarySync", err);
-    }
+    });
   }, Math.max(0, delayMs));
 
   if (typeof (audioLibrarySyncTimer as any).unref === "function") {
@@ -11088,8 +11339,8 @@ function uniqueServerPaths(paths: string[]) {
 function getServerFolderTargets() {
   const audioRoots = getAudioLibraryRoots();
   const videoRoots = getVideoLibraryRoots();
-  const cloudImportRoots = splitServerPathList(process.env.CLOUD_IMPORT_DIR || path.join(audioRoots[0] || "C:\\DJMixes", "Cloud Imports"));
-  const linkImportRoots = splitServerPathList(process.env.LINK_IMPORT_DIR || path.join(audioRoots[0] || "C:\\DJMixes", "Link Imports"));
+  const cloudImportRoots = splitServerPathList(process.env.CLOUD_IMPORT_DIR || path.join(audioRoots[0] || "H:\\Music", "Cloud Imports"));
+  const linkImportRoots = splitServerPathList(process.env.LINK_IMPORT_DIR || path.join(audioRoots[0] || "H:\\Music", "Link Imports"));
   const allowedRoots = Array.isArray(cfg.localAllowedBases) ? cfg.localAllowedBases : [];
 
   return [
@@ -11407,6 +11658,9 @@ const server = http.createServer(async (req, res) => {
 
     const url = new URL(req.url, `http://${req.headers.host ?? "localhost"}`);
 
+    const m26StreamHandled = await handleM26MasterStreamRoute(req, res, url);
+    if (m26StreamHandled) return;
+
     if (req.method === "GET" && url.pathname === "/health") {
       return json(res, 200, {
         ok: true,
@@ -11415,6 +11669,16 @@ const server = http.createServer(async (req, res) => {
         uptimeSeconds: Math.round((Date.now() - SERVER_STARTED_AT) / 1000),
         memoryMb: Math.round(process.memoryUsage().rss / 1024 / 1024),
         rangeStreaming: cfg.rangeStreaming,
+        mixxxMasterStreaming: {
+          effectiveTransport: mixxxMediaTransport,
+          gstreamer: mixxxGStreamerWebRtc.diagnostics(),
+          customWebRtc: { ...mixxxWebRtcSidecar.diagnostics(), active: mixxxMediaTransport === "custom-webrtc" && mixxxWebRtcSidecar.diagnostics().state === "running" },
+          supported: mixxxMasterCapture.supported(), captureState: mixxxMasterStream.diagnostics().captureState,
+          listenerCount: mixxxMasterStream.diagnostics().listenerCount, audioHealthy: mixxxMasterStream.diagnostics().audioHealthy,
+          packetsCaptured: mixxxMasterStream.diagnostics().packetsCaptured, nonSilentPacketsCaptured: mixxxMasterStream.diagnostics().nonSilentPacketsCaptured,
+          sourcePeak: mixxxMasterStream.diagnostics().sourcePeak, sentFrames: mixxxMasterStream.diagnostics().sentFrames,
+          sentBytes: mixxxMasterStream.diagnostics().sentBytes, browser: mixxxMasterStream.diagnostics().browser,
+        },
       });
     }
 
@@ -12895,139 +13159,14 @@ if (
         "/dj-performance/"
       )
     ) {
-      const id =
-        decodeURIComponent(
-          url.pathname
-            .replace(
-              "/dj-performance/",
-              ""
-            )
-            .trim()
-        );
-
-      if (!id) {
-        return json(
-          res,
-          400,
-          {
-            error: "Missing id",
-          }
-        );
-      }
-
-      const item =
-        getLibraryItem(id);
-
-      if (!item) {
-        return json(
-          res,
-          404,
-          {
-            error: "Not found",
-          }
-        );
-      }
-
-      if (
-        item.source !== "local"
-      ) {
-        return json(
-          res,
-          501,
-          {
-            error:
-              "Source not implemented yet",
-          }
-        );
-      }
-
-      const allowed =
-        validateLocalPathAllowed(
-          item.locator,
-          cfg.localAllowedBases
-        );
-
-      if (!allowed.ok) {
-        return json(
-          res,
-          403,
-          {
-            error: allowed.reason,
-          }
-        );
-      }
-
-      try {
-        const copy =
-          getDjPerformanceCopyStatus(
-            item
-          );
-
-        if (
-          !copy.ready ||
-          !fs.existsSync(
-            copy.path
-          )
-        ) {
-          return json(
-            res,
-            404,
-            {
-              error:
-                "DJ performance copy is not prepared",
-            }
-          );
+      return json(
+        res,
+        410,
+        {
+          error:
+            "DJ performance copies are disabled. Load the original library audio stream instead.",
         }
-
-        res.setHeader(
-          "X-BRMedia-DJ-Source",
-          "performance-copy"
-        );
-
-        res.setHeader(
-          "X-BRMedia-DJ-Version",
-          copy.version
-        );
-
-        res.setHeader(
-          "X-BRMedia-DJ-Source-Bytes",
-          String(
-            copy.sourceBytes
-          )
-        );
-
-        streamFileWithRange(
-          req,
-          res,
-          copy.path,
-          {
-            mimeType:
-              "audio/mp4",
-
-            cacheControl:
-              "private, max-age=2592000, immutable",
-
-            etag:
-              `"dj-${copy.version}"`,
-          }
-        );
-
-        return;
-      } catch (error: any) {
-        return json(
-          res,
-          500,
-          {
-            error:
-              "Could not read DJ performance copy",
-
-            detail: String(
-              error?.message ||
-              error
-            ),
-          }
-        );
-      }
+      );
     }
 
     if (
@@ -13084,9 +13223,35 @@ if (
     }
 
     const PUBLIC_DIR = path.join(__dirname, "..", "public");
+    const DJ_STATIC_DIAGNOSTIC_LOG = path.join(PLAYER_RUNTIME_STATE_DIR, "dj-static-request-diagnostics.jsonl");
+
+    function logDjStaticResolution(details: Record<string, unknown>) {
+      try {
+        ensurePlayerRuntimeStateDir();
+        fs.appendFileSync(DJ_STATIC_DIAGNOSTIC_LOG, `${JSON.stringify({
+          at: new Date().toISOString(),
+          host: req.headers.host || null,
+          method: req.method || null,
+          rawUrl: req.url || null,
+          pathname: url.pathname,
+          search: url.search,
+          userAgent: req.headers["user-agent"] || null,
+          forwardedHost: req.headers["x-forwarded-host"] || null,
+          forwardedProto: req.headers["x-forwarded-proto"] || null,
+          forwardedFor: req.headers["x-forwarded-for"] || null,
+          remoteAddress: req.socket.remoteAddress || null,
+          ...details,
+        })}\n`, "utf8");
+      } catch {}
+    }
 
     function sendFile(filePath: string, contentType: string) {
       if (!fs.existsSync(filePath)) return false;
+      try {
+        if (!fs.statSync(filePath).isFile()) return false;
+      } catch {
+        return false;
+      }
 
       const ext = path.extname(filePath).toLowerCase();
 
@@ -13117,6 +13282,23 @@ if (
       if (ext === ".webp") return "image/webp";
       if (ext === ".webmanifest") return "application/manifest+json; charset=utf-8";
       return "application/octet-stream";
+    }
+
+    // Safari retained this exact truncated DJ Performance path. Redirect only
+    // that observed alias so the canonical document remains the sole entry URL.
+    if (req.method === "GET" && url.pathname === "/dj-mixer/performan") {
+      logDjStaticResolution({
+        relativePath: "performan", safeRelativePath: "performan", publicDir: PUBLIC_DIR,
+        resolvedPath: path.join(PUBLIC_DIR, "dj-mixer", "performance.html"), exists: true, isFile: true,
+        resolverFailure: "canonical-truncated-safari-path", responseStatus: 302,
+        responseContentType: "text/plain; charset=utf-8",
+      });
+      res.statusCode = 302;
+      res.setHeader("Location", "/dj-mixer/performance.html");
+      res.setHeader("Cache-Control", "no-store");
+      res.setHeader("Content-Type", "text/plain; charset=utf-8");
+      res.end("Redirecting to DJ Performance");
+      return;
     }
 
     function sendHtmlWithAppShell(
@@ -13306,11 +13488,24 @@ if (req.method === "GET" && url.pathname === "/player") {
 
     const publicAssetRoot = url.pathname.split("/").filter(Boolean)[0] || "";
 
-    if (req.method === "GET" && publicAssetFolders.has(publicAssetRoot) && url.pathname.startsWith(`/${publicAssetRoot}/`)) {
+    if (req.method === "GET" && publicAssetFolders.has(publicAssetRoot) && url.pathname.startsWith(`/${publicAssetRoot}/`) && url.pathname !== `/${publicAssetRoot}/`) {
       const rel = url.pathname.replace(`/${publicAssetRoot}/`, "");
       const safe = rel.replace(/^(\.\.(\/|\\|$))+/, "");
       const p = path.join(PUBLIC_DIR, publicAssetRoot, safe);
-      if (sendFile(p, contentTypeFor(p))) return;
+      const contentType = contentTypeFor(p);
+      const exists = fs.existsSync(p);
+      let isFile = false;
+      let resolverFailure: string | null = exists ? null : "not-found";
+      if (exists) {
+        try { isFile = fs.statSync(p).isFile(); if (!isFile) resolverFailure = "not-a-file"; }
+        catch (error) { resolverFailure = `stat-error:${String((error as any)?.code || (error as any)?.message || error)}`; }
+      }
+      if (publicAssetRoot === "dj-mixer") logDjStaticResolution({
+        relativePath: rel, safeRelativePath: safe, publicDir: PUBLIC_DIR, resolvedPath: p,
+        exists, isFile, resolverFailure, responseStatus: exists && isFile ? 200 : 404,
+        responseContentType: exists && isFile ? contentType : "application/json; charset=utf-8",
+      });
+      if (sendFile(p, contentType)) return;
       return json(res, 404, { error: `${publicAssetRoot} asset not found` });
     }
 
@@ -13706,8 +13901,16 @@ if (req.method === "POST" && url.pathname.startsWith("/tracklist-scan/")) {
             duration: payload.duration,
             peaks: payload.peaks,
             bands: payload.bands,
+            multiscale: payload.multiscale || null,
             count: peakCount,
             cached: payload.cached,
+            preparedAsset: payload.preparedAsset,
+            canonicalAnalysis: payload.analysis,
+            compatibility: {
+              status: payload.compatibility.status,
+              reusable: payload.compatibility.reusable,
+              reasons: payload.compatibility.reasons,
+            },
           };
 
           const waveformVersion =
@@ -13744,6 +13947,13 @@ if (req.method === "POST" && url.pathname.startsWith("/tracklist-scan/")) {
             }
           );
         } catch (e: any) {
+          if (e?.code === "DJ_PREPARED_ASSET_INCOMPATIBLE") {
+            return json(res, 409, {
+              error: "Prepared waveform is not compatible",
+              code: e.code,
+              compatibility: e.compatibility,
+            });
+          }
           return json(res, 500, {
             error: "Failed to build waveform",
             detail: String(e?.message || e),
@@ -13761,6 +13971,25 @@ if (req.method === "POST" && url.pathname.startsWith("/tracklist-scan/")) {
       detail: String(err?.message ?? err),
     });
   }
+});
+
+server.on("upgrade", (req, socket, head) => {
+  try {
+    const url = new URL(req.url || "", `http://${req.headers.host || "localhost"}`);
+    if (url.pathname !== "/api/dj/mixxx/master-stream/gstreamer/signalling" || mixxxMediaTransport !== "gstreamer-webrtc") throw new Error("inactive upgrade route");
+    const token = url.searchParams.get("token") || ""; const grant = m26GStreamerUpgradeTokens.get(token);
+    if (!grant || grant.expiresAt < Date.now()) throw new Error("expired signalling grant");
+    const origin = new URL(String(req.headers.origin || ""));
+    if (!req.headers.host || origin.host.toLowerCase() !== String(req.headers.host).toLowerCase()) throw new Error("origin mismatch");
+    m26GStreamerUpgradeTokens.delete(token);
+    const upstream = net.connect({ host: "127.0.0.1", port: mixxxGStreamerWebRtc.signallingPort }, () => {
+      const headers = Object.entries(req.headers).filter(([name]) => !["host", "origin"].includes(name.toLowerCase()))
+        .flatMap(([name, value]) => Array.isArray(value) ? value.map(item => `${name}: ${item}`) : [`${name}: ${value}`]);
+      upstream.write([`GET / HTTP/1.1`, `Host: 127.0.0.1:${mixxxGStreamerWebRtc.signallingPort}`, `Origin: http://127.0.0.1:${mixxxGStreamerWebRtc.signallingPort}`, ...headers, "", ""].join("\r\n"));
+      if (head.length) upstream.write(head); socket.pipe(upstream).pipe(socket);
+    });
+    upstream.once("error", () => { try { socket.destroy(); } catch {} });
+  } catch { try { socket.destroy(); } catch {} }
 });
 
 function scheduleStartupAutoImport() {

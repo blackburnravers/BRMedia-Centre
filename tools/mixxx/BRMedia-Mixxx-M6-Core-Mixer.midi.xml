@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MixxxControllerPreset mixxxVersion="2.5" schemaVersion="1">
+  <info>
+    <name>BRMedia Mixxx Remote</name>
+    <author>BRMedia / Upalnite</author>
+    <description>BRMediaMixxx v3 isolated two-way deck and core mixer bridge.</description>
+  </info>
+  <controller id="BRMedia Mixxx Remote">
+    <scriptfiles>
+      <file filename="BRMedia-Mixxx-M6-Core-Mixer-scripts.js" functionprefix="BRMediaMixxxM6" />
+    </scriptfiles>
+    <controls>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.play</key><status>0x90</status><midino>0x10</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.cue</key><status>0x90</status><midino>0x11</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.play</key><status>0x90</status><midino>0x20</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.cue</key><status>0x90</status><midino>0x21</midino><options><Script-Binding /></options></control>
+      <control><group>[Master]</group><key>BRMediaMixxxM6.heartbeat</key><status>0x90</status><midino>0x70</midino><options><Script-Binding /></options></control>
+      <control><group>[Master]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x50</midino><options><Script-Binding /></options></control>
+      <control><group>[Master]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x51</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x52</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x53</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x54</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x55</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x56</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x57</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x58</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x59</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x5a</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x5b</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x5c</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x5d</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x5e</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM6.mixerInput</key><status>0xb0</status><midino>0x5f</midino><options><Script-Binding /></options></control>
+    </controls>
+  </controller>
+</MixxxControllerPreset>

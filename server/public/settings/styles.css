@@ -4360,3 +4360,34 @@ body.settingsMode::before {
     grid-column: 1 / -1;
   }
 }
+/* Universal Settings U1-U8 live runtime shell restore. */
+html { min-height: 100%; overflow-x: hidden; overflow-y: auto; }
+body.settingsMode {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 0;
+}
+body.settingsMode .settingsShell {
+  min-height: calc(100vh - var(--safe-top) - 18px);
+  min-height: calc(100dvh - var(--safe-top) - 18px);
+  padding-bottom: 0;
+}
+body.settingsMode .settingsMain { padding-bottom: 0; }
+body.settingsMode .settingsFooter {
+  margin-top: 34px;
+  margin-bottom: 0;
+  padding-bottom: calc(var(--safe-bottom) + 24px);
+}
+/* Mixxx M3: compact health panel within the existing DJ settings shell. */
+.mixxxM3Health { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:14px; }
+.mixxxM3State { display:grid; grid-template-columns:10px minmax(0,1fr) auto; align-items:center; gap:9px; padding:10px 12px; border:1px solid rgba(255,255,255,.1); border-radius:12px; background:rgba(7,18,38,.52); }
+.mixxxM3State strong { text-align:right; }
+.mixxxM3Dot { width:9px; height:9px; border-radius:50%; background:#f0a43a; box-shadow:0 0 8px currentColor; }
+.mixxxM3Dot.green { color:#4fd98b; background:currentColor; }
+.mixxxM3Dot.amber { color:#f0a43a; background:currentColor; }
+.mixxxM3Dot.red { color:#ff626e; background:currentColor; }
+.mixxxM3Actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:14px; }
+.mixxxM3Actions [role="status"] { color:var(--text-muted,#b9c6dc); }
+@media (max-width:760px) { .mixxxM3Health { grid-template-columns:1fr; } .mixxxM3State { grid-template-columns:10px minmax(0,1fr); } .mixxxM3State strong { grid-column:2; text-align:left; } }

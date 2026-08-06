@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-02T19:36:29.330Z",
+  "jobs": [
+    {
+      "id": "grid-msc7b0sa-xa2iea",
+      "trackId": "trk_19fbb0cbbdd_8cecbb5eae856",
+      "state": "needs-review",
+      "progress": 100,
+      "error": null,
+      "queuedAt": "2026-08-02T19:36:21.178Z",
+      "updatedAt": "2026-08-02T19:36:29.330Z"
+    }
+  ]
+}

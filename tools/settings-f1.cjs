@@ -135,7 +135,7 @@ const files = {
         </div>
         <div class="settingsHeroStack" aria-label="Settings status cards">
           <div class="settingsStatusCard"><span>Split</span><strong>Modules separated</strong><small>Mastering, Video, Converter and Tagger now have their own JS.</small></div>
-          <div class="settingsStatusCard"><span>Sources</span><strong>Audio + Video paths</strong><small>C:\\DJMixes and C:\\Videos are tracked as shared sources.</small></div>
+          <div class="settingsStatusCard"><span>Sources</span><strong>Audio + Video paths</strong><small>H:\\Music is the primary audio library; C:\\DJMixes and C:\\Videos remain available storage sources.</small></div>
           <div class="settingsStatusCard"><span>Next</span><strong>Stats + Server polish</strong><small>Siri/device controls stay parked until the foundations are done.</small></div>
         </div>
       </section>

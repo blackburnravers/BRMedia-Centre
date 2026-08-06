@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MixxxControllerPreset mixxxVersion="2.5" schemaVersion="1">
+  <info>
+    <name>BRMedia Mixxx M5 Two-Way State Bridge</name>
+    <author>BRMedia / Upalnite</author>
+    <description>BRMediaMixxx v2 read-only deck state feedback with M4 play/cue compatibility.</description>
+  </info>
+  <controller id="BRMedia Mixxx M5 Two-Way State Bridge">
+    <scriptfiles>
+      <file filename="BRMedia-Mixxx-M5-Bridge-scripts.js" functionprefix="BRMediaMixxxM5" />
+    </scriptfiles>
+    <controls>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM5.play</key><status>0x90</status><midino>0x10</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM5.cue</key><status>0x90</status><midino>0x11</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM5.play</key><status>0x90</status><midino>0x20</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM5.cue</key><status>0x90</status><midino>0x21</midino><options><Script-Binding /></options></control>
+      <control><group>[Master]</group><key>BRMediaMixxxM5.heartbeat</key><status>0x90</status><midino>0x70</midino><options><Script-Binding /></options></control>
+    </controls>
+  </controller>
+</MixxxControllerPreset>

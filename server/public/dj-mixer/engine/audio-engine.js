@@ -1,4 +1,7 @@
 (() => {
+  const DJ_MIN_LOOP_SECONDS =
+    1 / 4096;
+	
   class DeckEngine {
     constructor(engine, deckId) {
       this.engine = engine;
@@ -19,21 +22,142 @@
       this.highEqNode.type = "highshelf";
       this.highEqNode.frequency.value = 4200;
       this.highEqNode.gain.value = 0;
-      this.filterNode = this.context.createBiquadFilter();
-      this.filterNode.type = "allpass";
-      this.filterNode.frequency.value = 1000;
-      this.filterNode.Q.value = 0.707;
-      this.gainNode = this.context.createGain();
-      this.gainNode.gain.value = 1;
-      this.analyserNode = this.context.createAnalyser();
-      this.analyserNode.fftSize = 1024;
-      this.meterData = new Uint8Array(this.analyserNode.fftSize);
-      this.trimGainNode.connect(this.lowEqNode);
-      this.lowEqNode.connect(this.midEqNode);
-      this.midEqNode.connect(this.highEqNode);
-      this.highEqNode.connect(this.filterNode);
-      this.filterNode.connect(this.gainNode);
-      this.gainNode.connect(this.analyserNode);
+      this.filterNode =
+        this.context
+          .createBiquadFilter();
+
+      this.filterNode.type =
+        "allpass";
+
+      this.filterNode
+        .frequency.value =
+        1000;
+
+      this.filterNode.Q.value =
+        0.707;
+
+      this.gainNode =
+        this.context
+          .createGain();
+
+      this.gainNode.gain.value =
+        1;
+				
+      /*
+        Independent dry and processed safety routes.
+
+        Kill All FX can force the deck dry without depending on the
+        existing FX rack successfully clearing itself.
+      */
+      this.fxDryGainNode =
+        this.context.createGain();
+
+      this.fxProcessedGainNode =
+        this.context.createGain();
+
+      this.fxBypassed = false;
+
+      this.fxDryGainNode
+        .gain.value = 0;
+
+      this.fxProcessedGainNode
+        .gain.value = 1;
+
+      this.analyserNode =
+        this.context
+          .createAnalyser();
+
+      this.analyserNode.fftSize =
+        1024;
+
+      this.meterData =
+        new Uint8Array(
+          this.analyserNode
+            .fftSize
+        );
+
+      const FxRack =
+        typeof window !==
+        "undefined"
+          ? window
+              .BRMediaDjFxRack
+          : null;
+
+      this.fxRack =
+        typeof FxRack ===
+        "function"
+          ? new FxRack(
+              this.context,
+              {
+                deckId,
+
+                amount: 0.58,
+
+                beatSeconds:
+                  60 / 175,
+
+                onTransportEffect:
+                  (
+                    effectId,
+                    enabled
+                  ) => {
+                    this.lastAction =
+                      `${effectId} ${
+                        enabled
+                          ? "on"
+                          : "off"
+                      }`;
+                  },
+              }
+            )
+          : null;
+
+      this.trimGainNode
+        .connect(
+          this.lowEqNode
+        );
+
+      this.lowEqNode.connect(
+        this.midEqNode
+      );
+
+      this.midEqNode.connect(
+        this.highEqNode
+      );
+
+      this.highEqNode.connect(
+        this.filterNode
+      );
+
+      this.filterNode.connect(
+        this.fxDryGainNode
+      );
+
+      this.fxDryGainNode.connect(
+        this.gainNode
+      );
+
+      this.fxProcessedGainNode.connect(
+        this.gainNode
+      );
+
+      if (this.fxRack) {
+        this.filterNode.connect(
+          this.fxRack.input
+        );
+
+        this.fxRack.output.connect(
+          this.fxProcessedGainNode
+        );
+      } else {
+        this.fxBypassed = true;
+        this.fxDryGainNode.gain.value = 1;
+        this.fxProcessedGainNode.gain.value = 0;
+      }
+
+      this.gainNode.connect(
+        this.analyserNode
+      );
       this.analyserNode.connect(engine.masterGain);
       this.channelVolume = 1;
       this.crossfadeGain = 1;
@@ -71,8 +195,13 @@
       this.manualLoopStart = null;
       this.waveformPeaks = [];
       this.waveformBands = null;
+      this.waveformMultiscale = null;
       this.waveformVersion = "";
+      this.waveformLoadGeneration = 0;
       this.libraryItemId = "";
+      this.sourceKind = "";
+      this.guestTrackId = "";
+      this.guestReservation = null;
       this.loadTimings = null;
       this.nativeAudio = null;
       this.nativeObjectUrl = "";
@@ -84,6 +213,44 @@
       this.isLoading = false;
       this.error = "";
       this.lastAction = "Ready";
+      this.vinylNudgeActive =
+        false;
+
+      this.vinylNudgeDirection =
+        0;
+
+      this.vinylNudgeAmount =
+        0;
+
+      this.vinylNudgeBaseRate =
+        1;
+
+      this.vinylBrakeActive =
+        false;
+
+      this.vinylBrakeTimer =
+        null;
+
+      this.vinylScratchActive =
+        false;
+
+      this.vinylScratchWasPlaying =
+        false;
+
+      this.vinylScratchPosition =
+        0;
+
+      this.vinylScratchGrainSource =
+        null;
+
+      this.vinylScratchGrainGain =
+        null;
+
+      this.vinylScratchLastPreviewAt =
+        0;
+
+      this.vinylScratchLastEmitAt =
+        0;
     }
 
     emit() {
@@ -106,7 +273,10 @@
       const safeSeconds = this.clampTime(seconds, false, true);
       if (!this.loopActive || this.loopEnd <= this.loopStart || safeSeconds < 0) return safeSeconds;
 
-      const loopLength = Math.max(0.015, this.loopEnd - this.loopStart);
+      const loopLength = Math.max(
+        DJ_MIN_LOOP_SECONDS,
+        this.loopEnd - this.loopStart
+      );
       if (safeSeconds < this.loopEnd) return safeSeconds;
       return this.loopStart + ((safeSeconds - this.loopStart) % loopLength);
     }
@@ -193,8 +363,14 @@
         progress: duration > 0 ? Math.max(0, Math.min(1, currentTime / duration)) : 0,
         waveformPeaks: this.waveformPeaks,
         waveformBands: this.waveformBands,
+        waveformMultiscale: this.waveformMultiscale,
         waveformVersion: this.waveformVersion,
         libraryItemId: this.libraryItemId,
+        sourceKind: this.sourceKind,
+        guestTrackId: this.guestTrackId,
+        guestReservation: this.guestReservation
+          ? { ...this.guestReservation }
+          : null,
         loadTimings: this.loadTimings
           ? { ...this.loadTimings }
           : null,
@@ -221,6 +397,25 @@
         filterValue: this.filterValue,
         eqValues: { ...this.eqValues },
         killStates: { ...this.killStates },
+        fx: this.getFxState(),
+				
+        vinyl: {
+          nudging:
+            this.vinylNudgeActive,
+
+          nudgeDirection:
+            this.vinylNudgeDirection,
+
+          braking:
+            this.vinylBrakeActive,
+
+          scratching:
+            this.vinylScratchActive,
+
+          scratchPosition:
+            this.vinylScratchPosition,
+        },
+				
         contextState: this.context.state,
       };
     }
@@ -605,7 +800,12 @@
     }
 		
     hasValidLoop() {
-      return Boolean(this.loopActive && this.loopEnd > this.loopStart && this.loopEnd - this.loopStart >= 0.015);
+      return Boolean(
+        this.loopActive &&
+        this.loopEnd > this.loopStart &&
+        this.loopEnd - this.loopStart >=
+          DJ_MIN_LOOP_SECONDS
+      );
     }
 
     applyLoopToSource(source = this.source) {
@@ -625,7 +825,13 @@
       const second = this.clampTime(endSeconds, true);
       const start = Math.min(first, second);
       const end = Math.max(first, second);
-      const safeEnd = Math.min(this.duration || end, Math.max(end, start + 0.015));
+      const safeEnd = Math.min(
+        this.duration || end,
+        Math.max(
+          end,
+          start + DJ_MIN_LOOP_SECONDS
+        )
+      );
       return { start, end: safeEnd };
     }
 
@@ -667,11 +873,11 @@
         return this.getState();
       }
       const safeBeats = Math.max(1 / 512, Math.min(512, Number(beats) || 4));
-      const length = Math.max(0.015, (60 / safeBpm) * safeBeats);
+      const length = Math.max(DJ_MIN_LOOP_SECONDS, (60 / safeBpm) * safeBeats);
       const safeStart = this.clampTime(startSeconds, true);
       const end = Math.min(this.duration || safeStart + length, safeStart + length);
-      const start = end - safeStart < 0.015 ? Math.max(0, end - length) : safeStart;
-      return this.setLoop(start, Math.max(start + 0.015, end), "Auto loop");
+      const start = end - safeStart < DJ_MIN_LOOP_SECONDS ? Math.max(0, end - length) : safeStart;
+      return this.setLoop(start, Math.max(start + DJ_MIN_LOOP_SECONDS, end), "Auto loop");
     }
 
     async setManualLoopPoint(seconds = this.getCurrentTime()) {
@@ -712,11 +918,756 @@
         oldSource.stop(0);
       } catch {}
     }
+		
+    stopVinylScratchGrain() {
+      const source =
+        this.vinylScratchGrainSource;
+
+      const gain =
+        this.vinylScratchGrainGain;
+
+      this.vinylScratchGrainSource =
+        null;
+
+      this.vinylScratchGrainGain =
+        null;
+
+      try {
+        source?.stop?.(0);
+      } catch {}
+
+      try {
+        source?.disconnect?.();
+      } catch {}
+
+      try {
+        gain?.disconnect?.();
+      } catch {}
+    }
+
+    cancelVinylBrake() {
+      if (this.vinylBrakeTimer) {
+        window.clearTimeout(
+          this.vinylBrakeTimer
+        );
+
+        this.vinylBrakeTimer =
+          null;
+      }
+
+      this.vinylBrakeActive =
+        false;
+    }
+
+    startVinylNudge(
+      direction = 1,
+      amount = 0.045
+    ) {
+      if (
+        !this.isLoaded ||
+        !this.buffer ||
+        this.vinylScratchActive ||
+        this.vinylBrakeActive
+      ) {
+        return this.getState();
+      }
+
+      const safeDirection =
+        Number(direction) < 0
+          ? -1
+          : 1;
+
+      const safeAmount =
+        Math.max(
+          0.01,
+          Math.min(
+            0.12,
+            Number(amount) ||
+              0.045
+          )
+        );
+
+      if (
+        !this.vinylNudgeActive
+      ) {
+        this.vinylNudgeBaseRate =
+          this.playbackRate;
+      }
+
+      this.vinylNudgeActive =
+        true;
+
+      this.vinylNudgeDirection =
+        safeDirection;
+
+      this.vinylNudgeAmount =
+        safeAmount;
+
+      const targetRate =
+        this.vinylNudgeBaseRate *
+        (
+          1 +
+          safeDirection *
+            safeAmount
+        );
+
+      this.setPlaybackRate(
+        targetRate,
+        {
+          vinylInternal: true,
+        }
+      );
+
+      this.lastAction =
+        safeDirection < 0
+          ? "Vinyl nudge -"
+          : "Vinyl nudge +";
+
+      this.emit();
+
+      return this.getState();
+    }
+
+    endVinylNudge() {
+      if (
+        !this.vinylNudgeActive
+      ) {
+        return this.getState();
+      }
+
+      const restoreRate =
+        this.vinylNudgeBaseRate ||
+        1;
+
+      this.vinylNudgeActive =
+        false;
+
+      this.vinylNudgeDirection =
+        0;
+
+      this.vinylNudgeAmount =
+        0;
+
+      this.vinylNudgeBaseRate =
+        restoreRate;
+
+      this.setPlaybackRate(
+        restoreRate,
+        {
+          vinylInternal: true,
+        }
+      );
+
+      this.lastAction =
+        "Vinyl nudge released";
+
+      this.emit();
+
+      return this.getState();
+    }
+
+    async brakeVinyl(
+      durationSeconds = 1.15
+    ) {
+      if (
+        !this.isLoaded ||
+        !this.buffer ||
+        !this.isPlaying
+      ) {
+        return this.getState();
+      }
+
+      if (
+        this.vinylNudgeActive
+      ) {
+        this.endVinylNudge();
+      }
+
+      this.cancelVinylBrake();
+      this.stopVinylScratchGrain();
+
+      const duration =
+        Math.max(
+          0.3,
+          Math.min(
+            3,
+            Number(
+              durationSeconds
+            ) || 1.15
+          )
+        );
+
+      const startedAt =
+        this.context.currentTime;
+
+      const startPosition =
+        this.getCurrentTime();
+
+      const startRate =
+        Math.max(
+          0.5,
+          Math.min(
+            2,
+            this.playbackRate ||
+              1
+          )
+        );
+
+      const finalPosition =
+        this.clampTime(
+          startPosition +
+            startRate *
+              duration *
+              0.5,
+          true,
+          true
+        );
+
+      this.vinylBrakeActive =
+        true;
+
+      this.lastAction =
+        "Vinyl brake";
+
+      if (
+        this.source?.playbackRate
+      ) {
+        try {
+          this.source
+            .playbackRate
+            .cancelScheduledValues(
+              startedAt
+            );
+
+          this.source
+            .playbackRate
+            .setValueAtTime(
+              startRate,
+              startedAt
+            );
+
+          this.source
+            .playbackRate
+            .linearRampToValueAtTime(
+              0.01,
+              startedAt +
+                duration
+            );
+        } catch {
+          try {
+            this.source
+              .playbackRate
+              .value =
+              0.01;
+          } catch {}
+        }
+      }
+
+      if (this.nativeAudio) {
+        try {
+          this.nativeAudio
+            .playbackRate =
+            0.25;
+        } catch {}
+      }
+
+      this.emit();
+
+      return new Promise(
+        (resolve) => {
+          this.vinylBrakeTimer =
+            window.setTimeout(
+              () => {
+                this.vinylBrakeTimer =
+                  null;
+
+                this.stopSourceOnly();
+                this.stopNativeAudioOnly();
+
+                this.isPlaying =
+                  false;
+
+                this.vinylBrakeActive =
+                  false;
+
+                this.pausedAt =
+                  finalPosition;
+
+                this.startedOffset =
+                  finalPosition;
+
+                this.startedAt =
+                  this.context.currentTime;
+
+                this.playbackRate =
+                  startRate;
+
+                this.lastAction =
+                  "Vinyl brake stopped";
+
+                this.emit();
+
+                resolve(
+                  this.getState()
+                );
+              },
+              Math.ceil(
+                duration * 1000
+              )
+            );
+        }
+      );
+    }
+
+    beginVinylScratch() {
+      if (
+        !this.isLoaded ||
+        !this.buffer
+      ) {
+        return this.getState();
+      }
+
+      if (
+        this.vinylNudgeActive
+      ) {
+        this.endVinylNudge();
+      }
+
+      this.cancelVinylBrake();
+      this.stopVinylScratchGrain();
+
+      const currentPosition =
+        this.getCurrentTime();
+
+      this.vinylScratchWasPlaying =
+        this.isPlaying;
+
+      this.vinylScratchActive =
+        true;
+
+      this.vinylScratchPosition =
+        currentPosition;
+
+      this.pausedAt =
+        currentPosition;
+
+      this.startedOffset =
+        currentPosition;
+
+      this.stopSourceOnly();
+      this.stopNativeAudioOnly();
+
+      this.isPlaying =
+        false;
+
+      this.lastAction =
+        "Scratch hold";
+
+      this.emit();
+
+      return this.getState();
+    }
+
+    playVinylScratchGrain(
+      position = 0,
+      velocity = 1
+    ) {
+      if (
+        !this.buffer ||
+        !this.vinylScratchActive
+      ) {
+        return;
+      }
+
+      const nowMs =
+        performance.now();
+
+      if (
+        nowMs -
+          this.vinylScratchLastPreviewAt <
+        24
+      ) {
+        return;
+      }
+
+      this.vinylScratchLastPreviewAt =
+        nowMs;
+
+      const speed =
+        Math.max(
+          0.35,
+          Math.min(
+            3.2,
+            Math.abs(
+              Number(velocity) ||
+                0.7
+            )
+          )
+        );
+
+      const reverse =
+        Number(velocity) < 0;
+
+      const sourceSeconds =
+        Math.max(
+          0.035,
+          Math.min(
+            0.12,
+            0.045 +
+              speed * 0.018
+          )
+        );
+
+      const sampleRate =
+        Math.max(
+          8000,
+          this.buffer.sampleRate ||
+            44100
+        );
+
+      const frameCount =
+        Math.max(
+          128,
+          Math.floor(
+            sourceSeconds *
+              sampleRate
+          )
+        );
+
+      const channelCount =
+        Math.max(
+          1,
+          this.buffer
+            .numberOfChannels ||
+            1
+        );
+
+      const centreFrame =
+        Math.floor(
+          this.clampTime(
+            position,
+            true
+          ) * sampleRate
+        );
+
+      const startFrame =
+        Math.max(
+          0,
+          Math.min(
+            Math.max(
+              0,
+              this.buffer.length -
+                frameCount
+            ),
+            centreFrame -
+              Math.floor(
+                frameCount * 0.5
+              )
+          )
+        );
+
+      const grainBuffer =
+        this.context
+          .createBuffer(
+            channelCount,
+            frameCount,
+            sampleRate
+          );
+
+      for (
+        let channel = 0;
+        channel < channelCount;
+        channel += 1
+      ) {
+        const sourceData =
+          this.buffer
+            .getChannelData(
+              channel
+            );
+
+        const targetData =
+          grainBuffer
+            .getChannelData(
+              channel
+            );
+
+        for (
+          let index = 0;
+          index < frameCount;
+          index += 1
+        ) {
+          const sourceIndex =
+            reverse
+              ? startFrame +
+                (
+                  frameCount -
+                  1 -
+                  index
+                )
+              : startFrame +
+                index;
+
+          targetData[index] =
+            sourceData[
+              sourceIndex
+            ] || 0;
+        }
+      }
+
+      const source =
+        this.context
+          .createBufferSource();
+
+      const grainGain =
+        this.context
+          .createGain();
+
+      const now =
+        this.context.currentTime;
+
+      const outputSeconds =
+        sourceSeconds /
+        speed;
+
+      source.buffer =
+        grainBuffer;
+
+      source.playbackRate.value =
+        speed;
+
+      grainGain.gain
+        .setValueAtTime(
+          0,
+          now
+        );
+
+      grainGain.gain
+        .linearRampToValueAtTime(
+          0.9,
+          now + 0.004
+        );
+
+      grainGain.gain
+        .setValueAtTime(
+          0.9,
+          now +
+            Math.max(
+              0.006,
+              outputSeconds -
+                0.008
+            )
+        );
+
+      grainGain.gain
+        .linearRampToValueAtTime(
+          0,
+          now +
+            outputSeconds
+        );
+
+      source.connect(
+        grainGain
+      );
+
+      /*
+        Scratch grains enter at the deck input, so they still use its EQ,
+        Mixer Filter, FX rack, fader, crossfader and master output.
+      */
+      grainGain.connect(
+        this.trimGainNode
+      );
+
+      const oldSource =
+        this.vinylScratchGrainSource;
+
+      const oldGain =
+        this.vinylScratchGrainGain;
+
+      this.vinylScratchGrainSource =
+        source;
+
+      this.vinylScratchGrainGain =
+        grainGain;
+
+      try {
+        source.start(now);
+
+        source.stop(
+          now +
+            outputSeconds +
+            0.01
+        );
+      } catch {}
+
+      if (oldSource) {
+        try {
+          oldSource.stop(
+            now + 0.006
+          );
+        } catch {}
+
+        window.setTimeout(
+          () => {
+            try {
+              oldSource.disconnect();
+            } catch {}
+
+            try {
+              oldGain?.disconnect();
+            } catch {}
+          },
+          40
+        );
+      }
+
+      source.onended = () => {
+        if (
+          this.vinylScratchGrainSource ===
+          source
+        ) {
+          this.vinylScratchGrainSource =
+            null;
+
+          this.vinylScratchGrainGain =
+            null;
+        }
+
+        try {
+          source.disconnect();
+        } catch {}
+
+        try {
+          grainGain.disconnect();
+        } catch {}
+      };
+    }
+
+    scratchVinylTo(
+      seconds =
+        this.vinylScratchPosition,
+      velocity = 0
+    ) {
+      if (
+        !this.vinylScratchActive ||
+        !this.isLoaded ||
+        !this.buffer
+      ) {
+        return this.getState();
+      }
+
+      const safePosition =
+        this.clampTime(
+          seconds,
+          true,
+          true
+        );
+
+      this.vinylScratchPosition =
+        safePosition;
+
+      this.pausedAt =
+        safePosition;
+
+      this.startedOffset =
+        safePosition;
+
+      if (
+        Math.abs(
+          Number(velocity) || 0
+        ) > 0.03
+      ) {
+        this.playVinylScratchGrain(
+          safePosition,
+          velocity
+        );
+      }
+
+      const nowMs =
+        performance.now();
+
+      if (
+        nowMs -
+          this.vinylScratchLastEmitAt >=
+        32
+      ) {
+        this.vinylScratchLastEmitAt =
+          nowMs;
+
+        this.lastAction =
+          Number(velocity) < 0
+            ? "Scratch reverse"
+            : "Scratch forward";
+
+        this.emit();
+      }
+
+      return this.getState();
+    }
+
+    async endVinylScratch() {
+      if (
+        !this.vinylScratchActive
+      ) {
+        return this.getState();
+      }
+
+      const shouldResume =
+        this.vinylScratchWasPlaying;
+
+      const resumePosition =
+        this.vinylScratchPosition;
+
+      this.vinylScratchActive =
+        false;
+
+      this.vinylScratchWasPlaying =
+        false;
+
+      this.stopVinylScratchGrain();
+
+      this.pausedAt =
+        resumePosition;
+
+      this.startedOffset =
+        resumePosition;
+
+      this.lastAction =
+        "Scratch released";
+
+      if (shouldResume) {
+        return this.play(
+          resumePosition
+        );
+      }
+
+      this.emit();
+
+      return this.getState();
+    }
 
     async loadFile(file, options = {}) {
       if (!file) {
         return this.getState();
       }
+
+      if (this.isPlaying && options.confirmedReplace !== true) {
+        const error = new Error(
+          `${this.deckId === "d2" ? "Deck 2" : "Deck 1"} is playing. Confirm replacement first.`
+        );
+        error.code = "BRMEDIA_PLAYING_DECK_REPLACEMENT_REQUIRED";
+        throw error;
+      }
+
+      const loadGeneration =
+        ++this.waveformLoadGeneration;
+
+      const assertCurrentLoad = () => {
+        if (loadGeneration !== this.waveformLoadGeneration) {
+          const error = new Error("Superseded deck load");
+          error.code = "BRMEDIA_STALE_DECK_LOAD";
+          throw error;
+        }
+      };
 
       const loadStartedAt =
         performance.now();
@@ -759,6 +1710,34 @@
 
         this.stopSourceOnly();
         this.stopNativeAudioOnly();
+        this.cancelVinylBrake();
+        this.stopVinylScratchGrain();
+
+        this.vinylScratchActive =
+          false;
+
+        this.vinylScratchWasPlaying =
+          false;
+
+        this.vinylNudgeActive =
+          false;
+
+        this.vinylNudgeDirection =
+          0;
+
+        this.vinylNudgeAmount =
+          0;
+
+        /*
+          A newly loaded track must always start dry. This prevents an FX
+          left active on the previous Deck 1 track from silently carrying
+          into the replacement track.
+        */
+        this.resetFxRack({
+          forceDry: true,
+        });
+        this.engine.emitFxState();
+
         this.revokeArtworkObjectUrl();
         this.revokeNativeObjectUrl();
 
@@ -787,6 +1766,7 @@
         this.manualLoopStart = null;
         this.waveformPeaks = [];
         this.waveformBands = null;
+      this.waveformMultiscale = null;
         this.waveformVersion = "";
 
         notifyStage("metadata");
@@ -830,6 +1810,7 @@
             : await this.readFileMetadata(
                 file
               );
+        assertCurrentLoad();
 
         const metadataMs =
           performance.now() -
@@ -840,8 +1821,18 @@
         const readStartedAt =
           performance.now();
 
+        const suppliedDecoded =
+          options.decodedBuffer &&
+          typeof options.decodedBuffer.duration ===
+            "number"
+            ? options.decodedBuffer
+            : null;
+
         const arrayBuffer =
-          await file.arrayBuffer();
+          suppliedDecoded
+            ? null
+            : await file.arrayBuffer();
+        assertCurrentLoad();
 
         const readMs =
           performance.now() -
@@ -849,17 +1840,23 @@
 
         notifyStage("decode", {
           bytes:
-            arrayBuffer.byteLength,
+            Number(
+              options.decodedBytes ||
+              arrayBuffer?.byteLength ||
+              0
+            ),
         });
 
         const decodeStartedAt =
           performance.now();
 
         const decoded =
+          suppliedDecoded ||
           await this.engine
             .decodeAudioData(
               arrayBuffer
             );
+        assertCurrentLoad();
 
         const decodeMs =
           performance.now() -
@@ -917,7 +1914,16 @@
 
         let spectralWaveform;
 
-        if (
+        if (options.skipWaveform === true) {
+          spectralWaveform = {
+            peaks: [],
+            bands: null,
+            multiscale: null,
+            analysis: null,
+            version: "guest-no-analysis-v1",
+          };
+          waveformSource = "not-requested";
+        } else if (
           Array.isArray(
             preparedWaveform?.peaks
           ) &&
@@ -935,6 +1941,7 @@
             bands:
               preparedWaveform.bands ||
               null,
+            multiscale: preparedWaveform.multiscale || null,
             analysis:
               preparedWaveform.analysis ||
               null,
@@ -1002,6 +2009,8 @@
         this.waveformBands =
           spectralWaveform.bands;
 
+        this.waveformMultiscale = spectralWaveform.multiscale || null;
+
         this.waveformVersion =
           spectralWaveform.version;
 
@@ -1010,24 +2019,32 @@
             metadata.bpm
           );
 
+        const preparedBpm =
+          this.normaliseBpmValue(
+            preparedAnalysis?.bpm
+          );
+
         this.rawAnalysedBpm =
           preparedAnalysis?.rawBpm ||
-          preparedAnalysis?.bpm ||
+          preparedBpm ||
+          this.metadataBpm ||
           null;
 
         this.analysedBpm =
+          preparedBpm ||
           this.metadataBpm ||
-          preparedAnalysis?.bpm ||
           null;
 
         this.tempoSource =
-          this.metadataBpm
-            ? "tag"
-            : (
+          preparedBpm
+            ? (
                 preparedAnalysis?.tempoSource ||
                 preparedAnalysis?.source ||
                 "prepared"
-              );
+              )
+            : this.metadataBpm
+              ? "tag"
+              : "prepared";
 
         this.tempoCandidates =
           Array.isArray(
@@ -1063,9 +2080,8 @@
 
         this.analysisConfidence = {
           tempo:
-            this.metadataBpm
-              ? 1
-              : Math.max(
+            preparedBpm
+              ? Math.max(
                   0,
                   Math.min(
                     1,
@@ -1076,7 +2092,10 @@
                         ?.confidence
                     ) || 0
                   )
-                ),
+                )
+              : this.metadataBpm
+                ? 1
+                : 0,
           key:
             metadata.key
               ? 1
@@ -1103,12 +2122,30 @@
           waveformMs,
           totalMs,
           bytes:
-            arrayBuffer.byteLength,
+            Number(
+              options.decodedBytes ||
+              arrayBuffer?.byteLength ||
+              0
+            ),
           waveformSource,
         };
 
         this.isLoaded = true;
         this.isLoading = false;
+        this.sourceKind =
+          options.sourceKind === "guest"
+            ? "guest"
+            : options.libraryItemId
+              ? "library"
+              : "file";
+        this.guestTrackId =
+          this.sourceKind === "guest"
+            ? String(options.guestTrackId || "")
+            : "";
+        this.guestReservation =
+          this.sourceKind === "guest" && options.guestReservation
+            ? { ...options.guestReservation }
+            : null;
         this.lastAction = "Loaded";
 
         notifyStage(
@@ -1119,6 +2156,13 @@
         this.emit();
         return this.getState();
       } catch (error) {
+        if (
+          error?.code === "BRMEDIA_STALE_DECK_LOAD" ||
+          loadGeneration !== this.waveformLoadGeneration
+        ) {
+          return this.getState();
+        }
+
         this.stopSourceOnly();
         this.stopNativeAudioOnly();
         this.revokeArtworkObjectUrl();
@@ -1171,6 +2215,7 @@
         this.manualLoopStart = null;
         this.waveformPeaks = [];
         this.waveformBands = null;
+      this.waveformMultiscale = null;
         this.waveformVersion = "";
 
         this.loadTimings = {
@@ -1200,8 +2245,221 @@
         return this.getState();
       }
     }
+		
+    applyPreparedLibraryUpdate(
+      options = {}
+    ) {
+      const libraryItemId =
+        String(
+          options.libraryItemId ||
+          ""
+        );
+
+      if (
+        !this.isLoaded ||
+        (
+          libraryItemId &&
+          String(
+            this.libraryItemId ||
+            ""
+          ) !== libraryItemId
+        )
+      ) {
+        return this.getState();
+      }
+
+      const metadata =
+        options.metadata &&
+        typeof options.metadata ===
+          "object"
+          ? options.metadata
+          : {};
+
+      const preparedWaveform =
+        options.preparedWaveform &&
+        typeof options.preparedWaveform ===
+          "object"
+          ? options.preparedWaveform
+          : null;
+
+      const preparedAnalysis =
+        options.preparedAnalysis &&
+        typeof options.preparedAnalysis ===
+          "object"
+          ? options.preparedAnalysis
+          : preparedWaveform?.analysis ||
+            null;
+
+      if (metadata.title) {
+        this.trackTitle =
+          String(
+            metadata.title
+          );
+      }
+
+      if (metadata.artist) {
+        this.trackArtist =
+          String(
+            metadata.artist
+          );
+      }
+
+      if (
+        Array.isArray(
+          preparedWaveform?.peaks
+        ) &&
+        preparedWaveform.peaks.length
+      ) {
+        this.waveformPeaks =
+          preparedWaveform.peaks.map(
+            (value) =>
+              Number(value) || 0
+          );
+
+        this.waveformBands =
+          preparedWaveform.bands ||
+          null;
+
+        this.waveformMultiscale = preparedWaveform.multiscale || null;
+
+        this.waveformVersion =
+          preparedWaveform.version ||
+          "server-prepared-background-v1";
+      }
+
+      const metadataBpm =
+        this.normaliseBpmValue(
+          metadata.bpm
+        );
+
+      const preparedBpm =
+        this.normaliseBpmValue(
+          preparedAnalysis?.bpm
+        );
+
+      this.metadataBpm =
+        metadataBpm ||
+        this.metadataBpm ||
+        null;
+
+      this.analysedBpm =
+        preparedBpm ||
+        this.metadataBpm ||
+        this.analysedBpm ||
+        null;
+
+      this.rawAnalysedBpm =
+        this.normaliseBpmValue(
+          preparedAnalysis?.rawBpm
+        ) ||
+        preparedBpm ||
+        this.rawAnalysedBpm ||
+        this.metadataBpm ||
+        null;
+
+      this.tempoSource =
+        preparedAnalysis?.tempoSource ||
+        preparedAnalysis?.source ||
+        (
+          preparedBpm
+            ? "prepared-background"
+            : this.tempoSource
+        ) ||
+        "";
+
+      this.tempoCandidates =
+        Array.isArray(
+          preparedAnalysis
+            ?.tempoCandidates
+        )
+          ? preparedAnalysis
+              .tempoCandidates
+          : this.tempoCandidates;
+
+      if (
+        Number.isFinite(
+          Number(
+            preparedAnalysis?.downbeat
+          )
+        )
+      ) {
+        this.analysedDownbeat =
+          Math.max(
+            -8,
+            Number(
+              preparedAnalysis.downbeat
+            )
+          );
+      }
+
+      this.analysedKey =
+        String(
+          preparedAnalysis?.key ||
+          metadata.key ||
+          this.analysedKey ||
+          ""
+        );
+
+      this.analysedKeyName =
+        String(
+          preparedAnalysis?.keyName ||
+          this.analysedKeyName ||
+          ""
+        );
+
+      this.analysisConfidence = {
+        tempo:
+          Math.max(
+            0,
+            Math.min(
+              1,
+              Number(
+                preparedAnalysis
+                  ?.tempoConfidence ??
+                preparedAnalysis
+                  ?.confidence ??
+                (
+                  preparedBpm
+                    ? 1
+                    : this
+                        .analysisConfidence
+                        .tempo
+                )
+              ) || 0
+            )
+          ),
+
+        key:
+          Math.max(
+            0,
+            Math.min(
+              1,
+              Number(
+                preparedAnalysis
+                  ?.keyConfidence ??
+                (
+                  this.analysedKey
+                    ? 1
+                    : this
+                        .analysisConfidence
+                        .key
+                )
+              ) || 0
+            )
+          ),
+      };
+
+      this.error = "";
+      this.lastAction =
+        "Background analysis applied";
+
+      this.emit();
+
+      return this.getState();
+    }
 
     async play(offset = this.pausedAt, options = {}) {
+      if (this.engine.externalAuthority) return this.getState();
       if (!this.buffer || !this.isLoaded) {
         this.error = "Load an audio file first";
         this.lastAction = "Play blocked";
@@ -1210,6 +2468,15 @@
       }
 
       await this.engine.unlock();
+			
+      this.cancelVinylBrake();
+      this.stopVinylScratchGrain();
+
+      this.vinylScratchActive =
+        false;
+
+      this.vinylScratchWasPlaying =
+        false;
 
       if (this.isPlaying) return this.getState();
 
@@ -1364,8 +2631,10 @@
     }
 
     pause() {
+      if (this.engine.externalAuthority) return this.getState();
       if (!this.isPlaying) return this.getState();
 
+      this.cancelVinylBrake();
       this.pausedAt = this.getCurrentTime();
       this.stopSourceOnly();
       this.stopNativeAudioOnly();
@@ -1421,6 +2690,15 @@
     }
 
     stop() {
+      this.cancelVinylBrake();
+      this.stopVinylScratchGrain();
+
+      this.vinylScratchActive =
+        false;
+
+      this.vinylScratchWasPlaying =
+        false;
+
       this.stopSourceOnly();
       this.stopNativeAudioOnly();
       this.isPlaying = false;
@@ -1430,8 +2708,47 @@
       return this.getState();
     }
 
+    unload() {
+      this.waveformLoadGeneration += 1;
+      this.stop();
+      this.stopVinylScratchGrain();
+      this.revokeArtworkObjectUrl();
+      this.revokeNativeObjectUrl();
+      this.file = null;
+      this.fileName = "";
+      this.trackTitle = "";
+      this.trackArtist = "";
+      this.artworkUrl = "";
+      this.buffer = null;
+      this.duration = 0;
+      this.libraryItemId = "";
+      this.sourceKind = "";
+      this.guestTrackId = "";
+      this.guestReservation = null;
+      this.waveformPeaks = [];
+      this.waveformBands = null;
+      this.waveformMultiscale = null;
+      this.waveformVersion = "";
+      this.isLoaded = false;
+      this.isLoading = false;
+      this.error = "";
+      this.lastAction = "Ejected";
+      this.emit();
+      return this.getState();
+    }
+
     async seek(seconds) {
+      if (this.engine.externalAuthority) return this.getState();
       if (!this.isLoaded || !this.buffer) return this.getState();
+			
+      this.cancelVinylBrake();
+      this.stopVinylScratchGrain();
+
+      this.vinylScratchActive =
+        false;
+
+      this.vinylScratchWasPlaying =
+        false;
 
       const safeSeconds = this.clampTime(seconds, false, true);
       const wasPlaying = this.isPlaying;
@@ -1452,6 +2769,7 @@
     }
 
     setCuePoint(seconds = this.getCurrentTime()) {
+      if (this.engine.externalAuthority) return this.getState();
       if (!this.isLoaded || !this.buffer) return this.getState();
 
       const rawSeconds = Number(seconds);
@@ -1462,14 +2780,54 @@
       return this.getState();
     }
 
-    setPlaybackRate(rate = 1) {
-      const rawRate = Number(rate);
+    setPlaybackRate(
+      rate = 1,
+      options = {}
+    ) {
+      if (this.engine.externalAuthority) return this.getState();
+      const rawRate =
+        Number(rate);
 
-      const safeRate = Number.isFinite(rawRate)
-        ? Math.max(0.5, Math.min(2, rawRate))
-        : 1;
+      const requestedRate =
+        Number.isFinite(
+          rawRate
+        )
+          ? Math.max(
+              0.5,
+              Math.min(
+                2,
+                rawRate
+              )
+            )
+          : 1;
 
-      const contextTime = this.context.currentTime;
+      if (
+        this.vinylNudgeActive &&
+        !options.vinylInternal
+      ) {
+        this.vinylNudgeBaseRate =
+          requestedRate;
+      }
+
+      const safeRate =
+        this.vinylNudgeActive &&
+        !options.vinylInternal
+          ? Math.max(
+              0.5,
+              Math.min(
+                2,
+                requestedRate *
+                  (
+                    1 +
+                    this.vinylNudgeDirection *
+                      this.vinylNudgeAmount
+                  )
+              )
+            )
+          : requestedRate;
+
+      const contextTime =
+        this.context.currentTime;
 
       /*
         Preserve a future Quantized Play start while Sync sets or adjusts
@@ -1614,6 +2972,283 @@
       this.lastAction = `Filter ${safeValue.toFixed(0)}%`;
       this.emit();
       return this.getState();
+    }
+		
+    setFxBypass(
+      bypassed = false
+    ) {
+      const nextBypassed =
+        Boolean(bypassed) ||
+        !this.fxRack;
+
+      this.fxBypassed =
+        nextBypassed;
+
+      const now =
+        this.context.currentTime;
+
+      [
+        [
+          this.fxDryGainNode,
+          nextBypassed ? 1 : 0,
+        ],
+        [
+          this.fxProcessedGainNode,
+          nextBypassed ? 0 : 1,
+        ],
+      ].forEach(
+        ([node, value]) => {
+          try {
+            node.gain
+              .cancelScheduledValues(
+                now
+              );
+
+            node.gain
+              .setValueAtTime(
+                value,
+                now
+              );
+          } catch {
+            node.gain.value =
+              value;
+          }
+        }
+      );
+
+      return this.fxBypassed;
+    }
+
+    resetFxRack(
+      options = {}
+    ) {
+      const forceDry =
+        options.forceDry === true;
+
+      const previousAmount =
+        Number(
+          this.fxRack?.amount
+        );
+
+      const previousBeatSeconds =
+        Number(
+          this.fxRack?.beatSeconds
+        );
+
+      /*
+        The independent dry route is activated before any old effect
+        nodes are disconnected or destroyed.
+      */
+      this.setFxBypass(true);
+
+      try {
+        if (this.fxRack?.input) {
+          this.filterNode.disconnect(
+            this.fxRack.input
+          );
+        }
+      } catch {}
+
+      try {
+        if (this.fxRack?.output) {
+          this.fxRack.output.disconnect(
+            this.fxProcessedGainNode
+          );
+        }
+      } catch {}
+
+      try {
+        this.fxRack?.destroy?.();
+      } catch {}
+
+      const FxRack =
+        typeof window !== "undefined"
+          ? window.BRMediaDjFxRack
+          : null;
+
+      this.fxRack =
+        typeof FxRack === "function"
+          ? new FxRack(
+              this.context,
+              {
+                deckId:
+                  this.deckId,
+
+                amount:
+                  Number.isFinite(
+                    previousAmount
+                  )
+                    ? previousAmount
+                    : 0.58,
+
+                beatSeconds:
+                  Number.isFinite(
+                    previousBeatSeconds
+                  )
+                    ? previousBeatSeconds
+                    : 60 / 175,
+
+                onTransportEffect:
+                  (
+                    effectId,
+                    enabled
+                  ) => {
+                    this.lastAction =
+                      `${effectId} ${
+                        enabled
+                          ? "on"
+                          : "off"
+                      }`;
+                  },
+              }
+            )
+          : null;
+
+      if (this.fxRack) {
+        this.filterNode.connect(
+          this.fxRack.input
+        );
+
+        this.fxRack.output.connect(
+          this.fxProcessedGainNode
+        );
+      }
+
+      this.setFxBypass(
+        forceDry ||
+        !this.fxRack
+      );
+
+      return this.getFxState();
+    }
+
+    getFxState() {
+      const state =
+        this.fxRack
+          ? this.fxRack.getState()
+          : {
+              deckId:
+                this.deckId,
+
+              amount: 0,
+
+              beatSeconds: 0,
+
+              active: [],
+
+              supported: false,
+            };
+
+      return {
+        ...state,
+
+        bypassed:
+          this.fxBypassed,
+
+        active:
+          this.fxBypassed
+            ? []
+            : state.active,
+      };
+    }
+
+    toggleFx(
+      effectId,
+      enabled,
+      options = {}
+    ) {
+      if (!this.fxRack) {
+        throw new Error(
+          "Performance FX engine is not loaded"
+        );
+      }
+			
+      if (enabled) {
+        this.setFxBypass(false);
+      }
+
+      const state =
+        this.fxRack.toggle(
+          effectId,
+          enabled,
+          options
+        );
+
+      this.lastAction =
+        `${effectId} ${
+          state.active.includes(
+            effectId
+          )
+            ? "on"
+            : "off"
+        }`;
+
+      this.engine
+        .emitFxState();
+
+      this.emit();
+
+      return state;
+    }
+
+    setFxAmount(
+      value = 0.58
+    ) {
+      if (!this.fxRack) {
+        return this
+          .getFxState();
+      }
+
+      const state =
+        this.fxRack
+          .setAmount(value);
+
+      this.engine
+        .emitFxState();
+
+      return state;
+    }
+
+    setFxBeatSeconds(
+      beatSeconds = 60 / 175
+    ) {
+      if (!this.fxRack) {
+        return this
+          .getFxState();
+      }
+
+      const state =
+        this.fxRack
+          .setBeatSeconds(
+            beatSeconds
+          );
+
+      this.engine
+        .emitFxState();
+
+      return state;
+    }
+
+    clearFx() {
+      if (!this.fxRack) {
+        return this
+          .getFxState();
+      }
+
+      const state =
+        this.resetFxRack({
+          forceDry: true,
+        });
+
+      this.lastAction =
+        "FX hard reset";
+
+      this.engine
+        .emitFxState();
+
+      this.emit();
+
+      return state;
     }
 
     getLevel() {
@@ -1795,7 +3430,15 @@
       return Math.max(0, Math.min(1, Math.sqrt(sum / meterData.length) * 2.8));
     }
 		
+    setExternalAuthority(active = false) {
+      const next = active === true;
+      if (next && !this.externalAuthority) this.getPlayingDecks().forEach((deck) => deck.pause());
+      this.externalAuthority = next;
+      return this.externalAuthority;
+    }
+
     async playDecksTogether(offsets = {}) {
+      if (this.externalAuthority) return { d1: this.getDeck("d1").getState(), d2: this.getDeck("d2").getState(), externalAuthority: true };
       await this.unlock();
 
       const deck1 = this.getDeck("d1");
@@ -1832,6 +3475,7 @@
     }
 
     pauseDecksTogether() {
+      if (this.externalAuthority) return { d1: this.getDeck("d1").getState(), d2: this.getDeck("d2").getState(), externalAuthority: true };
       /*
         Both sources are scheduled to stop at exactly this clock time.
       */
@@ -1852,6 +3496,7 @@
     }
 
     setCrossfader(value = 50) {
+      if (this.externalAuthority) return this.getMixerState();
       const safeValue = Math.max(0, Math.min(100, Number(value) || 0));
       this.crossfaderValue = safeValue;
 
@@ -1866,6 +3511,7 @@
     }
 
     setDeckVolume(deckId, value = 1) {
+      if (this.externalAuthority) return this.getDeck(deckId === "d2" ? "d2" : "d1").getState();
       const safeDeckId = deckId === "d2" ? "d2" : "d1";
       const safeValue = Math.max(0, Math.min(1, Number(value)));
       const state = this.getDeck(safeDeckId).setChannelVolume(safeValue);
@@ -1874,11 +3520,13 @@
     }
 
     setDeckPlaybackRate(deckId, rate = 1) {
+      if (this.externalAuthority) return this.getDeck(deckId === "d2" ? "d2" : "d1").getState();
       const safeDeckId = deckId === "d2" ? "d2" : "d1";
       return this.getDeck(safeDeckId).setPlaybackRate(rate);
     }
 
     setMasterVolume(value = 0.95) {
+      if (this.externalAuthority) return this.getMixerState();
       const rawValue = Number(value);
       this.masterVolume = Number.isFinite(rawValue) ? Math.max(0, Math.min(1.5, rawValue)) : 0.95;
       this.masterGain.gain.setTargetAtTime(this.masterVolume, this.context.currentTime, 0.012);
@@ -1888,6 +3536,7 @@
     }
 
     setDeckTrim(deckId, value = 1) {
+      if (this.externalAuthority) return this.getDeck(deckId === "d2" ? "d2" : "d1").getState();
       const safeDeckId = deckId === "d2" ? "d2" : "d1";
       const state = this.getDeck(safeDeckId).setTrimGain(value);
       this.emitMixerState();
@@ -1895,6 +3544,7 @@
     }
 
     setDeckFilter(deckId, value = 50) {
+      if (this.externalAuthority) return this.getDeck(deckId === "d2" ? "d2" : "d1").getState();
       const safeDeckId = deckId === "d2" ? "d2" : "d1";
       const state = this.getDeck(safeDeckId).setFilter(value);
       this.emitMixerState();
@@ -1902,6 +3552,7 @@
     }
 
     setDeckEq(deckId, band = "mid", value = 100) {
+      if (this.externalAuthority) return this.getDeck(deckId === "d2" ? "d2" : "d1").getState();
       const safeDeckId = deckId === "d2" ? "d2" : "d1";
       const state = this.getDeck(safeDeckId).setEq(band, value);
       this.emitMixerState();
@@ -1909,10 +3560,120 @@
     }
 
     setDeckKill(deckId, band = "mid", enabled = false) {
+      if (this.externalAuthority) return this.getDeck(deckId === "d2" ? "d2" : "d1").getState();
       const safeDeckId = deckId === "d2" ? "d2" : "d1";
       const state = this.getDeck(safeDeckId).setKill(band, enabled);
       this.emitMixerState();
       return state;
+    }
+		
+    toggleDeckFx(
+      deckId,
+      effectId,
+      enabled,
+      options = {}
+    ) {
+      const safeDeckId =
+        deckId === "d2"
+          ? "d2"
+          : "d1";
+
+      return this
+        .getDeck(safeDeckId)
+        .toggleFx(
+          effectId,
+          enabled,
+          options
+        );
+    }
+
+    setDeckFxAmount(
+      deckId,
+      amount = 0.58
+    ) {
+      const safeDeckId =
+        deckId === "d2"
+          ? "d2"
+          : "d1";
+
+      return this
+        .getDeck(safeDeckId)
+        .setFxAmount(amount);
+    }
+
+    setDeckFxBeatSeconds(
+      deckId,
+      beatSeconds = 60 / 175
+    ) {
+      const safeDeckId =
+        deckId === "d2"
+          ? "d2"
+          : "d1";
+
+      return this
+        .getDeck(safeDeckId)
+        .setFxBeatSeconds(
+          beatSeconds
+        );
+    }
+
+    clearDeckFx(deckId) {
+      const safeDeckId =
+        deckId === "d2"
+          ? "d2"
+          : "d1";
+
+      return this
+        .getDeck(safeDeckId)
+        .clearFx();
+    }
+		
+    clearAllFx() {
+      ["d1", "d2"].forEach(
+        (deckId) => {
+          const deck =
+            this.getDeck(
+              deckId
+            );
+
+          deck.resetFxRack({
+            forceDry: true,
+          });
+
+          deck.lastAction =
+            "FX hard reset";
+
+          deck.emit();
+        }
+      );
+
+      this.emitFxState();
+
+      return this.getFxState();
+    }
+
+    getFxState() {
+      return {
+        d1: this
+          .getDeck("d1")
+          .getFxState(),
+
+        d2: this
+          .getDeck("d2")
+          .getFxState(),
+      };
+    }
+
+    emitFxState() {
+      window.dispatchEvent(
+        new CustomEvent(
+          "brmedia:dj-fx-state",
+          {
+            detail:
+              this.getFxState(),
+          }
+        )
+      );
     }
 
     getMixerLevels() {
@@ -2014,6 +3775,7 @@
     setDeckVolume(deckId, value) {
       return getEngine().setDeckVolume(deckId, value);
     },
+    setExternalAuthority(active) { return getEngine().setExternalAuthority(active); },
     setDeckPlaybackRate(deckId, rate) {
       return getEngine().setDeckPlaybackRate(deckId, rate);
     },
@@ -2043,6 +3805,60 @@
     },
     clearDeckLoop(deckId) {
       return getEngine().getDeck(deckId).clearLoop();
+    },
+    unloadDeck(deckId) {
+      return getEngine().getDeck(deckId).unload();
+    },
+    toggleDeckFx(
+      deckId,
+      effectId,
+      enabled,
+      options
+    ) {
+      return getEngine()
+        .toggleDeckFx(
+          deckId,
+          effectId,
+          enabled,
+          options
+        );
+    },
+
+    setDeckFxAmount(
+      deckId,
+      amount
+    ) {
+      return getEngine()
+        .setDeckFxAmount(
+          deckId,
+          amount
+        );
+    },
+
+    setDeckFxBeatSeconds(
+      deckId,
+      beatSeconds
+    ) {
+      return getEngine()
+        .setDeckFxBeatSeconds(
+          deckId,
+          beatSeconds
+        );
+    },
+
+    clearDeckFx(deckId) {
+      return getEngine()
+        .clearDeckFx(deckId);
+    },
+		
+    clearAllFx() {
+      return getEngine()
+        .clearAllFx();
+    },
+
+    getFxState() {
+      return getEngine()
+        .getFxState();
     },
     getMixerLevels() {
       return getEngine().getMixerLevels();

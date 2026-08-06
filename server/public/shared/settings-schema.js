@@ -11,7 +11,7 @@
     { id: "google-drive", label: "Google Drive", icon: "GDR", summary: "Connected Drive accounts, imports and reconnect status.", section: "Cloud" },
     { id: "dropbox", label: "Dropbox", icon: "DBX", summary: "Connected Dropbox accounts, imports and reconnect status.", section: "Cloud" },
     { id: "import", label: "Import / Direct URL", icon: "URL", summary: "Direct links, lawful imports and saved source links.", section: "Cloud" },
-    { id: "sources", label: "Source folders", icon: "SRC", summary: "C:\\DJMixes, C:\\Videos and shared local source rules.", section: "Sources" },
+    { id: "sources", label: "Source folders", icon: "SRC", summary: "H:\\Music, C:\\DJMixes, C:\\Videos and shared local source rules.", section: "Sources" },
     { id: "server", label: "Server", icon: "SRV", summary: "Jump to deeper server/admin settings without mixing the two pages.", section: "Admin" },
   ];
 

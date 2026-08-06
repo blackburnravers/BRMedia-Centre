@@ -7,4 +7,4 @@ npm run server:dev
 Load Tracks:
 curl -X POST http://localhost:8787/library/import/local ^
   -H "Content-Type: application/json" ^
-  -d "{\"path\":\"C:\\DJMixes\"}"
+  -d "{\"path\":\"H:\\Music\"}"

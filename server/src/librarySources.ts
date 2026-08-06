@@ -69,7 +69,7 @@ function ensureLibrarySourcesDir() {
 function buildInitialLibrarySources(): LibrarySource[] {
   const now = Date.now();
   const map = new Map<string, LibrarySource>();
-  const audioRoots = splitPathList(process.env.BRMEDIA_AUDIO_DIRS, "C:\\DJMixes");
+  const audioRoots = splitPathList(process.env.BRMEDIA_AUDIO_DIRS, "H:\\Music;C:\\DJMixes");
   const videoRoots = splitPathList(process.env.BRMEDIA_VIDEO_DIRS || process.env.VIDEO_LIBRARY_DIRS, "C:\\Videos");
 
   const add = (sourcePath: string, type: "audio" | "video", index: number) => {
@@ -259,9 +259,15 @@ export function getLibrarySourcesWithStatus() {
 }
 
 export function getEnabledLibrarySourcePaths(type?: "audio" | "video") {
-  return getLibrarySources()
-    .filter((source) => source.enabled && (!type || sourceSupportsType(source, type)))
-    .map((source) => source.path);
+  const sources = getLibrarySources()
+    .filter((source) => source.enabled && (!type || sourceSupportsType(source, type)));
+
+  if (type) {
+    const defaultFlag = type === "audio" ? "defaultAudioTarget" : "defaultVideoTarget";
+    sources.sort((left, right) => Number(right[defaultFlag]) - Number(left[defaultFlag]));
+  }
+
+  return sources.map((source) => source.path);
 }
 
 export function getAllEnabledLibrarySourcePaths() {

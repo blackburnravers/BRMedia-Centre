@@ -1,0 +1,9 @@
+description, duration=15.0, summary="M26 GStreamer standalone pause/resume proof", live-content-compatible=true, handles-states=true
+set-state, state=playing
+wait, duration=5.0
+set-state, state=paused
+wait, duration=3.0
+set-state, state=playing
+wait, duration=5.0
+eos
+stop

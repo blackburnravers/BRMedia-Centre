@@ -23,6 +23,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@julusian/midi": "^3.7.2",
     "music-metadata": "^11.12.1"
   }
 }

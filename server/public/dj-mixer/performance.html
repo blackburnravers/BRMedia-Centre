@@ -15,7 +15,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="DUO Mixer" />
 
-  <link rel="stylesheet" href="/dj-mixer/styles.css?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status" />
+  <link rel="stylesheet" href="/dj-mixer/styles.css?v=20260803-m25-no-fallback" />
+  <link rel="stylesheet" href="/dj-mixer/mixxx-catalogue-m21.css?v=20260801-m22-1-production" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 
@@ -45,10 +46,9 @@
               <h1>No track loaded</h1>
               <span>Unknown artist</span>
             </div>
-            <label class="brDjSingleLibraryBtn" role="button" aria-label="Load Deck 1 audio">
-              <input class="brDjEngineNativeFileInput" data-dj-engine-file="d1" type="file" />
-              <i class="fa-solid fa-music"></i>
-            </label>
+            <button class="brDjSingleLibraryBtn brDjMixxxEject" data-mixxx-header-action-deck="1" type="button" aria-label="Eject Deck 1" disabled>
+              <i class="fa-solid fa-eject" aria-hidden="true"></i>
+            </button>
           </header>
 
           <section class="brDjSingleOverviewWave" aria-label="Deck 1 full-track overview waveform">
@@ -109,7 +109,7 @@
               </div>
             </section>
 
-            <section class="brDjGridControls" aria-label="Deck 1 grid controls">
+            <section class="brDjGridControls" data-grid-control-set="1" aria-label="Deck 1 grid controls">
               <button class="brDjGridBpmBox" type="button">
                 <span>Grid BPM</span>
                 <strong>--.--</strong>
@@ -134,10 +134,12 @@
               <button class="brDjGridPalette" type="button" aria-label="Grid colour"><i class="fa-solid fa-palette"></i></button>
               <button class="brDjGridLock" type="button" aria-label="Lock beat grid"><i class="fa-solid fa-lock"></i></button>
             </section>
+            <section class="brDjGridControls" data-grid-control-set="2" aria-label="Deck 1 additional grid controls" hidden></section>
 
             <button class="brDjGridStatus" type="button">
               Grid waiting for BPM analysis
             </button>
+            <button class="brM25PrepareGrid" data-m25-prepare-grid type="button" hidden>Prepare Grid</button>
 
             <section class="brDjSingleTransport brDjGridTransport" aria-label="Deck 1 grid transport">
               <button class="brDjSingleCueBtn" type="button">Cue</button>
@@ -275,68 +277,231 @@
         </div>
 
         <div class="brDjSingleModePanel" data-deck-panel="stems">
-          <div class="brDjStemsPage is-deck-1">
-            <section class="brDjCueMemoryOverview brDjStemsOverview" aria-label="Deck 1 stems overview waveform">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <div
+            class="brDjStemsPage is-deck-1"
+            data-dj-stems-deck="d1"
+          >
+            <section
+              class="brDjStemsRuntimeBar"
+              aria-label="Deck 1 stem preparation"
+            >
+              <div class="brDjStemsRuntimeActions">
+                <button
+                  type="button"
+                  data-dj-stems-prepare
+                >
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  <span>Prepare Stems</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-stems-delete
+                  disabled
+                >
+                  <i class="fa-solid fa-trash"></i>
+                  <span>Delete</span>
+                </button>
+
+                <button
+                  class="is-active"
+                  type="button"
+                  data-dj-stem-mode="original"
+                  aria-pressed="true"
+                >
+                  <i class="fa-solid fa-wave-square"></i>
+                  <span>Original</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-stem-mode="stems"
+                  aria-pressed="false"
+                  disabled
+                >
+                  <i class="fa-solid fa-layer-group"></i>
+                  <span>Stem Mix</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-stems-reset
+                  disabled
+                >
+                  <i class="fa-solid fa-rotate-left"></i>
+                  <span>Reset</span>
+                </button>
+              </div>
+
+              <strong
+                class="brDjStemsRuntimeStatus"
+                data-dj-stems-status
+              >
+                Load a Performance Library track into this deck
+              </strong>
             </section>
 
-            <section class="brDjCueMemoryWave brDjStemsWave" aria-label="Deck 1 stems detailed waveform">
+            <section
+              class="brDjCueMemoryWave brDjStemsWave"
+              aria-label="Deck 1 stems detailed waveform"
+            >
               <div class="brDjCueMemoryPills">
                 <span>-06:09.8</span>
                 <strong>248.1 Bars</strong>
                 <span>00:00.0</span>
               </div>
+
               <div class="brDjCueMemoryWaveform">
-                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-              </div>
-              <div class="brDjSingleZoomDock">
-                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
               </div>
             </section>
 
-            <section class="brDjStemFaderGrid" aria-label="Deck 1 stems faders">
-              <article class="brDjStemLane">
-                <button type="button" aria-label="Drums stem"><i class="fa-solid fa-drum"></i></button>
+            <section
+              class="brDjStemFaderGrid"
+              aria-label="Deck 1 stems faders"
+            >
+              <article
+                class="brDjStemLane"
+                data-dj-stem-lane="drums"
+              >
+                <button
+                  type="button"
+                  data-dj-stem-mute
+                  aria-pressed="false"
+                  aria-label="Mute drums stem"
+                >
+                  <i class="fa-solid fa-drum"></i>
+                </button>
+
                 <div class="brDjStemFaderBox">
-                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="100" aria-label="Drums stem level" />
+                  <input
+                    class="brDjStemFaderRange"
+                    data-dj-stem-level
+                    type="range"
+                    min="0"
+                    max="125"
+                    value="100"
+                    aria-label="Drums stem level"
+                  />
                 </div>
-                <strong>100%</strong>
+
+                <strong data-dj-stem-value>100%</strong>
                 <span>Drums</span>
               </article>
 
-              <article class="brDjStemLane is-muted">
-                <button type="button" aria-label="Bass stem"><i class="fa-solid fa-guitar"></i></button>
+              <article
+                class="brDjStemLane"
+                data-dj-stem-lane="bass"
+              >
+                <button
+                  type="button"
+                  data-dj-stem-mute
+                  aria-pressed="false"
+                  aria-label="Mute bass stem"
+                >
+                  <i class="fa-solid fa-guitar"></i>
+                </button>
+
                 <div class="brDjStemFaderBox">
-                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Bass stem level" />
+                  <input
+                    class="brDjStemFaderRange"
+                    data-dj-stem-level
+                    type="range"
+                    min="0"
+                    max="125"
+                    value="100"
+                    aria-label="Bass stem level"
+                  />
                 </div>
-                <strong>Muted</strong>
+
+                <strong data-dj-stem-value>100%</strong>
                 <span>Bass</span>
               </article>
 
-              <article class="brDjStemLane is-muted">
-                <button type="button" aria-label="Harmonic stem"><i class="fa-solid fa-keyboard"></i></button>
+              <article
+                class="brDjStemLane"
+                data-dj-stem-lane="other"
+              >
+                <button
+                  type="button"
+                  data-dj-stem-mute
+                  aria-pressed="false"
+                  aria-label="Mute other stem"
+                >
+                  <i class="fa-solid fa-keyboard"></i>
+                </button>
+
                 <div class="brDjStemFaderBox">
-                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Harmonic stem level" />
+                  <input
+                    class="brDjStemFaderRange"
+                    data-dj-stem-level
+                    type="range"
+                    min="0"
+                    max="125"
+                    value="100"
+                    aria-label="Other stem level"
+                  />
                 </div>
-                <strong>Muted</strong>
-                <span>Harmonic</span>
+
+                <strong data-dj-stem-value>100%</strong>
+                <span>Other</span>
               </article>
 
-              <article class="brDjStemLane is-muted">
-                <button type="button" aria-label="Vocals stem"><i class="fa-solid fa-microphone"></i></button>
+              <article
+                class="brDjStemLane"
+                data-dj-stem-lane="vocals"
+              >
+                <button
+                  type="button"
+                  data-dj-stem-mute
+                  aria-pressed="false"
+                  aria-label="Mute vocals stem"
+                >
+                  <i class="fa-solid fa-microphone"></i>
+                </button>
+
                 <div class="brDjStemFaderBox">
-                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Vocals stem level" />
+                  <input
+                    class="brDjStemFaderRange"
+                    data-dj-stem-level
+                    type="range"
+                    min="0"
+                    max="125"
+                    value="100"
+                    aria-label="Vocals stem level"
+                  />
                 </div>
-                <strong>Muted</strong>
+
+                <strong data-dj-stem-value>100%</strong>
                 <span>Vocals</span>
               </article>
             </section>
 
-            <section class="brDjSingleTransport brDjStemTransport" aria-label="Deck 1 stems transport">
-              <button class="brDjSingleCueBtn" type="button">Cue</button>
-              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            <section
+              class="brDjSingleTransport brDjStemTransport"
+              aria-label="Deck 1 stems transport"
+            >
+              <button
+                class="brDjSingleCueBtn"
+                type="button"
+              >
+                Cue
+              </button>
+
+              <button
+                class="brDjSinglePlayBtn"
+                type="button"
+              >
+                <i class="fa-solid fa-play"></i>
+                <span>Play</span>
+              </button>
             </section>
           </div>
         </div>
@@ -401,9 +566,17 @@
           <div class="brDjDuoWaveStack" aria-label="DUO stacked waveforms">
             <article class="brDjDuoHorizontalWave is-deck-1">
               <header>
-                <span>Deck 1 waveform</span>
-                <em>-04:45.2</em>
+                <span>00:00.0</span>
+                <em>-00:00.0</em>
               </header>
+
+              <strong
+                class="brDjDuoWaveBarCounter"
+                data-dj-duo-bar-counter="d1"
+              >
+                — Bars
+              </strong>
+
               <div class="brDjDuoWaveBody">
                 <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
               </div>
@@ -411,9 +584,17 @@
 
             <article class="brDjDuoHorizontalWave is-deck-2">
               <header>
-                <span>Deck 2 waveform</span>
-                <em>00:00.0</em>
+                <span>00:00.0</span>
+                <em>-00:00.0</em>
               </header>
+
+              <strong
+                class="brDjDuoWaveBarCounter"
+                data-dj-duo-bar-counter="d2"
+              >
+                — Bars
+              </strong>
+
               <div class="brDjDuoWaveBody">
                 <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
               </div>
@@ -686,17 +867,165 @@
           <header class="brDjFxBoardHeader">
             <div>
               <p>DUO FX</p>
-              <h1 data-dj-performance-fx-title>Board 1</h1>
-              <span data-dj-performance-fx-subtitle>Orange board · 9 performance pads</span>
+              <h1 data-dj-performance-fx-title>
+                DJM FX
+              </h1>
+
+              <span data-dj-performance-fx-subtitle>
+                Club mixer essentials · 13 beat effects
+              </span>
             </div>
 
-            <div class="brDjFxBoardIndicators" aria-label="FX board position">
-              <span class="is-active" data-dj-performance-fx-indicator="board1">B1</span>
-              <span data-dj-performance-fx-indicator="board2">B2</span>
-              <span data-dj-performance-fx-indicator="board3">B3</span>
-              <span data-dj-performance-fx-indicator="board4">B4</span>
+            <div
+              class="brDjFxBoardIndicators"
+              aria-label="FX board position"
+            >
+              <button
+                class="is-active"
+                type="button"
+                data-dj-performance-fx-indicator="djm700"
+                data-dj-fx-board-button="djm700"
+                aria-pressed="true"
+              >
+                DJM
+              </button>
+
+              <button
+                type="button"
+                data-dj-performance-fx-indicator="board1"
+                data-dj-fx-board-button="board1"
+                aria-pressed="false"
+              >
+                B1
+              </button>
+
+              <button
+                type="button"
+                data-dj-performance-fx-indicator="board2"
+                data-dj-fx-board-button="board2"
+                aria-pressed="false"
+              >
+                B2
+              </button>
+
+              <button
+                type="button"
+                data-dj-performance-fx-indicator="board3"
+                data-dj-fx-board-button="board3"
+                aria-pressed="false"
+              >
+                B3
+              </button>
+
+              <button
+                type="button"
+                data-dj-performance-fx-indicator="board4"
+                data-dj-fx-board-button="board4"
+                aria-pressed="false"
+              >
+                B4
+              </button>
             </div>
           </header>
+					
+          <section
+            class="brDjFxRuntimeBar"
+            aria-label="FX runtime controls"
+          >
+            <div
+              class="brDjFxTargetButtons"
+              aria-label="FX target deck"
+            >
+              <button
+                type="button"
+                data-dj-fx-target="d1"
+                aria-pressed="true"
+              >
+                D1
+              </button>
+
+              <button
+                type="button"
+                data-dj-fx-target="both"
+                aria-pressed="false"
+              >
+                Both
+              </button>
+
+              <button
+                type="button"
+                data-dj-fx-target="d2"
+                aria-pressed="false"
+              >
+                D2
+              </button>
+            </div>
+
+            <label
+              class="brDjFxAmountControl"
+            >
+              <span>
+                FX Mix
+
+                <strong
+                  data-dj-fx-amount-value
+                >
+                  58%
+                </strong>
+              </span>
+
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="58"
+                data-dj-fx-amount
+                aria-label="FX wet amount"
+              />
+            </label>
+
+            <label class="brDjFxTimingControl">
+              <span>
+                FX Timing
+
+                <strong data-dj-fx-timing-value>
+                  1/2 beat
+                </strong>
+              </span>
+
+              <input
+                type="range"
+                min="0"
+                max="7"
+                step="1"
+                value="2"
+                data-dj-fx-timing
+                aria-label="FX timing from one eighth beat to two bars"
+              />
+            </label>
+
+            <button
+              class="brDjFxClearButton"
+              type="button"
+              data-dj-fx-clear
+            >
+              Kill All FX
+            </button>
+
+            <strong
+              class="brDjFxActiveSummary"
+              data-dj-fx-active-summary
+            >
+              D1 0 ON • D2 0 ON
+            </strong>
+
+            <span
+              class="brDjFxRuntimeStatus"
+              data-dj-performance-fx-status
+            >
+              Deck 1 • 1/2 beat • 58%
+            </span>
+          </section>
 
           <div class="brDjFxPadGrid" data-dj-performance-fx-pads aria-label="FX performance pads">
             <button class="brDjFxPadSkeleton" type="button">Loading FX…</button>
@@ -717,24 +1046,92 @@
 
       <div class="brDjDuoTabPanel brDjVinylPanel" data-dj-duo-panel="vinyl">
         <div class="brDjVinylDecks">
-          <article class="brDjVinylDeckView is-active" data-vinyl-deck="a">
+          <article
+            class="brDjVinylDeckView is-active"
+            data-vinyl-deck="a"
+            data-dj-vinyl-engine-deck="d1"
+          >
             <div class="brDjVinylLeftRail">
-              <button class="brDjVinylDeckSwitch" data-vinyl-deck-switch type="button" aria-label="Switch to Deck 2 vinyl">
+              <button
+                class="brDjVinylDeckSwitch"
+                data-vinyl-deck-switch
+                type="button"
+                aria-label="Switch to Deck 2 vinyl"
+              >
                 <span>D1</span>
               </button>
 
-              <div class="brDjVinylUtilityControls" aria-label="Deck 1 vinyl controls">
-                <button type="button"><i class="fa-solid fa-rotate-left"></i><span>Nudge -</span></button>
-                <button type="button"><i class="fa-solid fa-rotate-right"></i><span>Nudge +</span></button>
-                <button type="button"><i class="fa-solid fa-record-vinyl"></i><span>Scratch</span></button>
-                <button type="button"><i class="fa-solid fa-stop"></i><span>Brake</span></button>
+              <div
+                class="brDjVinylUtilityControls"
+                aria-label="Deck 1 vinyl controls"
+              >
+                <button
+                  type="button"
+                  data-dj-vinyl-action="nudge-down"
+                  data-dj-vinyl-deck-id="d1"
+                >
+                  <i class="fa-solid fa-rotate-left"></i>
+                  <span>Nudge -</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-vinyl-action="nudge-up"
+                  data-dj-vinyl-deck-id="d1"
+                >
+                  <i class="fa-solid fa-rotate-right"></i>
+                  <span>Nudge +</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-vinyl-action="scratch"
+                  data-dj-vinyl-deck-id="d1"
+                  aria-pressed="true"
+                >
+                  <i class="fa-solid fa-record-vinyl"></i>
+                  <span>Scratch</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-vinyl-action="brake"
+                  data-dj-vinyl-deck-id="d1"
+                >
+                  <i class="fa-solid fa-stop"></i>
+                  <span>Brake</span>
+                </button>
               </div>
             </div>
 
-            <div class="brDjVinylTurntableSide" aria-hidden="true">
+            <div class="brDjVinylTurntableSide">
               <div class="brDjVinylPlatter">
-                <div class="brDjVinylDisc"><span><img class="brDjVinylArtwork" src="/shared/branding/logos/icon-512.png" alt="Deck artwork" /></span></div>
-                <div class="brDjVinylTonearm"><span></span></div>
+                <div
+                  class="brDjVinylDisc"
+                  data-dj-vinyl-platter="d1"
+                  role="slider"
+                  tabindex="0"
+                  aria-label="Deck 1 touch vinyl platter"
+                >
+                  <span>
+                    <img
+                      class="brDjVinylArtwork"
+                      src="/shared/branding/logos/icon-512.png"
+                      alt="Deck artwork"
+                    />
+                  </span>
+                </div>
+
+                <div class="brDjVinylTonearm">
+                  <span></span>
+                </div>
+
+                <strong
+                  class="brDjVinylTouchStatus"
+                  data-dj-vinyl-status
+                >
+                  Touch the record to scratch
+                </strong>
               </div>
             </div>
 
@@ -755,24 +1152,92 @@
             </div>
           </article>
 
-          <article class="brDjVinylDeckView" data-vinyl-deck="b">
+          <article
+            class="brDjVinylDeckView"
+            data-vinyl-deck="b"
+            data-dj-vinyl-engine-deck="d2"
+          >
             <div class="brDjVinylLeftRail">
-              <button class="brDjVinylDeckSwitch" data-vinyl-deck-switch type="button" aria-label="Switch to Deck 1 vinyl">
+              <button
+                class="brDjVinylDeckSwitch"
+                data-vinyl-deck-switch
+                type="button"
+                aria-label="Switch to Deck 1 vinyl"
+              >
                 <span>D2</span>
               </button>
 
-              <div class="brDjVinylUtilityControls" aria-label="Deck 2 vinyl controls">
-                <button type="button"><i class="fa-solid fa-rotate-left"></i><span>Nudge -</span></button>
-                <button type="button"><i class="fa-solid fa-rotate-right"></i><span>Nudge +</span></button>
-                <button type="button"><i class="fa-solid fa-record-vinyl"></i><span>Scratch</span></button>
-                <button type="button"><i class="fa-solid fa-stop"></i><span>Brake</span></button>
+              <div
+                class="brDjVinylUtilityControls"
+                aria-label="Deck 2 vinyl controls"
+              >
+                <button
+                  type="button"
+                  data-dj-vinyl-action="nudge-down"
+                  data-dj-vinyl-deck-id="d2"
+                >
+                  <i class="fa-solid fa-rotate-left"></i>
+                  <span>Nudge -</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-vinyl-action="nudge-up"
+                  data-dj-vinyl-deck-id="d2"
+                >
+                  <i class="fa-solid fa-rotate-right"></i>
+                  <span>Nudge +</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-vinyl-action="scratch"
+                  data-dj-vinyl-deck-id="d2"
+                  aria-pressed="true"
+                >
+                  <i class="fa-solid fa-record-vinyl"></i>
+                  <span>Scratch</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-vinyl-action="brake"
+                  data-dj-vinyl-deck-id="d2"
+                >
+                  <i class="fa-solid fa-stop"></i>
+                  <span>Brake</span>
+                </button>
               </div>
             </div>
 
-            <div class="brDjVinylTurntableSide" aria-hidden="true">
+            <div class="brDjVinylTurntableSide">
               <div class="brDjVinylPlatter deck-b">
-                <div class="brDjVinylDisc"><span><img class="brDjVinylArtwork" src="/shared/branding/logos/icon-512.png" alt="Deck artwork" /></span></div>
-                <div class="brDjVinylTonearm"><span></span></div>
+                <div
+                  class="brDjVinylDisc"
+                  data-dj-vinyl-platter="d2"
+                  role="slider"
+                  tabindex="0"
+                  aria-label="Deck 2 touch vinyl platter"
+                >
+                  <span>
+                    <img
+                      class="brDjVinylArtwork"
+                      src="/shared/branding/logos/icon-512.png"
+                      alt="Deck artwork"
+                    />
+                  </span>
+                </div>
+
+                <div class="brDjVinylTonearm">
+                  <span></span>
+                </div>
+
+                <strong
+                  class="brDjVinylTouchStatus"
+                  data-dj-vinyl-status
+                >
+                  Touch the record to scratch
+                </strong>
               </div>
             </div>
 
@@ -795,7 +1260,161 @@
         </div>
       </div>
 
-      <div class="brDjDuoTabPanel" data-dj-duo-panel="record" hidden></div>
+      <div
+        class="brDjDuoTabPanel brDjRecordingPanel"
+        data-dj-duo-panel="record"
+        data-dj-recording-panel
+        data-recording-state="ready"
+        hidden
+      >
+        <section class="brDjRecordingCard">
+          <header class="brDjRecordingHeader">
+            <div>
+              <p>Post-master capture</p>
+              <h1>BRMedia Recording Engine</h1>
+            </div>
+
+            <span class="brDjRecordingStatePill">
+              <i class="fa-solid fa-circle"></i>
+
+              <strong data-dj-recording-status>
+                Ready to capture the exact post-master mix
+              </strong>
+            </span>
+          </header>
+
+          <div
+            class="brDjRecordingCountdown"
+            data-dj-recording-countdown
+            hidden
+            aria-hidden="true"
+          >
+            <span>Recording begins in</span>
+
+            <strong
+              data-dj-recording-countdown-value
+            ></strong>
+          </div>
+
+          <section
+            class="brDjRecordingMonitor"
+            aria-label="Recording monitor"
+          >
+            <div class="brDjRecordingClock">
+              <span>Elapsed</span>
+
+              <strong data-dj-recording-timer>
+                00:00
+              </strong>
+            </div>
+
+            <div
+              class="brDjRecordingMeter"
+              aria-label="Post-master recording level"
+            >
+              <div>
+                <i data-dj-recording-meter-fill></i>
+              </div>
+
+              <span>
+                Master
+
+                <strong data-dj-recording-meter-value>
+                  0%
+                </strong>
+              </span>
+            </div>
+          </section>
+
+          <section
+            class="brDjRecordingDetails"
+            aria-label="Recording details"
+          >
+            <div>
+              <span>Capture</span>
+              <strong>Exact post-master Web Audio mix</strong>
+            </div>
+
+            <div>
+              <span>Raw format</span>
+
+              <strong data-dj-recording-format>
+                Browser-native audio
+              </strong>
+            </div>
+
+            <div>
+              <span>Uploaded</span>
+
+              <strong data-dj-recording-bytes>
+                0 B
+              </strong>
+            </div>
+          </section>
+
+          <section
+            class="brDjRecordingControls"
+            aria-label="Recording controls"
+          >
+            <button
+              class="is-start"
+              type="button"
+              data-dj-recording-start
+            >
+              <i class="fa-solid fa-circle"></i>
+              <span>Start Recording</span>
+            </button>
+
+            <button
+              class="is-pause"
+              type="button"
+              data-dj-recording-pause
+              hidden
+            >
+              <i class="fa-solid fa-pause"></i>
+              <span>Pause</span>
+            </button>
+
+            <button
+              class="is-stop"
+              type="button"
+              data-dj-recording-stop
+              hidden
+            >
+              <i class="fa-solid fa-stop"></i>
+              <span>Stop &amp; Save</span>
+            </button>
+
+            <button
+              class="is-cancel"
+              type="button"
+              data-dj-recording-cancel-countdown
+              hidden
+            >
+              <i class="fa-solid fa-xmark"></i>
+              <span>Cancel Countdown</span>
+            </button>
+
+            <button
+              class="is-download"
+              type="button"
+              data-dj-recording-download
+              hidden
+            >
+              <i class="fa-solid fa-download"></i>
+              <span>Save / Share Recording</span>
+            </button>
+          </section>
+
+          <footer class="brDjRecordingFootnote">
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <span>
+              Audio is uploaded safely in sequential chunks, then the server creates the selected final WAV, FLAC or MP3.
+            </span>
+          </footer>
+        </section>
+      </div>
     </section>
 
     <section class="brDjPerfPanel" data-dj-perf-panel="deck-2">
@@ -808,10 +1427,9 @@
               <h1>No track loaded</h1>
               <span>Unknown artist</span>
             </div>
-            <label class="brDjSingleLibraryBtn" role="button" aria-label="Load Deck 2 audio">
-              <input class="brDjEngineNativeFileInput" data-dj-engine-file="d2" type="file" />
-              <i class="fa-solid fa-music"></i>
-            </label>
+            <button class="brDjSingleLibraryBtn brDjMixxxEject" data-mixxx-header-action-deck="2" type="button" aria-label="Eject Deck 2" disabled>
+              <i class="fa-solid fa-eject" aria-hidden="true"></i>
+            </button>
           </header>
 
           <section class="brDjSingleOverviewWave" aria-label="Deck 2 full-track overview waveform">
@@ -872,7 +1490,7 @@
               </div>
             </section>
 
-            <section class="brDjGridControls" aria-label="Deck 2 grid controls">
+            <section class="brDjGridControls" data-grid-control-set="1" aria-label="Deck 2 grid controls">
               <button class="brDjGridBpmBox" type="button">
                 <span>Grid BPM</span>
                 <strong>--.--</strong>
@@ -897,10 +1515,12 @@
               <button class="brDjGridPalette" type="button" aria-label="Grid colour"><i class="fa-solid fa-palette"></i></button>
               <button class="brDjGridLock" type="button" aria-label="Lock beat grid"><i class="fa-solid fa-lock"></i></button>
             </section>
+            <section class="brDjGridControls" data-grid-control-set="2" aria-label="Deck 2 additional grid controls" hidden></section>
 
             <button class="brDjGridStatus" type="button">
               Grid waiting for BPM analysis
             </button>
+            <button class="brM25PrepareGrid" data-m25-prepare-grid type="button" hidden>Prepare Grid</button>
 
             <section class="brDjSingleTransport brDjGridTransport" aria-label="Deck 2 grid transport">
               <button class="brDjSingleCueBtn" type="button">Cue</button>
@@ -1038,68 +1658,231 @@
         </div>
 
         <div class="brDjSingleModePanel" data-deck-panel="stems">
-          <div class="brDjStemsPage is-deck-2">
-            <section class="brDjCueMemoryOverview brDjStemsOverview" aria-label="Deck 2 stems overview waveform">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <div
+            class="brDjStemsPage is-deck-2"
+            data-dj-stems-deck="d2"
+          >
+            <section
+              class="brDjStemsRuntimeBar"
+              aria-label="Deck 2 stem preparation"
+            >
+              <div class="brDjStemsRuntimeActions">
+                <button
+                  type="button"
+                  data-dj-stems-prepare
+                >
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  <span>Prepare Stems</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-stems-delete
+                  disabled
+                >
+                  <i class="fa-solid fa-trash"></i>
+                  <span>Delete</span>
+                </button>
+
+                <button
+                  class="is-active"
+                  type="button"
+                  data-dj-stem-mode="original"
+                  aria-pressed="true"
+                >
+                  <i class="fa-solid fa-wave-square"></i>
+                  <span>Original</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-stem-mode="stems"
+                  aria-pressed="false"
+                  disabled
+                >
+                  <i class="fa-solid fa-layer-group"></i>
+                  <span>Stem Mix</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-stems-reset
+                  disabled
+                >
+                  <i class="fa-solid fa-rotate-left"></i>
+                  <span>Reset</span>
+                </button>
+              </div>
+
+              <strong
+                class="brDjStemsRuntimeStatus"
+                data-dj-stems-status
+              >
+                Load a Performance Library track into this deck
+              </strong>
             </section>
 
-            <section class="brDjCueMemoryWave brDjStemsWave" aria-label="Deck 2 stems detailed waveform">
+            <section
+              class="brDjCueMemoryWave brDjStemsWave"
+              aria-label="Deck 2 stems detailed waveform"
+            >
               <div class="brDjCueMemoryPills">
                 <span>-06:09.8</span>
                 <strong>248.1 Bars</strong>
                 <span>00:00.0</span>
               </div>
+
               <div class="brDjCueMemoryWaveform">
-                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-              </div>
-              <div class="brDjSingleZoomDock">
-                <button type="button" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-                <button type="button" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                <button type="button" aria-label="Reset zoom"><i class="fa-solid fa-rotate-left"></i></button>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
               </div>
             </section>
 
-            <section class="brDjStemFaderGrid" aria-label="Deck 2 stems faders">
-              <article class="brDjStemLane">
-                <button type="button" aria-label="Drums stem"><i class="fa-solid fa-drum"></i></button>
+            <section
+              class="brDjStemFaderGrid"
+              aria-label="Deck 2 stems faders"
+            >
+              <article
+                class="brDjStemLane"
+                data-dj-stem-lane="drums"
+              >
+                <button
+                  type="button"
+                  data-dj-stem-mute
+                  aria-pressed="false"
+                  aria-label="Mute drums stem"
+                >
+                  <i class="fa-solid fa-drum"></i>
+                </button>
+
                 <div class="brDjStemFaderBox">
-                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="100" aria-label="Drums stem level" />
+                  <input
+                    class="brDjStemFaderRange"
+                    data-dj-stem-level
+                    type="range"
+                    min="0"
+                    max="125"
+                    value="100"
+                    aria-label="Drums stem level"
+                  />
                 </div>
-                <strong>100%</strong>
+
+                <strong data-dj-stem-value>100%</strong>
                 <span>Drums</span>
               </article>
 
-              <article class="brDjStemLane is-muted">
-                <button type="button" aria-label="Bass stem"><i class="fa-solid fa-guitar"></i></button>
+              <article
+                class="brDjStemLane"
+                data-dj-stem-lane="bass"
+              >
+                <button
+                  type="button"
+                  data-dj-stem-mute
+                  aria-pressed="false"
+                  aria-label="Mute bass stem"
+                >
+                  <i class="fa-solid fa-guitar"></i>
+                </button>
+
                 <div class="brDjStemFaderBox">
-                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Bass stem level" />
+                  <input
+                    class="brDjStemFaderRange"
+                    data-dj-stem-level
+                    type="range"
+                    min="0"
+                    max="125"
+                    value="100"
+                    aria-label="Bass stem level"
+                  />
                 </div>
-                <strong>Muted</strong>
+
+                <strong data-dj-stem-value>100%</strong>
                 <span>Bass</span>
               </article>
 
-              <article class="brDjStemLane is-muted">
-                <button type="button" aria-label="Harmonic stem"><i class="fa-solid fa-keyboard"></i></button>
+              <article
+                class="brDjStemLane"
+                data-dj-stem-lane="other"
+              >
+                <button
+                  type="button"
+                  data-dj-stem-mute
+                  aria-pressed="false"
+                  aria-label="Mute other stem"
+                >
+                  <i class="fa-solid fa-keyboard"></i>
+                </button>
+
                 <div class="brDjStemFaderBox">
-                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Harmonic stem level" />
+                  <input
+                    class="brDjStemFaderRange"
+                    data-dj-stem-level
+                    type="range"
+                    min="0"
+                    max="125"
+                    value="100"
+                    aria-label="Other stem level"
+                  />
                 </div>
-                <strong>Muted</strong>
-                <span>Harmonic</span>
+
+                <strong data-dj-stem-value>100%</strong>
+                <span>Other</span>
               </article>
 
-              <article class="brDjStemLane is-muted">
-                <button type="button" aria-label="Vocals stem"><i class="fa-solid fa-microphone"></i></button>
+              <article
+                class="brDjStemLane"
+                data-dj-stem-lane="vocals"
+              >
+                <button
+                  type="button"
+                  data-dj-stem-mute
+                  aria-pressed="false"
+                  aria-label="Mute vocals stem"
+                >
+                  <i class="fa-solid fa-microphone"></i>
+                </button>
+
                 <div class="brDjStemFaderBox">
-                  <input class="brDjStemFaderRange" type="range" min="0" max="100" value="0" aria-label="Vocals stem level" />
+                  <input
+                    class="brDjStemFaderRange"
+                    data-dj-stem-level
+                    type="range"
+                    min="0"
+                    max="125"
+                    value="100"
+                    aria-label="Vocals stem level"
+                  />
                 </div>
-                <strong>Muted</strong>
+
+                <strong data-dj-stem-value>100%</strong>
                 <span>Vocals</span>
               </article>
             </section>
 
-            <section class="brDjSingleTransport brDjStemTransport" aria-label="Deck 2 stems transport">
-              <button class="brDjSingleCueBtn" type="button">Cue</button>
-              <button class="brDjSinglePlayBtn" type="button"><i class="fa-solid fa-play"></i><span>Play</span></button>
+            <section
+              class="brDjSingleTransport brDjStemTransport"
+              aria-label="Deck 2 stems transport"
+            >
+              <button
+                class="brDjSingleCueBtn"
+                type="button"
+              >
+                Cue
+              </button>
+
+              <button
+                class="brDjSinglePlayBtn"
+                type="button"
+              >
+                <i class="fa-solid fa-play"></i>
+                <span>Play</span>
+              </button>
             </section>
           </div>
         </div>
@@ -1426,15 +2209,33 @@
     </section>
   </main>
 	
-<script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.7/dist/jsmediatags.min.js"></script>
-<script src="/dj-mixer/components/grid.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/components/grid-editor.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/engine/spectral-waveform.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/engine/audio-engine.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/components/grid-metronome.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/shared/icons.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/components/library.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
-<script src="/dj-mixer/app.js?v=20260717-dj-restart-shell-v3w2b-grid-metronome-compact-status"></script>
+<script src="/dj-mixer/components/grid.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/grid-editor.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/engine/waveform-clock-m12.js?v=20260728-m12-waveform-foundation"></script>
+<script src="/dj-mixer/engine/waveform-runtime-m13.js?v=20260729-m15-waveform-validation"></script>
+<script src="/dj-mixer/engine/m24-waveform-authority.js?v=20260802-m24-waveform-authority"></script>
+<script src="/dj-mixer/engine/m25-grid-authority.js?v=20260802-m25-grid-identity-fix"></script>
+<script src="/dj-mixer/engine/m25-live-readouts.js?v=20260803-m25-final-readouts"></script>
+<script src="/dj-mixer/engine/spectral-waveform.js?v=20260729-m15-waveform-validation"></script>
+<script src="/dj-mixer/components/grid-analysis.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/fx-engine.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/engine/audio-engine.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/engine/m26-pcm-http-transport.js?v=20260803-m26-audio"></script>
+<script src="/dj-mixer/engine/m26-master-receiver.js?v=20260803-m26-audio"></script>
+<script src="/dj-mixer/engine/m26-webrtc-receiver.js?v=20260803-m26-webrtc"></script>
+<script src="/dj-mixer/engine/m26-gstreamer-webrtc-receiver.js?v=20260805-m26-ice-evidence"></script>
+<script src="/dj-mixer/engine/m26-master-audio-controller.js?v=20260805-m26-gstreamer"></script>
+<script src="/dj-mixer/components/grid-metronome.js?v=20260802-m25-grid"></script>
+<script src="/shared/icons.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/library.js?v=20260801-m22-part3-lan-fix"></script>
+<script src="/dj-mixer/components/mixxx-backend-m3.js?v=20260802-m25-physical-fix"></script>
+<script src="/dj-mixer/app.js?v=20260803-m25-visual-cleanup"></script>
+<script src="/dj-mixer/components/mixxx-catalogue-m21.js?v=20260801-m22-1-production"></script>
+<script src="/dj-mixer/components/guest-native-loader.js?v=20260730-m21d"></script>
+<script src="/dj-mixer/components/vinyl-performance.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/fx-performance.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/stems-performance.js?v=20260727-dj-restart-shell-v3z3-safe-css-cleanup-1"></script>
+<script src="/dj-mixer/components/recording-performance.js?v=20260801-m22-performance-ready"></script>
 	
 </body>
 </html>

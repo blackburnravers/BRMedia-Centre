@@ -1,0 +1,3 @@
+description, duration=601.0, summary="M26 GStreamer standalone continuous master-capture proof", live-content-compatible=true
+eos, playback-time=601.0
+stop, playback-time=601.0

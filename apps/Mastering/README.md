@@ -1,12 +1,5 @@
-# Mastering
+# Mastering module boundary
 
-Mastering workflows (render preview, replace preview, export).
+This directory is an early module scaffold retained to describe the Mastering boundary. The current working Mastering UI is server-hosted under `server/public/mastering` and uses backend media services under `server/src`; this directory is not independently deployed.
 
-## Goals
-- Master file via server pipeline
-- Option to render a new preview and remove old preview
-- Loudness targets / profiles (later)
-- Export mastered versions + logs
-
-## Notes
-Scaffold only for now.
+Current product capability includes audio preparation, preview/compare and render/export workflows. Later mastering depth should be labelled planned rather than attributed to this scaffold. See the [module inventory](../../README.md#current-status).

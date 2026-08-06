@@ -52,21 +52,38 @@ cd /d "$ProjectRoot"
 powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "$Runner" -ProjectRoot "$ProjectRoot" -Port $Port
 "@ | Set-Content -Path $ManualLauncher -Encoding ASCII
 
-$currentIdentity =
-  [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-
-$currentIdentity =
-  [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-
+# The watchdog must follow the real automatically logged-on desktop account,
+# not the terminal/service account that happens to run this installer.
 $taskUser =
-  if (
-    $currentIdentity -and
-    $currentIdentity -notmatch "^WORKGROUP\\"
-  ) {
-    $currentIdentity
-  } else {
-    "$env:COMPUTERNAME\$env:USERNAME"
-  }
+  (Get-CimInstance Win32_ComputerSystem -ErrorAction Stop).UserName
+
+if (!$taskUser) {
+  throw "No active interactive Windows desktop account was found."
+}
+
+$explorerOwners =
+  @(
+    Get-CimInstance Win32_Process -ErrorAction Stop |
+      Where-Object {
+        $_.Name -eq "explorer.exe"
+      } |
+      ForEach-Object {
+        $owner =
+          Invoke-CimMethod `
+            -InputObject $_ `
+            -MethodName GetOwner `
+            -ErrorAction Stop
+
+        if ($owner.ReturnValue -eq 0) {
+          "$($owner.Domain)\$($owner.User)"
+        }
+      }
+  ) |
+    Select-Object -Unique
+
+if ($taskUser -notin $explorerOwners) {
+  throw "The console account does not own an explorer.exe desktop session; task registration was not changed."
+}
 
 $powerShellExe =
   Join-Path `
@@ -101,11 +118,8 @@ $settings =
 $principal =
   New-ScheduledTaskPrincipal `
     -UserId $taskUser `
-    -LogonType S4U `
+    -LogonType Interactive `
     -RunLevel Limited
-
-Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue |
-  Unregister-ScheduledTask -Confirm:$false -ErrorAction SilentlyContinue
 
 Register-ScheduledTask `
   -TaskName $TaskName `
@@ -115,34 +129,6 @@ Register-ScheduledTask `
   -Principal $principal `
   -Force |
   Out-Null
-
-Start-ScheduledTask -TaskName $TaskName -ErrorAction Stop
-
-$heartbeatPath =
-  Join-Path $StateDir "runner-heartbeat.json"
-
-Write-Host ""
-Write-Host "Waiting for BRMedia watchdog heartbeat..."
-
-$heartbeatFound =
-  $false
-
-for (
-  $attempt = 1;
-  $attempt -le 15;
-  $attempt++
-) {
-  if (
-    Test-Path $heartbeatPath
-  ) {
-    $heartbeatFound =
-      $true
-
-    break
-  }
-
-  Start-Sleep -Seconds 1
-}
 
 $taskState =
   (
@@ -162,16 +148,9 @@ if ($taskInfo) {
   Write-Host "Last task result: $($taskInfo.LastTaskResult)"
 }
 
-if ($heartbeatFound) {
-  Write-Host "Watchdog heartbeat created successfully:"
-  Write-Host $heartbeatPath
-} else {
-  Write-Warning "The Scheduled Task registered but no watchdog heartbeat appeared."
-  Write-Warning "Run C:\BRMedia\status-brmedia.ps1 and send the output."
-}
-
 Write-Host ""
-Write-Host "BRMedia independent background watchdog installed and started."
+Write-Host "BRMedia independent background watchdog registered idempotently."
+Write-Host "The task was not started by this installer."
 Write-Host ""
 Write-Host "Task:"
 Write-Host $TaskName

@@ -22,6 +22,7 @@ const PREVIEW_SHARE_PREFS_KEY = "brmedia_preview_share_prefs_v1";
 const SETTINGS_UI_KEY = "brmedia_universal_settings_ui_v1";
 const TAGGER_SETTINGS_KEY = "brmedia_tagger_settings_v1";
 const CONVERTER_SETTINGS_KEY = "brmedia_converter_settings_v1";
+const DJ_SETTINGS_KEY = "brmedia_dj_mixer_settings_v1";
 const TORRENT_SETTINGS_KEY =
   "brmedia_torrent_settings_v1";
 
@@ -440,6 +441,21 @@ const SETTINGS_SUBTAB_DESCRIPTIONS = {
     analysis: "Analyse first and warning cards.",
     render: "Output copies and render history.",
   },
+  dj: {
+    overview: "DJ Mixer defaults, browser-engine status and quick links.",
+    collection: "Full DJ Collection filters, prepared badges, BPM/key display and sort defaults.",
+    sources: "Add more DJ drives/folders, sync sources and choose default audio destinations.",
+    recording: "Permanent defaults for new DJ recordings, tracklists and recovery handling.",
+    output: "Audio format, sample rate, channels, bit depth, FLAC compression and MP3 quality.",
+    performance: "Default DUO layout, mixer controls, crossfader and performance safeguards.",
+    sync: "BPM Sync, Beat Sync, Auto Master Deck, bar/phrase alignment and key display defaults.",
+    waveforms: "Waveform zoom, renderer, drag feel, downbeat detection and jog preview defaults.",
+    grid: "Beat-grid save, nudge, marker, lock and Cue snapping behaviour.",
+    cues: "Cue, Hot Cue, Memory Cue and cue-after-waveform-scrub behaviour.",
+    loops: "Auto-loop, loop size and quantised loop behaviour.",
+    fx: "FX bank, target and mobile pad interaction defaults.",
+    browser: "Browser audio engine, HTTPS, AudioWorklet and optional Web MIDI behaviour.",
+  },
   torrents: {
     overview: "qBittorrent connection, queue defaults and safety status.",
     engine: "qBittorrent Web UI connection and default download folder.",
@@ -609,6 +625,27 @@ const SETTINGS_NAV_TREE = [
     ],
   },
   {
+    key: "dj",
+    title: "DJ Mixing / Performance",
+    desc: "Browser DJ Mixer defaults, full Collection sources, recording, output, FX, waveforms and browser engine safeguards.",
+    iconPath: "/shared/branding/module-icons/dj-mixer.png",
+    children: [
+      { key: "overview", title: "Overview", icon: "record-vinyl" },
+      { key: "collection", title: "Collection", icon: "folder-music" },
+      { key: "sources", title: "DJ Sources", icon: "hard-drive" },
+      { key: "recording", title: "Recording", icon: "circle-dot" },
+      { key: "output", title: "Audio Output", icon: "file-waveform" },
+      { key: "performance", title: "Performance", icon: "sliders" },
+      { key: "sync", title: "Sync / BPM", icon: "arrows-rotate" },
+      { key: "waveforms", title: "Waveforms", icon: "waveform" },
+      { key: "grid", title: "Beat Grid", icon: "grip-lines-vertical" },
+      { key: "cues", title: "Cue Points", icon: "location-dot" },
+      { key: "loops", title: "Loops", icon: "repeat" },
+      { key: "fx", title: "FX Pads", icon: "wand-magic-sparkles" },
+      { key: "browser", title: "Browser Engine", icon: "globe" },
+    ],
+  },
+  {
     key: "torrents",
     title: "Torrents Settings",
     desc: "qBittorrent, legal downloads, bandwidth, safety and library handoff.",
@@ -663,6 +700,7 @@ const SETTINGS_NAV_TREE = [
 const SETTINGS_MODULE_NAV_LINKS = [
   { title: "Player", desc: "Audio player, queue, playlists and tracklists.", route: "/player", iconPath: "/shared/branding/module-icons/audio-home.png" },
   { title: "Video", desc: "Films, posters, playback and subtitles.", route: "/video-player", iconPath: "/shared/branding/module-icons/video-player.png" },
+  { title: "DJ Mixer", desc: "Decks, cues, Collection and recordings.", route: "/dj-mixer", iconPath: "/shared/branding/module-icons/dj-mixer.png" },
   { title: "Converter", desc: "Convert audio/video and batch jobs.", route: "/converter", iconPath: "/shared/branding/module-icons/converter.png" },
   { title: "Tagger", desc: "Metadata, artwork and BRMedia tags.", route: "/tagger", iconPath: "/shared/branding/module-icons/tagger.png" },
   { title: "Mastering", desc: "Audio polish, previews and compare tools.", route: "/mastering", iconPath: "/shared/branding/module-icons/mastering.png" },
@@ -718,6 +756,10 @@ let settingsRequestedQuickEdit = false;
 let settingsDriveSources = [];
 let settingsDriveSourcesLoaded = false;
 let settingsDriveSourcesBusy = false;
+let settingsDjSources = [];
+let settingsDjSourcesLoaded = false;
+let settingsDjSourcesBusy = "";
+let settingsDjSourcesNotice = "DJ source manager ready.";
 
 let settingsVideoItems = [];
 let settingsVideoLoaded = false;
@@ -1146,6 +1188,332 @@ const SETTINGS_MODULES = {
       },
     ],
   },
+	
+  dj: {
+    title: "DJ Mixing / Performance Settings",
+    badge: "DJ",
+    cards: [
+      {
+        tab: "overview",
+        icon: "record-vinyl",
+        title: "Browser DJ Studio",
+        desc: "The active DJ Mixer remains browser-first. Persistent defaults live here; the Studio pages can override them for one set.",
+        options: [
+          ["Active engine", "Web Audio API with server-side FFmpeg finalise for recordings.", "Browser"],
+          ["Navigation", "DJ Mixer now has the same 10-module Open Modules list as the rest of BRMedia.", "Fixed"],
+          ["Source setup", "Add E:\\, F:\\ or any other DJ/music drives from this Mixer settings section.", "V2L"],
+          ["Full Collection", "Dedicated Collection page with prepared badges, deck loading and MiniPlayer.", "Wired"],
+        ],
+      },
+      {
+        tab: "collection",
+        icon: "folder-music",
+        title: "DJ Collection Display",
+        desc: "How the full-page DJ Collection filters and presents mixable tracks.",
+        controls: [
+          { type: "toggle", key: "libraryShortTracksOnly", title: "Short tracks only by default", desc: "Hide long mixes unless you deliberately include them." },
+          { type: "number", key: "libraryMaxTrackMinutes", title: "Short-track limit in minutes", desc: "Tracks longer than this are treated as long mixes.", min: 1, max: 120, step: 1 },
+          { type: "toggle", key: "libraryIncludeLongMixes", title: "Include long Player mixes", desc: "Allow long mix folders such as C:\\DJMixes to appear in DJ Collection." },
+          { type: "select", key: "libraryDefaultSort", title: "Default sort", desc: "Opening order for the DJ Collection.", options: [
+            { value: "title", label: "Title" },
+            { value: "artist", label: "Artist" },
+            { value: "bpm", label: "BPM" },
+            { value: "key", label: "Key" },
+            { value: "prepared", label: "Prepared first" },
+            { value: "newest", label: "Newest added" },
+          ] },
+          { type: "toggle", key: "libraryShowPreparedBadges", title: "Show prepared badges", desc: "Show waveform/grid/prepared badges on Collection rows." },
+          { type: "toggle", key: "libraryShowBpmKeyColumns", title: "Show BPM and key columns", desc: "Keep BPM/key visible in the Collection list." },
+          { type: "toggle", key: "libraryAutoAnalyseNewSources", title: "Analyse new sources", desc: "Queue missing waveform/BPM analysis after adding new DJ folders." },
+        ],
+      },
+      {
+        tab: "sources",
+        icon: "hard-drive",
+        title: "DJ Source Drives",
+        desc: "Add more DJ/music folders from extra drives. These are saved into the shared BRMedia library-source system and synced into the DJ Collection.",
+        controls: [
+          { type: "select", key: "libraryDefaultSourceType", title: "New source label", desc: "How to treat the next folder you add here.", options: [
+            { value: "dj-tracks", label: "DJ tracks" },
+            { value: "samples", label: "Samples" },
+            { value: "recordings", label: "Recordings" },
+            { value: "long-mixes", label: "Long mixes" },
+          ] },
+          { type: "toggle", key: "libraryRememberSources", title: "Remember selected sources", desc: "Keep source/filter choices on this browser." },
+          { type: "text", key: "librarySourceNotes", title: "DJ source notes", desc: "Notes for drives/folders you still need to add." },
+        ],
+        options: [
+          ["Shared source system", "Sources added here also appear in Server Settings → Library Sources.", "Safe"],
+          ["Offline drives", "Unplugged drives stay saved and are not purged from the manifest.", "Preserved"],
+          ["Recommended", "Add each music drive as Audio, then press Sync all sources.", "Do this"],
+        ],
+      },
+      {
+        tab: "recording",
+        icon: "circle-dot",
+        title: "Recording Defaults",
+        desc: "Defaults copied into each new DJ set. Server finalise creates the chosen WAV, FLAC or MP3 output.",
+        controls: [
+          { type: "select", key: "recordCountdownSeconds", title: "Pre-roll countdown", desc: "Countdown before capture starts.", options: [
+            { value: "0", label: "Off" },
+            { value: "3", label: "3 seconds" },
+            { value: "5", label: "5 seconds" },
+            { value: "6", label: "6 seconds" },
+            { value: "8", label: "8 seconds" },
+            { value: "10", label: "10 seconds" },
+          ] },
+          { type: "toggle", key: "recordFinaliseOnServer", title: "Server finalise after recording", desc: "Upload capture to the BRMedia server and convert it with FFmpeg." },
+          { type: "toggle", key: "recordKeepBrowserCaptureOnFailure", title: "Keep browser safety capture", desc: "If server finalise fails, keep the browser capture instead of losing the set." },
+          { type: "toggle", key: "recordAutoTimestampOnDeckLoad", title: "Automatic timestamps", desc: "Add a timestamp whenever a track is loaded during a live set." },
+          { type: "toggle", key: "recordSaveTxtTracklist", title: "Save TXT tracklist", desc: "Write a readable text tracklist beside the completed audio file." },
+          { type: "toggle", key: "recordSaveTimestampJson", title: "Save Player timestamp JSON", desc: "Write Audio Player-compatible timestamps beside the completed audio file." },
+          { type: "toggle", key: "recordSaveSessionJson", title: "Save session JSON", desc: "Keep the DJ set metadata and recording summary." },
+          { type: "toggle", key: "recordRetainRecoveryOnFailure", title: "Keep recovery on failure", desc: "Do not remove recovery/safety capture when final save fails." },
+          { type: "toggle", key: "recordOpenPlayerAfterSave", title: "Offer Player after save", desc: "Show Player handoff after the final file is ready." },
+        ],
+        options: [
+          ["Final folder", "server/data/player-runtime/dj-recordings/final", "Server"],
+          ["Capture folder", "server/data/player-runtime/dj-recordings/captures", "Safety"],
+        ],
+      },
+      {
+        tab: "output",
+        icon: "file-waveform",
+        title: "Completed Audio File",
+        desc: "Choose the one finished audio file BRMedia should keep after a successful save.",
+        controls: [
+          { type: "select", key: "recordOutputFormat", title: "Saved audio format", desc: "Keep one completed audio file: WAV, FLAC or MP3.", options: [
+            { value: "wav", label: "WAV" },
+            { value: "flac", label: "FLAC" },
+            { value: "mp3", label: "MP3" },
+          ] },
+          { type: "select", key: "recordSampleRate", title: "Sample rate", desc: "Engine rate avoids resampling; fixed rates are available where needed.", options: [
+            { value: "engine", label: "Engine rate" },
+            { value: "44100", label: "44.1 kHz" },
+            { value: "48000", label: "48 kHz" },
+            { value: "88200", label: "88.2 kHz" },
+            { value: "96000", label: "96 kHz" },
+          ] },
+          { type: "select", key: "recordChannels", title: "Channels", desc: "Stereo is recommended for DJ mixes.", options: [
+            { value: "2", label: "Stereo" },
+            { value: "1", label: "Mono" },
+            { value: "left-only", label: "Left only" },
+            { value: "right-only", label: "Right only" },
+            { value: "dual-mono", label: "Dual mono" },
+          ] },
+          { type: "select", key: "recordWavBitDepth", title: "WAV bit depth", desc: "Used when WAV is the selected finished file.", options: [
+            { value: "24", label: "24-bit PCM" },
+            { value: "16", label: "16-bit PCM" },
+          ] },
+          { type: "select", key: "recordFlacBitDepth", title: "FLAC bit depth", desc: "Used when FLAC is the selected finished file.", options: [
+            { value: "24", label: "24-bit" },
+            { value: "16", label: "16-bit" },
+          ] },
+          { type: "select", key: "recordFlacCompression", title: "FLAC compression", desc: "Higher compression saves space but takes longer to finalise.", options: [
+            { value: "fast", label: "Fast" },
+            { value: "balanced", label: "Balanced" },
+            { value: "high", label: "High" },
+            { value: "maximum", label: "Maximum" },
+          ] },
+          { type: "select", key: "recordMp3Bitrate", title: "MP3 bitrate", desc: "Used when MP3 is the selected finished file.", options: [
+            { value: "320", label: "320 kbps" },
+            { value: "256", label: "256 kbps" },
+            { value: "192", label: "192 kbps" },
+            { value: "128", label: "128 kbps" },
+            { value: "96", label: "96 kbps" },
+            { value: "64", label: "64 kbps" },
+          ] },
+        ],
+      },
+      {
+        tab: "performance",
+        icon: "sliders",
+        title: "Performance Defaults",
+        desc: "Defaults applied when the browser DJ surface opens.",
+        controls: [
+          { type: "select", key: "defaultView", title: "Opening deck view", desc: "Choose the first DJ preparation/performance view.", options: [
+            { value: "dual", label: "DUO" },
+            { value: "a", label: "Deck 1" },
+            { value: "b", label: "Deck 2" },
+          ] },
+          { type: "select", key: "defaultDuoPanel", title: "Opening DUO panel", desc: "MIXER remains the recommended live starting page.", options: [
+            { value: "mixer", label: "Mixer" },
+            { value: "main", label: "Main" },
+            { value: "fx", label: "FX" },
+            { value: "vinyl", label: "Vinyl / Scratch" },
+          ] },
+          { type: "select", key: "singleDeckOpeningTab", title: "Single-deck tab", desc: "First tab shown on Deck 1 / Deck 2 pages.", options: [
+            { value: "main", label: "Main" },
+            { value: "grid", label: "Grid" },
+            { value: "memory", label: "Memory" },
+            { value: "hotcue", label: "Hot Cue" },
+            { value: "fx", label: "FX" },
+          ] },
+          { type: "select", key: "defaultDeckLoadTarget", title: "Default load target", desc: "Deck choice when loading from Collection.", options: [
+            { value: "ask", label: "Ask / show both buttons" },
+            { value: "d1", label: "Deck 1" },
+            { value: "d2", label: "Deck 2" },
+          ] },
+          { type: "select", key: "mixerControlMode", title: "Mixer EQ mode", desc: "Choose rotary knobs or stepped cuts.", options: [
+            { value: "knobs", label: "Knobs" },
+            { value: "cuts", label: "Stepped cuts" },
+          ] },
+          { type: "select", key: "crossfaderMode", title: "Crossfader curve", desc: "Default crossfader response.", options: [
+            { value: "smooth", label: "Smooth" },
+            { value: "sharp", label: "Sharp" },
+            { value: "thru", label: "Thru" },
+          ] },
+          { type: "toggle", key: "crossfaderCentreSnap", title: "Crossfader centre button", desc: "Keep the one-tap centre/reset action available." },
+          { type: "number", key: "masterVolumePercent", title: "Master volume percent", desc: "Default browser master output level.", min: 0, max: 200, step: 1 },
+          { type: "number", key: "deckDefaultGainPercent", title: "Deck default gain", desc: "Starting deck gain percent.", min: 0, max: 200, step: 1 },
+          { type: "toggle", key: "rapidTapProtection", title: "Rapid Cue tap protection", desc: "Prevent Safari double-tap zoom on performance buttons." },
+          { type: "toggle", key: "keepAwakeDuringSet", title: "Keep screen awake", desc: "Use wake lock where supported during live sets." },
+        ],
+      },
+      {
+        tab: "sync",
+        icon: "arrows-rotate",
+        title: "Sync / BPM / Key",
+        desc: "Defaults for tempo matching, beat-grid alignment and master deck behaviour.",
+        controls: [
+          { type: "select", key: "syncDefaultMode", title: "Default Sync mode", desc: "Choose what the SYNC button should prefer.", options: [
+            { value: "bpm", label: "BPM Sync only" },
+            { value: "beat", label: "Beat Sync" },
+            { value: "bar", label: "Bar Sync" },
+          ] },
+          { type: "toggle", key: "syncAutoMaster", title: "Auto Master Deck", desc: "Let BRMedia choose the audible/master deck for sync." },
+          { type: "toggle", key: "autoMasterDeck", title: "Auto master display", desc: "Show master deck based on playback/crossfader state." },
+          { type: "toggle", key: "syncAllowBpmOnly", title: "Allow BPM-only sync", desc: "Keep tempo match available without forcing phase alignment." },
+          { type: "toggle", key: "syncBeatAlignOnPlay", title: "Beat-align when Sync starts", desc: "Move the target deck to the nearest matching grid beat." },
+          { type: "toggle", key: "syncBarAlign", title: "Prefer bar alignment", desc: "Use downbeat/bar lines where the grid is prepared." },
+          { type: "toggle", key: "syncPhraseAssist", title: "Phrase assist", desc: "Future phrase marker alignment when phrase data exists." },
+          { type: "number", key: "syncNudgeMs", title: "Sync nudge size ms", desc: "Fine nudge size for sync/phase corrections.", min: 1, max: 100, step: 1 },
+          { type: "toggle", key: "keySyncEnabled", title: "Key Sync default", desc: "Keep disabled until key analysis is stronger." },
+          { type: "toggle", key: "keyCompatibilityDisplay", title: "Show key compatibility", desc: "Display Camelot/key compatibility once analysis exists." },
+        ],
+      },
+      {
+        tab: "waveforms",
+        icon: "waveform",
+        title: "Waveforms",
+        desc: "Renderer, zoom, drag feel and visual analysis defaults.",
+        controls: [
+          { type: "select", key: "waveformZoomBars", title: "Default zoom", desc: "Opening close-up waveform window.", options: [
+            { value: "16", label: "16 bars" },
+            { value: "8", label: "8 bars" },
+            { value: "4", label: "4 bars" },
+            { value: "2", label: "2 bars" },
+            { value: "1", label: "1 bar" },
+          ] },
+          { type: "select", key: "waveformOverviewHeight", title: "Overview waveform height", desc: "Top mini waveform size.", options: [
+            { value: "compact", label: "Compact" },
+            { value: "normal", label: "Normal" },
+            { value: "large", label: "Large" },
+          ] },
+          { type: "select", key: "waveformDetailHeight", title: "Detailed waveform height", desc: "Main single-deck waveform size.", options: [
+            { value: "normal", label: "Normal" },
+            { value: "large", label: "Large" },
+            { value: "xl", label: "XL" },
+          ] },
+          { type: "number", key: "waveformDragSensitivity", title: "Waveform drag sensitivity", desc: "Higher means the waveform moves further per swipe.", min: 20, max: 300, step: 5 },
+          { type: "toggle", key: "waveformSmoothRenderer", title: "Smooth waveform renderer", desc: "Prefer the smoother Rekordbox-style renderer as it lands." },
+          { type: "toggle", key: "waveformShowBeatGrid", title: "Show beat-grid lines", desc: "Overlay the track beat structure." },
+          { type: "toggle", key: "waveformShowDownbeats", title: "Highlight downbeats", desc: "Make first beats and bar lines clearer." },
+          { type: "toggle", key: "waveformShowPhraseMarkers", title: "Show phrase markers", desc: "Display stronger phrase-reference markers." },
+          { type: "toggle", key: "waveformAutoDetectDownbeat", title: "Auto-detect first downbeat", desc: "Create a best-effort starting suggestion when a track loads." },
+          { type: "toggle", key: "waveformJogPreview", title: "Audible jog preview", desc: "Enable scrub-preview behaviour where supported." },
+        ],
+      },
+      {
+        tab: "grid",
+        icon: "grip-lines-vertical",
+        title: "Beat Grid",
+        desc: "Beat-grid save, nudge, marker and lock behaviour.",
+        controls: [
+          { type: "toggle", key: "gridAutoSave", title: "Auto-save grid edits", desc: "Persist BPM/downbeat/grid offset while preparing tracks." },
+          { type: "toggle", key: "gridShowFourthBeatMarkers", title: "Show fourth-beat markers", desc: "Keep the red phrase/reference markers visible." },
+          { type: "number", key: "gridNudgeFineMs", title: "Fine nudge ms", desc: "Small grid nudge size.", min: 1, max: 80, step: 1 },
+          { type: "number", key: "gridNudgeCoarseMs", title: "Coarse nudge ms", desc: "Large grid nudge size.", min: 5, max: 250, step: 5 },
+          { type: "toggle", key: "gridLockAfterPrep", title: "Lock after prep", desc: "Automatically lock grids once a track is marked prepared." },
+          { type: "toggle", key: "gridSnapCueByDefault", title: "Snap cue to grid by default", desc: "Keep off if you want exact cut-point placement." },
+        ],
+      },
+      {
+        tab: "cues",
+        icon: "location-dot",
+        title: "Cue / Hot Cue / Memory",
+        desc: "Cue setting and recall behaviour for rapid deck preparation.",
+        controls: [
+          { type: "toggle", key: "cueSnapWhenGridTab", title: "Snap cue only on Grid tab", desc: "When enabled later, Grid tab can deliberately snap cues to nearest beat." },
+          { type: "toggle", key: "cueReturnOnPause", title: "CUE returns while paused", desc: "CUE should jump back to the saved cue point when paused." },
+          { type: "toggle", key: "cueSetAfterWaveScrub", title: "Set cue after waveform scrub", desc: "After dragging waveform, CUE can save that exact cut point." },
+          { type: "select", key: "hotCuePads", title: "Hot Cue pads", desc: "Number of hot cue pads shown.", options: [
+            { value: "4", label: "4 pads" },
+            { value: "8", label: "8 pads" },
+          ] },
+          { type: "toggle", key: "memoryCueAutoName", title: "Auto-name memory cues", desc: "Name saved memory points from track position/time." },
+        ],
+      },
+      {
+        tab: "loops",
+        icon: "repeat",
+        title: "Loops",
+        desc: "Loop sizes, auto-loop and quantised loop behaviour.",
+        controls: [
+          { type: "select", key: "loopDefaultBars", title: "Default loop length", desc: "Opening Auto Loop length.", options: [
+            { value: "16", label: "16 bars" },
+            { value: "8", label: "8 bars" },
+            { value: "4", label: "4 bars" },
+            { value: "2", label: "2 bars" },
+            { value: "1", label: "1 bar" },
+          ] },
+          { type: "toggle", key: "loopSmallSizes", title: "Show tiny loop sizes", desc: "Enable small loop sizes such as 1/16 beat for finisher effects." },
+          { type: "toggle", key: "loopQuantize", title: "Quantise loops", desc: "Snap loop start/end to prepared beat grid where possible." },
+          { type: "toggle", key: "autoLoopOnLoad", title: "Auto Loop on load", desc: "Keep off for live safety unless you deliberately want it." },
+        ],
+      },
+      {
+        tab: "fx",
+        icon: "wand-magic-sparkles",
+        title: "FX Pad Defaults",
+        desc: "Pad-bank editor lands in the dedicated FX V2 pass. These defaults are stored now.",
+        controls: [
+          { type: "select", key: "fxDefaultBank", title: "Opening FX bank", desc: "Choose the first pad bank shown on DUO → FX.", options: [
+            { value: "pioneer-core", label: "Pioneer Core" },
+            { value: "outs-sweeps", label: "Outs + Sweeps" },
+          ] },
+          { type: "select", key: "fxDefaultTarget", title: "Default FX target", desc: "Where newly assigned pads should apply.", options: [
+            { value: "master", label: "Master" },
+            { value: "a", label: "Deck 1" },
+            { value: "b", label: "Deck 2" },
+            { value: "both", label: "Both decks" },
+          ] },
+          { type: "number", key: "fxWetDefaultPercent", title: "Default FX wet percent", desc: "Starting wet/amount level for new FX pads.", min: 0, max: 100, step: 1 },
+          { type: "toggle", key: "fxTapToggle", title: "Tap toggles FX", desc: "Tap a pad once to engage it and again to release it." },
+          { type: "toggle", key: "fxLongPressHold", title: "Long-press momentary FX", desc: "Hold a pad for temporary FX and release to stop." },
+          { type: "toggle", key: "fxClearOnSetOpen", title: "Clear FX on new set", desc: "Begin each set with a clean FX state." },
+        ],
+      },
+      {
+        tab: "browser",
+        icon: "globe",
+        title: "Browser Engine",
+        desc: "Core DJ controls remain browser-based on iPhone Safari and Android Chrome.",
+        controls: [
+          { type: "toggle", key: "browserRequireHttpsForRecording", title: "Require HTTPS for recording", desc: "Warn/block permanent recording on insecure remote pages." },
+          { type: "toggle", key: "browserAudioWorkletEnabled", title: "Use AudioWorklet", desc: "Keep low-latency master processing off the main UI thread where available." },
+          { type: "toggle", key: "browserMidiEnabled", title: "Enable Web MIDI where supported", desc: "Optional controller layer. Core DJ controls continue without MIDI." },
+          { type: "toggle", key: "browserKeepScreenAwake", title: "Keep screen awake during sets", desc: "Use the browser wake-lock API where available." },
+          { type: "toggle", key: "browserBackgroundAudioGuard", title: "Background audio guard", desc: "Use media-session/pagehide safeguards where browsers allow." },
+        ],
+        options: [
+          ["iPhone Safari", "Core browser controls and HTTPS recording support.", "Required"],
+          ["Android Chrome", "Core browser controls and optional Web MIDI where available.", "Required"],
+          ["Tailscale Serve", "Use the HTTPS .ts.net address for AudioWorklet recording away from the PC.", "HTTPS"],
+        ],
+      },
+    ],
+  },
 
   torrents: {
     title: "Torrents Settings",
@@ -1338,7 +1706,7 @@ const SETTINGS_MODULES = {
         title: "Sources & Storage",
         desc: "Local folders, allowed bases, cache and output storage.",
         options: [
-          ["Audio source", "Default music/mix source folder.", "C:\\DJMixes"],
+          ["Audio source", "Default music/mix source folder.", "H:\\Music"],
           ["Video source", "Default video source folder.", "C:\\Videos"],
           ["Output safety", "Only write inside allowed folders.", "Locked"],
           ["Cache data", "Metadata, artwork, waveforms and cloud links.", "On"],
@@ -1611,6 +1979,12 @@ function loadConverterSettings() {
   return saved && typeof saved === "object" ? { ...CONVERTER_SETTINGS_DEFAULTS, ...saved } : { ...CONVERTER_SETTINGS_DEFAULTS };
 }
 
+function loadDjSettings() {
+  const saved = readPersistedJson(DJ_SETTINGS_KEY, null);
+  return saved && typeof saved === "object"
+    ? { ...DJ_SETTINGS_DEFAULTS, ...saved }
+    : { ...DJ_SETTINGS_DEFAULTS };
+}
 
 function loadTorrentSettings() {
   const saved =
@@ -1653,6 +2027,7 @@ let videoSettings =
 
 let taggerSettings = loadTaggerSettings();
 let converterSettings = loadConverterSettings();
+let djSettings = loadDjSettings();
 let torrentSettings = loadTorrentSettings();
 let torrentSettingsLoaded = false;
 let torrentSecurityLoaded = false;
@@ -1772,6 +2147,11 @@ function saveModuleSettings(moduleKey = "") {
   if (moduleKey === "converter") {
     writePersistedJson(CONVERTER_SETTINGS_KEY, converterSettings);
     showSettingsSaveNotice("Converter settings saved. Reopen Converter if it is already open.");
+  }
+
+  if (moduleKey === "dj") {
+    writePersistedJson(DJ_SETTINGS_KEY, djSettings);
+    showSettingsSaveNotice("DJ Mixer settings saved. Reopen DJ Mixer to apply the new permanent defaults.");
   }
 
   if (moduleKey === "torrents") {
@@ -1966,6 +2346,7 @@ function getModuleSettingsTarget(moduleKey = "") {
   if (moduleKey === "video") return videoSettings;
   if (moduleKey === "tagger") return taggerSettings;
   if (moduleKey === "converter") return converterSettings;
+  if (moduleKey === "dj") return djSettings;
   if (moduleKey === "torrents") return torrentSettings;
   return {};
 }
@@ -5952,7 +6333,7 @@ function renderDjSourceManagerHtml() {
       </article>
 
       <section class="settingsDjSourceList">
-        ${sources.length ? sources.map(renderSettingsDjSourceCard).join("") : `<div class="settingsJobEmpty">No DJ/audio sources yet. Add C:\\DJMixes, E:\\, F:\\ or any other folder above.</div>`}
+        ${sources.length ? sources.map(renderSettingsDjSourceCard).join("") : `<div class="settingsJobEmpty">No DJ/audio sources yet. Add H:\\Music or another folder above.</div>`}
       </section>
     </section>
   `;
@@ -9021,6 +9402,14 @@ function bindTorrentSettingsLiveEvents() {
   settingsCards.querySelectorAll("[data-torrent-quarantine-delete]").forEach((button) => button.addEventListener("click", () => { if (window.confirm("Permanently delete this quarantined item?")) runTorrentSettingsAction(`/torrent/quarantine/${encodeURIComponent(button.dataset.torrentQuarantineDelete)}/delete`, {}, "Quarantine item permanently deleted."); }));
 }
 
+function normaliseDjSettingsTab() {
+  const tree = SETTINGS_NAV_TREE.find((item) => item.key === "dj");
+  const validTabs = (tree?.children || []).map((item) => item.key);
+
+  if (!validTabs.includes(activeChildSettingsTab)) {
+    activeChildSettingsTab = "overview";
+  }
+}
 
 const SETTINGS_CONTROL_CENTRE_ITEMS = [
   {
@@ -9039,6 +9428,15 @@ const SETTINGS_CONTROL_CENTRE_ITEMS = [
     status: "Editor live",
     tone: "is-live",
     module: "video",
+    tab: "overview",
+  },
+  {
+    icon: "record-vinyl",
+    title: "DJ Mixer / Collection",
+    desc: "Browser DJ Studio, full Collection sources, recording defaults, waveform/grid prep and performance safeguards.",
+    status: "V2I",
+    tone: "is-live",
+    module: "dj",
     tab: "overview",
   },
   {
@@ -9263,6 +9661,19 @@ if (activeSettingsModule === "player") {
     renderSettingsSidebarTree();
     return;
   }
+	
+  if (activeSettingsModule === "dj") {
+    normaliseDjSettingsTab();
+    if (["collection", "sources"].includes(activeChildSettingsTab) && !settingsDjSourcesLoaded) {
+      void ensureSettingsDjSourcesLoaded(true).then(() => {
+        if (activeSettingsModule === "dj" && ["collection", "sources"].includes(activeChildSettingsTab)) {
+          renderSettingsTab("dj", activeChildSettingsTab);
+        }
+      }).catch((err) => {
+        settingsDjSourcesNotice = `DJ source load failed: ${err?.message || String(err)}`;
+      });
+    }
+  }
 
   if (activeSettingsModule === "torrents" && !torrentSettingsLoaded) {
     settingsActiveTitle.textContent = "Torrents Settings";
@@ -9422,7 +9833,8 @@ function closeSettingsToPreviousPage() {
 moduleSearchBtn?.addEventListener("click", (event) => {
   event.preventDefault();
   event.stopPropagation();
-  closeSettingsToPreviousPage();
+  openModuleSidebar();
+  settingsSidebarTree?.querySelector("[data-settings-tab], [data-settings-subtab]")?.focus();
 });
 
 document.querySelectorAll("[data-route]").forEach((button) => {
@@ -9521,9 +9933,11 @@ function getInitialSettingsTarget() {
   }
 
   if (moduleKey === "audio") moduleKey = "player";
+  if (moduleKey === "mixer" || moduleKey === "dj-mixer") moduleKey = "dj";
   if (moduleKey === "torrent" || moduleKey === "qbittorrent") moduleKey = "torrents";
   if (moduleKey === "imports" || moduleKey === "files") moduleKey = "cloud";
   if (tabKey === "library" && moduleKey !== "dj") tabKey = "add-files";
+  if (moduleKey === "dj" && tabKey === "library") tabKey = "collection";
 
   if ((moduleKey || "") === "video") {
     const videoId = params.get("videoId") || params.get("id") || "";

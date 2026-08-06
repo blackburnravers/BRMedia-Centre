@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Guest track upload · BRMedia</title>
+  <link rel="stylesheet" href="/dj-mixer/guest-upload.css">
+</head>
+<body>
+  <main>
+    <header>
+      <a href="/dj-mixer/" aria-label="Back to BRMedia">← Back</a>
+      <p class="eyebrow">BRMedia Centre</p>
+      <h1>Guest track upload</h1>
+      <p>Upload and validate a temporary track. Guest tracks cannot be loaded to a deck yet.</p>
+    </header>
+
+    <section class="card">
+      <label class="picker">
+        <span>Choose audio file</span>
+        <input id="file" type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.flac">
+      </label>
+      <p id="selection">No file selected</p>
+      <div class="actions">
+        <button id="start" disabled>Upload</button>
+        <button id="pause" class="secondary" disabled>Pause</button>
+        <button id="cancel" class="danger" disabled>Cancel</button>
+      </div>
+      <progress id="progress" max="1" value="0"></progress>
+      <p id="progress-text">0% confirmed by server</p>
+    </section>
+
+    <section class="card" aria-live="polite">
+      <p class="eyebrow">Status</p>
+      <h2 id="state">Choose a file</h2>
+      <p id="guidance">The standard file picker works in iOS Safari/PWA and Android Chrome/PWA.</p>
+      <div id="duplicate" hidden>
+        <p>A possible duplicate needs your decision.</p>
+        <div class="actions">
+          <button id="keep">Keep separate guest</button>
+          <button id="use-existing" class="secondary">Use existing guest</button>
+        </div>
+      </div>
+      <button id="retry" hidden>Retry validation</button>
+      <div id="deck-actions" hidden>
+        <p>This temporary guest can be decoded by the native decks. Loading never starts playback.</p>
+        <div class="actions">
+          <button id="load-d1">Load D1</button>
+          <button id="load-d2">Load D2</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card notes">
+      <h2>Mobile resume</h2>
+      <p>If iOS or Android suspends or closes the browser, the server keeps the session. You may need to choose the same source again. BRMedia checks size, filename and last-modified time before resuming; it never uses or changes a device path.</p>
+    </section>
+  </main>
+  <script src="/shared/resumable-upload.js"></script>
+  <script src="/dj-mixer/guest-upload.js"></script>
+</body>
+</html>

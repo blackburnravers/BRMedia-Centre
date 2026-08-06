@@ -591,44 +591,8 @@ body.moduleTemplateBody {
   height: 32px;
 }
 
-.taggerTabText {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.taggerTabText strong {
-  color: #ffffff;
-  font-size: 1rem;
-  line-height: 1.08;
-  font-weight: 950;
-}
-
-.taggerTabText em {
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 0.78rem;
-  line-height: 1.22;
-  font-style: normal;
-  font-weight: 760;
-}
-
 .taggerTab.active .taggerTabText em {
   color: rgba(255, 255, 255, 0.76);
-}
-
-.taggerSectionSplit {
-  display: grid;
-  gap: 14px;
-}
-
-.taggerSectionNote {
-  border-radius: 18px;
-  padding: 12px;
-  background: #0f2449;
-  border: 1px solid rgba(31, 169, 255, 0.16);
-  color: rgba(255, 255, 255, 0.66);
-  font-weight: 760;
-  line-height: 1.32;
 }
 
 /* BRMedia Tagger — compact tabs, sidebar section nav and picker polish */

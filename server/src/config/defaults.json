@@ -2,6 +2,7 @@
   "port": 8787,
   "rangeStreaming": true,
   "localAllowedBases": [
+    "H:\\Music",
     "C:\\DJMixes",
     "C:\\Videos"
   ]

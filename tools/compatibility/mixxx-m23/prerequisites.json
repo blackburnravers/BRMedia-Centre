@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-08-01T19:10:00+01:00",
+  "requirementsSource": "Pinned Mixxx 2.5.6 README.md and tools/windows_buildenv.bat",
+  "requirements": [
+    {
+      "tool": "Visual Studio Build Tools 2022",
+      "source": "https://aka.ms/vs/17/release/vs_BuildTools.exe",
+      "version": "Visual Studio 2022; MSVC tools 14.44.35207; cl 19.44.35228 x64; CMake 3.31.6-msvc6; Ninja 1.12.1",
+      "reason": "Official Mixxx Windows build requires the x64 Native Tools environment and MSVC C++ workload.",
+      "installerSha256": "CE7BB977ACCAE1748191233D05EE6832A4B61A319419627BFCDBD818DE5BFD68",
+      "installerAuthenticode": "Valid; Microsoft Corporation",
+      "installPath": "C:\\BuildTools",
+      "status": "installed-and-verified"
+    },
+    {
+      "tool": "Official Mixxx 2.5 x64 dependency bundle",
+      "source": "https://downloads.mixxx.org/dependencies/2.5/Windows/mixxx-deps-2.5-x64-windows-c15790e.zip",
+      "version": "mixxx-deps-2.5-x64-windows-c15790e",
+      "sha256": "138e4685ec73c6a6a509f71f8573be581403b091e4ecea2314df2cc79f9720b9",
+      "reason": "Official pinned CMake, Ninja, Qt and vcpkg dependency environment for Mixxx 2.5 x64.",
+      "installPath": "C:\\BRMediaBuilds\\Mixxx-M23\\buildenv\\mixxx-deps-2.5-x64-windows-c15790e",
+      "status": "downloaded-hash-verified-and-used"
+    },
+    {
+      "tool": "Git for Windows",
+      "source": "https://git-scm.com/",
+      "version": "2.53.0",
+      "reason": "Official source checkout and reproducible commit verification.",
+      "status": "installed"
+    }
+  ],
+  "security": {
+    "windowsSecurityDisabled": false,
+    "untrustedBinariesAllowed": false,
+    "floatingSourceAllowed": false
+  }
+}

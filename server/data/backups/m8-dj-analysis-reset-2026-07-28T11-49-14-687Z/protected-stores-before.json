@@ -1,0 +1,74 @@
+{
+  "mixxxDb": {
+    "path": "C:\\Users\\brmedia\\AppData\\Local\\Mixxx\\mixxxdb.sqlite",
+    "bytes": 200704,
+    "lastWriteTimeMs": 1780711238769.7456
+  },
+  "studioState": {
+    "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-studio-state.json",
+    "bytes": 4710,
+    "lastWriteTimeMs": 1781478340293.4993
+  },
+  "recordingsManifest": {
+    "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings.json",
+    "bytes": 3522,
+    "lastWriteTimeMs": 1781231323655.065
+  },
+  "recordingFiles": [
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\captures\\Demo Show 2026-06-22T02-30-22-1782095433542-15f96d30.capture.webm",
+      "bytes": 608007,
+      "lastWriteTimeMs": 1782095433658.3184
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\captures\\Demo Show 2026-06-22T14-56-19-1782140248197-7c9b92c2.capture.webm",
+      "bytes": 4141140,
+      "lastWriteTimeMs": 1782140249110.805
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\final\\Demo Show 2026-06-22T02-30-22-1782095433542-15f96d30.session.json",
+      "bytes": 1230,
+      "lastWriteTimeMs": 1782095434654.2166
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\final\\Demo Show 2026-06-22T02-30-22-1782095433542-15f96d30.timestamps.json",
+      "bytes": 640,
+      "lastWriteTimeMs": 1782095434654.2166
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\final\\Demo Show 2026-06-22T02-30-22-1782095433542-15f96d30.tracklist.txt",
+      "bytes": 220,
+      "lastWriteTimeMs": 1782095434654.2166
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\final\\Demo Show 2026-06-22T02-30-22-1782095433542-15f96d30.wav",
+      "bytes": 2651178,
+      "lastWriteTimeMs": 1782095434621.8906
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\final\\Demo Show 2026-06-22T14-56-19-1782140248197-7c9b92c2.session.json",
+      "bytes": 2263,
+      "lastWriteTimeMs": 1782140250542.2793
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\final\\Demo Show 2026-06-22T14-56-19-1782140248197-7c9b92c2.timestamps.json",
+      "bytes": 1132,
+      "lastWriteTimeMs": 1782140250542.2793
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\final\\Demo Show 2026-06-22T14-56-19-1782140248197-7c9b92c2.tracklist.txt",
+      "bytes": 205,
+      "lastWriteTimeMs": 1782140250542.2793
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\final\\Demo Show 2026-06-22T14-56-19-1782140248197-7c9b92c2.wav",
+      "bytes": 20202618,
+      "lastWriteTimeMs": 1782140250511.0303
+    },
+    {
+      "path": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\dj-recordings\\recordings-manifest.json",
+      "bytes": 5151,
+      "lastWriteTimeMs": 1782140250557.9033
+    }
+  ]
+}

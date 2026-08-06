@@ -1,5 +1,8 @@
 ﻿# Dependencies
 node_modules/
+tools/webrtc-sidecar/runtime/
+tools/webrtc-sidecar/node_modules/
+tools/webrtc-sidecar/run/
 
 # Environment files and secrets
 .env

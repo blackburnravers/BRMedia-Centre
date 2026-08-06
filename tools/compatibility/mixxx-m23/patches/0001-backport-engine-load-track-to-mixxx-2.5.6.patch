@@ -1,0 +1,137 @@
+diff --git a/src/controllers/scripting/controllerscriptenginebase.cpp b/src/controllers/scripting/controllerscriptenginebase.cpp
+index 0807ff8..218bd0f 100644
+--- a/src/controllers/scripting/controllerscriptenginebase.cpp
++++ b/src/controllers/scripting/controllerscriptenginebase.cpp
+@@ -1,9 +1,11 @@
+ #include "controllers/scripting/controllerscriptenginebase.h"
+ 
++#include <QFileInfo>
+ #include <QJSEngine>
+ 
+ #include "controllers/controller.h"
+ #include "controllers/scripting/colormapperjsproxy.h"
+ #include "errordialoghandler.h"
++#include "mixer/playermanager.h"
+ #include "moc_controllerscriptenginebase.cpp"
+ #include "util/cmdlineargs.h"
+@@ -26,6 +28,35 @@ ControllerScriptEngineBase::ControllerScriptEngineBase(
+     qRegisterMetaType<QMessageBox::StandardButton>("QMessageBox::StandardButton");
+ }
+ 
++void ControllerScriptEngineBase::registerPlayerManager(
++        std::shared_ptr<PlayerManager> pPlayerManager) {
++    s_pPlayerManager = std::move(pPlayerManager);
++}
++
++bool ControllerScriptEngineBase::loadTrackToPlayer(
++        const QString& group, const QString& path) {
++    VERIFY_OR_DEBUG_ASSERT(s_pPlayerManager != nullptr) {
++        qCritical() << "loadTrackToPlayer: PlayerManager not initialised";
++        return false;
++    }
++    if (path.isEmpty()) {
++        qWarning() << "loadTrackToPlayer: empty path";
++        return false;
++    }
++    const QFileInfo fileInfo(path);
++    if (!fileInfo.exists() || !fileInfo.isFile()) {
++        qWarning() << "loadTrackToPlayer: file not found:" << path;
++        return false;
++    }
++    // Use Mixxx's existing non-playing load path. The PlayerManager forwards
++    // this to the normal library/player loading pipeline.
++    s_pPlayerManager->slotLoadLocationToPlayer(
++            fileInfo.absoluteFilePath(), group, /*play=*/false);
++    return true;
++}
++
+ bool ControllerScriptEngineBase::initialize() {
+     VERIFY_OR_DEBUG_ASSERT(!m_pJSEngine) {
+         return false;
+diff --git a/src/controllers/scripting/controllerscriptenginebase.h b/src/controllers/scripting/controllerscriptenginebase.h
+index 3ce6e8f..b48e3ef 100644
+--- a/src/controllers/scripting/controllerscriptenginebase.h
++++ b/src/controllers/scripting/controllerscriptenginebase.h
+@@ -5,10 +5,12 @@
+ #include <memory>
+ 
++#include "mixer/playermanager.h"
+ #include "util/runtimeloggingcategory.h"
+ 
+ class Controller;
+ class QJSEngine;
+@@ -37,6 +39,15 @@ class ControllerScriptEngineBase : public QObject {
+         return m_bTesting;
+     }
+ 
++    static void registerPlayerManager(std::shared_ptr<PlayerManager> pPlayerManager);
++
++    /// Load a file into the deck or sampler identified by group without
++    /// starting playback. Returns false if Mixxx is not ready or the path is
++    /// empty, missing, or not a regular file.
++    static bool loadTrackToPlayer(const QString& group, const QString& path);
++
+   signals:
+     void beforeShutdown();
+@@ -62,6 +73,8 @@ class ControllerScriptEngineBase : public QObject {
+ 
+     bool m_bTesting;
+ 
++  private:
++    static inline std::shared_ptr<PlayerManager> s_pPlayerManager;
+   protected slots:
+     void reload();
+diff --git a/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.cpp b/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.cpp
+index 3c31bd2..7dcc72f 100644
+--- a/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.cpp
++++ b/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.cpp
+@@ -232,6 +232,10 @@ void ControllerScriptInterfaceLegacy::reset(const QString& group, const QString&
+     }
+ }
+ 
++bool ControllerScriptInterfaceLegacy::loadTrack(const QString& group, const QString& path) {
++    return ControllerScriptEngineBase::loadTrackToPlayer(group, path);
++}
++
+ double ControllerScriptInterfaceLegacy::getDefaultValue(const QString& group, const QString& name) {
+     ControlObjectScript* coScript = getControlObjectScript(group, name);
+diff --git a/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.h b/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.h
+index c4a0b28..cd151a8 100644
+--- a/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.h
++++ b/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.h
+@@ -31,6 +31,10 @@ class ControllerScriptInterfaceLegacy : public QObject {
+     Q_INVOKABLE double getParameterForValue(
+             const QString& group, const QString& name, double value);
+     Q_INVOKABLE void reset(const QString& group, const QString& name);
++
++    /// Load path into group through Mixxx's normal load pipeline without autoplay.
++    Q_INVOKABLE bool loadTrack(const QString& group, const QString& path);
++
+     Q_INVOKABLE double getDefaultValue(const QString& group, const QString& name);
+     Q_INVOKABLE double getDefaultParameter(const QString& group, const QString& name);
+diff --git a/src/coreservices.cpp b/src/coreservices.cpp
+index 8d3bdfb..7e1021a 100644
+--- a/src/coreservices.cpp
++++ b/src/coreservices.cpp
+@@ -11,6 +11,7 @@
+ #include "control/controlindicatortimer.h"
+ #include "controllers/controllermanager.h"
+ #include "controllers/keyboard/keyboardeventfilter.h"
++#include "controllers/scripting/controllerscriptenginebase.h"
+ #include "database/mixxxdb.h"
+ #include "effects/effectsmanager.h"
+@@ -676,6 +677,8 @@ void CoreServices::initialize() {
+     }
+ 
+     m_isInitialized = true;
++
++    ControllerScriptEngineBase::registerPlayerManager(m_pPlayerManager);
+ }
+@@ -786,6 +789,8 @@ void CoreServices::finalize() {
+     Timer t("CoreServices::~CoreServices");
+     t.start();
+ 
++    ControllerScriptEngineBase::registerPlayerManager(nullptr);
++
+     // Stop all pending library operations
+     qDebug() << t.elapsed(false).debugMillisWithUnit() << "stopping pending Library tasks";

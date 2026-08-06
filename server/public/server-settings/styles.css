@@ -521,38 +521,8 @@ body.settingsMode {
   background: rgba(31, 169, 255, 0.18);
 }
 
-.serverSettingsInfoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.serverSettingsInfoBox {
-  border-radius: 18px;
-  border: 1px solid rgba(31, 169, 255, 0.14);
-  background: #0f2449;
-  padding: 12px;
-}
-
-.serverSettingsInfoBox strong {
-  display: block;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 950;
-}
-
-.serverSettingsInfoBox span {
-  display: block;
-  margin-top: 5px;
-  color: rgba(255, 255, 255, 0.62);
-  line-height: 1.28;
-  font-size: 0.78rem;
-  font-weight: 760;
-}
-
 @media (max-width: 720px) {
-  .serverSettingsSectionGrid,
-  .serverSettingsInfoGrid {
+  .serverSettingsSectionGrid {
     grid-template-columns: 1fr;
   }
 }
@@ -1924,5 +1894,4 @@ body.settingsMode {
 .serverSettingsBtn[href] {
   text-decoration: none;
 }
-
 

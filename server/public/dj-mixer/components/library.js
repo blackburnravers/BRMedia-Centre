@@ -5,6 +5,31 @@
     "brmedia-dj-audio-v1";
 
   const CACHE_LIMIT = 6;
+  const AUDIO_STREAM_STALL_MS =
+    30000;
+	
+  /*
+    Remove old AAC/M4A performance copies cached by Safari or Chrome.
+
+    This cache contained only /dj-performance/ responses, not the user's
+    original WAV/FLAC/MP3 files.
+  */
+  const clearLegacyPerformanceCopyCache =
+    async () => {
+      try {
+        window.localStorage.removeItem(
+          "brmedia.dj.audio-cache-lru.v1"
+        );
+
+        if ("caches" in window) {
+          await caches.delete(
+            "brmedia-dj-audio-v1"
+          );
+        }
+      } catch {}
+    };
+
+  void clearLegacyPerformanceCopyCache();
 
   const LRU_KEY =
     "brmedia.dj.audio-cache-lru.v1";
@@ -231,11 +256,56 @@
       let receivedBytes = 0;
       let lastStatusAt = 0;
 
+      const readNextChunk =
+        () =>
+          new Promise(
+            (
+              resolve,
+              reject
+            ) => {
+              const timer =
+                window.setTimeout(
+                  () => {
+                    reject(
+                      new Error(
+                        "Audio download stalled before the final bytes arrived"
+                      )
+                    );
+
+                    try {
+                      void reader
+                        .cancel();
+                    } catch {}
+                  },
+                  AUDIO_STREAM_STALL_MS
+                );
+
+              reader.read()
+                .then(
+                  (result) => {
+                    window.clearTimeout(
+                      timer
+                    );
+
+                    resolve(result);
+                  },
+
+                  (error) => {
+                    window.clearTimeout(
+                      timer
+                    );
+
+                    reject(error);
+                  }
+                );
+            }
+          );
+
       while (true) {
         const {
           done,
           value,
-        } = await reader.read();
+        } = await readNextChunk();
 
         if (done) break;
 
@@ -303,6 +373,54 @@
         }
       }
 
+      if (
+        totalBytes > 0 &&
+        receivedBytes <
+          totalBytes
+      ) {
+        throw new Error(
+          `Audio stream ended early (${formatBytes(
+            receivedBytes
+          )} / ${formatBytes(
+            totalBytes
+          )})`
+        );
+      }
+
+      if (
+        typeof options
+          .onProgress ===
+          "function"
+      ) {
+        const elapsedSeconds =
+          Math.max(
+            0.1,
+            (
+              performance.now() -
+              options.startedAt
+            ) /
+              1000
+          );
+
+        options.onProgress({
+          receivedBytes,
+
+          totalBytes:
+            totalBytes ||
+            receivedBytes,
+
+          speed:
+            receivedBytes /
+            elapsedSeconds,
+
+          percent: 100,
+
+          sourceLabel:
+            options.sourceLabel ||
+            "Audio",
+        });
+      }
+
       return new Blob(
         chunks,
         {
@@ -332,8 +450,15 @@
 
       let lastError =
         "Could not fetch track";
+      const signal = options.signal;
 
       for (const url of urls) {
+        if (signal?.aborted) {
+          throw new DOMException(
+            "Waveform request aborted",
+            "AbortError"
+          );
+        }
         const fetchStartedAt =
           performance.now();
 
@@ -393,6 +518,7 @@
 
                 credentials:
                   "same-origin",
+                signal,
               }
             );
 
@@ -485,6 +611,12 @@
                 : "original",
           };
         } catch (error) {
+          if (
+            signal?.aborted ||
+            error?.name === "AbortError"
+          ) {
+            throw error;
+          }
           lastError =
             error?.message ||
             lastError;

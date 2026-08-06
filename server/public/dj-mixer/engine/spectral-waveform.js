@@ -628,18 +628,156 @@
         score: selected.score,
       };
 
-    const nearestWholeBpm =
-      Math.round(
-        preciseSelected.bpm
+    const measuredBpm =
+      Number(
+        preciseSelected.bpm.toFixed(3)
       );
 
-    const finalBpm =
+    const nearestWholeBpm =
+      Math.round(measuredBpm);
+
+    const taggedWholeBpm =
+      hintedBpm &&
       Math.abs(
-        preciseSelected.bpm -
+        hintedBpm -
+        Math.round(hintedBpm)
+      ) <= 0.01
+        ? Math.round(hintedBpm)
+        : null;
+
+    const scoreDigitalCandidate = (
+      bpm
+    ) => {
+      if (
+        !Number.isFinite(Number(bpm)) ||
+        Number(bpm) < BPM_MIN ||
+        Number(bpm) > BPM_MAX
+      ) {
+        return null;
+      }
+
+      return scorePreciseBpm(
+        Number(bpm),
+        preciseSelected.phase
+      );
+    };
+
+    const wholeCandidate =
+      scoreDigitalCandidate(
         nearestWholeBpm
-      ) <= 0.008
-        ? nearestWholeBpm
-        : preciseSelected.bpm;
+      );
+
+    const taggedCandidate =
+      taggedWholeBpm ===
+      nearestWholeBpm
+        ? wholeCandidate
+        : scoreDigitalCandidate(
+            taggedWholeBpm
+          );
+
+    const scoreRatio = (
+      candidate
+    ) => {
+      const selectedScore =
+        Number(
+          preciseSelected.score
+        );
+
+      const candidateScore =
+        Number(candidate?.score);
+
+      if (
+        !Number.isFinite(
+          selectedScore
+        ) ||
+        !Number.isFinite(
+          candidateScore
+        )
+      ) {
+        return 0;
+      }
+
+      if (
+        Math.abs(selectedScore) <
+        0.000001
+      ) {
+        return candidateScore >=
+          selectedScore
+          ? 1
+          : 0;
+      }
+
+      return candidateScore /
+        selectedScore;
+    };
+
+    const wholeScoreRatio =
+      scoreRatio(wholeCandidate);
+
+    const taggedScoreRatio =
+      scoreRatio(taggedCandidate);
+
+    const measuredWholeDistance =
+      Math.abs(
+        measuredBpm -
+        nearestWholeBpm
+      );
+
+    const taggedDistance =
+      taggedWholeBpm == null
+        ? Infinity
+        : Math.abs(
+            measuredBpm -
+            taggedWholeBpm
+          );
+
+    /*
+      Digitally produced constant-tempo tracks are normally authored on an
+      exact DAW tempo. Tiny sub-BPM wins can be caused by transient placement,
+      encoding delay, breakdowns and the finite waveform envelope resolution.
+
+      Keep genuine decimals when they clearly outperform the whole-BPM grid,
+      but prefer an exact whole tempo when the measured result is nearby and
+      the whole candidate explains the complete track almost as well.
+    */
+    const preferDigitalWhole =
+      options.preferDigitalWhole !==
+      false;
+
+    const useTaggedWholeBpm =
+      preferDigitalWhole &&
+      taggedWholeBpm != null &&
+      taggedDistance <= 0.45 &&
+      taggedScoreRatio >= 0.955;
+
+    const useMeasuredWholeBpm =
+      preferDigitalWhole &&
+      measuredWholeDistance <= 0.20 &&
+      wholeScoreRatio >= 0.982;
+			
+    const finalCandidate =
+      (
+        useTaggedWholeBpm
+          ? taggedCandidate
+          : useMeasuredWholeBpm
+            ? wholeCandidate
+            : preciseSelected
+      ) ||
+      preciseSelected;
+
+    const finalBpm =
+      useTaggedWholeBpm
+        ? taggedWholeBpm
+        : useMeasuredWholeBpm
+          ? nearestWholeBpm
+          : measuredBpm;
+
+    const digitalTempoLocked =
+      Number.isInteger(finalBpm) &&
+      Math.abs(
+        measuredBpm -
+        finalBpm
+      ) > 0.0005;
 
     const energyScale =
       Math.max(
@@ -675,14 +813,28 @@
         finalBpm.toFixed(3)
       ),
 
-      rawBpm: Number(
-        rawAnchor.toFixed(3)
-      ),
+      rawBpm: measuredBpm,
+
+      measuredBpm,
+
+      digitalTempoLocked,
+
+      digitalTempoBasis:
+        useTaggedWholeBpm
+          ? "metadata-whole"
+          : useMeasuredWholeBpm
+            ? "measured-whole"
+            : "measured-decimal",
+
+      wholeBpmScoreRatio:
+        Number(
+          wholeScoreRatio.toFixed(4)
+        ),
 
       downbeat: Number(
         Math.max(
           0,
-          preciseSelected.phase /
+          finalCandidate.phase /
           fps
         ).toFixed(6)
       ),
@@ -695,7 +847,9 @@
         topCandidates,
 
       source:
-        "precise-grid-v1",
+        digitalTempoLocked
+          ? "precise-grid-v2-digital-lock"
+          : "precise-grid-v2-measured",
     };
   };
 
@@ -925,7 +1079,10 @@
     };
   };
 	
-  const analysePreparedWaveform = (waveform = {}) => {
+  const analysePreparedWaveform = (
+    waveform = {},
+    options = {}
+  ) => {
     const peaks = Array.isArray(waveform?.peaks)
       ? waveform.peaks.map((value) => clampUnit(value))
       : [];
@@ -1059,6 +1216,9 @@
             waveform?.item?.djGridRawBpm ||
             waveform?.item?.djGridBpm ||
             null,
+          preferDigitalWhole:
+            options.preferDigitalWhole !==
+            false,
         }
       );
 
@@ -1072,6 +1232,25 @@
       rawBpm:
         tempo.rawBpm ||
         tempo.bpm,
+
+      measuredBpm:
+        tempo.measuredBpm ||
+        tempo.rawBpm ||
+        tempo.bpm,
+
+      digitalTempoLocked:
+        Boolean(
+          tempo.digitalTempoLocked
+        ),
+
+      digitalTempoBasis:
+        tempo.digitalTempoBasis ||
+        "measured-decimal",
+
+      wholeBpmScoreRatio:
+        Number(
+          tempo.wholeBpmScoreRatio
+        ) || 0,
 
       downbeat:
         tempo.downbeat || 0,
@@ -1102,7 +1281,7 @@
       high: "rgba(226,250,255,0.90)",
       edge: "rgba(255,255,255,0.46)",
       base: "rgba(123,216,255,0.07)",
-      played: "rgba(0,0,0,0.34)",
+      played: "rgba(0,0,0,0.58)",
       grid: "rgba(107,195,255,0.14)",
       gridBar: "rgba(74,178,255,0.92)",
       gridOne: "rgba(255,64,88,0.96)",
@@ -1119,7 +1298,7 @@
       high: "rgba(78,166,255,0.84)",
       edge: "rgba(240,252,255,0.54)",
       base: "rgba(255,255,255,0.06)",
-      played: "rgba(0,0,0,0.34)",
+      played: "rgba(0,0,0,0.58)",
       grid: "rgba(108,196,255,0.14)",
       gridBar: "rgba(74,178,255,0.92)",
       gridOne: "rgba(255,64,88,0.96)",
@@ -1135,7 +1314,7 @@
       high: "rgba(255,255,255,0.88)",
       edge: "rgba(255,255,255,0.44)",
       base: "rgba(255,255,255,0.06)",
-      played: "rgba(0,0,0,0.34)",
+      played: "rgba(0,0,0,0.58)",
       grid: "rgba(108,196,255,0.14)",
       gridBar: "rgba(74,178,255,0.92)",
       gridOne: "rgba(255,64,88,0.96)",
@@ -1151,7 +1330,7 @@
       high: "rgba(123,216,255,0.90)",
       edge: "rgba(246,254,255,0.48)",
       base: "rgba(123,216,255,0.065)",
-      played: "rgba(0,0,0,0.34)",
+      played: "rgba(0,0,0,0.58)",
       grid: "rgba(108,196,255,0.14)",
       gridBar: "rgba(74,178,255,0.92)",
       gridOne: "rgba(255,64,88,0.96)",
@@ -2297,6 +2476,11 @@
           visibleSeconds * 0.56
         : duration;
 
+    const beatSpacingPixels = duration > 0
+      ? (virtualWidth * (60 / bpm)) / duration
+      : width;
+    const showMinorBeats = beatSpacingPixels >= Math.max(5, pixelRatio * 2.25);
+
     const gridApi =
       window.BRMediaDjGrid;
 
@@ -2435,11 +2619,14 @@
       const isBar =
         Boolean(marker.isBar);
 
-      const isBase =
-        Boolean(marker.isBase);
+      const isDownbeat = isBar;
 
       const isBeforeStart =
         beatTime < 0;
+
+      if (!isDownbeat && !showMinorBeats) {
+        return;
+      }
 
       const gridStyle =
         options.gridStyle ===
@@ -2449,27 +2636,26 @@
 
       const beatColour =
         gridStyle === "blue"
-          ? "rgba(74,178,255,0.96)"
-          : "rgba(208,216,226,0.80)";
+          ? "rgba(190,198,208,0.58)"
+          : "rgba(190,198,208,0.58)";
 
-      const barColour =
-        palette.gridOne ||
-        "rgba(255,64,88,0.98)";
+      const downbeatColour =
+        "rgba(218,45,64,0.96)";
 
       const alpha =
         isBeforeStart
           ? 0.18
-          : isBar || isBase
+          : isDownbeat
             ? 0.94
             : gridStyle === "blue"
-              ? 0.78
-              : 0.62;
+              ? 0.48
+              : 0.36;
 
       ctx.fillStyle =
         isBeforeStart
           ? "rgba(118,134,158,0.42)"
-          : isBar || isBase
-            ? barColour
+          : isDownbeat
+            ? downbeatColour
             : beatColour;
 
       ctx.globalAlpha = alpha;
@@ -2479,11 +2665,9 @@
 
         Math.round(
           (
-            isBase
-              ? 3
-              : isBar
-                ? 2.35
-                : 1.35
+            isDownbeat
+              ? 2.4
+              : 0.72
           ) *
             pixelRatio
         )
@@ -2501,7 +2685,7 @@
 
       if (!isBeforeStart) {
         ctx.globalAlpha =
-          isBar || isBase
+          isDownbeat
             ? 0.2
             : 0.1;
 
@@ -2575,47 +2759,332 @@
     ctx.restore();
   };
 	
-  const drawCueMemoryMarkers = (ctx, options = {}) => {
-    const markers = Array.isArray(options.memoryPoints) ? options.memoryPoints : [];
-    const duration = Math.max(0, Number(options.duration) || 0);
-    if (!duration || !markers.length) return;
+  const drawCueMemoryMarkers = (
+    ctx,
+    options = {}
+  ) => {
+    const markers =
+      Array.isArray(
+        options.memoryPoints
+      )
+        ? options.memoryPoints
+        : [];
 
-    const width = Math.max(1, Number(options.width) || 1);
-    const height = Math.max(1, Number(options.height) || 1);
-    const centreX = Number(options.centreX) || width / 2;
-    const virtualWidth = Number(options.virtualWidth) || width;
-    const progress = Number(options.progress) || 0;
-    const fixedCentre = Boolean(options.fixedCentre);
-    const pixelRatio = options.pixelRatio || 1;
-    const labelY = fixedCentre ? Math.max(2 * pixelRatio, 8 * pixelRatio) : Math.max(2 * pixelRatio, 6 * pixelRatio);
+    const duration =
+      Math.max(
+        0,
+        Number(
+          options.duration
+        ) || 0
+      );
+
+    if (
+      !duration ||
+      !markers.length
+    ) {
+      return;
+    }
+
+    const width =
+      Math.max(
+        1,
+        Number(
+          options.width
+        ) || 1
+      );
+
+    const height =
+      Math.max(
+        1,
+        Number(
+          options.height
+        ) || 1
+      );
+
+    const centreX =
+      Number(
+        options.centreX
+      ) ||
+      width / 2;
+
+    const virtualWidth =
+      Number(
+        options.virtualWidth
+      ) ||
+      width;
+
+    const progress =
+      Number(
+        options.progress
+      ) || 0;
+
+    const fixedCentre =
+      Boolean(
+        options.fixedCentre
+      );
+
+    const compact =
+      Boolean(
+        options.compact
+      );
+
+    const pixelRatio =
+      options.pixelRatio ||
+      1;
+
+    const pinColour =
+      "rgba(54,226,120,0.98)";
+
+    const pinTextColour =
+      "rgba(3,24,13,0.98)";
 
     ctx.save();
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    ctx.font = `${Math.max(9, Math.round(9 * pixelRatio))}px system-ui, sans-serif`;
 
-    markers.forEach((marker) => {
-      const time = Math.max(0, Math.min(duration, Number(marker.time) || 0));
-      const x = fixedCentre
-        ? centreX + (((time / duration) - progress) * virtualWidth)
-        : (time / duration) * width;
-      if (x < -18 * pixelRatio || x > width + 18 * pixelRatio) return;
+    ctx.textAlign =
+      "center";
 
-      ctx.globalAlpha = fixedCentre ? 0.92 : 0.82;
-      ctx.fillStyle = "rgba(244,185,67,0.96)";
-      const lineWidth = Math.max(1, Math.round(pixelRatio * 1.3));
-      ctx.fillRect(Math.round(x) - Math.floor(lineWidth / 2), 0, lineWidth, height);
+    ctx.textBaseline =
+      "middle";
 
-      const label = String(marker.label || "M").slice(0, 2);
-      const boxWidth = Math.max(12 * pixelRatio, ctx.measureText(label).width + 8 * pixelRatio);
-      const boxHeight = Math.max(11 * pixelRatio, 12 * pixelRatio);
-      const boxX = Math.max(0, Math.min(width - boxWidth, x - (boxWidth / 2)));
+    ctx.font =
+      `${Math.max(
+        compact ? 7 : 9,
 
-      ctx.fillStyle = "rgba(244,185,67,0.96)";
-      ctx.fillRect(boxX, labelY, boxWidth, boxHeight);
-      ctx.fillStyle = "rgba(18,21,27,0.94)";
-      ctx.fillText(label, boxX + (boxWidth / 2), labelY + Math.max(1, 1.5 * pixelRatio));
-    });
+        Math.round(
+          (
+            compact
+              ? 7
+              : 9
+          ) *
+          pixelRatio
+        )
+      )}px system-ui, sans-serif`;
+
+    markers.forEach(
+      (
+        marker
+      ) => {
+        const time =
+          Math.max(
+            0,
+
+            Math.min(
+              duration,
+
+              Number(
+                marker.time
+              ) || 0
+            )
+          );
+
+        const x =
+          fixedCentre
+            ? centreX +
+              (
+                (
+                  time /
+                  duration
+                ) -
+                progress
+              ) *
+              virtualWidth
+
+            : (
+                time /
+                duration
+              ) *
+              width;
+
+        if (
+          x <
+            -18 *
+            pixelRatio ||
+
+          x >
+            width +
+            18 *
+            pixelRatio
+        ) {
+          return;
+        }
+
+        const lineWidth =
+          Math.max(
+            1,
+
+            Math.round(
+              pixelRatio *
+              (
+                compact
+                  ? 0.9
+                  : 1.45
+              )
+            )
+          );
+
+        ctx.globalAlpha =
+          compact
+            ? 0.88
+            : 0.96;
+
+        ctx.fillStyle =
+          pinColour;
+
+        ctx.fillRect(
+          Math.round(x) -
+            Math.floor(
+              lineWidth /
+              2
+            ),
+
+          compact
+            ? Math.round(
+                5 *
+                pixelRatio
+              )
+            : 0,
+
+          lineWidth,
+          height
+        );
+
+        const label =
+          String(
+            marker.label ||
+            "M"
+          ).slice(
+            0,
+            2
+          );
+
+        const boxWidth =
+          Math.max(
+            (
+              compact
+                ? 10
+                : 16
+            ) *
+            pixelRatio,
+
+            ctx
+              .measureText(
+                label
+              )
+              .width +
+
+            (
+              compact
+                ? 4
+                : 8
+            ) *
+            pixelRatio
+          );
+
+        const boxHeight =
+          (
+            compact
+              ? 9
+              : 14
+          ) *
+          pixelRatio;
+
+        const boxX =
+          Math.max(
+            0,
+
+            Math.min(
+              width -
+              boxWidth,
+
+              x -
+              boxWidth /
+              2
+            )
+          );
+
+        const boxY =
+          compact
+            ? 0
+
+            : Math.max(
+                2 *
+                pixelRatio,
+
+                6 *
+                pixelRatio
+              );
+
+        ctx.fillStyle =
+          pinColour;
+
+        ctx.fillRect(
+          boxX,
+          boxY,
+          boxWidth,
+          boxHeight
+        );
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+          x -
+            (
+              compact
+                ? 2.5
+                : 4
+            ) *
+            pixelRatio,
+
+          boxY +
+          boxHeight
+        );
+
+        ctx.lineTo(
+          x +
+            (
+              compact
+                ? 2.5
+                : 4
+            ) *
+            pixelRatio,
+
+          boxY +
+          boxHeight
+        );
+
+        ctx.lineTo(
+          x,
+
+          boxY +
+          boxHeight +
+
+          (
+            compact
+              ? 4
+              : 6
+          ) *
+          pixelRatio
+        );
+
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle =
+          pinTextColour;
+
+        ctx.fillText(
+          label,
+
+          boxX +
+          boxWidth /
+          2,
+
+          boxY +
+          boxHeight /
+          2
+        );
+      }
+    );
 
     ctx.restore();
   };
@@ -2667,9 +3136,18 @@
     ctx.restore();
   };
 
+  const selectedLevelByTarget = new WeakMap();
+  const deckIdByTarget = new WeakMap();
+  const renderedTargets = new Set();
+
   const drawWaveform = (target, state = {}, options = {}) => {
     const canvas = getCanvas(target);
     if (!canvas) return { hasWaveform: false };
+    renderedTargets.add(target);
+    deckIdByTarget.set(
+      target,
+      options.deckId === "d2" ? "d2" : "d1"
+    );
 
     const rect = target.getBoundingClientRect();
     const rawCssWidth = Math.round(rect.width || target.clientWidth || 0);
@@ -2684,12 +3162,20 @@
 
     const cssWidth = Math.max(1, rawCssWidth);
     const cssHeight = Math.max(1, rawCssHeight);
-    const pixelRatio = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
-    const width = Math.max(1, Math.round(cssWidth * pixelRatio));
-    const height = Math.max(1, Math.round(cssHeight * pixelRatio));
+    const runtime = window.BRMediaM13WaveformRuntime;
+    const size = runtime?.canvasSize
+      ? runtime.canvasSize(cssWidth, cssHeight, window.devicePixelRatio || 1)
+      : {
+          pixelRatio: Math.max(1, Math.min(3, window.devicePixelRatio || 1)),
+          width: Math.max(1, Math.round(cssWidth * (window.devicePixelRatio || 1))),
+          height: Math.max(1, Math.round(cssHeight * (window.devicePixelRatio || 1))),
+        };
+    const { pixelRatio, width, height } = size;
 
     if (canvas.width !== width) canvas.width = width;
     if (canvas.height !== height) canvas.height = height;
+    if (canvas.style.width !== `${cssWidth}px`) canvas.style.width = `${cssWidth}px`;
+    if (canvas.style.height !== `${cssHeight}px`) canvas.style.height = `${cssHeight}px`;
 
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return { hasWaveform: false };
@@ -2698,9 +3184,31 @@
     ctx.imageSmoothingQuality = "high";
     ctx.clearRect(0, 0, width, height);
 
-    const peaks = Array.isArray(state.waveformPeaks) ? state.waveformPeaks : [];
-    const hasWaveform = peaks.length > 0 && state.isLoaded && !state.error;
+    const fallback = runtime?.safeFallback
+      ? runtime.safeFallback(state.waveformPeaks, state.waveformBands)
+      : { valid: Array.isArray(state.waveformPeaks), peaks: state.waveformPeaks || [], bands: state.waveformBands || null };
+    let peaks = fallback.peaks;
+    let bands = fallback.bands;
     const fixedCentre = Boolean(options.fixedCentre && !options.compact);
+    const pyramid = runtime?.validatePyramid
+      ? runtime.validatePyramid(state.waveformMultiscale)
+      : { valid: false, reason: "runtime-unavailable", levels: [] };
+    if (pyramid.valid) {
+      const wanted = fixedCentre ? Math.max(width * 2, width * (Number(options.zoom) || 1) * 0.35) : width;
+      const level = runtime.chooseLevel(
+        pyramid.levels,
+        wanted,
+        selectedLevelByTarget.get(target) || 0
+      );
+      if (level) {
+        selectedLevelByTarget.set(target, level.count);
+        peaks = level.combined;
+        bands = { low: level.low, mid: level.mid, high: level.high, transient: level.transients };
+      }
+    } else {
+      selectedLevelByTarget.delete(target);
+    }
+    const hasWaveform = peaks.length > 0 && state.isLoaded && !state.error;
     const waveformSide = options.waveformSide || "full";
 
     target.classList.toggle("has-real-waveform", hasWaveform);
@@ -2709,12 +3217,19 @@
     target.classList.toggle("is-spectral-waveform", hasWaveform);
     target.classList.toggle("is-uhd-waveform", hasWaveform);
     target.classList.toggle("is-duo-half-waveform", hasWaveform && (waveformSide === "top" || waveformSide === "bottom"));
+    target.classList.toggle("is-waveform-stale", Boolean(state.waveformStale));
+    target.classList.toggle("is-waveform-cache-invalid", Boolean(state.waveformMultiscale) && !pyramid.valid);
+    if (hasWaveform && fixedCentre) target.style.touchAction = "none";
+    target.dataset.waveformCacheState = pyramid.valid
+      ? "ready"
+      : fallback.valid
+        ? "fallback"
+        : pyramid.reason || "unavailable";
     target.dataset.waveformSide = waveformSide;
 
     if (!hasWaveform) return { hasWaveform: false };
 
     const palette = getPalette(options.paletteMode || "blue");
-    const bands = state.waveformBands || null;
     const duration = Math.max(0, Number(state.duration) || 0);
     const currentTime = Number(state.currentTime) || 0;
     const progress = fixedCentre && duration > 0 ? currentTime / duration : clampUnit(state.progress);
@@ -2756,8 +3271,28 @@
       fixedCentre && duration > 0
         ? (visibleSeconds / duration) * 0.55
         : 0;
-    const visibleStart = fixedCentre ? Math.max(0, Math.floor((progress - visiblePad) * total)) : 0;
-    const visibleEnd = fixedCentre ? Math.min(total, Math.ceil((progress + visiblePad) * total)) : total;
+    const visibleRange = runtime?.visibleRange && fixedCentre
+      ? runtime.visibleRange(peaks.length, progress, visiblePad * 2, 0.015)
+      : { start: 0, end: total };
+    const visibleStart = visibleRange.start;
+    const visibleEnd = visibleRange.end;
+    window.BRMediaM14WaveformDiagnostics?.record?.(
+      options.deckId,
+      {
+        dpr: pixelRatio,
+        cssSize: { width: cssWidth, height: cssHeight },
+        backingSize: { width, height },
+        selectedCacheLevel: selectedLevelByTarget.get(target) || null,
+        visibleSampleRange: { start: visibleStart, end: visibleEnd },
+        currentMixxxPosition: currentTime,
+        centreSample: Math.round(progress * total),
+        waveformZoom: detailZoom,
+        renderFrameCount: (Number(target.dataset.brDjDetailRenderFrames) || 0) + 1,
+        lastDetailRepaintAt: Date.now(),
+        lastFallbackReason: pyramid.valid ? "" : (pyramid.reason || (fallback.valid ? "legacy-fallback" : "unavailable")),
+      }
+    );
+    target.dataset.brDjDetailRenderFrames = String((Number(target.dataset.brDjDetailRenderFrames) || 0) + 1);
     const targetPointCount = options.compact
       ? Math.min(1800, Math.ceil(width / (0.52 * pixelRatio)))
       : Math.min(4200, Math.ceil(width / (0.22 * pixelRatio)));
@@ -2780,7 +3315,14 @@
         ? Math.max(2, 1.5 * pixelRatio)
         : height / 2;
     const availableHeight = waveformSide === "full" ? Math.max(2, height - basePad * 2) : Math.max(2, height - basePad);
-    const sideScale = waveformSide === "full" ? 0.46 : 0.90;
+    const sideScale =
+      waveformSide === "full"
+        ? (
+            options.compact
+              ? 0.50
+              : 0.46
+          )
+        : 0.90;
 
     target.dataset.brDjWaveformZoom = detailZoom.toFixed(2);
     target.dataset.waveformPalette = palette.mode;
@@ -2791,15 +3333,6 @@
     ctx.globalAlpha = 0.18;
     ctx.fillRect(0, 0, width, height);
     ctx.globalAlpha = 1;
-
-    if (!fixedCentre && progress > 0 && (
-      target.classList.contains("brDjDuoDeckCardWave") ||
-      target.classList.contains("brDjSingleOverviewWave") ||
-      target.classList.contains("brDjCueMemoryOverview")
-    )) {
-      ctx.fillStyle = palette.played;
-      ctx.fillRect(0, 0, Math.round(progress * width), height);
-    }
 
     if (fixedCentre) {
       ctx.fillStyle = "rgba(210,216,226,0.045)";
@@ -2835,6 +3368,57 @@
       compact: Boolean(options.compact),
       side: waveformSide,
     });
+		
+    /*
+      Compact overview waveforms show the
+      already-played section after the waveform
+      body is drawn. This darkens the audio itself,
+      not only the empty background underneath it.
+    */
+    if (
+      !fixedCentre &&
+      progress > 0 &&
+      (
+        target.classList.contains(
+          "brDjDuoDeckCardWave"
+        ) ||
+        target.classList.contains(
+          "brDjSingleOverviewWave"
+        ) ||
+        target.classList.contains(
+          "brDjCueMemoryOverview"
+        )
+      )
+    ) {
+      ctx.save();
+
+      ctx.globalCompositeOperation =
+        "source-over";
+
+      ctx.fillStyle =
+        palette.played;
+
+      ctx.fillRect(
+        0,
+        0,
+
+        Math.round(
+          progress * width
+        ),
+
+        height
+      );
+
+      ctx.restore();
+    }
+
+    const gridSegments = Array.isArray(options.beatGrid?.segments) ? options.beatGrid.segments : [];
+    if (options.showBeatGrid) gridSegments.slice(1).forEach((segment) => {
+      const ratio = duration > 0 ? Number(segment.startTime) / duration : -1;
+      const x = fixedCentre ? centreX + ((ratio - progress) * virtualWidth) : ratio * width;
+      if (x >= 0 && x <= width) drawMarker(ctx, x, height, palette.gridBar, pixelRatio, 1.2);
+    });
+    target.classList.toggle("is-review-required", Boolean(options.beatGrid?.reviewRequired));
 
     drawBeatGrid(ctx, {
       showBeatGrid: Boolean(
@@ -2877,18 +3461,29 @@
       progress,
       duration,
       pixelRatio,
+      compact: Boolean(options.compact),
       memoryPoints: options.memoryPoints,
     });
 
     const cueProgress = duration > 0 ? ((Number(state.cuePoint) || 0) / duration) : 0;
     const cueX = fixedCentre ? centreX + ((cueProgress - progress) * virtualWidth) : cueProgress * width;
-    if (duration > 0 && cueX >= 0 && cueX <= width) drawMarker(ctx, cueX, height, palette.cue, pixelRatio, 1.7);
+    if (options.showMemoryMarkers && duration > 0 && cueX >= 0 && cueX <= width) drawMarker(ctx, cueX, height, palette.cue, pixelRatio, 1.7);
 
     const playheadX = fixedCentre ? centreX : progress * width;
-    drawMarker(ctx, playheadX, height, palette.playhead, pixelRatio, 2.2);
+    ctx.save();
+    ctx.shadowColor = "rgba(255,72,92,0.95)";
+    ctx.shadowBlur = Math.max(4, pixelRatio * 4);
+    drawMarker(ctx, playheadX, height, palette.playhead, pixelRatio, 3.2);
+    ctx.restore();
     ctx.restore();
 
-    return { hasWaveform: true, zoom: detailZoom, palette: palette.mode };
+    return {
+      hasWaveform: true,
+      zoom: detailZoom,
+      palette: palette.mode,
+      cacheState: target.dataset.waveformCacheState,
+      levelCount: selectedLevelByTarget.get(target) || null,
+    };
   };
 
   window.BRMediaSpectralWaveform = {
@@ -2900,6 +3495,29 @@
 
   window.BRMediaDjWaveformRenderer = {
     draw: drawWaveform,
+    destroy(target) {
+      const deckId =
+        deckIdByTarget.get(target);
+      selectedLevelByTarget.delete(target);
+      deckIdByTarget.delete(target);
+      renderedTargets.delete(target);
+      target?.querySelector?.("canvas")?.remove?.();
+      if (deckId) {
+        window.dispatchEvent(
+          new CustomEvent(
+            "brmedia:waveform-renderer-destroyed",
+            { detail: { deckId } }
+          )
+        );
+      }
+    },
+    destroyAll() {
+      renderedTargets.forEach((target) => {
+        selectedLevelByTarget.delete(target);
+        deckIdByTarget.delete(target);
+      });
+      renderedTargets.clear();
+    },
     palettes,
   };
 })();

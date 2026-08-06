@@ -1,12 +1,5 @@
-# Converter
+# Converter module boundary
 
-Batch convert **any media type → any media type** using profiles + queue.
+This directory is an early module scaffold retained to describe the Converter boundary. The current working Converter is server-hosted under `server/public/converter` with backend routes/services under `server/src`; this directory is not independently deployed.
 
-## Goals
-- Mass conversion (folders, Drive, server library)
-- Profiles/presets (e.g. MP3 320, WAV, FLAC)
-- Per-file progress + overall job progress
-- Export logs + error handling
-
-## Notes
-Scaffold only for now.
+Current product capability includes audio/video conversion, presets, per-item progress and queued jobs using the configured FFmpeg/ffprobe toolchain. See the [module inventory](../../README.md#current-status).

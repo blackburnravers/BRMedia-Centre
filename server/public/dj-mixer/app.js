@@ -414,6 +414,21 @@
       { id: "eq3", name: "3-Band Equalizer (EQ)", family: "Native tone", description: "Controls Low, Mid and High knobs independently." },
 
       { id: "echo", name: "Echo", family: "Compound delay", description: "Delay routing back into itself with fading volume." },
+      {
+        id: "trans",
+        name: "Trans",
+        family: "DJM beat effect",
+        description:
+          "Beat-synchronised rhythmic cuts in the audio.",
+      },
+
+      {
+        id: "filter",
+        name: "Filter",
+        family: "DJM beat effect",
+        description:
+          "Beat-synchronised sweeping filter movement.",
+      },
       { id: "dub-echo", name: "Dub Echo", family: "Compound delay", description: "Echo with an internal low-pass filter." },
       { id: "low-cut-echo", name: "Low Cut Echo", family: "Compound delay", description: "Echo with an internal high-pass filter." },
       { id: "ping-pong", name: "Ping Pong Delay", family: "Compound delay", description: "Bounces delayed audio between left and right channels." },
@@ -423,10 +438,31 @@
       { id: "reverb", name: "Reverb", family: "Compound space", description: "Simulates acoustic space using room impulse responses." },
       { id: "noise", name: "Noise", family: "Compound texture", description: "Generates white-noise static." },
       { id: "ring-mod", name: "Ring Modulator", family: "Compound tone", description: "Multiplies the signal against a sine wave." },
-
+      {
+        id: "robot",
+        name: "Robot",
+        family: "DJM beat effect",
+        description:
+          "Robot-vocoder style metallic pitch colouring.",
+      },
       { id: "pitch-shift", name: "Pitch Shifter", family: "Playback & buffer", description: "Alters pitch by manipulating playback speed." },
       { id: "vinyl-brake", name: "Vinyl Brake", family: "Playback & buffer", description: "Automates playback speed linearly down to zero." },
       { id: "beat-roll", name: "Beat Roll", family: "Playback & buffer", description: "Loops micro-segments of the audio buffer instantly." },
+      {
+        id: "up-roll",
+        name: "Up Roll",
+        family: "DJM beat effect",
+        description:
+          "Roll sampler with a rising pitch movement.",
+      },
+
+      {
+        id: "down-roll",
+        name: "Down Roll",
+        family: "DJM beat effect",
+        description:
+          "Roll sampler with a falling pitch movement.",
+      },
       { id: "stutter", name: "Stutter", family: "Playback & buffer", description: "Rapidly re-triggers audio buffer start times." },
       { id: "key-lock", name: "Pitch-Correction / Key Lock", family: "Playback & buffer", description: "Keeps the original key during speed changes." },
 
@@ -753,6 +789,1264 @@
     $("[data-dj-record-save]")?.addEventListener("click", () => saveRecordSetup());
     $("[data-dj-record-save-next]")?.addEventListener("click", () => saveRecordSetup({ next: true }));
   }
+	
+  const recordingArchiveState = {
+    items: [],
+    filter: "all",
+    loading: false,
+    pollTimer: 0,
+    renderKey: "",
+  };
+
+  function escapeRecordingArchiveHtml(value = "") {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function recordingArchiveCategory(item = {}) {
+    if (
+      item.stalled
+    ) {
+      return "failed";
+    }
+
+    if (
+      item.status === "processing" ||
+      item.status === "recording" ||
+      item.archiveStatus === "archiving"
+    ) {
+      return "processing";
+    }
+
+    if (
+      item.status === "saved"
+    ) {
+      return "ready";
+    }
+
+    if (
+      item.recoveryAvailable
+    ) {
+      return "recovery";
+    }
+
+    return "failed";
+  }
+
+  function formatRecordingArchiveDate(value) {
+    const date =
+      new Date(Number(value) || value || 0);
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+      return "Unknown date";
+    }
+
+    return date.toLocaleString([], {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  }
+
+  function formatRecordingArchiveDuration(durationMs = 0) {
+    const totalSeconds =
+      Math.max(
+        0,
+        Math.floor(
+          Number(durationMs || 0) /
+          1000
+        )
+      );
+
+    if (!totalSeconds) {
+      return "0:00";
+    }
+
+    const hours =
+      Math.floor(
+        totalSeconds /
+        3600
+      );
+
+    const minutes =
+      Math.floor(
+        (
+          totalSeconds %
+          3600
+        ) /
+        60
+      );
+
+    const seconds =
+      totalSeconds %
+      60;
+
+    if (hours) {
+      return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    return `${minutes}:${String(seconds).padStart(2, "0")}`;
+  }
+
+  function formatRecordingArchiveBytes(bytes = 0) {
+    const value =
+      Math.max(
+        0,
+        Number(bytes) || 0
+      );
+
+    if (!value) {
+      return "0 B";
+    }
+
+    const units = [
+      "B",
+      "KB",
+      "MB",
+      "GB",
+      "TB",
+    ];
+
+    const index =
+      Math.min(
+        units.length - 1,
+        Math.floor(
+          Math.log(value) /
+          Math.log(1024)
+        )
+      );
+
+    const amount =
+      value /
+      Math.pow(
+        1024,
+        index
+      );
+
+    return `${amount.toFixed(index ? 1 : 0)} ${units[index]}`;
+  }
+
+  function recordingArchiveStageLabel(item = {}) {
+    const stage =
+      String(
+        item.stage || ""
+      )
+        .trim()
+        .replaceAll("-", " ");
+
+    if (
+      item.status === "saved"
+    ) {
+      return "Ready";
+    }
+
+    if (
+      item.status === "recording"
+    ) {
+      return "Recording";
+    }
+
+    if (
+      item.status === "processing"
+    ) {
+      return stage
+        ? stage.replace(
+            /\b\w/g,
+            (letter) =>
+              letter.toUpperCase()
+          )
+        : "Processing";
+    }
+
+    if (
+      item.recoveryAvailable
+    ) {
+      return "Recovery available";
+    }
+
+    return "Failed";
+  }
+
+  function recordingArchiveSidecarLabel(filePath = "") {
+    const name =
+      String(filePath)
+        .split(/[\\/]/)
+        .pop() || "";
+
+    if (
+      name.endsWith(
+        "tracklist.txt"
+      )
+    ) {
+      return "TXT";
+    }
+
+    if (
+      name.endsWith(
+        "timestamps.json"
+      )
+    ) {
+      return "TIMESTAMPS";
+    }
+
+    if (
+      name.endsWith(
+        "metadata.json"
+      )
+    ) {
+      return "METADATA";
+    }
+
+    if (
+      name.endsWith(
+        "session.json"
+      )
+    ) {
+      return "SESSION";
+    }
+
+    return name
+      ? "FILE"
+      : "";
+  }
+
+  function updateRecordingArchiveCounts() {
+    const counts = {
+      ready: 0,
+      processing: 0,
+      failed: 0,
+      recovery: 0,
+    };
+
+    recordingArchiveState.items.forEach((item) => {
+      const category =
+        recordingArchiveCategory(item);
+
+      if (
+        Object.prototype.hasOwnProperty.call(
+          counts,
+          category
+        )
+      ) {
+        counts[category] += 1;
+      }
+
+      if (
+        item.recoveryAvailable &&
+        category !== "recovery"
+      ) {
+        counts.recovery += 1;
+      }
+    });
+
+    Object.entries(counts).forEach(
+      ([key, value]) => {
+        const target =
+          $(
+            `[data-dj-recordings-count='${key}']`
+          );
+
+        if (target) {
+          target.textContent =
+            String(value);
+        }
+      }
+    );
+  }
+
+  function recordingArchiveActionLink(
+    url,
+    icon,
+    label
+  ) {
+    if (!url) {
+      return "";
+    }
+
+    return `
+      <a
+        href="${escapeRecordingArchiveHtml(url)}"
+        class="brDjRecordingArchiveAction"
+      >
+        <i class="${icon}"></i>
+        <span>${escapeRecordingArchiveHtml(label)}</span>
+      </a>
+    `;
+  }
+
+  function renderRecordingArchiveCard(item = {}) {
+    const id =
+      escapeRecordingArchiveHtml(
+        item.id || ""
+      );
+
+    const title =
+      escapeRecordingArchiveHtml(
+        item.title ||
+        item.fileName ||
+        "Untitled DJ recording"
+      );
+
+    const fileName =
+      escapeRecordingArchiveHtml(
+        item.fileName || ""
+      );
+
+    const category =
+      recordingArchiveCategory(item);
+
+    const progress =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          Math.round(
+            (
+              Number(item.progress) ||
+              0
+            ) *
+            100
+          )
+        )
+      );
+
+    const handoffs =
+      item.handoffUrls &&
+      typeof item.handoffUrls === "object"
+        ? item.handoffUrls
+        : {};
+
+    const sidecars =
+      Array.isArray(item.sidecarFiles)
+        ? item.sidecarFiles
+        : [];
+
+    const sidecarHtml =
+      sidecars
+        .map(
+          (filePath) =>
+            recordingArchiveSidecarLabel(
+              filePath
+            )
+        )
+        .filter(Boolean)
+        .map(
+          (label) =>
+            `<span>${escapeRecordingArchiveHtml(label)}</span>`
+        )
+        .join("");
+
+    const artworkHtml =
+      item.artworkUrl
+        ? `
+          <img
+            src="${escapeRecordingArchiveHtml(item.artworkUrl)}"
+            alt=""
+            loading="lazy"
+          />
+        `
+        : `
+          <div class="brDjRecordingArchiveArtworkFallback">
+            <i class="fa-duotone fa-waveform-lines"></i>
+          </div>
+        `;
+
+    const progressHtml =
+      category === "processing"
+        ? `
+          <div
+            class="brDjRecordingArchiveProgress"
+            data-dj-recording-live-progress
+          >
+            <div>
+              <span data-dj-recording-live-stage>
+                ${escapeRecordingArchiveHtml(recordingArchiveStageLabel(item))}
+              </span>
+
+              <strong data-dj-recording-live-percent>
+                ${progress}%
+              </strong>
+            </div>
+
+            <progress
+              data-dj-recording-live-bar
+              max="100"
+              value="${progress}"
+            ></progress>
+          </div>
+        `
+        : "";
+
+    const errorHtml =
+      item.error
+        ? `
+          <div class="brDjRecordingArchiveError">
+            <i class="fa-duotone fa-triangle-exclamation"></i>
+            <span>${escapeRecordingArchiveHtml(item.error)}</span>
+          </div>
+        `
+        : "";
+
+    const archiveFolderHtml =
+      item.archiveDirectory
+        ? `
+          <div class="brDjRecordingArchiveFolder">
+            <i class="fa-duotone fa-folder-open"></i>
+            <span>${escapeRecordingArchiveHtml(item.archiveDirectory)}</span>
+          </div>
+        `
+        : "";
+
+    const readyActions =
+      category === "ready"
+        ? `
+          ${recordingArchiveActionLink(
+            handoffs.player,
+            "fa-duotone fa-circle-play",
+            "Player"
+          )}
+
+          ${recordingArchiveActionLink(
+            handoffs.mastering,
+            "fa-duotone fa-waveform",
+            "Mastering"
+          )}
+
+          ${recordingArchiveActionLink(
+            handoffs.tagger,
+            "fa-duotone fa-tags",
+            "Tagger"
+          )}
+
+          ${recordingArchiveActionLink(
+            handoffs.converter,
+            "fa-duotone fa-arrows-rotate",
+            "Converter"
+          )}
+
+          ${recordingArchiveActionLink(
+            handoffs.files,
+            "fa-duotone fa-folder-tree",
+            "View Files"
+          )}
+
+          ${
+            item.downloadUrl
+              ? `
+                <button
+                  class="brDjRecordingArchiveAction"
+                  data-dj-recording-share="${id}"
+                  type="button"
+                >
+                  <i class="fa-duotone fa-share-nodes"></i>
+                  <span>Save / Share</span>
+                </button>
+              `
+              : ""
+          }
+        `
+        : "";
+
+    const recoverAction =
+      item.recoveryAvailable &&
+      category !== "processing" &&
+      category !== "ready"
+        ? `
+          <button
+            class="brDjRecordingArchiveAction is-recovery"
+            data-dj-recording-recover="${id}"
+            type="button"
+          >
+            <i class="fa-duotone fa-life-ring"></i>
+            <span>Recover</span>
+          </button>
+        `
+        : "";
+
+    const deleteAction =
+      category !== "processing"
+        ? `
+          <button
+            class="brDjRecordingArchiveAction is-danger"
+            data-dj-recording-delete="${id}"
+            type="button"
+          >
+            <i class="fa-duotone fa-trash-can"></i>
+            <span>Delete</span>
+          </button>
+        `
+        : "";
+
+    return `
+      <article
+        class="brDjRecordingArchiveCard is-${category}"
+        data-dj-recording-id="${id}"
+      >
+        <div class="brDjRecordingArchiveArtwork">
+          ${artworkHtml}
+
+          <span
+            class="brDjRecordingArchiveState"
+            data-dj-recording-live-status
+          >
+            ${escapeRecordingArchiveHtml(recordingArchiveStageLabel(item))}
+          </span>
+        </div>
+
+        <div class="brDjRecordingArchiveBody">
+          <div class="brDjRecordingArchiveHeading">
+            <div>
+              <p class="brDjEyebrow">
+                ${escapeRecordingArchiveHtml(String(item.outputFormat || "audio").toUpperCase())}
+              </p>
+
+              <h3>${title}</h3>
+
+              ${
+                fileName &&
+                fileName !== title
+                  ? `<span>${fileName}</span>`
+                  : ""
+              }
+            </div>
+
+            <time>
+              ${escapeRecordingArchiveHtml(formatRecordingArchiveDate(item.createdAt))}
+            </time>
+          </div>
+
+          <div class="brDjRecordingArchiveFacts">
+            <span>
+              <i class="fa-duotone fa-clock"></i>
+              <output data-dj-recording-live-duration>${escapeRecordingArchiveHtml(formatRecordingArchiveDuration(item.durationMs))}</output>
+            </span>
+
+            <span>
+              <i class="fa-duotone fa-hard-drive"></i>
+              <output data-dj-recording-live-size>${escapeRecordingArchiveHtml(formatRecordingArchiveBytes(item.fileSize || item.bytes))}</output>
+            </span>
+
+            <span>
+              <i class="fa-duotone fa-file-music"></i>
+              ${escapeRecordingArchiveHtml(String(item.outputFormat || "raw").toUpperCase())}
+            </span>
+          </div>
+
+          ${progressHtml}
+          ${errorHtml}
+          ${archiveFolderHtml}
+
+          ${
+            sidecarHtml
+              ? `
+                <div class="brDjRecordingArchiveSidecars">
+                  ${sidecarHtml}
+                </div>
+              `
+              : ""
+          }
+
+          <div class="brDjRecordingArchiveActions">
+            ${readyActions}
+            ${recoverAction}
+            ${deleteAction}
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function recordingArchiveVisibleItems() {
+    return recordingArchiveState.items.filter(
+      (item) => {
+        if (
+          recordingArchiveState.filter ===
+            "all"
+        ) {
+          return true;
+        }
+
+        if (
+          recordingArchiveState.filter ===
+            "recovery"
+        ) {
+          return Boolean(
+            item.recoveryAvailable
+          );
+        }
+
+        return (
+          recordingArchiveCategory(item) ===
+          recordingArchiveState.filter
+        );
+      }
+    );
+  }
+
+  function recordingArchiveStructureKey(
+    items = []
+  ) {
+    return JSON.stringify(
+      items.map(
+        (item) => ({
+          id:
+            item.id || "",
+
+          category:
+            recordingArchiveCategory(
+              item
+            ),
+
+          stalled:
+            Boolean(
+              item.stalled
+            ),
+
+          error:
+            item.error || "",
+
+          title:
+            item.title || "",
+
+          fileName:
+            item.fileName || "",
+
+          artworkUrl:
+            item.artworkUrl || "",
+
+          archiveDirectory:
+            item.archiveDirectory || "",
+
+          recoveryAvailable:
+            Boolean(
+              item.recoveryAvailable
+            ),
+
+          libraryItemId:
+            item.libraryItemId || "",
+
+          downloadUrl:
+            item.downloadUrl || "",
+
+          sidecarFiles:
+            Array.isArray(
+              item.sidecarFiles
+            )
+              ? item.sidecarFiles
+              : [],
+
+          handoffUrls:
+            item.handoffUrls || {},
+        })
+      )
+    );
+  }
+
+  function updateRecordingArchiveLiveState(
+    items = []
+  ) {
+    items.forEach(
+      (item) => {
+        const card =
+          document.querySelector(
+            `[data-dj-recording-id="${CSS.escape(String(item.id || ""))}"]`
+          );
+
+        if (!card) {
+          return;
+        }
+
+        const progress =
+          Math.max(
+            0,
+            Math.min(
+              100,
+              Math.round(
+                (
+                  Number(
+                    item.progress
+                  ) ||
+                  0
+                ) *
+                100
+              )
+            )
+          );
+
+        const stage =
+          card.querySelector(
+            "[data-dj-recording-live-stage]"
+          );
+
+        const stateLabel =
+          card.querySelector(
+            "[data-dj-recording-live-status]"
+          );
+
+        const percent =
+          card.querySelector(
+            "[data-dj-recording-live-percent]"
+          );
+
+        const bar =
+          card.querySelector(
+            "[data-dj-recording-live-bar]"
+          );
+
+        const duration =
+          card.querySelector(
+            "[data-dj-recording-live-duration]"
+          );
+
+        const size =
+          card.querySelector(
+            "[data-dj-recording-live-size]"
+          );
+
+        if (stage) {
+          stage.textContent =
+            recordingArchiveStageLabel(
+              item
+            );
+        }
+
+        if (stateLabel) {
+          stateLabel.textContent =
+            recordingArchiveStageLabel(
+              item
+            );
+        }
+
+        if (percent) {
+          percent.textContent =
+            `${progress}%`;
+        }
+
+        if (bar) {
+          bar.value =
+            progress;
+        }
+
+        if (duration) {
+          duration.textContent =
+            formatRecordingArchiveDuration(
+              item.durationMs
+            );
+        }
+
+        if (size) {
+          size.textContent =
+            formatRecordingArchiveBytes(
+              item.fileSize ||
+              item.bytes
+            );
+        }
+      }
+    );
+  }
+
+  function renderRecordingArchive({
+    force = false,
+  } = {}) {
+    const list =
+      $("[data-dj-recordings-list]");
+
+    const empty =
+      $("[data-dj-recordings-empty]");
+
+    if (!list) {
+      return;
+    }
+
+    updateRecordingArchiveCounts();
+
+    const items =
+      recordingArchiveVisibleItems();
+
+    const nextRenderKey =
+      recordingArchiveStructureKey(
+        items
+      );
+
+    if (
+      !force &&
+      nextRenderKey ===
+        recordingArchiveState.renderKey
+    ) {
+      updateRecordingArchiveLiveState(
+        items
+      );
+
+      if (empty) {
+        empty.hidden =
+          items.length > 0;
+      }
+
+      return;
+    }
+
+    recordingArchiveState.renderKey =
+      nextRenderKey;
+
+    list.innerHTML =
+      items
+        .map(
+          renderRecordingArchiveCard
+        )
+        .join("");
+
+    if (empty) {
+      empty.hidden =
+        items.length > 0;
+    }
+
+    hydrateDjIcons(list);
+  }
+
+  function setRecordingArchiveNotice(
+    message,
+    state = ""
+  ) {
+    const notice =
+      $("[data-dj-recordings-notice]");
+
+    if (!notice) {
+      return;
+    }
+
+    notice.textContent =
+      message || "";
+
+    notice.dataset.state =
+      state;
+  }
+
+  function stopRecordingArchivePolling() {
+    if (
+      recordingArchiveState.pollTimer
+    ) {
+      window.clearTimeout(
+        recordingArchiveState.pollTimer
+      );
+
+      recordingArchiveState.pollTimer =
+        0;
+    }
+  }
+
+  function scheduleRecordingArchivePolling() {
+    stopRecordingArchivePolling();
+
+    const hasProcessing =
+      recordingArchiveState.items.some(
+        (item) =>
+          recordingArchiveCategory(item) ===
+          "processing"
+      );
+
+    if (
+      !hasProcessing ||
+      document.body.dataset.djStudioView !==
+        "recordings"
+    ) {
+      return;
+    }
+
+    recordingArchiveState.pollTimer =
+      window.setTimeout(
+        () => {
+          loadRecordingArchive({
+            quiet: true
+          });
+        },
+        1800
+      );
+  }
+
+  async function loadRecordingArchive({
+    announce = false,
+    quiet = false,
+  } = {}) {
+    if (
+      recordingArchiveState.loading
+    ) {
+      return;
+    }
+
+    recordingArchiveState.loading =
+      true;
+
+    if (!quiet) {
+      setRecordingArchiveNotice(
+        announce
+          ? "Loading DJ recording archive…"
+          : "Refreshing recordings…",
+        "loading"
+      );
+    }
+
+    try {
+      const response =
+        await fetch(
+          "/dj-recordings",
+          {
+            cache: "no-store",
+          }
+        );
+
+      const payload =
+        await response.json().catch(
+          () => ({})
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          payload.error ||
+          `Archive request failed (${response.status})`
+        );
+      }
+
+      recordingArchiveState.items =
+        Array.isArray(payload.items)
+          ? payload.items
+          : [];
+
+      renderRecordingArchive();
+
+      const processingCount =
+        recordingArchiveState.items.filter(
+          (item) =>
+            recordingArchiveCategory(item) ===
+            "processing"
+        ).length;
+
+      setRecordingArchiveNotice(
+        processingCount
+          ? `${processingCount} recording${processingCount === 1 ? " is" : "s are"} still processing. This page will refresh automatically.`
+          : `${recordingArchiveState.items.length} recording${recordingArchiveState.items.length === 1 ? "" : "s"} in the server archive.`,
+        processingCount
+          ? "processing"
+          : "ready"
+      );
+
+      scheduleRecordingArchivePolling();
+    } catch (error) {
+      setRecordingArchiveNotice(
+        error instanceof Error
+          ? error.message
+          : "Could not load DJ recordings",
+        "error"
+      );
+    } finally {
+      recordingArchiveState.loading =
+        false;
+    }
+  }
+
+  async function shareArchivedRecording(item) {
+    if (
+      !item?.downloadUrl
+    ) {
+      throw new Error(
+        "This recording is not ready to save"
+      );
+    }
+
+    const response =
+      await fetch(
+        item.downloadUrl,
+        {
+          cache: "no-store",
+        }
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        `Recording download failed (${response.status})`
+      );
+    }
+
+    const blob =
+      await response.blob();
+
+    const fileName =
+      item.fileName ||
+      `BRMedia-DJ-Recording.${item.outputFormat || "audio"}`;
+
+    const file =
+      new File(
+        [blob],
+        fileName,
+        {
+          type:
+            item.finalMimeType ||
+            blob.type ||
+            "application/octet-stream",
+        }
+      );
+
+    if (
+      navigator.share &&
+      (
+        !navigator.canShare ||
+        navigator.canShare({
+          files: [file],
+        })
+      )
+    ) {
+      try {
+        await navigator.share({
+          title:
+            item.title ||
+            "BRMedia DJ Recording",
+          files: [file],
+        });
+
+        return;
+      } catch (error) {
+        if (
+          error?.name ===
+            "AbortError"
+        ) {
+          return;
+        }
+
+        throw error;
+      }
+    }
+
+    const objectUrl =
+      URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href =
+      objectUrl;
+
+    link.download =
+      fileName;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    window.setTimeout(
+      () =>
+        URL.revokeObjectURL(
+          objectUrl
+        ),
+      1500
+    );
+  }
+
+  async function recoverArchivedRecording(id) {
+    const response =
+      await fetch(
+        `/dj-recordings/${encodeURIComponent(id)}/recover`,
+        {
+          method: "POST",
+        }
+      );
+
+    const payload =
+      await response.json().catch(
+        () => ({})
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        payload.error ||
+        `Recovery failed (${response.status})`
+      );
+    }
+
+    setRecordingArchiveNotice(
+      "Recording recovery has been queued.",
+      "processing"
+    );
+
+    await loadRecordingArchive({
+      quiet: true,
+    });
+  }
+
+  async function deleteArchivedRecording(item) {
+    const confirmed =
+      window.confirm(
+        `Delete “${item.title || item.fileName || "this recording"}”?\n\nThis removes the permanent audio, sidecars, artwork and BRMedia Library registration.`
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const response =
+      await fetch(
+        `/dj-recordings/${encodeURIComponent(item.id)}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+    const payload =
+      await response.json().catch(
+        () => ({})
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        payload.error ||
+        `Delete failed (${response.status})`
+      );
+    }
+
+    recordingArchiveState.items =
+      recordingArchiveState.items.filter(
+        (entry) =>
+          entry.id !== item.id
+      );
+
+    recordingArchiveState.renderKey =
+      "";
+
+    renderRecordingArchive({
+      force: true,
+    });
+
+    setRecordingArchiveNotice(
+      "Recording deleted from the archive.",
+      "ready"
+    );
+  }
+
+  function findRecordingArchiveItem(id) {
+    return recordingArchiveState.items.find(
+      (item) =>
+        String(item.id) ===
+        String(id)
+    );
+  }
+
+  function bindRecordingArchive() {
+    $$("[data-dj-recordings-filter]").forEach(
+      (button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            recordingArchiveState.filter =
+              button.dataset.djRecordingsFilter ||
+              "all";
+
+            $$("[data-dj-recordings-filter]").forEach(
+              (item) => {
+                const active =
+                  item === button;
+
+                item.classList.toggle(
+                  "is-active",
+                  active
+                );
+
+                item.setAttribute(
+                  "aria-pressed",
+                  active
+                    ? "true"
+                    : "false"
+                );
+              }
+            );
+
+            recordingArchiveState.renderKey =
+              "";
+
+            renderRecordingArchive({
+              force: true,
+            });
+          }
+        );
+      }
+    );
+
+    $("[data-dj-recordings-refresh]")?.addEventListener(
+      "click",
+      () => {
+        loadRecordingArchive();
+      }
+    );
+
+    $("[data-dj-recordings-list]")?.addEventListener(
+      "click",
+      async (event) => {
+        const shareButton =
+          event.target.closest(
+            "[data-dj-recording-share]"
+          );
+
+        const recoverButton =
+          event.target.closest(
+            "[data-dj-recording-recover]"
+          );
+
+        const deleteButton =
+          event.target.closest(
+            "[data-dj-recording-delete]"
+          );
+
+        const actionButton =
+          shareButton ||
+          recoverButton ||
+          deleteButton;
+
+        if (!actionButton) {
+          return;
+        }
+
+        const id =
+          shareButton?.dataset.djRecordingShare ||
+          recoverButton?.dataset.djRecordingRecover ||
+          deleteButton?.dataset.djRecordingDelete ||
+          "";
+
+        const item =
+          findRecordingArchiveItem(id);
+
+        if (!item) {
+          return;
+        }
+
+        actionButton.disabled =
+          true;
+
+        try {
+          if (shareButton) {
+            await shareArchivedRecording(item);
+          } else if (recoverButton) {
+            await recoverArchivedRecording(id);
+          } else if (deleteButton) {
+            await deleteArchivedRecording(item);
+          }
+        } catch (error) {
+          setRecordingArchiveNotice(
+            error instanceof Error
+              ? error.message
+              : "Recording action failed",
+            "error"
+          );
+        } finally {
+          actionButton.disabled =
+            false;
+        }
+      }
+    );
+  }
 
   function setSidebar(open) {
     const sidebar = $("#sidebarMenu");
@@ -776,15 +2070,31 @@
     document.body.classList.toggle("brDjShowingPlaceholder", !isHome);
 
     $$("[data-dj-studio-view]").forEach((panel) => {
-      panel.classList.toggle("is-active", panel.dataset.djStudioView === safeView);
+      panel.classList.toggle(
+        "is-active",
+        panel.dataset.djStudioView === safeView
+      );
     });
 
     $$("[data-dj-view-link]").forEach((button) => {
-      const active = button.dataset.djViewLink === safeView;
+      const active =
+        button.dataset.djViewLink === safeView;
+
       button.classList.toggle("is-active", active);
       button.classList.toggle("active", active);
-      button.setAttribute("aria-pressed", active ? "true" : "false");
+      button.setAttribute(
+        "aria-pressed",
+        active ? "true" : "false"
+      );
     });
+
+    if (safeView === "recordings") {
+      loadRecordingArchive({
+        announce: true
+      });
+    } else {
+      stopRecordingArchivePolling();
+    }
   }
 
   function bindStudio() {
@@ -829,13 +2139,14 @@
   }
 	
   const DJ_WAVEFORM_ZOOM_LEVELS = [16, 24, 32, 48, 64, 96, 128, 192, 256, 384, 512];
-  const DJ_WAVEFORM_DEFAULT_ZOOM = 96;
+  const DJ_WAVEFORM_DEFAULT_ZOOM = 128;
+  const DJ_STEMS_PERFORMANCE_ZOOM = 128;
 
   /*
     DUO/Main has its own permanent performance
     scale and never reads a deck-page zoom value.
   */
-  const DJ_DUO_PERFORMANCE_ZOOM = 92;
+  const DJ_DUO_PERFORMANCE_ZOOM = 128;
 
   /*
     SYNC activates instantly. This duration only
@@ -1369,11 +2680,49 @@
     target?.classList?.toggle("is-spectral-waveform", false);
   }
 
+  /*
+    M24 waveform ownership lives above every renderer call site.  Mixxx
+    transport/metadata snapshots intentionally do not carry the prepared
+    payload, so a generic repaint must merge visual timing into this accepted
+    payload instead of treating the snapshot's empty peaks as authoritative.
+  */
+  const m24WaveformAuthority = window.BRMediaM24WaveformAuthority?.create?.();
+  const m24MixxxWaveforms = m24WaveformAuthority?.states || new Map();
+  const m25GridAuthority = window.BRMediaM25GridAuthority?.create?.({ maxWarm: 8 });
+  window.BRMediaM25GridAuthorityInstance = m25GridAuthority;
+
+  function getAuthoritativeDjBeatGrid(config) {
+    if (window.BRMediaMixxxBackend?.isActive?.() !== true) return config?.beatGrid || null;
+    return m25GridAuthority?.gridForRender?.(config?.deckId) || null;
+  }
+
+  function getAuthoritativeDjWaveformState(config, state = {}) {
+    if (m24WaveformAuthority) return m24WaveformAuthority.resolve(config?.deckId, state);
+    const authority = m24MixxxWaveforms.get(config?.deckId);
+    const waveform = authority?.payload?.waveform;
+    const hasRealPayload = Boolean(
+      authority?.status === "ready" &&
+      authority?.realPayloadPresence === true &&
+      Array.isArray(waveform?.peaks) &&
+      waveform.peaks.length
+    );
+    if (!hasRealPayload) return state;
+    return {
+      ...state,
+      isLoaded: true,
+      waveformPeaks: waveform.peaks,
+      waveformBands: waveform.bands || null,
+      waveformMultiscale: waveform.multiscale || null,
+      waveformVersion: `${authority.stableIdentity}:${authority.cacheVersion || waveform.formatVersion || "prepared"}`,
+    };
+  }
+
   function renderDjRealWaveforms(
     config,
     state = {},
     renderOptions = {}
   ) {
+    state = getAuthoritativeDjWaveformState(config, state);
     const duoOnly = Boolean(
       renderOptions.duoOnly
     );
@@ -1384,8 +2733,9 @@
           `.brDjPerfPanel[data-dj-perf-panel="${config.panel}"]`
         );
 
-    const memoryPoints =
-      DJ_CUE_MEMORY_LABELS
+    const memoryPoints = Array.isArray(state.memoryPointsOverride)
+      ? state.memoryPointsOverride
+      : DJ_CUE_MEMORY_LABELS
         .map((label) => ({
           label,
           point:
@@ -1419,7 +2769,8 @@
               zoomable: false,
               waveformSide: "full",
               showBeatGrid: false,
-              showMinuteMarkers: true,
+              showMemoryMarkers: false,
+              showMinuteMarkers: false,
             }))
           : []
       ),
@@ -1465,7 +2816,8 @@
               zoomable: false,
               waveformSide: "full",
               showBeatGrid: false,
-              showMinuteMarkers: true,
+              showMemoryMarkers: false,
+              showMinuteMarkers: false,
             }))
           : []
       ),
@@ -1502,6 +2854,13 @@
 
               showMemoryMarkers: true,
               showMinuteMarkers: true,
+							
+              isStemsPerformance:
+                Boolean(
+                  target.closest(
+                    ".brDjStemsPage"
+                  )
+                ),
             }))
           : []
       ),
@@ -1514,8 +2873,11 @@
         fixedCentre: false,
         zoomable: false,
         waveformSide: "full",
+        // DUO cards are clean full-track overviews. Structural markers are
+        // reserved for detail waveforms and must never paint on this layer.
         showBeatGrid: false,
-        showMinuteMarkers: true,
+        showMemoryMarkers: false,
+        showMinuteMarkers: false,
       })),
 
       ...$$(
@@ -1533,12 +2895,19 @@
 
         showBeatGrid: true,
         gridStyle: "grey",
+        showMemoryMarkers: true,
         showMinuteMarkers: false,
         isDuoPerformance: true,
       })),
     ];
 
-    targets.forEach(
+    targets
+      .filter(({ target, fixedCentre }) =>
+        target?.isConnected &&
+        target.offsetParent &&
+        (!renderOptions.animatedOnly || fixedCentre)
+      )
+      .forEach(
       ({
         target,
         compact,
@@ -1550,27 +2919,28 @@
         showMemoryMarkers,
         showMinuteMarkers,
         isDuoPerformance,
+        isStemsPerformance,
       }) => {
         /*
-          DUO ignores config.waveformZoom entirely.
+          DUO and Stems use fixed performance
+          zooms and ignore deck-page zoom changes.
         */
         const zoom =
           isDuoPerformance
             ? DJ_DUO_PERFORMANCE_ZOOM
-            : (
-                zoomable ||
-                fixedCentre
-              )
+            : isStemsPerformance
+              ? DJ_STEMS_PERFORMANCE_ZOOM
+              : (
+                  zoomable ||
+                  fixedCentre
+                )
               ? (
                   config.waveformZoom ||
                   DJ_WAVEFORM_DEFAULT_ZOOM
                 )
               : DJ_WAVEFORM_DEFAULT_ZOOM;
 
-        drawDjRealWaveform(
-          target,
-          state,
-          {
+        const waveformRenderOptions = {
             deckId: config.deckId,
             compact,
             fixedCentre,
@@ -1598,7 +2968,7 @@
               "blue",
 
             beatGrid:
-              config.beatGrid,
+              getAuthoritativeDjBeatGrid(config),
 
             memoryPoints:
               showMemoryMarkers
@@ -1606,8 +2976,17 @@
                 : [],
 
             showMinuteMarkers,
-          }
-        );
+          };
+        try {
+          drawDjRealWaveform(target, state, waveformRenderOptions);
+        } catch (error) {
+          if (!waveformRenderOptions.beatGrid) throw error;
+          console.warn("BRMedia M25 grid overlay failed; preserving M24 waveform", {
+            deck: config.deckId,
+            error: String(error?.message || error),
+          });
+          drawDjRealWaveform(target, state, { ...waveformRenderOptions, beatGrid: null, showBeatGrid: false });
+        }
 
         updateDjWaveMinuteMarkers(
           target,
@@ -1915,7 +3294,7 @@
     });
 
     const deckConfigs = [
-      { deckId: "d1", panel: "deck-1", cardClass: "is-deck-1", vinylDeck: "a", waveformZoom: DJ_WAVEFORM_DEFAULT_ZOOM, waveformPalette: "blue", beatGrid: createDeckBeatGrid(), beatJumpBeats: 8, loopSizeBeats: DJ_LOOP_DEFAULT_BEATS, loopMode: "auto", cueMemory: createDeckCueMemoryState(), quantize: true, masterTempo: true, keySync: false },
+      { deckId: "d1", panel: "deck-1", cardClass: "is-deck-1", vinylDeck: "a", waveformZoom: DJ_WAVEFORM_DEFAULT_ZOOM, waveformPalette: "orange", beatGrid: createDeckBeatGrid(), beatJumpBeats: 8, loopSizeBeats: DJ_LOOP_DEFAULT_BEATS, loopMode: "auto", cueMemory: createDeckCueMemoryState(), quantize: true, masterTempo: true, keySync: false },
       { deckId: "d2", panel: "deck-2", cardClass: "is-deck-2", vinylDeck: "b", waveformZoom: DJ_WAVEFORM_DEFAULT_ZOOM, waveformPalette: "blue", beatGrid: createDeckBeatGrid(), beatJumpBeats: 8, loopSizeBeats: DJ_LOOP_DEFAULT_BEATS, loopMode: "auto", cueMemory: createDeckCueMemoryState(), quantize: true, masterTempo: true, keySync: false },
     ];
 
@@ -1976,6 +3355,36 @@
       config.beatGrid.future = [];
       config.beatGrid.history.push(snapshotDeckGrid(config.beatGrid));
       if (config.beatGrid.history.length > 30) config.beatGrid.history.shift();
+    };
+
+    const adoptExactGridForEditing = (config, exactGrid) => {
+      if (!exactGrid) return;
+      const identity = String(m25GridAuthority?.states?.get?.(config.deckId)?.stableIdentity || "");
+      const previous = config.beatGrid;
+      const next = gridApi.create(exactGrid);
+      if (config.gridHistoryIdentity === identity && previous) {
+        next.history = Array.isArray(previous.history) ? previous.history : [];
+        next.future = Array.isArray(previous.future) ? previous.future : [];
+      } else {
+        const undo = [], redo = [];
+        (Array.isArray(exactGrid.history) ? exactGrid.history : []).forEach((entry) => {
+          if (!entry?.before) return;
+          if (entry.action === "history-undo") {
+            if (undo.length) undo.pop();
+            redo.push(entry.before);
+          } else if (entry.action === "history-redo") {
+            undo.push(entry.before);
+            if (redo.length) redo.pop();
+          } else {
+            undo.push(entry.before);
+            redo.length = 0;
+          }
+        });
+        next.history = undo.slice(-30);
+        next.future = redo.slice(-30);
+        config.gridHistoryIdentity = identity;
+      }
+      config.beatGrid = next;
     };
 
     const normaliseDeckBeatGrid = (
@@ -2118,79 +3527,413 @@
       return bpm >= DJ_GRID_MIN_BPM && bpm <= DJ_GRID_MAX_BPM ? bpm : null;
     };
 
+    const getDeckGridTimingOptions = (
+      state = blankDeckState(),
+      options = {}
+    ) => ({
+      duration: Math.max(
+        0,
+        Number(state.duration) || 0
+      ),
+      minBpm: DJ_GRID_MIN_BPM,
+      maxBpm: DJ_GRID_MAX_BPM,
+      preRollSeconds:
+        DJ_GRID_PRE_ROLL_SECONDS,
+      allowNegative:
+        Boolean(options.allowNegative),
+    });
+
+    const clampDeckGridTime = (
+      state = blankDeckState(),
+      seconds = 0,
+      options = {}
+    ) => {
+      const duration = Math.max(
+        0,
+        Number(state.duration) || 0
+      );
+
+      const minimum = options.allowNegative
+        ? -DJ_GRID_PRE_ROLL_SECONDS
+        : 0;
+
+      return Math.max(
+        minimum,
+        Math.min(
+          duration || Infinity,
+          Number(seconds) || 0
+        )
+      );
+    };
+
     const getDeckBeatSeconds = (config, state = lastDeckStates.get(config.deckId) || blankDeckState()) => {
       const bpm = getGridBpm(config, state);
       return bpm ? 60 / bpm : null;
     };
 
-    const snapTimeToDeckGrid = (config, state = blankDeckState(), seconds = 0, mode = "nearest", options = {}) => {
-      const beatSeconds = getDeckBeatSeconds(config, state);
-      const duration = Math.max(0, Number(state.duration) || 0);
-      const grid = normaliseDeckBeatGrid(config, state);
-      const minTime = options.allowNegative ? -DJ_GRID_PRE_ROLL_SECONDS : 0;
-      const current = Math.max(minTime, Math.min(duration || Infinity, Number(seconds) || 0));
-      if (!beatSeconds) return current;
+    const getDeckBeatFloat = (
+      config,
+      state = blankDeckState(),
+      seconds = state.currentTime || 0
+    ) => {
+      const grid = normaliseDeckBeatGrid(
+        config,
+        state
+      );
 
-      const rawBeat = (current - grid.downbeat) / beatSeconds;
-      const beatIndex = mode === "floor" ? Math.floor(rawBeat) : mode === "ceil" ? Math.ceil(rawBeat) : Math.round(rawBeat);
-      return Math.max(minTime, Math.min(duration || Infinity, grid.downbeat + (beatIndex * beatSeconds)));
+      return gridApi.timeToBeat(
+        grid,
+        Number(seconds) || 0,
+        getDeckGridTimingOptions(
+          state,
+          {
+            allowNegative: true,
+          }
+        )
+      );
     };
 
-    const getQuantizedCueTime = (config, state = blankDeckState(), seconds = state.currentTime || 0) => (
-      snapTimeToDeckGrid(config, state, seconds, "nearest", { allowNegative: true })
-    );
+    const getDeckBeatSecondsAtTime = (
+      config,
+      state = blankDeckState(),
+      seconds = state.currentTime || 0
+    ) => {
+      const grid = normaliseDeckBeatGrid(
+        config,
+        state
+      );
 
-    const getDeckBeatFloat = (config, state = blankDeckState(), seconds = state.currentTime || 0) => {
-      const beatSeconds = getDeckBeatSeconds(config, state);
-      if (!beatSeconds) return null;
-      const grid = normaliseDeckBeatGrid(config, state);
-      return ((Number(seconds) || 0) - grid.downbeat) / beatSeconds;
+      return gridApi.beatSecondsAtTime(
+        grid,
+        Number(seconds) || 0,
+        getDeckGridTimingOptions(
+          state,
+          {
+            allowNegative: true,
+          }
+        )
+      );
+    };
+
+    const snapTimeToDeckGrid = (
+      config,
+      state = blankDeckState(),
+      seconds = 0,
+      mode = "nearest",
+      options = {}
+    ) => {
+      const current = clampDeckGridTime(
+        state,
+        seconds,
+        options
+      );
+
+      const grid = normaliseDeckBeatGrid(
+        config,
+        state
+      );
+
+      if (!grid.bpm) {
+        return current;
+      }
+
+      return gridApi.snapTime(
+        grid,
+        current,
+        mode,
+        getDeckGridTimingOptions(
+          state,
+          options
+        )
+      );
+    };
+		
+    const getDeckGridTimeAfterBeats = (
+      config,
+      state = blankDeckState(),
+      seconds = state.currentTime || 0,
+      beatDelta = 0,
+      options = {}
+    ) => {
+      const grid = normaliseDeckBeatGrid(
+        config,
+        state
+      );
+
+      const timingOptions =
+        getDeckGridTimingOptions(
+          state,
+          {
+            allowNegative:
+              options.allowNegative,
+          }
+        );
+
+      const startTime = clampDeckGridTime(
+        state,
+        seconds,
+        {
+          allowNegative:
+            options.allowNegative,
+        }
+      );
+
+      const startBeat = gridApi.timeToBeat(
+        grid,
+        startTime,
+        timingOptions
+      );
+
+      if (startBeat == null) {
+        return startTime;
+      }
+
+      const targetTime = gridApi.beatToTime(
+        grid,
+        startBeat +
+          (Number(beatDelta) || 0),
+        timingOptions
+      );
+
+      return clampDeckGridTime(
+        state,
+        targetTime == null
+          ? startTime
+          : targetTime,
+        {
+          allowNegative:
+            options.allowNegative,
+        }
+      );
+    };
+
+    const getDeckGridBeatSpan = (
+      config,
+      state = blankDeckState(),
+      startTime = 0,
+      endTime = 0
+    ) => {
+      const startBeat = getDeckBeatFloat(
+        config,
+        state,
+        startTime
+      );
+
+      const endBeat = getDeckBeatFloat(
+        config,
+        state,
+        endTime
+      );
+
+      if (
+        startBeat == null ||
+        endBeat == null
+      ) {
+        return null;
+      }
+
+      return Math.max(
+        0,
+        endBeat - startBeat
+      );
+    };
+
+    const getQuantizedCueTime = (
+      config,
+      state = blankDeckState(),
+      seconds = state.currentTime || 0
+    ) => {
+      if (!config.quantize) {
+        return clampDeckGridTime(
+          state,
+          seconds,
+          {
+            allowNegative: true,
+          }
+        );
+      }
+
+      return snapTimeToDeckGrid(
+        config,
+        state,
+        seconds,
+        "nearest",
+        {
+          allowNegative: true,
+        }
+      );
     };
 
     const getNextDeckMemoryCountdown = (config, state = blankDeckState(), currentTime = Number(state.currentTime) || 0) => {
-      const beatSeconds = getDeckBeatSeconds(config, state);
-      if (!beatSeconds || !config.cueMemory?.memory) return null;
-      const barSeconds = beatSeconds * 4;
+      if (!config.cueMemory?.memory) return null;
+
+      const currentBeat = getDeckBeatFloat(
+        config,
+        state,
+        currentTime
+      );
+
+      if (currentBeat == null) return null;
+
       const windowBars = 60;
       let next = null;
 
       DJ_CUE_MEMORY_LABELS.forEach((label) => {
         const point = config.cueMemory?.memory?.[label];
         const time = Number(point?.time);
-        if (!Number.isFinite(time) || time <= currentTime) return;
-        const barsAway = (time - currentTime) / barSeconds;
-        if (barsAway < 0 || barsAway > windowBars) return;
-        if (!next || barsAway < next.barsAway) next = { label, time, barsAway };
+
+        if (
+          !Number.isFinite(time) ||
+          time <= currentTime
+        ) {
+          return;
+        }
+
+        const pointBeat = getDeckBeatFloat(
+          config,
+          state,
+          time
+        );
+
+        if (pointBeat == null) return;
+
+        const barsAway =
+          (pointBeat - currentBeat) / 4;
+
+        if (
+          barsAway < 0 ||
+          barsAway > windowBars
+        ) {
+          return;
+        }
+
+        if (
+          !next ||
+          barsAway < next.barsAway
+        ) {
+          next = {
+            label,
+            time,
+            barsAway,
+          };
+        }
       });
 
       return next;
     };
 
     const formatDeckGridCounter = (config, state = blankDeckState()) => {
-      const beatSeconds = getDeckBeatSeconds(config, state);
-      if (!beatSeconds) return state.isLoading ? "Analysing" : "— Bars";
-      const grid = normaliseDeckBeatGrid(config, state);
-      const currentTime = Number(state.currentTime) || 0;
-      const nextMemory = getNextDeckMemoryCountdown(config, state, currentTime);
-      if (nextMemory) {
-        return `Mem ${nextMemory.label} in ${Math.max(0.1, nextMemory.barsAway).toFixed(1)}`;
+      const currentTime =
+        Number(state.currentTime) || 0;
+
+      const authorityReadout = window.BRMediaMixxxBackend?.isActive?.() === true
+        ? m25GridAuthority?.readout?.(config.deckId, currentTime) : null;
+      if (authorityReadout) {
+        return `Bar ${authorityReadout.bar}.${authorityReadout.beatInBar}`;
       }
-      const beatFloat = (currentTime - grid.downbeat) / beatSeconds;
+      if (window.BRMediaMixxxBackend?.isActive?.() === true) return "— Bars";
+
+      const exactGrid = window.BRMediaMixxxBackend?.isActive?.() === true
+        ? getAuthoritativeDjBeatGrid(config) : null;
+      const beatFloat = exactGrid
+        ? gridApi.timeToBeat(exactGrid, currentTime, getDeckGridTimingOptions(state, { allowNegative: true }))
+        : getDeckBeatFloat(config, state, currentTime);
+
+      if (beatFloat == null) {
+        return state.isLoading
+          ? "Analysing"
+          : "— Bars";
+      }
+
+      const grid = exactGrid || normaliseDeckBeatGrid(config, state);
+
+      const nextMemory =
+        getNextDeckMemoryCountdown(
+          config,
+          state,
+          currentTime
+        );
+
+      if (nextMemory) {
+        const barsRemaining =
+          Math.max(
+            0,
+            nextMemory.barsAway
+          );
+
+        return `${nextMemory.label} • ${barsRemaining.toFixed(
+          1
+        )} Bars`;
+      }
+
       const bars = beatFloat / 4;
-      const barNumber = Math.floor(bars) + 1;
-      const beatNumber = (((Math.floor(beatFloat) % 4) + 4) % 4) + 1;
-      return grid.baseSet ? `Bar ${barNumber}.${beatNumber}` : `${bars.toFixed(1)} Bars`;
+      const barNumber =
+        Math.floor(bars) + 1;
+
+      const beatNumber =
+        (
+          (
+            Math.floor(beatFloat) %
+              4
+          ) +
+          4
+        ) %
+          4 +
+        1;
+
+      return grid.baseSet
+        ? `Bar ${barNumber}.${beatNumber}`
+        : `${bars.toFixed(1)} Bars`;
+    };
+		
+    const getDeckGridDisplayBpm = (
+      grid = {}
+    ) => {
+      const bpm =
+        getSafeGridBpmValue(
+          grid.bpm
+        );
+
+      if (!bpm) {
+        return null;
+      }
+
+      const source = String(
+        grid.source ||
+        ""
+      ).toLowerCase();
+
+      const isAutomaticDigitalNormal =
+        grid.resolvedMode ===
+          "normal" &&
+        source.startsWith(
+          "grid-analysis-v4-"
+        );
+
+      const nearestWhole =
+        Math.round(bpm);
+
+      return (
+        isAutomaticDigitalNormal &&
+        Math.abs(
+          bpm - nearestWhole
+        ) <= 0.45
+      )
+        ? nearestWhole
+        : bpm;
     };
 
     const syncDeckBeatGridUi = (
       config,
       state = blankDeckState()
     ) => {
-      const grid =
-        normaliseDeckBeatGrid(
-          config,
-          state
-        );
+      const mixxxGridState = window.BRMediaMixxxBackend?.isActive?.() === true
+        ? m25GridAuthority?.states?.get?.(config.deckId) || null : null;
+      const exactMixxxGrid = getAuthoritativeDjBeatGrid(config);
+      if (mixxxGridState && exactMixxxGrid) adoptExactGridForEditing(config, exactMixxxGrid);
+      const grid = mixxxGridState
+        ? (exactMixxxGrid ? config.beatGrid : gridApi.create(createDeckBeatGrid()))
+        : normaliseDeckBeatGrid(config, state);
 
       const deckPanel = $(
         `.brDjPerfPanel[data-dj-perf-panel="${config.panel}"]`
@@ -2221,10 +3964,24 @@
           ) * 100
         );
 
+      const displayBpm =
+        getDeckGridDisplayBpm(
+          grid
+        );
+
       const bpmLabel =
-        grid.bpm
-          ? grid.bpm.toFixed(2)
+        displayBpm
+          ? displayBpm.toFixed(2)
           : "--.--";
+
+      const precisionGridLabel =
+        displayBpm &&
+        grid.bpm &&
+        Math.abs(
+          displayBpm - grid.bpm
+        ) > 0.0005
+          ? " • Precision grid"
+          : "";
 
       const rawBpm =
         getSafeGridBpmValue(
@@ -2255,8 +4012,9 @@
           ".brDjGridBpmBox span"
         )
         .forEach((label) => {
-          label.textContent =
-            "Grid BPM";
+          label.textContent = mixxxGridState
+            ? "Detected Grid BPM"
+            : "Grid BPM";
         });
 
       deckPanel
@@ -2264,6 +4022,7 @@
           ".brDjGridLock"
         )
         .forEach((button) => {
+          button.disabled = Boolean(mixxxGridState && !exactMixxxGrid);
           button.classList.toggle(
             "is-locked",
             grid.locked
@@ -2311,7 +4070,7 @@
         )
         .forEach((button) => {
           button.disabled =
-            Boolean(grid.locked);
+            Boolean(grid.locked || (mixxxGridState && !exactMixxxGrid));
 
           button.setAttribute(
             "aria-disabled",
@@ -2322,11 +4081,36 @@
           );
         });
 
+      deckPanel.querySelectorAll(".brDjGridUndo").forEach((button) => {
+        const redo = /redo/i.test(button.getAttribute("aria-label") || "");
+        const available = redo ? grid.future?.length : grid.history?.length;
+        button.disabled = Boolean(grid.locked || !available || (mixxxGridState && !exactMixxxGrid));
+        button.setAttribute("aria-disabled", button.disabled ? "true" : "false");
+      });
+
       deckPanel
         .querySelectorAll(
           ".brDjGridStatus"
         )
         .forEach((status) => {
+          if (mixxxGridState && !exactMixxxGrid) {
+            const labels = {
+              "grid-loading": "Grid loading",
+              "grid-not-prepared": "Grid not prepared",
+              "grid-queued": "Grid queued",
+              "grid-preparing": "Grid preparing",
+              "grid-failed": "Grid failed — Retry",
+              "grid-cache-mismatch": "Grid cache mismatch",
+              "grid-corrupt": "Grid cache corrupt",
+              "identity-stale": "Grid identity stale",
+              "deck-empty": "Deck empty",
+            };
+            status.textContent = labels[mixxxGridState.status] || "Grid unavailable";
+            status.dataset.m25GridState = mixxxGridState.status;
+            status.classList.remove("is-grid-locked");
+            status.setAttribute("aria-label", status.textContent);
+            return;
+          }
           const baseLabel =
             grid.baseSet
               ? `Base ${formatDjEngineTime(
@@ -2360,7 +4144,7 @@
                   grid.locked
                     ? "Locked"
                     : "Ready"
-                } • ${modeLabel} • ${rangeLabel} • ${grid.adjustmentMs} ms • ${bpmLabel} BPM${rawLabel} • ${keyLabel}${confidenceLabel} • ${baseLabel}${
+                } • ${modeLabel} • ${rangeLabel} • ${grid.adjustmentMs} ms • ${bpmLabel} BPM${precisionGridLabel}${rawLabel} • ${keyLabel}${confidenceLabel} • ${baseLabel}${
                   grid.reviewRequired
                     ? " • Review"
                     : ""
@@ -2371,6 +4155,11 @@
             "is-grid-locked",
             Boolean(grid.locked)
           );
+
+          if (mixxxGridState) {
+            status.dataset.m25GridState = mixxxGridState.status;
+            status.dataset.m25GridRevision = String(mixxxGridState.revision || 0);
+          }
 
           status.setAttribute(
             "aria-label",
@@ -2395,14 +4184,40 @@
 		
     const djGridPersistTimers =
       new Map();
+    const djGridPendingHistory =
+      new Map();
 
     const persistDeckGridPreparation = (
       config,
       grid
     ) => {
+      const mixxxAuthority = window.BRMediaMixxxBackend?.isActive?.() === true
+        ? m25GridAuthority?.states?.get?.(config.deckId) || null : null;
+      if (mixxxAuthority && (!mixxxAuthority.realGridPresence || !mixxxAuthority.stableIdentity)) return;
+      const authorityIdentity = mixxxAuthority?.stableIdentity || "";
+      const authorityGeneration = mixxxAuthority?.generation || 0;
+      const priorGrid = mixxxAuthority?.grid ? JSON.parse(JSON.stringify(mixxxAuthority.grid)) : null;
+      const serialisedGrid = gridApi.serialise(grid, {
+        duration: Math.max(0, Number(getDeckStateForConfig(config).duration) || Number(mixxxAuthority?.grid?.duration) || 0),
+        minBpm: DJ_GRID_MIN_BPM, maxBpm: DJ_GRID_MAX_BPM, preRollSeconds: DJ_GRID_PRE_ROLL_SECONDS,
+      });
+      const nextRevision = mixxxAuthority ? Math.max(1, Number(mixxxAuthority.revision) + 1) : 0;
+      const historyEntry = mixxxAuthority ? { action: String(grid.source || "grid-edit"), timestamp: new Date().toISOString(),
+        deck: config.deckId, identity: authorityIdentity, source: String(grid.source || "manual"), before: priorGrid, after: serialisedGrid } : null;
+      if (historyEntry) {
+        const pending = djGridPendingHistory.get(config.deckId) || [];
+        pending.push(historyEntry);
+        djGridPendingHistory.set(config.deckId, pending.slice(-20));
+      }
+      if (mixxxAuthority) {
+        mixxxAuthority.grid = { ...mixxxAuthority.grid, ...serialisedGrid, cacheVersion: "brmedia-grid-v2", revision: nextRevision,
+          status: grid.locked ? "grid-locked" : grid.reviewRequired ? "grid-needs-review" : "grid-ready" };
+        mixxxAuthority.revision = nextRevision; mixxxAuthority.status = mixxxAuthority.grid.status;
+      }
       const libraryItemId =
         String(
           config.loadedLibraryItemId ||
+          authorityIdentity ||
           ""
         ).trim();
 
@@ -2425,6 +4240,10 @@
         window.setTimeout(
           async () => {
             try {
+              if (mixxxAuthority) {
+                const current = m25GridAuthority.states.get(config.deckId);
+                if (!current || current.stableIdentity !== authorityIdentity || current.generation !== authorityGeneration) return;
+              }
               const response =
                 await fetch(
                   `/library/${encodeURIComponent(
@@ -2470,6 +4289,10 @@
                           config
                             .gridUnlockPending
                         ),
+                      revision: nextRevision || undefined,
+                      historyEntries: djGridPendingHistory.get(config.deckId) || [],
+                      stableIdentity: authorityIdentity || undefined,
+                      generation: authorityGeneration || undefined,
                     }),
                   }
                 );
@@ -2480,6 +4303,7 @@
 
               config.gridUnlockPending =
                 false;
+              djGridPendingHistory.delete(config.deckId);
 
               const payload =
                 await response
@@ -2614,6 +4438,9 @@
           grid.source =
             updates.source ||
             "manual";
+
+          grid.reviewRequired =
+            false;
         }
       }
 
@@ -2666,6 +4493,11 @@
 
         grid.baseSet = true;
         grid.userDownbeat = true;
+        grid.source =
+          updates.source ||
+          "manual-downbeat";
+        grid.reviewRequired =
+          false;
       }
 
       [
@@ -2869,6 +4701,8 @@
           userBpm: true,
 
           userDownbeat: true,
+
+          reviewRequired: false,
         }
       );
 
@@ -2894,6 +4728,28 @@
 
       return grid;
     };
+
+    const restoreDeckGridHistory = (config, state, direction) => {
+      const grid = normaliseDeckBeatGrid(config, state);
+      const source = direction === "redo" ? grid.future : grid.history;
+      const destination = direction === "redo" ? grid.history : grid.future;
+      if (grid.locked || !Array.isArray(source) || !source.length) {
+        syncDeckBeatGridUi(config, state);
+        return false;
+      }
+      const snapshot = source.pop();
+      destination.push(snapshotDeckGrid(grid));
+      restoreDeckGridSnapshot(grid, snapshot);
+      grid.history = direction === "redo" ? destination : source;
+      grid.future = direction === "redo" ? source : destination;
+      grid.source = direction === "redo" ? "history-redo" : "history-undo";
+      syncDeckBeatGridUi(config, state);
+      renderDjRealWaveforms(config, state);
+      persistDeckGridPreparation(config, grid);
+      return true;
+    };
+    const undoDeckBeatGrid = (config, state) => restoreDeckGridHistory(config, state, "undo");
+    const redoDeckBeatGrid = (config, state) => restoreDeckGridHistory(config, state, "redo");
 		
     const getDeckConfigById = (deckId) => deckConfigs.find((item) => item.deckId === deckId) || null;
     const getOtherDeckConfig = (config) => getDeckConfigById(config?.deckId === "d2" ? "d1" : "d2");
@@ -3216,9 +5072,6 @@
         return 0;
       }
 
-      const masterInterval = 60 / masterGrid.bpm;
-      const targetInterval = 60 / targetGrid.bpm;
-
       const hasReferenceClock =
         options.referenceClockTime != null &&
         Number.isFinite(Number(options.referenceClockTime));
@@ -3237,11 +5090,31 @@
         referenceClockTime
       );
 
-      const masterBeatFloat =
-        (masterTime - masterGrid.downbeat) / masterInterval;
+      const masterBeatFloat = getDeckBeatFloat(
+        masterConfig,
+        masterState,
+        masterTime
+      );
 
-      const targetBeatFloat =
-        (targetTime - targetGrid.downbeat) / targetInterval;
+      const targetBeatFloat = getDeckBeatFloat(
+        targetConfig,
+        targetState,
+        targetTime
+      );
+
+      const targetInterval = getDeckBeatSecondsAtTime(
+        targetConfig,
+        targetState,
+        targetTime
+      );
+
+      if (
+        masterBeatFloat == null ||
+        targetBeatFloat == null ||
+        !targetInterval
+      ) {
+        return 0;
+      }
 
       const beatDelta = getDjShortestBeatCycleDelta(
         masterBeatFloat,
@@ -3255,7 +5128,8 @@
       );
 
       /*
-        Return wall-clock phase error rather than unscaled source-file time.
+        Grid Core converts each deck's current position through its real
+        Normal or Dynamic segment before the wall-clock phase is compared.
       */
       return (beatDelta * targetInterval) / targetRate;
     };
@@ -3457,20 +5331,6 @@
       targetState,
       options = {}
     ) => {
-      const masterBeatSeconds = getDeckBeatSeconds(
-        masterConfig,
-        masterState
-      );
-
-      const targetBeatSeconds = getDeckBeatSeconds(
-        targetConfig,
-        targetState
-      );
-
-      if (!masterBeatSeconds || !targetBeatSeconds) {
-        return Number(targetState.currentTime) || 0;
-      }
-
       const masterGrid = normaliseDeckBeatGrid(
         masterConfig,
         masterState
@@ -3480,6 +5340,10 @@
         targetConfig,
         targetState
       );
+
+      if (!masterGrid.bpm || !targetGrid.bpm) {
+        return Number(targetState.currentTime) || 0;
+      }
 
       const hasReferenceClock =
         options.referenceClockTime != null &&
@@ -3505,12 +5369,24 @@
             referenceClockTime
           );
 
-      const masterBeatFloat =
-        (masterTime - masterGrid.downbeat) / masterBeatSeconds;
+      const masterBeatFloat = getDeckBeatFloat(
+        masterConfig,
+        masterState,
+        masterTime
+      );
 
-      const targetBeatFloat =
-        (targetAnchorTime - targetGrid.downbeat) /
-        targetBeatSeconds;
+      const targetBeatFloat = getDeckBeatFloat(
+        targetConfig,
+        targetState,
+        targetAnchorTime
+      );
+
+      if (
+        masterBeatFloat == null ||
+        targetBeatFloat == null
+      ) {
+        return Number(targetState.currentTime) || 0;
+      }
 
       const masterPhase = getDjBeatCyclePhase(
         masterBeatFloat,
@@ -3522,35 +5398,74 @@
         DJ_SYNC_PHASE_CYCLE_BEATS
       );
 
-      let aligned =
-        targetGrid.downbeat +
-        (
-          targetCycleIndex * DJ_SYNC_PHASE_CYCLE_BEATS +
-          masterPhase
-        ) *
-          targetBeatSeconds;
+      let alignedBeat =
+        targetCycleIndex *
+          DJ_SYNC_PHASE_CYCLE_BEATS +
+        masterPhase;
 
       const minimumTime = options.allowNegative
         ? -DJ_GRID_PRE_ROLL_SECONDS
         : 0;
 
-      const cycleSeconds =
-        targetBeatSeconds * DJ_SYNC_PHASE_CYCLE_BEATS;
+      const maximumTime =
+        Number(targetState.duration) ||
+        Infinity;
 
-      while (aligned < minimumTime) {
-        aligned += cycleSeconds;
+      const targetOptions =
+        getDeckGridTimingOptions(
+          targetState,
+          {
+            allowNegative:
+              options.allowNegative,
+          }
+        );
+
+      const minimumBeat = gridApi.timeToBeat(
+        targetGrid,
+        minimumTime,
+        targetOptions
+      );
+
+      const maximumBeat = Number.isFinite(
+        maximumTime
+      )
+        ? gridApi.timeToBeat(
+            targetGrid,
+            maximumTime,
+            targetOptions
+          )
+        : null;
+
+      while (
+        minimumBeat != null &&
+        alignedBeat < minimumBeat
+      ) {
+        alignedBeat +=
+          DJ_SYNC_PHASE_CYCLE_BEATS;
       }
 
       while (
-        targetState.duration &&
-        aligned > targetState.duration
+        maximumBeat != null &&
+        alignedBeat > maximumBeat
       ) {
-        aligned -= cycleSeconds;
+        alignedBeat -=
+          DJ_SYNC_PHASE_CYCLE_BEATS;
       }
+
+      const aligned = gridApi.beatToTime(
+        targetGrid,
+        alignedBeat,
+        targetOptions
+      );
 
       return Math.max(
         minimumTime,
-        Math.min(Number(targetState.duration) || Infinity, aligned)
+        Math.min(
+          maximumTime,
+          aligned == null
+            ? targetAnchorTime
+            : aligned
+        )
       );
     };
 
@@ -3809,6 +5724,10 @@
         0.5,
         Math.min(2, Number(requestedRate) || 1)
       );
+
+      if (window.BRMediaMixxxBackend?.tempo?.(targetConfig.deckId, "rate", safeRate - 1)) {
+        return currentState;
+      }
 
       if (
         Math.abs(
@@ -4419,25 +6338,7 @@
 
       const masterState = getDeckStateForConfig(masterConfig);
 
-      const masterBeatSeconds = getDeckBeatSeconds(
-        masterConfig,
-        masterState
-      );
-
-      const masterEffectiveBpm =
-        getLiveMixBpmTarget(
-          masterConfig
-        ) ||
-        getDeckEffectiveBpm(
-          masterConfig,
-          masterState
-        );
-
-      if (
-        !masterState.isPlaying ||
-        !masterBeatSeconds ||
-        !masterEffectiveBpm
-      ) {
+      if (!masterState.isPlaying) {
         return {
           offset: Math.max(
             -DJ_GRID_PRE_ROLL_SECONDS,
@@ -4460,15 +6361,55 @@
         masterClockTime
       );
 
-      const masterBeatFloat =
-        (masterTime - masterGrid.downbeat) /
-        masterBeatSeconds;
+      const masterBeatFloat = getDeckBeatFloat(
+        masterConfig,
+        masterState,
+        masterTime
+      );
+
+      const masterSourceBeatSeconds =
+        gridApi.beatSecondsAtTime(
+          masterGrid,
+          masterTime,
+          getDeckGridTimingOptions(
+            masterState,
+            {
+              allowNegative: true,
+            }
+          )
+        );
+
+      const masterPlaybackRate = Math.max(
+        0.5,
+        Math.min(
+          2,
+          Number(masterState.playbackRate) || 1
+        )
+      );
+
+      if (
+        masterBeatFloat == null ||
+        !masterSourceBeatSeconds
+      ) {
+        return {
+          offset: Math.max(
+            -DJ_GRID_PRE_ROLL_SECONDS,
+            fallbackOffset
+          ),
+          delaySeconds: 0,
+        };
+      }
 
       const beatFraction =
         ((masterBeatFloat % 1) + 1) % 1;
 
+      /*
+        A Dynamic segment has its own source beat length. Divide that by the
+        current playback rate to get the real wall-clock beat at launch.
+      */
       const liveBeatSeconds =
-        60 / masterEffectiveBpm;
+        masterSourceBeatSeconds /
+        masterPlaybackRate;
 
       const elapsedSinceBeat =
         beatFraction * liveBeatSeconds;
@@ -4479,7 +6420,7 @@
 
       /*
         Slightly late taps catch the current beat. Other taps wait for the
-        next Master beat when Quantize is active.
+        next real Grid Core beat when Quantize is active.
       */
       const delaySeconds =
         !quantizedLaunch ||
@@ -4859,6 +6800,7 @@
                 );
 
               if (!targetConfig) return;
+              if (window.BRMediaMixxxBackend?.transport?.(targetConfig.deckId, "sync")) return;
 
               if (
                 djSyncState
@@ -4966,6 +6908,10 @@
       $$("[data-duo-linked-play]").forEach((button) => {
         button.addEventListener("click", async () => {
           if (button.disabled) return;
+          if (window.BRMediaMixxxBackend?.linkedTransport?.(
+            window.BRMediaMixxxBackend.getDeckState?.(1)?.playing === true ||
+            window.BRMediaMixxxBackend.getDeckState?.(2)?.playing === true ? "pause" : "play"
+          )) return;
 
           const entries = getLinkedDuoDeckEntries();
 
@@ -5042,6 +6988,12 @@
             "is-cue-active"
           );
 
+          if (window.BRMediaMixxxBackend?.linkedCueHold?.(false)) {
+            linkedCueHoldState.active = false;
+            linkedCueHoldState.pointerId = null;
+            return;
+          }
+
           if (!linkedCueHoldState.active) return;
 
           if (
@@ -5089,6 +7041,13 @@
             if (button.disabled) return;
 
             event.preventDefault();
+
+            if (window.BRMediaMixxxBackend?.linkedCueHold?.(true)) {
+              linkedCueHoldState.active = true;
+              linkedCueHoldState.pointerId = event.pointerId;
+              button.classList.add("is-cue-active");
+              return;
+            }
 
             const entries =
               getLinkedDuoDeckEntries();
@@ -5268,7 +7227,10 @@
       const deckPanel = $(`.brDjPerfPanel[data-dj-perf-panel="${config.panel}"]`);
       if (!deckPanel) return;
 
-      const currentTime = Math.max(0, Number(state.currentTime) || 0);
+      const currentTime = Math.max(
+        -DJ_GRID_PRE_ROLL_SECONDS,
+        Number(state.currentTime) || 0
+      );
       deckPanel.querySelectorAll(".brDjCueMemoryPage").forEach((page) => {
         const mode = getDeckCueMemoryMode(page);
         const slots = getDeckCueMemorySlots(config, mode);
@@ -5353,14 +7315,33 @@
 
           const label = padOrRow.dataset.cueMemoryLabel || padOrRow.textContent.trim();
           if (!DJ_CUE_MEMORY_LABELS.includes(label)) return;
+          if (mode === "hot" && window.BRMediaMixxxBackend?.isActive?.()) {
+            const cue = DJ_CUE_MEMORY_LABELS.indexOf(label) + 1;
+            if (cue > 8) return;
+            const live = window.BRMediaMixxxBackend.getDeckState?.(config.deckId);
+            const filled = (live?.performance?.hotCueStates?.[cue - 1] || live?.performance?.hotCues?.[cue - 1]) > 0;
+            const action = config.cueMemory.deleteMode === mode ? "clear" : filled ? "trigger" : "set";
+            config.cueMemory.deleteMode = "";
+            window.BRMediaMixxxBackend.hotcueAction(config.deckId, cue, action);
+            return;
+          }
 
           const activeDeck = getReadyDeck();
           if (!activeDeck) return;
 
           const slots = getDeckCueMemorySlots(config, mode);
           const state = activeDeck.getState();
-          const currentTime = Math.max(0, Number(state.currentTime) || 0);
-          const cueTime = getQuantizedCueTime(config, state, currentTime);
+
+          const currentTime = Math.max(
+            -DJ_GRID_PRE_ROLL_SECONDS,
+            Number(state.currentTime) || 0
+          );
+
+          const cueTime = getQuantizedCueTime(
+            config,
+            state,
+            currentTime
+          );
 
           if (config.cueMemory.deleteMode === mode) {
             if (slots[label]) delete slots[label];
@@ -5380,7 +7361,17 @@
           }
 
           setDeckCueMemorySelected(config, mode, label);
-          const nextState = await activeDeck.seek(slots[label].time);
+
+          const targetTime = getQuantizedCueTime(
+            config,
+            state,
+            slots[label].time
+          );
+
+          const nextState = await activeDeck.seek(
+            targetTime
+          );
+
           setDeckSkinState(config, nextState);
           syncDeckCueMemoryUi(config, nextState);
         });
@@ -5478,47 +7469,200 @@
 		
     const getDeckLoopMode = (config) => config.loopMode === "manual" ? "manual" : "auto";
 
-    const setDeckLoopSizeFromDuration = (config, state = blankDeckState()) => {
-      const beatSeconds = getDeckBeatSeconds(config, state);
+    const setDeckLoopSizeFromDuration = (
+      config,
+      state = blankDeckState()
+    ) => {
       const loop = state.loop || {};
-      if (!beatSeconds || !loop.active || !(loop.duration > 0)) return config.loopSizeBeats || DJ_LOOP_DEFAULT_BEATS;
-      config.loopSizeBeats = findClosestDjLoopSizeValue(loop.duration / beatSeconds);
+
+      if (
+        !loop.active ||
+        !(loop.duration > 0)
+      ) {
+        return config.loopSizeBeats ||
+          DJ_LOOP_DEFAULT_BEATS;
+      }
+
+      const beatSpan = getDeckGridBeatSpan(
+        config,
+        state,
+        loop.start,
+        loop.end
+      );
+
+      if (!(beatSpan > 0)) {
+        return config.loopSizeBeats ||
+          DJ_LOOP_DEFAULT_BEATS;
+      }
+
+      config.loopSizeBeats =
+        findClosestDjLoopSizeValue(
+          beatSpan
+        );
+
       return config.loopSizeBeats;
     };
 
-    const restartDeckLoopWithCurrentSize = async (config, activeDeck) => {
-      if (!activeDeck) return null;
-      const state = activeDeck.getState();
-      const loop = state.loop || {};
-      const bpm = getGridBpm(config, state);
-      if (!loop.active || !bpm) return null;
-      const start = Number.isFinite(Number(loop.start)) ? Number(loop.start) : snapTimeToDeckGrid(config, state, state.currentTime || 0, "floor");
-      return activeDeck.setAutoLoopBeats(config.loopSizeBeats || DJ_LOOP_DEFAULT_BEATS, bpm, start);
-    };
+    const restartDeckLoopWithCurrentSize =
+      async (config, activeDeck) => {
+        if (!activeDeck) return null;
 
-    const runDeckAutoLoopAction = async (config, activeDeck) => {
-      if (!activeDeck) return null;
-      const state = activeDeck.getState();
-      const loop = state.loop || {};
-      if (loop.active || loop.manualStart != null) return activeDeck.clearLoop();
-      const bpm = getGridBpm(config, state);
-      if (!bpm) return null;
-      const start = snapTimeToDeckGrid(config, state, state.currentTime || 0, "floor");
-      return activeDeck.setAutoLoopBeats(config.loopSizeBeats || DJ_LOOP_DEFAULT_BEATS, bpm, start);
-    };
+        const state =
+          activeDeck.getState();
 
-    const runDeckManualLoopAction = async (config, activeDeck) => {
-      if (!activeDeck) return null;
-      const state = activeDeck.getState();
-      const loop = state.loop || {};
-      const bpm = getGridBpm(config, state);
-      if (!bpm) return null;
-      if (loop.active) return activeDeck.clearLoop();
-      const snapped = snapTimeToDeckGrid(config, state, state.currentTime || 0, loop.manualStart == null ? "nearest" : "nearest");
-      const nextState = await activeDeck.setManualLoopPoint(snapped);
-      if (nextState?.loop?.active) setDeckLoopSizeFromDuration(config, nextState);
-      return nextState;
-    };
+        const loop = state.loop || {};
+
+        if (
+          !loop.active ||
+          !getGridBpm(config, state)
+        ) {
+          return null;
+        }
+
+        const start =
+          Number.isFinite(
+            Number(loop.start)
+          )
+            ? Number(loop.start)
+            : (
+                config.quantize
+                  ? snapTimeToDeckGrid(
+                      config,
+                      state,
+                      state.currentTime || 0,
+                      "floor"
+                    )
+                  : clampDeckGridTime(
+                      state,
+                      state.currentTime || 0
+                    )
+              );
+
+        const end =
+          getDeckGridTimeAfterBeats(
+            config,
+            state,
+            start,
+            config.loopSizeBeats ||
+              DJ_LOOP_DEFAULT_BEATS
+          );
+
+        if (!(end > start)) {
+          return null;
+        }
+
+        return activeDeck.setLoop(
+          start,
+          end,
+          getDeckLoopMode(config) ===
+            "manual"
+            ? "Manual loop"
+            : "Auto loop"
+        );
+      };
+
+    const runDeckAutoLoopAction =
+      async (config, activeDeck) => {
+        if (!activeDeck) return null;
+
+        const state =
+          activeDeck.getState();
+
+        const loop = state.loop || {};
+
+        if (
+          loop.active ||
+          loop.manualStart != null
+        ) {
+          return activeDeck.clearLoop();
+        }
+
+        if (!getGridBpm(config, state)) {
+          return null;
+        }
+
+        const currentTime =
+          Number(state.currentTime) || 0;
+
+        const start = config.quantize
+          ? snapTimeToDeckGrid(
+              config,
+              state,
+              currentTime,
+              "floor"
+            )
+          : clampDeckGridTime(
+              state,
+              currentTime
+            );
+
+        const end =
+          getDeckGridTimeAfterBeats(
+            config,
+            state,
+            start,
+            config.loopSizeBeats ||
+              DJ_LOOP_DEFAULT_BEATS
+          );
+
+        if (!(end > start)) {
+          return null;
+        }
+
+        return activeDeck.setLoop(
+          start,
+          end,
+          "Auto loop"
+        );
+      };
+
+    const runDeckManualLoopAction =
+      async (config, activeDeck) => {
+        if (!activeDeck) return null;
+
+        const state =
+          activeDeck.getState();
+
+        const loop = state.loop || {};
+
+        if (!getGridBpm(config, state)) {
+          return null;
+        }
+
+        if (loop.active) {
+          return activeDeck.clearLoop();
+        }
+
+        const currentTime =
+          Number(state.currentTime) || 0;
+
+        const loopPoint = config.quantize
+          ? snapTimeToDeckGrid(
+              config,
+              state,
+              currentTime,
+              "nearest"
+            )
+          : clampDeckGridTime(
+              state,
+              currentTime
+            );
+
+        const nextState =
+          await activeDeck
+            .setManualLoopPoint(
+              loopPoint
+            );
+
+        if (nextState?.loop?.active) {
+          setDeckLoopSizeFromDuration(
+            config,
+            nextState
+          );
+        }
+
+        return nextState;
+      };
 
     const syncDeckLoopControls = (config, state = lastDeckStates.get(config.deckId) || blankDeckState()) => {
       const deckPanel = $(`.brDjPerfPanel[data-dj-perf-panel="${config.panel}"]`);
@@ -5603,28 +7747,95 @@
         beatJumpButton?.addEventListener("click", () => openDeckLoopValueMenu(config, beatJumpButton, "jump"));
         loopModeButton?.addEventListener("click", () => openDeckLoopModeMenu(config, loopModeButton));
 
-        jumpLeftButton?.addEventListener("click", async () => {
-          const activeDeck = getReadyDeck();
-          if (!activeDeck) return;
-          const state = activeDeck.getState();
-          const beatSeconds = getDeckBeatSeconds(config, state);
-          if (!beatSeconds) return;
-          const jumpSeconds = (config.beatJumpBeats || 8) * beatSeconds;
-          setDeckSkinState(config, await activeDeck.seek(Math.max(0, (state.currentTime || 0) - jumpSeconds)));
-        });
+        jumpLeftButton?.addEventListener(
+          "click",
+          async () => {
+            if (window.BRMediaMixxxBackend?.transport?.(config.deckId, "beat-jump-back", { beats: config.beatJumpBeats || 8 })) return;
+            const activeDeck =
+              getReadyDeck();
 
-        jumpRightButton?.addEventListener("click", async () => {
-          const activeDeck = getReadyDeck();
-          if (!activeDeck) return;
-          const state = activeDeck.getState();
-          const beatSeconds = getDeckBeatSeconds(config, state);
-          if (!beatSeconds) return;
-          const jumpSeconds = (config.beatJumpBeats || 8) * beatSeconds;
-          setDeckSkinState(config, await activeDeck.seek((state.currentTime || 0) + jumpSeconds));
-        });
+            if (!activeDeck) return;
+
+            const state =
+              activeDeck.getState();
+
+            if (
+              !getGridBpm(
+                config,
+                state
+              )
+            ) {
+              return;
+            }
+
+            const targetTime =
+              getDeckGridTimeAfterBeats(
+                config,
+                state,
+                state.currentTime || 0,
+                -(
+                  config.beatJumpBeats ||
+                  8
+                ),
+                {
+                  allowNegative: true,
+                }
+              );
+
+            setDeckSkinState(
+              config,
+              await activeDeck.seek(
+                targetTime
+              )
+            );
+          }
+        );
+
+        jumpRightButton?.addEventListener(
+          "click",
+          async () => {
+            if (window.BRMediaMixxxBackend?.transport?.(config.deckId, "beat-jump-forward", { beats: config.beatJumpBeats || 8 })) return;
+            const activeDeck =
+              getReadyDeck();
+
+            if (!activeDeck) return;
+
+            const state =
+              activeDeck.getState();
+
+            if (
+              !getGridBpm(
+                config,
+                state
+              )
+            ) {
+              return;
+            }
+
+            const targetTime =
+              getDeckGridTimeAfterBeats(
+                config,
+                state,
+                state.currentTime || 0,
+                config.beatJumpBeats ||
+                  8,
+                {
+                  allowNegative: true,
+                }
+              );
+
+            setDeckSkinState(
+              config,
+              await activeDeck.seek(
+                targetTime
+              )
+            );
+          }
+        );
 
         sizeDownButton?.addEventListener("click", async () => {
           config.loopSizeBeats = shiftDjLoopBeatValue(config.loopSizeBeats || DJ_LOOP_DEFAULT_BEATS, -1);
+          if (window.BRMediaMixxxBackend?.transport?.(config.deckId, "loop-size", { beats: config.loopSizeBeats })) return;
           const nextState = await restartDeckLoopWithCurrentSize(config, getReadyDeck());
           if (nextState) setDeckSkinState(config, nextState);
           else syncDeckLoopControls(config);
@@ -5632,12 +7843,16 @@
 
         sizeUpButton?.addEventListener("click", async () => {
           config.loopSizeBeats = shiftDjLoopBeatValue(config.loopSizeBeats || DJ_LOOP_DEFAULT_BEATS, 1);
+          if (window.BRMediaMixxxBackend?.transport?.(config.deckId, "loop-size", { beats: config.loopSizeBeats })) return;
           const nextState = await restartDeckLoopWithCurrentSize(config, getReadyDeck());
           if (nextState) setDeckSkinState(config, nextState);
           else syncDeckLoopControls(config);
         });
 
         loopActionButton?.addEventListener("click", async () => {
+          if (getDeckLoopMode(config) === "manual") {
+            if (window.BRMediaMixxxBackend?.manualLoop?.(config.deckId)) return;
+          } else if (window.BRMediaMixxxBackend?.transport?.(config.deckId, "auto-loop", { beats: config.loopSizeBeats })) return;
           const activeDeck = getReadyDeck();
           if (!activeDeck) return;
           const nextState = getDeckLoopMode(config) === "manual"
@@ -5684,30 +7899,104 @@
       const deckPanel = $(`.brDjPerfPanel[data-dj-perf-panel="${config.panel}"]`);
       const trackTitle = deckPanel?.querySelector(".brDjSingleTrackCard h1");
       const trackArtist = deckPanel?.querySelector(".brDjSingleTrackText span");
-      const duoTitle = $(`.brDjDuoDeckCard.${config.cardClass} strong`);
-      const duoMeta = $(`.brDjDuoDeckCard.${config.cardClass} .brDjDuoDeckCardMeta`);
-      const duoStatus = $(`.brDjDuoDeckCard.${config.cardClass} > em`);
-      const duoWaveTime = $(`.brDjDuoHorizontalWave.${config.cardClass} header em`);
-      const vinylPanel = $(`.brDjVinylDeckView[data-vinyl-deck="${config.vinylDeck}"]`);
-      const vinylArtwork = resolveDjDeckArtworkSource(state);
+      const duoTitle =
+        $(
+          `.brDjDuoDeckCard.${config.cardClass} strong`
+        );
+
+      const duoMeta =
+        $(
+          `.brDjDuoDeckCard.${config.cardClass} .brDjDuoDeckCardMeta`
+        );
+
+      const duoStatus =
+        $(
+          `.brDjDuoDeckCard.${config.cardClass} > em`
+        );
+
+      const duoWaveElapsed =
+        $(
+          `.brDjDuoHorizontalWave.${config.cardClass} header span`
+        );
+
+      const duoWaveRemaining =
+        $(
+          `.brDjDuoHorizontalWave.${config.cardClass} header em`
+        );
+
+      const duoWaveBars =
+        $(
+          `.brDjDuoHorizontalWave.${config.cardClass} [data-dj-duo-bar-counter]`
+        );
+
+      const vinylPanel =
+        $(
+          `.brDjVinylDeckView[data-vinyl-deck="${config.vinylDeck}"]`
+        );
+
+      const vinylArtwork =
+        resolveDjDeckArtworkSource(
+          state
+        );
 
       if (vinylPanel) {
-        vinylPanel.classList.toggle("is-loaded", canUse);
-        vinylPanel.classList.toggle("is-playing", Boolean(state.isPlaying && canUse));
-        vinylPanel.dataset.djDeckLoaded = canUse ? "true" : "false";
-        vinylPanel.querySelectorAll(".brDjVinylArtwork").forEach((image) => {
-          image.src = vinylArtwork;
-          image.alt = title ? `${title} artwork` : "Deck artwork";
-        });
+        vinylPanel.classList.toggle(
+          "is-loaded",
+          canUse
+        );
+
+        vinylPanel.classList.toggle(
+          "is-playing",
+          Boolean(
+            state.isPlaying &&
+            canUse
+          )
+        );
+
+        vinylPanel.dataset.djDeckLoaded =
+          canUse
+            ? "true"
+            : "false";
+
+        vinylPanel
+          .querySelectorAll(
+            ".brDjVinylArtwork"
+          )
+          .forEach(
+            (
+              image
+            ) => {
+              image.src =
+                vinylArtwork;
+
+              image.alt =
+                title
+                  ? `${title} artwork`
+                  : "Deck artwork";
+            }
+          );
       }
 
       if (deckPanel) {
-        deckPanel.style.setProperty("--br-dj-transport-progress", progress.toFixed(4));
-        deckPanel.dataset.djCuePoint = cuePoint.toFixed(3);
+        deckPanel.style.setProperty(
+          "--br-dj-transport-progress",
+          progress.toFixed(4)
+        );
+
+        deckPanel.dataset.djCuePoint =
+          cuePoint.toFixed(3);
       }
 
-      if (trackTitle) trackTitle.textContent = title;
-      if (trackArtist) trackArtist.textContent = artist;
+      if (trackTitle) {
+        trackTitle.textContent =
+          title;
+      }
+
+      if (trackArtist) {
+        trackArtist.textContent =
+          artist;
+      }
+
       setDuoDeckCardMarqueeText(
         duoTitle,
         title,
@@ -5719,22 +8008,151 @@
         artist,
         22
       );
-      if (duoStatus) duoStatus.textContent = status;
-      if (duoWaveTime) duoWaveTime.textContent = duration ? remainingLabel : currentLabel;
-      $$(`.brDjDuoSyncDeck.${config.cardClass} .brDjDuoBpmPopup strong`).forEach((label) => {
-        const bpm = getGridBpm(config, state);
-        label.textContent = bpm ? bpm.toFixed(2) : "--.--";
-      });
 
-      deckPanel?.querySelectorAll(".brDjSingleWavePills, .brDjCueMemoryPills").forEach((pills) => {
-        const spans = pills.querySelectorAll("span");
-        const bars = pills.querySelector("strong");
-        if (spans[0]) spans[0].textContent = remainingLabel;
-        if (bars) bars.textContent = formatDeckGridCounter(config, state);
-        if (spans[1]) spans[1].textContent = currentLabel;
+      if (duoStatus) {
+        duoStatus.textContent =
+          status;
+      }
+
+      if (duoWaveElapsed) {
+        duoWaveElapsed.textContent =
+          currentLabel;
+      }
+
+      if (duoWaveRemaining) {
+        duoWaveRemaining.textContent =
+          duration
+            ? remainingLabel
+            : currentLabel;
+      }
+
+      if (duoWaveBars) {
+        const nextMemory =
+          getNextDeckMemoryCountdown(
+            config,
+            state,
+            currentTime
+          );
+
+        duoWaveBars.textContent =
+          formatDeckGridCounter(
+            config,
+            state
+          );
+
+        duoWaveBars.classList.toggle(
+          "is-memory-countdown",
+          Boolean(nextMemory)
+        );
+
+        if (nextMemory) {
+          duoWaveBars.dataset.memoryLabel =
+            nextMemory.label;
+
+          duoWaveBars.setAttribute(
+            "aria-label",
+
+            `Memory ${nextMemory.label} in ${nextMemory.barsAway.toFixed(
+              1
+            )} bars`
+          );
+        } else {
+          delete duoWaveBars.dataset
+            .memoryLabel;
+
+          duoWaveBars.removeAttribute(
+            "aria-label"
+          );
+        }
+      }
+
+      $$(
+        `.brDjDuoSyncDeck.${config.cardClass} .brDjDuoBpmPopup strong`
+      ).forEach(
+        (
+          label
+        ) => {
+          const bpm =
+            getGridBpm(
+              config,
+              state
+            );
+
+          label.textContent =
+            bpm
+              ? bpm.toFixed(2)
+              : "--.--";
+        }
+      );
+
+      if (window.BRMediaMixxxBackend?.isActive?.() !== true) deckPanel?.querySelectorAll(
+        ".brDjSingleWavePills, .brDjCueMemoryPills"
+      ).forEach((pills) => {
+        const spans =
+          pills.querySelectorAll(
+            "span"
+          );
+
+        const bars =
+          pills.querySelector(
+            "strong"
+          );
+
+        if (spans[0]) {
+          spans[0].textContent =
+            remainingLabel;
+        }
+
+        if (bars) {
+          const nextMemory =
+            getNextDeckMemoryCountdown(
+              config,
+              state,
+              Number(
+                state.currentTime
+              ) || 0
+            );
+
+          bars.textContent =
+            formatDeckGridCounter(
+              config,
+              state
+            );
+
+          bars.classList.toggle(
+            "is-memory-countdown",
+            Boolean(nextMemory)
+          );
+
+          if (nextMemory) {
+            bars.dataset.memoryLabel =
+              nextMemory.label;
+
+            bars.setAttribute(
+              "aria-label",
+
+              `Memory ${nextMemory.label} in ${nextMemory.barsAway.toFixed(
+                1
+              )} bars`
+            );
+          } else {
+            delete bars.dataset
+              .memoryLabel;
+
+            bars.removeAttribute(
+              "aria-label"
+            );
+          }
+        }
+
+        if (spans[1]) {
+          spans[1].textContent =
+            currentLabel;
+        }
       });
 
       lastDeckStates.set(config.deckId, state);
+      window.dispatchEvent(new CustomEvent("brmedia:dj-deck-state", { detail: { deckId: config.deckId, isPlaying: state.isPlaying === true } }));
       refreshDuoMasterDeck(config);
       updateAllMasterClockDisplayGrids();
       syncDeckBeatGridUi(config, state);
@@ -6209,13 +8627,15 @@
 
     deckConfigs.forEach((config) => {
       const fileInput = $(`[data-dj-engine-file="${config.deckId}"]`);
-      if (!fileInput) return;
-
-      fileInput.addEventListener("change", async (event) => {
+      fileInput?.addEventListener("change", async (event) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
         try {
+          deckWaveformRequestTokens
+            ?.delete?.(config.deckId);
+          deckWaveformRequestPipelines
+            ?.abort?.(config.deckId);
           await loadFileIntoDeck(config, file, file.name || "Loading audio");
         } catch (error) {
           setDeckSkinState(config, {
@@ -6226,7 +8646,7 @@
             error: error?.message || "Audio engine failed",
           });
         } finally {
-          fileInput.value = "";
+          if (fileInput) fileInput.value = "";
         }
       });
 
@@ -6237,6 +8657,29 @@
         const state = binding.deck.getState();
         if (!state.isLoaded || state.isLoading || state.error) return null;
         return binding.deck;
+      };
+
+      const getGridInteractionState = () => {
+        if (window.BRMediaMixxxBackend?.isActive?.() !== true) {
+          return getReadyDeck()?.getState?.() || lastDeckStates.get(config.deckId) || blankDeckState();
+        }
+        const clock = window.BRMediaM12WaveformClock?.get?.(config.deckId)?.snapshot?.() || {};
+        const liveDeck = config.deckId === "d2" ? m12MixxxLiveState?.deck2 : m12MixxxLiveState?.deck1;
+        const exactGrid = getAuthoritativeDjBeatGrid(config);
+        if (exactGrid) adoptExactGridForEditing(config, exactGrid);
+        return {
+          ...blankDeckState(),
+          isLoaded: liveDeck?.loaded === true,
+          isPlaying: clock.playing === true,
+          currentTime: Number(clock.position) || Number(liveDeck?.positionSeconds) || 0,
+          duration: Number(clock.duration) || Number(liveDeck?.durationSeconds) || 0,
+          analysis: {
+            preciseBpm: Number(liveDeck?.analysedBpm) || null,
+            bpm: Number(liveDeck?.analysedBpm) || null,
+            rawBpm: Number(liveDeck?.analysedBpm) || null,
+            tempoSource: "mixxx-live-feedback",
+          },
+        };
       };
 			
       bindDeckWaveformZoomControls(config);
@@ -6278,10 +8721,17 @@
       };
 
       const seekDeckFromWaveformPointer = async (event, target, force = false) => {
-        const activeDeck = getReadyDeck();
-        if (!activeDeck) return;
+        const mixxxActive = window.BRMediaMixxxBackend?.isActive?.() === true;
+        const activeDeck = mixxxActive ? null : getReadyDeck();
+        const mixxxDeck = config.deckId === "d2" ? m12MixxxLiveState?.deck2 : m12MixxxLiveState?.deck1;
+        const mixxxClock = window.BRMediaM12WaveformClock?.get?.(config.deckId)?.snapshot?.();
+        if (mixxxActive ? mixxxDeck?.loaded !== true || mixxxDeck?.stale : !activeDeck) return;
 
-        const state = activeDeck.getState();
+        const state = mixxxActive ? {
+          duration: mixxxClock?.duration || mixxxDeck.durationSeconds,
+          currentTime: mixxxClock?.position || 0,
+          progress: mixxxClock?.progress || 0,
+        } : activeDeck.getState();
         const duration = Math.max(0, Number(state.duration) || 0);
         if (!duration) return;
 
@@ -6305,7 +8755,12 @@
           }
         }
 
+        if (config.quantize) seekTo = getQuantizedCueTime(config, state, seekTo);
         event.preventDefault();
+        if (mixxxActive) {
+          window.BRMediaMixxxBackend.seek(config.deckId, Math.max(0, Math.min(1, seekTo / duration)));
+          return;
+        }
         setDeckSkinState(config, await activeDeck.seek(seekTo));
       };
 
@@ -6313,15 +8768,39 @@
         if (target.dataset.brDjWaveSeekBound === config.deckId) return;
         target.dataset.brDjWaveSeekBound = config.deckId;
         target.classList.add("is-waveform-seekable");
+        target.style.touchAction = target.classList.contains("is-fixed-centre-waveform") ? "none" : "pan-y";
+        target.addEventListener("dblclick", (event) => {
+          if (!target.classList.contains("is-fixed-centre-waveform")) return;
+          event.preventDefault(); setDeckWaveformZoom(config, DJ_WAVEFORM_DEFAULT_ZOOM);
+        });
 
         target.addEventListener("pointerdown", async (event) => {
+          if (
+            event.isPrimary === false ||
+            (event.pointerType === "mouse" && event.button !== 0)
+          ) {
+            return;
+          }
+
+          if (target.classList.contains("is-fixed-centre-waveform")) {
+            event.preventDefault();
+          }
+
+          m14WaveformDiagnostics?.record?.(config.deckId, {
+            detailPointerEvent: "down",
+            detailPointerReceivedAt: Date.now(),
+          });
+
           waveformSeekState.active = true;
           waveformSeekState.pointerId = event.pointerId;
           waveformSeekState.startX = event.clientX;
           waveformSeekState.moved = false;
 
           const activeDeck = getReadyDeck();
-          waveformSeekState.startTime = activeDeck?.getState?.().currentTime || 0;
+          const mixxxClock = window.BRMediaM12WaveformClock?.get?.(config.deckId)?.snapshot?.();
+          waveformSeekState.startTime = window.BRMediaMixxxBackend?.isActive?.() === true
+            ? Number(mixxxClock?.position) || 0
+            : activeDeck?.getState?.().currentTime || 0;
 
           try {
             target.setPointerCapture?.(event.pointerId);
@@ -6330,21 +8809,32 @@
           if (!target.classList.contains("is-fixed-centre-waveform")) {
             await seekDeckFromWaveformPointer(event, target, true);
           }
-        });
+        }, { capture: true });
 
         target.addEventListener("pointermove", async (event) => {
           if (!waveformSeekState.active || event.pointerId !== waveformSeekState.pointerId) return;
+          m14WaveformDiagnostics?.record?.(config.deckId, {
+            detailPointerEvent: "move",
+            detailPointerReceivedAt: Date.now(),
+          });
           await seekDeckFromWaveformPointer(event, target);
-        });
+        }, { capture: true });
 
         const endWaveformSeek = async (event) => {
           if (!waveformSeekState.active || event.pointerId !== waveformSeekState.pointerId) return;
           await seekDeckFromWaveformPointer(event, target, true);
+          m14WaveformDiagnostics?.record?.(config.deckId, {
+            detailPointerEvent: "up",
+            detailPointerReceivedAt: Date.now(),
+          });
           waveformSeekState.active = false;
           waveformSeekState.pointerId = null;
+          try {
+            target.releasePointerCapture?.(event.pointerId);
+          } catch {}
         };
 
-        target.addEventListener("pointerup", endWaveformSeek);
+        target.addEventListener("pointerup", endWaveformSeek, { capture: true });
         target.addEventListener("pointercancel", () => {
           waveformSeekState.active = false;
           waveformSeekState.pointerId = null;
@@ -6361,6 +8851,7 @@
         ...$$(`.brDjVinylDeckView[data-vinyl-deck="${config.vinylDeck}"] .brDjVinylTransport .is-play`),
       ].forEach((button) => {
         button.addEventListener("click", async () => {
+          if (window.BRMediaMixxxBackend?.transport?.(config.deckId, "play")) return;
           if (button.disabled) return;
 
           try {
@@ -6409,8 +8900,13 @@
                   }
                 );
 
-              const nextState = await activeDeck.play(launchPlan.offset, {
-              });
+              const nextState = await activeDeck.play(
+                launchPlan.offset,
+                {
+                  delaySeconds:
+                    launchPlan.delaySeconds,
+                }
+              );
               setDeckSkinState(config, nextState);
               return;
             }
@@ -6433,18 +8929,12 @@
         button.addEventListener(
           "click",
           () => {
-            const activeDeck =
-              getReadyDeck();
-
-            if (!activeDeck) return;
-
-            const state =
-              activeDeck.getState();
-
-            const nextState =
-              activeDeck.setCuePoint(
-                state.currentTime
-              );
+            const activeDeck = getReadyDeck();
+            const state = getGridInteractionState();
+            if (!state.isLoaded) return;
+            const nextState = activeDeck
+              ? activeDeck.setCuePoint(state.currentTime)
+              : state;
 
             applyDeckBeatGridUpdate(
               config,
@@ -6460,10 +8950,8 @@
               nextState
             );
 
-            setDeckSkinState(
-              config,
-              nextState
-            );
+            if (activeDeck) setDeckSkinState(config, nextState);
+            else syncDeckBeatGridUi(config, state);
           }
         );
       });
@@ -6474,15 +8962,7 @@
         button.addEventListener(
           "click",
           () => {
-            const activeDeck =
-              getReadyDeck();
-
-            const state =
-              activeDeck?.getState?.() ||
-              lastDeckStates.get(
-                config.deckId
-              ) ||
-              blankDeckState();
+            const state = getGridInteractionState();
 
             const grid =
               normaliseDeckBeatGrid(
@@ -6532,15 +9012,7 @@
         button.addEventListener(
           "click",
           () => {
-            const activeDeck =
-              getReadyDeck();
-
-            const state =
-              activeDeck?.getState?.() ||
-              lastDeckStates.get(
-                config.deckId
-              ) ||
-              blankDeckState();
+            const state = getGridInteractionState();
 
             const grid =
               normaliseDeckBeatGrid(
@@ -6763,8 +9235,7 @@
 
       $$(`.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjGridTap`).forEach((button) => {
         button.addEventListener("click", () => {
-          const activeDeck = getReadyDeck();
-          const state = activeDeck?.getState?.() || lastDeckStates.get(config.deckId) || blankDeckState();
+          const state = getGridInteractionState();
           const grid = normaliseDeckBeatGrid(config, state);
           if (grid.locked) return;
 
@@ -6786,16 +9257,16 @@
 
       $$(`.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjGridLock`).forEach((button) => {
         button.addEventListener("click", () => {
-          const activeDeck = getReadyDeck();
-          const state = activeDeck?.getState?.() || lastDeckStates.get(config.deckId) || blankDeckState();
+          const state = getGridInteractionState();
           const grid = normaliseDeckBeatGrid(config, state);
+          if (grid.locked && !window.confirm("Unlock this prepared grid for editing? Existing saved timing remains protected until an edit is successfully saved.")) return;
           applyDeckBeatGridUpdate(config, { locked: !grid.locked }, state, { allowLocked: true });
         });
       });
 			
       $$(`.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjGridUndo`).forEach((button) => {
         button.addEventListener("click", () => {
-          const state = lastDeckStates.get(config.deckId) || blankDeckState();
+          const state = getGridInteractionState();
           const label = button.getAttribute("aria-label") || "";
           if (/redo/i.test(label)) redoDeckBeatGrid(config, state);
           else undoDeckBeatGrid(config, state);
@@ -6828,6 +9299,13 @@
         };
 
         button.addEventListener("pointerdown", async (event) => {
+          if (window.BRMediaMixxxBackend?.cueHold?.(config.deckId, true)) {
+            cueHoldState.active = true;
+            cueHoldState.pointerId = event.pointerId;
+            button.classList.add("is-cue-active");
+            event.preventDefault();
+            return;
+          }
           const activeDeck = getReadyDeck();
           if (!activeDeck) return;
 
@@ -6866,9 +9344,18 @@
           setDeckSkinState(config, await activeDeck.play(cuePoint));
         });
 
-        button.addEventListener("pointerup", stopCuePreview);
-        button.addEventListener("pointercancel", stopCuePreview);
-        button.addEventListener("lostpointercapture", stopCuePreview);
+        const releaseCue = (event) => {
+          if (window.BRMediaMixxxBackend?.cueHold?.(config.deckId, false)) {
+            cueHoldState.active = false;
+            cueHoldState.pointerId = null;
+            button.classList.remove("is-cue-active");
+            return;
+          }
+          void stopCuePreview(event);
+        };
+        button.addEventListener("pointerup", releaseCue);
+        button.addEventListener("pointercancel", releaseCue);
+        button.addEventListener("lostpointercapture", releaseCue);
         button.addEventListener("click", (event) => event.preventDefault());
       });
 
@@ -6881,10 +9368,26 @@
     const DJ_LIBRARY_WAVEFORM_PEAKS = 16384;
     const DJ_LIBRARY_CATALOGUE_TTL_MS =
       30 * 1000;
+    const DJ_LIBRARY_PAGE_SIZE = 48;
+    const DJ_LIBRARY_QUERY_DEBOUNCE_MS = 180;
+    const DJ_LIBRARY_WARM_CACHE_MAX = 12;
 
     const djLibraryCatalogueCache = {
       items: [],
       loadedAt: 0,
+      pending: null,
+      healthAbort: null,
+      queryAbort: null,
+      queryGeneration: 0,
+      queryKey: "",
+      revision: "",
+      total: 0,
+      offset: 0,
+      nextOffset: null,
+      warm: new Map(),
+      debounceTimer: 0,
+      detailAbort: null,
+      detailGeneration: 0,
     };
 
     const getDjLibraryItemId = (item = {}) =>
@@ -6944,31 +9447,7 @@
       );
 
     const getDjLibraryPerformanceUrl =
-      (item = {}) => {
-        const id =
-          getDjLibraryItemId(
-            item
-          );
-
-        const version = String(
-          item
-            .djPerformanceVersion ||
-          ""
-        ).trim();
-
-        return (
-          id &&
-          isDjLibraryPerformancePrepared(
-            item
-          )
-        )
-          ? `/dj-performance/${encodeURIComponent(
-              id
-            )}?v=${encodeURIComponent(
-              version
-            )}`
-          : "";
-      };
+      () => "";
 
     const getDjLibraryStreamCandidates =
       (item = {}) => {
@@ -6977,26 +9456,20 @@
             item
           );
 
-        const performanceUrl =
-          getDjLibraryPerformanceUrl(
-            item
-          );
-
         const originalUrl =
           getDjLibraryStreamUrl(
             item
           );
 
-        const urls =
-          isDjRemoteAccess()
-            ? [
-                performanceUrl,
-                originalUrl,
-              ]
-            : [
-                originalUrl,
-                performanceUrl,
-              ];
+        /*
+          Load only the original source file.
+
+          The standard stream, download and local-path variants below all
+          point at that same original library file.
+        */
+        const urls = [
+          originalUrl,
+        ];
 
         if (id) {
           urls.push(
@@ -7032,7 +9505,7 @@
           )
         );
       };
-
+			
     const getDjLibraryTrackDuration = (
       item = {}
     ) => {
@@ -7044,17 +9517,21 @@
         item.metadata?.duration ??
         0;
 
-      const seconds = Number(raw) || 0;
-      const maybeMs =
-        Number(item.durationMs || 0);
+      const seconds =
+        Number(raw) || 0;
+
+      const durationMs =
+        Number(
+          item.durationMs || 0
+        );
 
       const resolved =
         seconds > 90000
           ? seconds / 1000
           : seconds ||
             (
-              maybeMs > 0
-                ? maybeMs / 1000
+              durationMs > 0
+                ? durationMs / 1000
                 : 0
             );
 
@@ -7133,6 +9610,8 @@
     const getDjLibraryTrackKey = (
       item = {}
     ) =>
+      item.djAnalysis?.camelot ||
+      item.djAnalysis?.key ||
       item.key ||
       item.camelot ||
       item.initialKey ||
@@ -7143,10 +9622,68 @@
       item = {}
     ) =>
       getSafeGridBpmValue(
+        item.djAnalysis?.preciseBpm ||
         item.djGridBpm ||
         item.bpm ||
         item.metadata?.bpm
       );
+
+    const getDjLibraryMetadataPresentation = (
+      item = {}
+    ) => {
+      const safeItem = item && typeof item === "object"
+        ? item
+        : {};
+      const bpm = getDjLibraryGridBpm(safeItem);
+      const key = String(getDjLibraryTrackKey(safeItem) || "").trim();
+      const bpmSource = String(safeItem.bpmSource || "unknown").trim().toLowerCase();
+      const keySource = String(safeItem.keySource || "unknown").trim().toLowerCase();
+      const sourceLabel = bpmSource === "brmedia-analysis" || keySource === "brmedia-analysis"
+        ? "Analysed"
+        : bpmSource === "embedded" || keySource === "embedded"
+          ? "Tagged"
+          : bpmSource === "imported" || keySource === "imported"
+            ? "Imported"
+            : bpmSource === "mixxx-live" || keySource === "mixxx-live"
+              ? "Mixxx live"
+              : "Unverified";
+      return {
+        bpm: safeItem.bpmVerified === true ? bpm : null,
+        key: safeItem.keyVerified === true ? key : "",
+        sourceLabel,
+      };
+    };
+
+    const isDjLibraryManualGrid = (
+      item = {}
+    ) => {
+      const source = String(
+        item.djGridSource ||
+        ""
+      )
+        .trim()
+        .toLowerCase();
+
+      return [
+        "manual",
+        "tap",
+        "shrink",
+        "stretch",
+        "x2",
+        "/2",
+        "grid-edit",
+        "grid-nudge",
+        "move-one-beat",
+        "set-first-beat",
+        "manual-segment",
+        "delete-segment",
+      ].some(
+        (prefix) =>
+          source.startsWith(
+            prefix
+          )
+      );
+    };
 
     const isDjLibraryWaveformPrepared = (
       item = {}
@@ -7188,26 +9725,60 @@
           .trim()
           .toLowerCase();
 
-        if (
-          source ===
-          "precise-grid-v1"
-        ) {
+        if (isDjLibraryManualGrid(item)) {
           return true;
         }
 
         /*
-          Never overwrite a grid that has been
-          deliberately corrected by hand.
+          W3B analysis sources include the selected
+          preference so changing Auto / Normal /
+          Dynamic deliberately returns the track to
+          REFINE without disturbing a manual grid.
         */
-        return /^(manual|tap|shrink|stretch|x2|\/2|grid-edit)/
-          .test(source);
+        const analysisMode = [
+          "normal",
+          "dynamic",
+        ].includes(
+          String(
+            item.djGridAnalysisMode ||
+            "auto"
+          )
+            .trim()
+            .toLowerCase()
+        )
+          ? String(
+              item.djGridAnalysisMode
+            )
+              .trim()
+              .toLowerCase()
+          : "auto";
+
+        return source.startsWith(
+          `grid-analysis-v4-${analysisMode}-`
+        );
       };
 
     const getDjLibraryPrepareLabel =
       (item = {}) => {
-        if (item.djGridLocked) {
+        const lockedAnalysisNeeded =
+          item.djGridLocked &&
+          (
+            !isDjLibraryWaveformPrepared(
+              item
+            ) ||
+            !getDjLibraryGridBpm(item) ||
+            (
+              !isDjLibraryManualGrid(item) &&
+              !isDjLibraryGridPrecisionReady(
+                item
+              )
+            )
+          );
+
+        if (lockedAnalysisNeeded) {
           return "LOCKED";
         }
+
         if (
           !isDjLibraryWaveformPrepared(
             item
@@ -7233,13 +9804,11 @@
         }
 
         if (
-          !isDjLibraryPerformancePrepared(
-            item
-          )
+          item.djGridReviewRequired
         ) {
-          return "REMOTE";
+          return "REVIEW";
         }
-
+				
         return "READY";
       };
 
@@ -7273,27 +9842,46 @@
               )
             : "tag",
         tempoConfidence:
-          item.djGridBpm ||
-          item.bpm
-            ? 1
-            : 0,
+          Number.isFinite(
+            Number(
+              item.djTempoConfidence
+            )
+          )
+            ? Math.max(
+                0,
+                Math.min(
+                  1,
+                  Number(
+                    item.djTempoConfidence
+                  )
+                )
+              )
+            : item.djGridBpm ||
+                item.bpm
+              ? 1
+              : 0,
         keyConfidence:
           key
             ? 1
             : 0,
         tempoCandidates:
-          bpm
-            ? [
-                {
-                  bpm,
-                  score: 1,
-                  source:
-                    item.djGridBpm
-                      ? "saved-grid"
-                      : "tag",
-                },
-              ]
-            : [],
+          Array.isArray(
+            item.djTempoCandidates
+          ) &&
+          item.djTempoCandidates.length
+            ? item.djTempoCandidates
+            : bpm
+              ? [
+                  {
+                    bpm,
+                    score: 1,
+                    source:
+                      item.djGridBpm
+                        ? "saved-grid"
+                        : "tag",
+                  },
+                ]
+              : [],
       };
     };
 
@@ -7408,33 +9996,21 @@
             item
           );
 
-        const remoteReady =
-          isDjLibraryPerformancePrepared(
-            item
-          );
-
-        if (
-          prepared &&
-          bpm &&
-          preciseGrid &&
-          remoteReady
-        ) {
-          return 0;
-        }
-
         if (
           prepared &&
           bpm &&
           preciseGrid
         ) {
-          return 1;
+          return 0;
         }
 
         if (prepared && bpm) {
           return 2;
         }
 
-        if (prepared) return 3;
+        if (prepared) {
+          return 3;
+        }
 
         return 4;
       };
@@ -7591,36 +10167,46 @@
         sheet.dataset.djPerformanceLibrary =
           "";
 
-        sheet.innerHTML = `
-          <button
-            class="brDjPerformanceLibraryScrim"
-            type="button"
-            data-dj-library-close
-            aria-label="Close DJ library"
-          ></button>
+        sheet.setAttribute(
+          "aria-hidden",
+          "true"
+        );
 
+        sheet.innerHTML = `
           <div
             class="brDjPerformanceLibraryPanel"
-            role="dialog"
-            aria-modal="true"
-            aria-label="DJ Library"
+            role="main"
+            aria-label="Performance Library"
           >
-            <header>
+            <header class="brDjPerformanceLibraryPageHeader">
+              <button
+                class="brDjPerformanceLibraryBack"
+                type="button"
+                data-dj-library-close
+                aria-label="Back to the mixer"
+              >
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back</span>
+              </button>
+
               <div>
                 <p class="brDjEyebrow">
-                  DJ Library
+                  Performance Library
                 </p>
+
                 <h2>
-                  Prepared server tracks
+                  Tracks under 15 minutes
                 </h2>
               </div>
 
               <button
+                class="brDjPerformanceLibraryPageRefresh"
                 type="button"
-                data-dj-library-close
-                aria-label="Close DJ library"
+                data-dj-library-refresh
+                aria-label="Refresh the Performance Library"
               >
-                <i class="fa-solid fa-xmark"></i>
+                <i class="fa-solid fa-rotate"></i>
+                <span>Refresh</span>
               </button>
             </header>
 
@@ -7633,14 +10219,16 @@
                 placeholder="Search title, artist or filename"
               />
 
-              <button
-                type="button"
-                data-dj-library-refresh
-              >
-                Refresh
-              </button>
+              <strong data-dj-library-result-count>
+                0
+              </strong>
             </div>
 
+            <details class="brDjPerformanceLibraryFilterSheet" data-dj-library-filter-sheet>
+              <summary>
+                <span><i class="fa-solid fa-sliders"></i> Filters</span>
+                <strong data-dj-library-active-filters>None active</strong>
+              </summary>
             <div class="brDjPerformanceLibraryTools">
               <label>
                 <span>Sort</span>
@@ -7660,13 +10248,27 @@
 
               <label>
                 <span>Status</span>
+
                 <select data-dj-library-prep-filter>
-                  <option value="all">All tracks</option>
-                  <option value="ready">Remote ready</option>
-                  <option value="refine">Needs grid refine</option>
-                  <option value="remote">Needs remote copy</option>
-                  <option value="analyse">Needs BPM</option>
-                  <option value="unprepared">Needs PREP</option>
+                  <option value="all">
+                    All tracks
+                  </option>
+
+                  <option value="ready">
+                    Ready
+                  </option>
+
+                  <option value="refine">
+                    Needs grid refine
+                  </option>
+
+                  <option value="analyse">
+                    Needs BPM
+                  </option>
+
+                  <option value="unprepared">
+                    Needs PREP
+                  </option>
                 </select>
               </label>
 
@@ -7689,6 +10291,55 @@
                 Reset
               </button>
             </div>
+            </details>
+						
+            <div
+              class="brDjPerformanceLibraryBatch"
+              data-dj-library-batch
+            >
+              <div class="brDjPerformanceLibraryBatchActions">
+                <button
+                  type="button"
+                  data-dj-library-select-visible
+                >
+                  Select filtered
+                </button>
+
+                <button
+                  type="button"
+                  data-dj-library-clear-selection
+                  disabled
+                >
+                  Clear
+                </button>
+
+                <span data-dj-library-selection-count>
+                  0 selected
+                </span>
+
+                <button
+                  type="button"
+                  data-dj-library-scan-selected
+                  disabled
+                >
+                  Scan selected
+                </button>
+              </div>
+
+              <div
+                class="brDjPerformanceLibraryBatchProgress"
+                data-dj-library-batch-progress
+                hidden
+              >
+                <div>
+                  <span data-dj-library-batch-progress-bar></span>
+                </div>
+
+                <strong data-dj-library-batch-progress-text>
+                  0 / 0
+                </strong>
+              </div>
+            </div>
 						
             <div
               class="brDjPerformanceLibraryStatus"
@@ -7701,6 +10352,16 @@
               class="brDjPerformanceLibraryList"
               data-dj-library-list
             ></div>
+
+            <nav class="brDjPerformanceLibraryPager" aria-label="Library pages">
+              <button type="button" data-dj-library-page="previous" disabled>
+                Previous
+              </button>
+              <span data-dj-library-page-status>Page 1</span>
+              <button type="button" data-dj-library-page="next" disabled>
+                Next
+              </button>
+            </nav>
           </div>
         `;
 
@@ -7709,6 +10370,295 @@
         hydrateDjIcons(sheet);
         return sheet;
       };
+			
+    const getDjLibraryBatchActionable = (
+      item = {}
+    ) => {
+      const needsWaveform =
+        !isDjLibraryWaveformPrepared(
+          item
+        );
+
+      const gridBpm =
+        getDjLibraryGridBpm(item);
+
+      const needsGridAnalysis =
+        !gridBpm ||
+        (
+          !isDjLibraryManualGrid(item) &&
+          !isDjLibraryGridPrecisionReady(
+            item
+          )
+        );
+
+      const needsAnalysis =
+        needsWaveform ||
+        needsGridAnalysis;
+
+      if (
+        item.djGridLocked &&
+        needsAnalysis
+      ) {
+        return false;
+      }
+
+      return needsAnalysis;
+    };
+		
+    const getDjLibraryAnalysisActionable = (
+      item = {}
+    ) => {
+      const needsWaveform =
+        !isDjLibraryWaveformPrepared(
+          item
+        );
+
+      const gridBpm =
+        getDjLibraryGridBpm(item);
+
+      const needsGridAnalysis =
+        !gridBpm ||
+        (
+          !isDjLibraryManualGrid(item) &&
+          !isDjLibraryGridPrecisionReady(
+            item
+          )
+        );
+
+      if (
+        item.djGridLocked &&
+        (
+          needsWaveform ||
+          needsGridAnalysis
+        )
+      ) {
+        return false;
+      }
+
+      return (
+        needsWaveform ||
+        needsGridAnalysis
+      );
+    };
+
+    const ensureDjLibrarySelection = (
+      sheet
+    ) => {
+      if (
+        !(
+          sheet?._brDjLibrarySelectedIds
+          instanceof Set
+        )
+      ) {
+        sheet._brDjLibrarySelectedIds =
+          new Set();
+      }
+
+      return sheet._brDjLibrarySelectedIds;
+    };
+
+    const updateDjLibraryBatchControls = (
+      sheet
+    ) => {
+      if (!sheet) return;
+
+      const selectedIds =
+        ensureDjLibrarySelection(sheet);
+
+      const items = Array.isArray(
+        sheet._brDjLibraryItems
+      )
+        ? sheet._brDjLibraryItems
+        : [];
+
+      const existingIds = new Set(
+        items.map(getDjLibraryItemId)
+      );
+
+      Array.from(selectedIds).forEach(
+        (id) => {
+          if (!existingIds.has(id)) {
+            selectedIds.delete(id);
+          }
+        }
+      );
+
+      const actionableSelected =
+        items.filter(
+          (item) =>
+            selectedIds.has(
+              getDjLibraryItemId(item)
+            ) &&
+            getDjLibraryBatchActionable(
+              item
+            )
+        );
+
+      const visibleIds = Array.isArray(
+        sheet._brDjLibraryVisibleIds
+      )
+        ? sheet._brDjLibraryVisibleIds
+        : [];
+
+      const visibleActionableIds =
+        visibleIds.filter((id) => {
+          const item = items.find(
+            (entry) =>
+              getDjLibraryItemId(entry) ===
+              id
+          );
+
+          return (
+            item &&
+            getDjLibraryBatchActionable(
+              item
+            )
+          );
+        });
+
+      const allVisibleSelected =
+        visibleActionableIds.length > 0 &&
+        visibleActionableIds.every((id) =>
+          selectedIds.has(id)
+        );
+
+      const count = sheet.querySelector(
+        "[data-dj-library-selection-count]"
+      );
+
+      const scan = sheet.querySelector(
+        "[data-dj-library-scan-selected]"
+      );
+
+      const clear = sheet.querySelector(
+        "[data-dj-library-clear-selection]"
+      );
+
+      const selectVisible =
+        sheet.querySelector(
+          "[data-dj-library-select-visible]"
+        );
+
+      if (count) {
+        count.textContent =
+          `${actionableSelected.length} selected`;
+      }
+
+      const batch = sheet.querySelector(
+        "[data-dj-library-batch]"
+      );
+      if (batch) {
+        batch.hidden = false;
+        batch.dataset.hasSelection = actionableSelected.length ? "true" : "false";
+      }
+
+      if (scan) {
+        scan.disabled =
+          !actionableSelected.length ||
+          sheet.dataset.djLibraryBatchBusy ===
+            "true";
+      }
+
+      if (clear) {
+        clear.disabled =
+          !selectedIds.size ||
+          sheet.dataset.djLibraryBatchBusy ===
+            "true";
+      }
+
+      if (selectVisible) {
+        selectVisible.disabled =
+          !visibleActionableIds.length ||
+          sheet.dataset.djLibraryBatchBusy ===
+            "true";
+
+        selectVisible.textContent =
+          allVisibleSelected
+            ? "Clear filtered"
+            : "Select filtered";
+      }
+    };
+
+    const setDjLibraryBatchProgress = (
+      sheet,
+      progress = {}
+    ) => {
+      if (!sheet) return;
+
+      const container = sheet.querySelector(
+        "[data-dj-library-batch-progress]"
+      );
+
+      const bar = sheet.querySelector(
+        "[data-dj-library-batch-progress-bar]"
+      );
+
+      const text = sheet.querySelector(
+        "[data-dj-library-batch-progress-text]"
+      );
+
+      const total = Math.max(
+        0,
+        Number(progress.total) || 0
+      );
+
+      const current = Math.max(
+        0,
+        Math.min(
+          total,
+          Number(progress.current) || 0
+        )
+      );
+
+      if (container) {
+        container.hidden =
+          !progress.visible;
+      }
+
+      if (bar) {
+        bar.style.width = total
+          ? `${Math.round(
+              (current / total) * 100
+            )}%`
+          : "0%";
+      }
+
+      if (text) {
+        text.textContent = total
+          ? `${current} / ${total}`
+          : "0 / 0";
+      }
+    };
+
+    const setDjLibraryErrorState = (
+      sheet,
+      error,
+      message = "Could not load the Library."
+    ) => {
+      console.error("[DJ Library]", error);
+      if (!sheet) return;
+      sheet.dataset.djLibraryBusy = "";
+      const list = sheet.querySelector("[data-dj-library-list]");
+      if (list) {
+        list.innerHTML = `
+          <div class="brDjLibraryState brDjLibraryErrorState" role="alert">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <strong>Library unavailable</strong>
+            <span>Tracks could not be loaded. Check the server and retry.</span>
+          </div>
+        `;
+      }
+      const status = sheet.querySelector("[data-dj-library-status]");
+      if (status) {
+        status.dataset.state = "error";
+        status.textContent = `${message} `;
+        const retry = document.createElement("button");
+        retry.type = "button";
+        retry.dataset.djLibraryRetry = "";
+        retry.textContent = "Retry";
+        status.appendChild(retry);
+      }
+    };
 
     const renderDjPerformanceLibrary = (
       sheet,
@@ -7722,7 +10672,14 @@
         "[data-dj-library-status]"
       );
 
-      const query = String(
+      const serverPaged =
+        sheet?.dataset
+          .djLibraryServerPaged ===
+        "true";
+
+      const query = serverPaged
+        ? ""
+        : String(
         sheet.querySelector(
           "[data-dj-library-search]"
         )?.value || ""
@@ -7730,26 +10687,54 @@
         .trim()
         .toLowerCase();
 
-      const sortMode = String(
+      const sortMode = serverPaged
+        ? "library-order"
+        : String(
         sheet.querySelector(
           "[data-dj-library-sort]"
         )?.value || "title-asc"
       );
 
-      const prepFilter = String(
+      const prepFilter = serverPaged
+        ? "all"
+        : String(
         sheet.querySelector(
           "[data-dj-library-prep-filter]"
         )?.value || "all"
       );
 
-      const bpmFilter = String(
+      const bpmFilter = serverPaged
+        ? "all"
+        : String(
         sheet.querySelector(
           "[data-dj-library-bpm-filter]"
         )?.value || "all"
       );
 
+      const activeFilters = sheet.querySelector(
+        "[data-dj-library-active-filters]"
+      );
+      const activeFilterCount = [
+        sheet.querySelector("[data-dj-library-sort]")?.value !== "title-asc",
+        sheet.querySelector("[data-dj-library-prep-filter]")?.value !== "all",
+        sheet.querySelector("[data-dj-library-bpm-filter]")?.value !== "all",
+      ].filter(Boolean).length;
+      if (activeFilters) {
+        activeFilters.textContent = activeFilterCount
+          ? `${activeFilterCount} active`
+          : "None active";
+        activeFilters.dataset.active = activeFilterCount ? "true" : "false";
+      }
+
       const djTracks = items.filter(
-        isDjLibraryPerformanceTrack
+        (item) => {
+          try {
+            return Boolean(item && typeof item === "object" && isDjLibraryPerformanceTrack(item));
+          } catch (error) {
+            console.error("[DJ Library] Ignored malformed catalogue item", error);
+            return false;
+          }
+        }
       );
 
       const filteredEntries = djTracks
@@ -7783,32 +10768,19 @@
               item
             );
 
-          const remoteReady =
-            isDjLibraryPerformancePrepared(
-              item
-            );
-
           const matchesPrep =
             prepFilter === "all" ||
             (
               prepFilter === "ready" &&
               prepared &&
               bpm &&
-              preciseGrid &&
-              remoteReady
+              preciseGrid
             ) ||
             (
               prepFilter === "refine" &&
               prepared &&
               bpm &&
               !preciseGrid
-            ) ||
-            (
-              prepFilter === "remote" &&
-              prepared &&
-              bpm &&
-              preciseGrid &&
-              !remoteReady
             ) ||
             (
               prepFilter === "analyse" &&
@@ -7833,7 +10805,34 @@
         filteredEntries,
         sortMode
       );
+			
+      const visible = filtered.slice(
+        0,
+        240
+      );
 
+      const selectedIds =
+        ensureDjLibrarySelection(sheet);
+
+      sheet._brDjLibraryVisibleIds =
+        filtered.map(
+          getDjLibraryItemId
+        );
+      const resultCount =
+        sheet.querySelector(
+          "[data-dj-library-result-count]"
+        );
+
+      if (resultCount) {
+        resultCount.textContent =
+          String(
+            serverPaged
+              ? Number(
+                  sheet?._brDjLibraryTotal
+                ) || 0
+              : filtered.length
+          );
+      }
       if (
         status &&
         !sheet.dataset.djLibraryBusy
@@ -7854,11 +10853,6 @@
               )
           ).length;
 
-        const remoteCount =
-          djTracks.filter(
-            isDjLibraryPerformancePrepared
-          ).length;
-
         const waveCount =
           djTracks.filter(
             isDjLibraryWaveformPrepared
@@ -7866,7 +10860,11 @@
 
         status.textContent =
           filtered.length
-            ? `${filtered.length} tracks • ${readyCount} analysed • ${remoteCount} remote • ${waveCount} wave${
+            ? `${
+                serverPaged
+                  ? `${Number(sheet?._brDjLibraryTotal) || filtered.length} matching • ${filtered.length} on this page`
+                  : `${filtered.length} tracks`
+              } • ${readyCount} ready • ${waveCount} wave${
                 hiddenLong
                   ? ` • ${hiddenLong} hidden`
                   : ""
@@ -7878,9 +10876,9 @@
         return;
       }
 
-      list.innerHTML = filtered
-        .slice(0, 240)
+      list.innerHTML = visible
         .map((item) => {
+          try {
           const duration =
             getDjLibraryTrackDuration(item);
 
@@ -7889,6 +10887,12 @@
 
           const bpm =
             getDjLibraryGridBpm(item);
+
+          const metadata =
+            getDjLibraryMetadataPresentation(item);
+          const visibleBpm = metadata.bpm;
+          const visibleKey = metadata.key;
+          const sourceLabel = metadata.sourceLabel;
 
           const prepareLabel =
             getDjLibraryPrepareLabel(item);
@@ -7907,42 +10911,86 @@
               item
             );
 
-          const remoteReady =
-            isDjLibraryPerformancePrepared(
-              item
+          const reviewRequired =
+            Boolean(
+              item.djAnalysis?.reviewRequired ||
+              item.djGridReviewRequired
             );
 
           const ready =
             analysed &&
-            preciseGrid &&
-            remoteReady;
+            preciseGrid;
 
           const prepComplete =
             ready ||
-            Boolean(
-              item.djGridLocked
+            prepareLabel === "LOCKED";
+
+          const batchActionable =
+            getDjLibraryBatchActionable(
+              item
             );
+
+          const loadedDecks = deckConfigs
+            .filter((config) => String(
+              deckBindings.get(config.deckId)?.deck?.getState?.()?.libraryItemId || ""
+            ) === String(getDjLibraryItemId(item)))
+            .map((config) => config.deckId.toUpperCase());
 
           return `
             <article
               class="brDjPerformanceLibraryTrack${
                 ready
-                  ? " is-ready is-remote-ready"
+                  ? " is-ready"
                   : analysed && !preciseGrid
                     ? " is-wave-ready is-grid-refine-needed"
                     : analysed
-                      ? " is-wave-ready is-remote-needed"
+                      ? " is-wave-ready"
                       : prepared
                         ? " is-wave-ready"
                         : ""
+              }${
+                loadedDecks.length
+                  ? " is-deck-loaded"
+                  : ""
               }"
               data-dj-library-track="${escapeDjLibraryAttr(
                 getDjLibraryItemId(item)
               )}"
+              data-metadata-source="${escapeDjLibraryAttr(sourceLabel.toLowerCase())}"
             >
-              <div class="brDjPerformanceLibraryIcon">
-                <i class="fa-solid fa-music"></i>
-              </div>
+              <label
+                class="brDjPerformanceLibrarySelect"
+                aria-label="Select ${escapeDjLibraryAttr(
+                  getDjLibraryTrackTitle(item)
+                )} for batch scan"
+              >
+                <input
+                  type="checkbox"
+                  data-dj-library-select
+                  value="${escapeDjLibraryAttr(
+                    getDjLibraryItemId(item)
+                  )}"
+                  ${
+                    selectedIds.has(
+                      getDjLibraryItemId(item)
+                    )
+                      ? "checked"
+                      : ""
+                  }
+                  ${
+                    batchActionable &&
+                    sheet.dataset
+                      .djLibraryBatchBusy !==
+                      "true"
+                      ? ""
+                      : "disabled"
+                  }
+                />
+
+                <span class="brDjPerformanceLibraryIcon">
+                  <i class="fa-solid fa-music" aria-hidden="true"></i>
+                </span>
+              </label>
 
               <div class="brDjPerformanceLibraryMeta">
                 <strong>
@@ -7963,12 +11011,16 @@
                       duration
                     )
                   )}${
-                    bpm
-                      ? ` · ${bpm.toFixed(2)} BPM`
+                    visibleBpm
+                      ? ` · ${visibleBpm.toFixed(2)} BPM`
                       : ""
                   }${
-                    key
-                      ? ` · ${escapeHtml(key)}`
+                    visibleKey
+                      ? ` · ${escapeHtml(visibleKey)}`
+                      : ""
+                  } · <span class="brDjLibraryProvenance">${escapeHtml(sourceLabel)}</span>${
+                    loadedDecks.length
+                      ? ` · <span class="brDjLibraryLoadedBadge">Loaded ${escapeHtml(loadedDecks.join(" + "))}</span>`
                       : ""
                   }
                 </small>
@@ -7976,20 +11028,13 @@
                 <em>
                   ${
                     ready
-                      ? `Remote ready • ${Math.max(
-                          1,
-                          Math.round(
-                            Number(
-                              item.djPerformanceBytes ||
-                              0
-                            ) /
-                            1048576
-                          )
-                        )} MB`
+                      ? reviewRequired
+                        ? "Grid review required • open Grid Setup"
+                        : "Original audio • waveform and grid ready"
                       : analysed && !preciseGrid
                         ? "Grid timing needs full-track refinement"
                         : analysed
-                          ? "Analysed • build remote copy"
+                          ? "Original audio • analysed"
                           : prepared
                             ? "Waveform ready • BPM analysis needed"
                             : "Needs preparation"
@@ -7998,6 +11043,7 @@
               </div>
 
               <menu>
+                <button type="button" data-dj-library-analysis-details aria-expanded="false" aria-label="Track information for ${escapeDjLibraryAttr(getDjLibraryTrackTitle(item))}">INFO</button>
                 <button
                   type="button"
                   data-dj-library-prepare
@@ -8026,76 +11072,176 @@
               </menu>
             </article>
           `;
+          } catch (error) {
+            console.error("[DJ Library] Could not render catalogue row", error, item);
+            return `
+              <article class="brDjPerformanceLibraryTrack is-row-error" role="status">
+                <span class="brDjPerformanceLibraryIcon"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>
+                <div class="brDjPerformanceLibraryMeta">
+                  <strong>Track unavailable</strong>
+                  <span>This catalogue entry could not be displayed.</span>
+                  <small>Refresh the Library to try again.</small>
+                </div>
+              </article>
+            `;
+          }
         })
         .join("");
 
+      if (!visible.length) {
+        list.innerHTML = `
+          <div class="brDjLibraryState brDjLibraryEmptyState" role="status">
+            <i class="fa-solid fa-music" aria-hidden="true"></i>
+            <strong>No matching tracks</strong>
+            <span>Change the search or filters, then try again.</span>
+          </div>
+        `;
+      }
+
       hydrateDjIcons(list);
+      updateDjLibraryBatchControls(
+        sheet
+      );
+
+      const pageStatus = sheet.querySelector(
+        "[data-dj-library-page-status]"
+      );
+      const previous = sheet.querySelector(
+        '[data-dj-library-page="previous"]'
+      );
+      const next = sheet.querySelector(
+        '[data-dj-library-page="next"]'
+      );
+      const offset = Number(
+        sheet?._brDjLibraryOffset
+      ) || 0;
+      if (pageStatus) {
+        pageStatus.textContent =
+          `Page ${Math.floor(offset / DJ_LIBRARY_PAGE_SIZE) + 1}`;
+      }
+      if (previous) {
+        previous.disabled =
+          !serverPaged || offset <= 0;
+      }
+      if (next) {
+        next.disabled =
+          !serverPaged ||
+          sheet?._brDjLibraryNextOffset ==
+            null;
+      }
     };
 
-    const refreshDjLibraryCatalogue =
+    const performDjLibraryCatalogueRefresh =
       async (
         sheet,
         options = {}
       ) => {
-        const force =
-          Boolean(options.force);
-
-        const cacheFresh =
-          djLibraryCatalogueCache
-            .items.length &&
-          (
-            Date.now() -
-            djLibraryCatalogueCache
-              .loadedAt
-          ) <
-            DJ_LIBRARY_CATALOGUE_TTL_MS;
-
-        if (!force && cacheFresh) {
-          sheet._brDjLibraryItems =
-            djLibraryCatalogueCache.items;
-
-          renderDjPerformanceLibrary(
-            sheet,
-            sheet._brDjLibraryItems
-          );
-
-          return sheet._brDjLibraryItems;
-        }
-
         const status = sheet.querySelector(
           "[data-dj-library-status]"
         );
-
         const startedAt =
           performance.now();
+        const offset = Math.max(
+          0,
+          Number(options.offset) || 0
+        );
+        const parameters = new URLSearchParams({
+          offset: String(offset),
+          limit: String(DJ_LIBRARY_PAGE_SIZE),
+          search: String(
+            sheet.querySelector(
+              "[data-dj-library-search]"
+            )?.value || ""
+          ).trim(),
+          sort: String(
+            sheet.querySelector(
+              "[data-dj-library-sort]"
+            )?.value || "title-asc"
+          ),
+          prep: String(
+            sheet.querySelector(
+              "[data-dj-library-prep-filter]"
+            )?.value || "all"
+          ),
+          bpm: String(
+            sheet.querySelector(
+              "[data-dj-library-bpm-filter]"
+            )?.value || "all"
+          ),
+        });
+        const queryKey = parameters.toString();
+        const warm = djLibraryCatalogueCache
+          .warm.get(queryKey);
+        const cacheFresh =
+          warm &&
+          Date.now() - warm.loadedAt <
+            DJ_LIBRARY_CATALOGUE_TTL_MS;
+
+        if (!options.force && cacheFresh) {
+          sheet.dataset.djLibraryServerPaged =
+            "true";
+          sheet._brDjLibraryItems =
+            warm.data.items;
+          sheet._brDjLibraryTotal =
+            warm.data.total;
+          sheet._brDjLibraryOffset =
+            warm.data.offset;
+          sheet._brDjLibraryNextOffset =
+            warm.data.nextOffset;
+          renderDjPerformanceLibrary(
+            sheet,
+            warm.data.items
+          );
+          return warm.data.items;
+        }
+
+        if (
+          !options.force &&
+          djLibraryCatalogueCache.pending &&
+          djLibraryCatalogueCache.queryKey ===
+            queryKey
+        ) {
+          return djLibraryCatalogueCache.pending;
+        }
+
+        djLibraryCatalogueCache
+          .queryAbort?.abort?.();
+        const controller =
+          new AbortController();
+        const generation =
+          ++djLibraryCatalogueCache
+            .queryGeneration;
+        djLibraryCatalogueCache.queryAbort =
+          controller;
+        djLibraryCatalogueCache.queryKey =
+          queryKey;
 
         if (status) {
           status.textContent =
-            "Reading prepared catalogue…";
+            offset > 0
+              ? "Loading library page…"
+              : "Reading compact catalogue…";
+          status.dataset.state = "loading";
         }
 
-        /*
-          Read the lightweight saved catalogue and cache health in
-          parallel. Do not run metadata=missing here.
-        */
-        const [
-          libraryResponse,
-          healthResponse,
-        ] = await Promise.all([
-          fetch("/library", {
+        sheet.dataset.djLibraryBusy = "true";
+        const loadingList = sheet.querySelector("[data-dj-library-list]");
+        if (loadingList && !sheet._brDjLibraryItems?.length) {
+          loadingList.innerHTML = Array.from({ length: 6 }, (_, index) => `
+            <div class="brDjLibrarySkeleton" aria-hidden="true" data-skeleton-row="${index}">
+              <span></span><span></span><span></span>
+            </div>
+          `).join("");
+        }
+
+        const libraryResponse = await fetch(
+          `/library/compact?${queryKey}`,
+          {
             cache: "no-store",
             credentials: "same-origin",
-          }),
-
-          fetch(
-            `/waveforms/health?count=${DJ_LIBRARY_WAVEFORM_PEAKS}`,
-            {
-              cache: "no-store",
-              credentials:
-                "same-origin",
-            }
-          ),
-        ]);
+            signal: controller.signal,
+          }
+        );
 
         if (!libraryResponse.ok) {
           throw new Error(
@@ -8106,27 +11252,25 @@
         const data =
           await libraryResponse.json();
 
-        const items = Array.isArray(data)
-          ? data
-          : Array.isArray(data.items)
-            ? data.items
-            : [];
+        if (
+          generation !==
+            djLibraryCatalogueCache
+              .queryGeneration ||
+          controller.signal.aborted
+        ) {
+          return [];
+        }
 
-        const health = healthResponse.ok
-          ? await healthResponse
-              .json()
-              .catch(() => ({}))
-          : {};
-
-        const preparedIds = new Set(
-          Array.isArray(
-            health.cachedTrackIds
-          )
-            ? health.cachedTrackIds.map(
-                String
-              )
-            : []
-        );
+        const rawItems = Array.isArray(data.items)
+          ? data.items
+          : [];
+        const items = rawItems.filter((item, index) => {
+          const valid = Boolean(item && typeof item === "object" && !Array.isArray(item));
+          if (!valid) {
+            console.error(`[DJ Library] Ignored malformed item at page index ${index}`);
+          }
+          return valid;
+        });
 
         items.forEach((item) => {
           const persistedWaveformReady =
@@ -8139,13 +11283,12 @@
             );
 
           item._brDjWaveformPrepared =
-            persistedWaveformReady ||
-            preparedIds.has(
-              getDjLibraryItemId(item)
-            );
+            persistedWaveformReady;
 
           item._brDjMetadataPrepared =
             Boolean(
+              item.djAnalysis?.preciseBpm ||
+              item.djAnalysis?.key ||
               item.bpm ||
               item.key ||
               item.djGridBpm
@@ -8154,12 +11297,53 @@
 
         djLibraryCatalogueCache.items =
           items;
-
         djLibraryCatalogueCache.loadedAt =
           Date.now();
+        djLibraryCatalogueCache.revision =
+          String(data.revision || "");
+        djLibraryCatalogueCache.total =
+          Number(data.total) || 0;
+        djLibraryCatalogueCache.offset =
+          Number(data.offset) || 0;
+        djLibraryCatalogueCache.nextOffset =
+          data.nextOffset == null
+            ? null
+            : Number(data.nextOffset);
+        djLibraryCatalogueCache.warm.set(
+          queryKey,
+          {
+            loadedAt: Date.now(),
+            revision:
+              djLibraryCatalogueCache
+                .revision,
+            data,
+          }
+        );
+        while (
+          djLibraryCatalogueCache.warm.size >
+          DJ_LIBRARY_WARM_CACHE_MAX
+        ) {
+          const oldest =
+            djLibraryCatalogueCache.warm
+              .keys()
+              .next().value;
+          if (oldest == null) break;
+          djLibraryCatalogueCache.warm
+            .delete(oldest);
+        }
 
+        sheet.dataset.djLibraryServerPaged =
+          "true";
         sheet._brDjLibraryItems = items;
+        sheet._brDjLibraryTotal =
+          djLibraryCatalogueCache.total;
+        sheet._brDjLibraryOffset =
+          djLibraryCatalogueCache.offset;
+        sheet._brDjLibraryNextOffset =
+          djLibraryCatalogueCache
+            .nextOffset;
         sheet.dataset.djLibraryBusy = "";
+        if (status) status.dataset.state = "ready";
 
         renderDjPerformanceLibrary(
           sheet,
@@ -8177,15 +11361,104 @@
         return items;
       };
 
+    const refreshDjLibraryCatalogue = (sheet, options = {}) => {
+      const pending = performDjLibraryCatalogueRefresh(sheet, options);
+      djLibraryCatalogueCache.pending = pending;
+      pending.finally(() => {
+        if (djLibraryCatalogueCache.pending === pending) djLibraryCatalogueCache.pending = null;
+      }).catch(() => {});
+      return pending;
+    };
+
     const openDjPerformanceLibrary =
       async (options = {}) => {
         const sheet =
           ensureDjPerformanceLibrarySheet();
+					
+        const prepOnly =
+          Boolean(
+            options.prepOnly
+          );
+
+        sheet.dataset.djLibraryMode =
+          prepOnly
+            ? "prep"
+            : "performance";
+
+        sheet.dataset.djLibraryReturn =
+          options.returnToStudio
+            ? "studio"
+            : "";
+
+        const headerEyebrow =
+          sheet.querySelector(
+            ".brDjPerformanceLibraryPageHeader .brDjEyebrow"
+          );
+
+        const headerTitle =
+          sheet.querySelector(
+            ".brDjPerformanceLibraryPageHeader h2"
+          );
+
+        const backLabel =
+          sheet.querySelector(
+            "[data-dj-library-close] span"
+          );
+
+        const backButton =
+          sheet.querySelector(
+            "[data-dj-library-close]"
+          );
+
+        if (headerEyebrow) {
+          headerEyebrow.textContent =
+            prepOnly
+              ? "DJ Studio Library"
+              : "Performance Library";
+        }
+
+        if (headerTitle) {
+          headerTitle.textContent =
+            prepOnly
+              ? "Prepare tracks before opening the mixer"
+              : "Tracks under 15 minutes";
+        }
+
+        if (backLabel) {
+          backLabel.textContent =
+            prepOnly
+              ? "Studio"
+              : "Back";
+        }
+
+        if (backButton) {
+          backButton.setAttribute(
+            "aria-label",
+            prepOnly
+              ? "Back to DJ Studio"
+              : "Back to the mixer"
+          );
+        }
 
         sheet.classList.add("is-open");
 
+        sheet.setAttribute(
+          "aria-hidden",
+          "false"
+        );
+
         document.body.classList.add(
           "brDjPerformanceLibraryOpen"
+        );
+
+        window.requestAnimationFrame(
+          () => {
+            sheet.querySelector(
+              "[data-dj-library-close]"
+            )?.focus?.({
+              preventScroll: true,
+            });
+          }
         );
 
         if (
@@ -8208,16 +11481,13 @@
             options
           );
         } catch (error) {
-          const status =
-            sheet.querySelector(
-              "[data-dj-library-status]"
-            );
-
-          if (status) {
-            status.textContent =
-              error?.message ||
-              "Could not load library";
+          if (
+            error?.name ===
+            "AbortError"
+          ) {
+            return;
           }
+          setDjLibraryErrorState(sheet, error);
         }
       };
 
@@ -8232,11 +11502,42 @@
           return;
         }
 
+        if (
+          sheet.dataset
+            .djLibraryReturn ===
+          "studio"
+        ) {
+          window.location.href =
+            "/dj-mixer";
+
+          return;
+        }
+
         sheet.classList.remove("is-open");
+
+        sheet.setAttribute(
+          "aria-hidden",
+          "true"
+        );
 
         document.body.classList.remove(
           "brDjPerformanceLibraryOpen"
         );
+
+        window.clearTimeout(
+          djLibraryCatalogueCache
+            .debounceTimer
+        );
+        djLibraryCatalogueCache
+          .queryAbort?.abort?.();
+        djLibraryCatalogueCache
+          .detailAbort?.abort?.();
+
+        document.querySelector(
+          ".brDjPerfLibrary"
+        )?.focus?.({
+          preventScroll: true,
+        });
       };
 
     const formatDjLibraryBytes =
@@ -8250,8 +11551,41 @@
           )
         } B`;
 
+    const m14WaveformRuntime =
+      window.BRMediaM13WaveformRuntime;
+
+    const m14WaveformDiagnostics =
+      m14WaveformRuntime
+        ?.createDiagnostics?.((() => {
+          const validationEnabled =
+            new URLSearchParams(
+              window.location.search
+            ).get(
+              "brWaveformValidate"
+            ) === "1";
+          return {
+            enabled: validationEnabled,
+            validationEnabled,
+          };
+        })());
+
+    window.BRMediaM14WaveformDiagnostics =
+      m14WaveformDiagnostics;
+
+    m14WaveformRuntime
+      ?.installDebugInterface?.(
+        m14WaveformDiagnostics
+      );
+
+    const deckWaveformRequestPipelines =
+      m14WaveformRuntime
+        ?.createRequestPipelines?.({
+          diagnostics:
+            m14WaveformDiagnostics,
+        });
+
     const fetchDjLibraryAudioBlob =
-      async (item, status) => {
+      async (item, status, signal) => {
         const remoteLibrary =
           window
             .BRMediaDjLibraryRemote;
@@ -8273,6 +11607,7 @@
               getDjLibraryStreamCandidates(
                 item
               ),
+            signal,
 
             onStatus: (
               message
@@ -8311,7 +11646,7 @@
       };
 
     const fetchDjLibraryPreparedWaveform =
-      async (item) => {
+      async (item, signal) => {
         if (
           !isDjLibraryWaveformPrepared(
             item
@@ -8320,8 +11655,7 @@
           return null;
         }
 
-        const id =
-          getDjLibraryItemId(item);
+        const id = String(item.waveformLibraryItemId || getDjLibraryItemId(item));
 
         if (!id) {
           return null;
@@ -8339,11 +11673,14 @@
           {
             cache: "force-cache",
             credentials: "same-origin",
+            signal,
           }
         );
 
         if (!response.ok) {
-          return null;
+          throw new Error(
+            `Prepared waveform fetch failed ${response.status}`
+          );
         }
 
         const payload =
@@ -8355,7 +11692,9 @@
           ) ||
           !payload.peaks.length
         ) {
-          return null;
+          throw new Error(
+            "Prepared waveform cache contained no peaks"
+          );
         }
 
         return {
@@ -8366,6 +11705,9 @@
             getDjLibraryPreparedAnalysis(
               item
             ),
+          canonicalAnalysis:
+            payload.canonicalAnalysis ||
+            null,
           fetchMs:
             performance.now() -
             startedAt,
@@ -8373,7 +11715,8 @@
       };
 			
     const analyseDjPreparedWaveform = (
-      waveform = {}
+      waveform = {},
+      analysisMode = "auto"
     ) => {
       const metadataBpm =
         getSafeGridBpmValue(
@@ -8381,6 +11724,7 @@
         );
 
       const analyser =
+        window.BRMediaDjGridAnalysis ||
         window.BRMediaSpectralWaveform;
 
       const analysed =
@@ -8390,14 +11734,106 @@
           "function"
           ? analyser
               .analysePreparedWaveform(
-                waveform
+                waveform,
+                {
+                  analysisMode,
+                }
               )
           : null;
 
+      const bpmEvidence =
+        waveform?.canonicalAnalysis
+          ?.bpmAnalysis ||
+        null;
+
+      const downbeatEvidence =
+        waveform?.canonicalAnalysis
+          ?.downbeatAnalysis ||
+        null;
+
+      const dynamicEvidence =
+        waveform?.canonicalAnalysis
+          ?.dynamicAnalysis ||
+        null;
+
+      const protectedGrid =
+        Boolean(
+          waveform?.item
+            ?.djGridLocked ||
+          String(
+            waveform?.item
+              ?.djGridSource ||
+            ""
+          ).toLowerCase()
+            .includes("manual")
+        );
+
+      const usePreparedDynamic =
+        !protectedGrid &&
+        analysisMode !== "normal" &&
+        ["normal", "dynamic"].includes(
+          String(
+            dynamicEvidence
+              ?.resolvedMode ||
+            ""
+          )
+        ) &&
+        Array.isArray(
+          dynamicEvidence?.segments
+        ) &&
+        dynamicEvidence.segments.length > 0;
+
+      const confidentDownbeat =
+        !protectedGrid &&
+        [
+          "high-confidence",
+          "medium-confidence",
+          "exact-digital",
+        ].includes(
+          String(
+            downbeatEvidence
+              ?.resultState ||
+            ""
+          )
+        ) &&
+        Number.isFinite(
+          Number(
+            downbeatEvidence
+              ?.gridAnchorTime
+          )
+        )
+          ? Number(
+              downbeatEvidence
+                .gridAnchorTime
+            )
+          : null;
+
+      const evidenceBpm =
+        ![
+          "insufficient-evidence",
+          "review-required",
+        ].includes(
+          String(
+            bpmEvidence?.resultState ||
+            ""
+          )
+        )
+          ? getSafeGridBpmValue(
+              bpmEvidence?.bpm
+            )
+          : null;
+
       const preciseBpm =
+        evidenceBpm ||
         getSafeGridBpmValue(
           analysed?.bpm
         );
+
+      const selectedDownbeat =
+        confidentDownbeat ??
+        (Number(
+          analysed?.downbeat
+        ) || 0);
 
       return {
         /*
@@ -8410,6 +11846,7 @@
           metadataBpm,
 
         rawBpm:
+          evidenceBpm ||
           getSafeGridBpmValue(
             analysed?.rawBpm
           ) ||
@@ -8418,9 +11855,7 @@
           null,
 
         downbeat:
-          Number(
-            analysed?.downbeat
-          ) || 0,
+          selectedDownbeat,
 
         tempoConfidence:
           Math.max(
@@ -8428,6 +11863,7 @@
             Math.min(
               1,
               Number(
+                bpmEvidence?.confidence ??
                 analysed
                   ?.tempoConfidence
               ) ||
@@ -8437,100 +11873,239 @@
 
         tempoCandidates:
           Array.isArray(
-            analysed
-              ?.tempoCandidates
+            bpmEvidence?.candidates
           )
-            ? analysed
-                .tempoCandidates
-            : [],
+            ? bpmEvidence.candidates
+                .map((candidate) => ({
+                  bpm: candidate.bpm,
+                  score: candidate.rawScore,
+                  adjustedScore: candidate.rawScore,
+                }))
+            : Array.isArray(
+                analysed
+                  ?.tempoCandidates
+              )
+              ? analysed
+                  .tempoCandidates
+              : [],
 
         source:
-          analysed
-            ?.tempoSource ||
+          (evidenceBpm
+            ? "prepared-bpm-confidence-v1"
+            : analysed
+                ?.tempoSource) ||
           (metadataBpm
             ? "tag"
             : "prepared-waveform"),
+
+        analysisMode:
+          analysed
+            ?.analysisMode ||
+          analysisMode,
+
+        resolvedMode:
+          usePreparedDynamic
+            ? dynamicEvidence
+                .resolvedMode
+            : analysed
+                ?.resolvedMode ||
+              "normal",
+
+        segments:
+          usePreparedDynamic
+            ? dynamicEvidence.segments
+                .map((segment) => ({
+                  id: segment.id,
+                  startTime:
+                    Number(
+                      segment.startTime
+                    ) || 0,
+                  startBeat:
+                    Number(
+                      segment.startBeat
+                    ) || 0,
+                  bpm:
+                    getSafeGridBpmValue(
+                      segment.bpm
+                    ) || preciseBpm,
+                  source:
+                    "prepared-dynamic-segments-v1",
+                  confidence:
+                    Number(
+                      segment.confidence
+                    ) || 0,
+                  boundaryConfidence:
+                    Number(
+                      segment
+                        .boundaryConfidence
+                    ) || 0,
+                }))
+            : Array.isArray(
+                analysed?.segments
+              )
+              ? analysed.segments
+              : preciseBpm
+              ? [
+                  {
+                    id: "segment-1",
+
+                    startTime:
+                      selectedDownbeat,
+
+                    startBeat: 0,
+
+                    bpm: preciseBpm,
+
+                    source:
+                      analysed
+                        ?.tempoSource ||
+                      "prepared-waveform",
+                  },
+                ]
+              : [],
+
+        reviewRequired:
+          Boolean(
+            analysed
+              ?.reviewRequired ||
+            (usePreparedDynamic &&
+              dynamicEvidence
+                .reviewRequired) ||
+            [
+              "octave-ambiguous",
+              "insufficient-evidence",
+              "inconsistent-sections",
+              "review-required",
+            ].includes(
+              String(
+                bpmEvidence?.resultState ||
+                ""
+              )
+            ) ||
+            [
+              "bar-ambiguous",
+              "phase-ambiguous",
+              "insufficient-evidence",
+              "inconsistent-sections",
+              "non-4-4-or-uncertain",
+              "review-required",
+            ].includes(
+              String(
+                downbeatEvidence
+                  ?.resultState ||
+                ""
+              )
+            )
+          ),
+
+        bpmConfidenceState:
+          bpmEvidence?.resultState ||
+          "",
+
+        bpmReviewReasons:
+          Array.isArray(
+            bpmEvidence?.reasonCodes
+          )
+            ? bpmEvidence.reasonCodes
+                .slice(0, 8)
+            : [],
+
+        downbeatConfidence:
+          Number(
+            downbeatEvidence
+              ?.downbeatConfidence
+          ) || 0,
+
+        downbeatConfidenceState:
+          downbeatEvidence
+            ?.resultState ||
+          "",
+
+        downbeatReviewReasons:
+          Array.isArray(
+            downbeatEvidence
+              ?.reasonCodes
+          )
+            ? downbeatEvidence
+                .reasonCodes
+                .slice(0, 8)
+            : [],
+
+        dynamicConfidence:
+          usePreparedDynamic
+            ? Number(
+                dynamicEvidence
+                  .dynamicConfidence
+              ) || 0
+            : 0,
+
+        constantBpmConfidence:
+          usePreparedDynamic
+            ? Number(
+                dynamicEvidence
+                  .constantBpmConfidence
+              ) || 0
+            : 0,
+
+        dynamicReviewReasons:
+          usePreparedDynamic &&
+          Array.isArray(
+            dynamicEvidence
+              .reasonCodes
+          )
+            ? dynamicEvidence
+                .reasonCodes.slice(0, 8)
+            : [],
+
+        timingConsistency:
+          analysed
+            ?.timingConsistency ||
+          null,
       };
     };
 		
     const ensureDjLibraryPerformanceCopy =
-      async (
-        item,
-        status,
-        force = false
-      ) => {
-        const id =
-          getDjLibraryItemId(item);
-
-        if (!id) {
-          throw new Error(
-            "Track id missing"
-          );
-        }
-
+      async (_item, status) => {
         if (status) {
           status.textContent =
-            `Building remote DJ copy • ${getDjLibraryTrackTitle(item)}`;
+            "Original-audio-only mode • no copy created";
         }
 
-        const response = await fetch(
-          `/library/${encodeURIComponent(id)}/dj-performance`,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify({
-              force,
-            }),
-          }
-        );
-
-        const payload =
-          await response
-            .json()
-            .catch(() => ({}));
-
-        if (!response.ok) {
-          throw new Error(
-            payload.detail ||
-            payload.error ||
-            "Remote DJ copy failed"
-          );
-        }
-
-        if (payload?.item) {
-          Object.assign(
-            item,
-            payload.item
-          );
-        }
-
-        return payload?.copy ||
-          null;
+        return null;
       };
 
     const prepareDjLibraryItem =
       async (
         item,
-        button,
-        status
+        button = null,
+        status = null,
+        options = {}
       ) => {
+        const sheet =
+          options.sheet ||
+          button?.closest?.(
+            "[data-dj-performance-library]"
+          ) ||
+          document.querySelector(
+            "[data-dj-performance-library]"
+          );
+
+        const renderAfter =
+          options.render !== false;
+
+        /*
+          Analysis may save metadata, waveform peaks and grid data only.
+          It must never create another audio file.
+        */
+        const includeRemoteCopy =
+          false;
+
         const id =
           getDjLibraryItemId(item);
 
         if (!id) {
           throw new Error(
             "Track id missing"
-          );
-        }
-				
-        if (item.djGridLocked) {
-          throw new Error(
-            "Analysis Lock is on. Unlock this track in Grid Setup before PREP or REFINE."
           );
         }
 
@@ -8549,17 +12124,34 @@
           isDjLibraryGridPrecisionReady(
             item
           );
+					
+        const manualGrid =
+          isDjLibraryManualGrid(
+            item
+          );
 
         const needsWaveform =
           !waveformPrepared;
 
         const needsGridAnalysis =
           !gridBpm ||
-          !precisionReady;
+          (
+            !manualGrid &&
+            !precisionReady
+          );
 
         const needsAnalysis =
           needsWaveform ||
           needsGridAnalysis;
+					
+        if (
+          item.djGridLocked &&
+          needsAnalysis
+        ) {
+          throw new Error(
+            "Analysis Lock is on. Unlock this track in Grid Setup before PREP or REFINE."
+          );
+        }
 
         if (status) {
           status.textContent =
@@ -8570,21 +12162,27 @@
                 : `Preparing remote copy • ${getDjLibraryTrackTitle(item)}`;
         }
 
-        button.disabled = true;
+        if (button) {
+          button.disabled = true;
 
-        button.classList.add(
-          "is-loading"
-        );
+          button.classList.add(
+            "is-loading"
+          );
 
-        button.textContent =
-          needsWaveform
-            ? "PREP…"
-            : needsGridAnalysis
-              ? "REFINE…"
-              : "REMOTE…";
+          button.textContent =
+            needsWaveform
+              ? "PREP…"
+              : needsGridAnalysis
+                ? "REFINE…"
+                : "REMOTE…";
+        }
 
         try {
           if (!needsAnalysis) {
+            if (!includeRemoteCopy) {
+              return;
+            }
+
             const remoteCopy =
               await ensureDjLibraryPerformanceCopy(
                 item,
@@ -8594,16 +12192,13 @@
             djLibraryCatalogueCache.loadedAt =
               Date.now();
 
-            const sheet =
-              button.closest(
-                "[data-dj-performance-library]"
+            if (renderAfter && sheet) {
+              renderDjPerformanceLibrary(
+                sheet,
+                sheet._brDjLibraryItems ||
+                  []
               );
-
-            renderDjPerformanceLibrary(
-              sheet,
-              sheet?._brDjLibraryItems ||
-                []
-            );
+            }
 
             if (status) {
               status.textContent =
@@ -8696,9 +12291,68 @@
               true;
           }
 
+          if (!needsGridAnalysis) {
+            if (!includeRemoteCopy) {
+              djLibraryCatalogueCache.loadedAt =
+                Date.now();
+
+              if (renderAfter && sheet) {
+                renderDjPerformanceLibrary(
+                  sheet,
+                  sheet._brDjLibraryItems ||
+                    []
+                );
+              }
+
+              if (status) {
+                status.textContent =
+                  `${manualGrid ? "Manual grid" : "Grid"} ready • original audio preserved • ${formatDjLibraryLoadTime(
+                    performance.now() -
+                    startedAt
+                  )}`;
+              }
+
+              return;
+            }
+
+            const remoteCopy =
+              await ensureDjLibraryPerformanceCopy(
+                item,
+                status
+              );
+
+            djLibraryCatalogueCache.loadedAt =
+              Date.now();
+
+            if (renderAfter && sheet) {
+              renderDjPerformanceLibrary(
+                sheet,
+                sheet._brDjLibraryItems ||
+                  []
+              );
+            }
+
+            if (status) {
+              status.textContent =
+                `${manualGrid ? "Manual grid" : "Grid"} preserved • remote ready • ${formatDjLibraryBytes(
+                  remoteCopy?.bytes ||
+                  item.djPerformanceBytes ||
+                  0
+                )} • ${formatDjLibraryLoadTime(
+                  performance.now() -
+                  startedAt
+                )}`;
+            }
+
+            return;
+          }
+
           if (status) {
             status.textContent =
-              `Analysing BPM • ${getDjLibraryTrackTitle(item)}`;
+              `Analysing ${String(
+                item.djGridAnalysisMode ||
+                "auto"
+              ).toUpperCase()} grid • ${getDjLibraryTrackTitle(item)}`;
           }
 
           const preparedWaveform =
@@ -8716,8 +12370,16 @@
 
           const analysis =
             analyseDjPreparedWaveform(
-              preparedWaveform
+              preparedWaveform,
+              item.djGridAnalysisMode ||
+                "auto"
             );
+
+          if (!analysis?.bpm) {
+            throw new Error(
+              "Grid analysis could not find a reliable BPM"
+            );
+          }
 
           const saveResponse = await fetch(
             `/library/${encodeURIComponent(id)}/dj-prep`,
@@ -8733,10 +12395,12 @@
                 version: 2,
 
                 analysisMode:
+                  analysis.analysisMode ||
                   item.djGridAnalysisMode ||
                   "auto",
 
                 resolvedMode:
+                  analysis.resolvedMode ||
                   "normal",
 
                 bpm: analysis.bpm,
@@ -8749,23 +12413,10 @@
                   analysis.downbeat,
 
                 segments:
-                  analysis.bpm
-                    ? [
-                        {
-                          id: "segment-1",
-
-                          startTime:
-                            analysis.downbeat,
-
-                          startBeat: 0,
-
-                          bpm:
-                            analysis.bpm,
-
-                          source:
-                            analysis.source,
-                        },
-                      ]
+                  Array.isArray(
+                    analysis.segments
+                  )
+                    ? analysis.segments
                     : [],
 
                 editRange:
@@ -8779,7 +12430,10 @@
                     ? 3
                     : 1,
 
-                reviewRequired: false,
+                reviewRequired:
+                  Boolean(
+                    analysis.reviewRequired
+                  ),
 
                 baseSet:
                   Boolean(analysis.bpm),
@@ -8829,52 +12483,462 @@
             true;
 
           const remoteCopy =
-            await ensureDjLibraryPerformanceCopy(
-              item,
-              status
-            );
+            includeRemoteCopy
+              ? await ensureDjLibraryPerformanceCopy(
+                  item,
+                  status
+                )
+              : null;
 
           djLibraryCatalogueCache.loadedAt =
             Date.now();
 
-          const sheet =
-            button.closest(
-              "[data-dj-performance-library]"
+          if (renderAfter && sheet) {
+            renderDjPerformanceLibrary(
+              sheet,
+              sheet._brDjLibraryItems ||
+                []
             );
-
-          renderDjPerformanceLibrary(
-            sheet,
-            sheet?._brDjLibraryItems ||
-              []
-          );
+          }
 
           if (status) {
+            const resultMode = String(
+              analysis.resolvedMode ||
+              "normal"
+            ).toUpperCase();
+
             status.textContent =
-              analysis.bpm
-                ? `Remote ready • ${analysis.bpm.toFixed(2)} BPM • ${formatDjLibraryBytes(
-                    remoteCopy?.bytes ||
-                    item.djPerformanceBytes ||
-                    0
-                  )} • ${formatDjLibraryLoadTime(
+              analysis.reviewRequired
+                ? `Grid review required • ${resultMode} • ${analysis.bpm.toFixed(2)} BPM • ${formatDjLibraryLoadTime(
                     performance.now() -
                     startedAt
                   )}`
-                : `Waveform ready, BPM needs manual Grid setup • ${formatDjLibraryLoadTime(
-                    performance.now() -
-                    startedAt
-                  )}`;
+                : includeRemoteCopy
+                  ? `Remote ready • ${resultMode} • ${analysis.bpm.toFixed(2)} BPM • ${formatDjLibraryBytes(
+                      remoteCopy?.bytes ||
+                      item.djPerformanceBytes ||
+                      0
+                    )} • ${formatDjLibraryLoadTime(
+                      performance.now() -
+                      startedAt
+                    )}`
+                  : `Analysis ready • ${resultMode} • ${analysis.bpm.toFixed(2)} BPM • original audio preserved • ${formatDjLibraryLoadTime(
+                      performance.now() -
+                      startedAt
+                    )}`;
           }
         } finally {
-          button.disabled = false;
+          if (button) {
+            button.disabled = false;
 
-          button.classList.remove(
-            "is-loading"
-          );
+            button.classList.remove(
+              "is-loading"
+            );
+          }
         }
       };
+			
+    const refreshLoadedDeckAfterLibraryPreparation =
+      async (item) => {
+        const id =
+          getDjLibraryItemId(
+            item
+          );
+
+        if (!id) {
+          return;
+        }
+
+        const preparedWaveform =
+          await fetchDjLibraryPreparedWaveform(
+            item
+          ).catch(
+            () => null
+          );
+
+        const preparedAnalysis =
+          getDjLibraryPreparedAnalysis(
+            item
+          );
+
+        let refreshed = false;
+
+        deckConfigs.forEach(
+          (config) => {
+            const binding =
+              deckBindings.get(
+                config.deckId
+              );
+
+            if (!binding) {
+              return;
+            }
+
+            const currentState =
+              binding.deck.getState();
+
+            if (
+              String(
+                currentState.libraryItemId ||
+                ""
+              ) !==
+              String(id)
+            ) {
+              return;
+            }
+
+            applyLibraryPrepToDeckConfig(
+              config,
+              item,
+              currentState
+            );
+
+            const nextState =
+              binding.deck
+                .applyPreparedLibraryUpdate(
+                  {
+                    libraryItemId: id,
+
+                    metadata: {
+                      title:
+                        getDjLibraryTrackTitle(
+                          item
+                        ),
+
+                      artist:
+                        getDjLibraryTrackArtist(
+                          item
+                        ),
+
+                      bpm:
+                        item.djGridBpm ||
+                        item.bpm ||
+                        null,
+
+                      key:
+                        getDjLibraryTrackKey(
+                          item
+                        ),
+                    },
+
+                    preparedAnalysis,
+                    preparedWaveform,
+                  }
+                );
+
+            setDeckSkinState(
+              config,
+              nextState
+            );
+
+            refreshed = true;
+          }
+        );
+
+        if (refreshed) {
+          updateDuoSyncUi();
+          scheduleDeckWaveformRefresh();
+        }
+      };
+			
+    const djLibraryBackgroundPrepJobs =
+      new Map();
+
+    const queueDjLibraryBackgroundPreparation = (
+      item,
+      sheet = null
+    ) => {
+      if (
+        !getDjLibraryAnalysisActionable(
+          item
+        )
+      ) {
+        return null;
+      }
+
+      const id =
+        getDjLibraryItemId(item);
+
+      if (!id) return null;
+
+      /*
+        Prevent both decks from starting the same track analysis twice.
+      */
+      if (
+        djLibraryBackgroundPrepJobs.has(
+          id
+        )
+      ) {
+        return djLibraryBackgroundPrepJobs.get(
+          id
+        );
+      }
+
+      const job = new Promise(
+        (resolve) => {
+          /*
+            Let the deck finish its load/render work before server
+            preparation begins.
+          */
+          window.setTimeout(
+            resolve,
+            80
+          );
+        }
+      )
+        .then(() =>
+          prepareDjLibraryItem(
+            item,
+            null,
+            null,
+            {
+              sheet,
+              render: false,
+
+              /*
+                Automatic deck loading prepares waveform/grid only.
+                It must not create a lossy remote-performance copy.
+              */
+              includeRemoteCopy: false,
+            }
+          )
+        )
+        .then(async () => {
+          await refreshLoadedDeckAfterLibraryPreparation(
+            item
+          );
+          if (
+            sheet &&
+            sheet.isConnected
+          ) {
+            renderDjPerformanceLibrary(
+              sheet,
+              sheet._brDjLibraryItems ||
+                []
+            );
+          }
+
+          window.dispatchEvent(
+            new CustomEvent(
+              "brmedia:dj-library-background-prep",
+              {
+                detail: {
+                  id,
+                  status: "ready",
+                },
+              }
+            )
+          );
+        })
+        .catch((error) => {
+          console.warn(
+            "BRMedia background DJ preparation failed",
+            error
+          );
+
+          window.dispatchEvent(
+            new CustomEvent(
+              "brmedia:dj-library-background-prep",
+              {
+                detail: {
+                  id,
+                  status: "error",
+
+                  error:
+                    error?.message ||
+                    "Background preparation failed",
+                },
+              }
+            )
+          );
+        })
+        .finally(() => {
+          djLibraryBackgroundPrepJobs.delete(
+            id
+          );
+        });
+
+      djLibraryBackgroundPrepJobs.set(
+        id,
+        job
+      );
+
+      return job;
+    };
+			
+    const prepareSelectedDjLibraryItems =
+      async (sheet) => {
+        if (!sheet) return;
+
+        const selectedIds =
+          ensureDjLibrarySelection(sheet);
+
+        const items = (
+          sheet._brDjLibraryItems ||
+          []
+        ).filter(
+          (item) =>
+            selectedIds.has(
+              getDjLibraryItemId(item)
+            ) &&
+            getDjLibraryBatchActionable(
+              item
+            )
+        );
+
+        if (!items.length) {
+          updateDjLibraryBatchControls(
+            sheet
+          );
+          return;
+        }
+
+        const status = sheet.querySelector(
+          "[data-dj-library-status]"
+        );
+
+        const scanButton =
+          sheet.querySelector(
+            "[data-dj-library-scan-selected]"
+          );
+
+        const failures = [];
+        const completedIds = [];
+
+        sheet.dataset.djLibraryBusy =
+          "true";
+
+        sheet.dataset.djLibraryBatchBusy =
+          "true";
+
+        if (scanButton) {
+          scanButton.textContent =
+            "Scanning…";
+        }
+
+        updateDjLibraryBatchControls(
+          sheet
+        );
+
+        setDjLibraryBatchProgress(
+          sheet,
+          {
+            visible: true,
+            current: 0,
+            total: items.length,
+          }
+        );
+
+        for (
+          let index = 0;
+          index < items.length;
+          index += 1
+        ) {
+          const item = items[index];
+
+          if (status) {
+            status.textContent =
+              `Batch scan ${index + 1} / ${items.length} • ${getDjLibraryTrackTitle(item)}`;
+          }
+
+          try {
+            await prepareDjLibraryItem(
+              item,
+              null,
+              status,
+              {
+                sheet,
+                render: false,
+              }
+            );
+
+            completedIds.push(
+              getDjLibraryItemId(item)
+            );
+          } catch (error) {
+            failures.push({
+              item,
+              error:
+                error?.message ||
+                "Scan failed",
+            });
+          }
+
+          setDjLibraryBatchProgress(
+            sheet,
+            {
+              visible: true,
+              current: index + 1,
+              total: items.length,
+            }
+          );
+
+          renderDjPerformanceLibrary(
+            sheet,
+            sheet._brDjLibraryItems ||
+              []
+          );
+        }
+
+        completedIds.forEach((id) =>
+          selectedIds.delete(id)
+        );
+
+        sheet.dataset.djLibraryBusy = "";
+        sheet.dataset.djLibraryBatchBusy =
+          "";
+
+        if (scanButton) {
+          scanButton.textContent =
+            "Scan selected";
+        }
+
+        renderDjPerformanceLibrary(
+          sheet,
+          sheet._brDjLibraryItems || []
+        );
+
+        updateDjLibraryBatchControls(
+          sheet
+        );
+
+        if (status) {
+          status.textContent = failures.length
+            ? `${completedIds.length} scanned • ${failures.length} need attention • first: ${getDjLibraryTrackTitle(
+                failures[0].item
+              )}`
+            : `${completedIds.length} tracks scanned and prepared`;
+        }
+
+        window.setTimeout(() => {
+          if (
+            sheet.dataset
+              .djLibraryBatchBusy !==
+            "true"
+          ) {
+            setDjLibraryBatchProgress(
+              sheet,
+              {
+                visible: false,
+                current: items.length,
+                total: items.length,
+              }
+            );
+          }
+        }, 2200);
+      };
+
+    const deckWaveformRequestTokens =
+      new Map();
 
     const loadLibraryItemIntoDeck =
       async (deckId, item) => {
+        if (window.BRMediaMixxxBackend?.isActive?.() === true) {
+          throw new Error(
+            "Load this track in Mixxx. Arbitrary BRMedia file-path loading is unavailable through the Mixxx controller API."
+          );
+        }
+
         if (!item) {
           throw new Error(
             "Library track not found in this sheet"
@@ -8889,6 +12953,41 @@
             "Deck not ready"
           );
         }
+
+        const currentDeck =
+          window.BRMediaDjAudioEngine
+            ?.getDeck?.(deckId);
+        const currentDeckState =
+          currentDeck?.getState?.() ||
+          blankDeckState();
+        let confirmedReplace = false;
+        if (currentDeckState.isPlaying) {
+          confirmedReplace = window.confirm(
+            `${deckId === "d2" ? "Deck 2" : "Deck 1"} is playing ${
+              currentDeckState.trackTitle ||
+              currentDeckState.fileName ||
+              "audio"
+            }. Stop and replace it with ${getDjLibraryTrackTitle(item)}?`
+          );
+          if (!confirmedReplace) return;
+        }
+
+        const requestToken =
+          Symbol(deckId);
+        const request =
+          deckWaveformRequestPipelines
+            ?.begin?.(deckId);
+
+        deckWaveformRequestTokens.set(
+          deckId,
+          requestToken
+        );
+
+        const isCurrentRequest = () =>
+          deckWaveformRequestTokens.get(
+            deckId
+          ) === requestToken &&
+          (!request || request.isCurrent());
 
         const sheet =
           document.querySelector(
@@ -8918,22 +13017,67 @@
             `Loading ${getDjLibraryTrackTitle(item)} into ${deckName}…`;
         }
 
-        /*
-          Fetch the audio and prepared waveform in parallel.
-        */
-        const [
-          audioResult,
-          preparedWaveform,
-        ] = await Promise.all([
-          fetchDjLibraryAudioBlob(
-            item,
-            status
-          ),
-
-          fetchDjLibraryPreparedWaveform(
+        const needsBackgroundPreparation =
+          getDjLibraryAnalysisActionable(
             item
-          ).catch(() => null),
-        ]);
+          );
+
+        /*
+          Never hold the deck load behind analysis or remote-copy creation.
+
+          Fetch the original source and any already-saved waveform together.
+          Missing waveform/grid work is queued quietly after the deck is ready.
+        */
+				
+        let audioResult;
+        let preparedWaveform;
+        try {
+          [
+            audioResult,
+            preparedWaveform,
+          ] = await Promise.all([
+            fetchDjLibraryAudioBlob(
+              item,
+              status,
+              request?.signal
+            ),
+
+            fetchDjLibraryPreparedWaveform(
+              item,
+              request?.signal
+            ).catch((error) => {
+              if (
+                m14WaveformRuntime
+                  ?.isAbortError?.(error)
+              ) {
+                throw error;
+              }
+              m14WaveformDiagnostics
+                ?.record?.(
+                  deckId,
+                  {
+                    lastFallbackReason:
+                      error?.message ||
+                      "prepared-waveform-cache-error",
+                  }
+                );
+              return null;
+            }),
+          ]);
+        } catch (error) {
+          deckWaveformRequestPipelines
+            ?.finish?.(request);
+          throw error;
+        }
+
+        if (!isCurrentRequest()) {
+          m14WaveformDiagnostics
+            ?.increment?.(
+              deckId,
+              "staleRejectionCount"
+            );
+          return;
+        }
 
         const blob =
           audioResult.blob;
@@ -9034,6 +13178,7 @@
                   getDjLibraryTrackKey(
                     item
                   ),
+                artworkUrl: item.artworkUrl || "",
               },
 
               preparedAnalysis:
@@ -9048,6 +13193,8 @@
                 server-library load.
               */
               skipBrowserAnalysis: true,
+              skipWaveform: item.disableWaveformGeneration === true,
+              confirmedReplace,
 
               onStage: (stage) => {
                 if (
@@ -9061,6 +13208,15 @@
             }
           );
 
+        if (!isCurrentRequest()) {
+          m14WaveformDiagnostics
+            ?.increment?.(
+              deckId,
+              "staleRejectionCount"
+            );
+          return;
+        }
+
         if (
           !nextState?.isLoaded ||
           nextState?.error
@@ -9069,6 +13225,11 @@
             nextState?.error ||
             "Deck load failed"
           );
+        }
+
+        if (currentDeckState.sourceKind === "guest") {
+          await window.BRMediaGuestNativeDeck
+            ?.releaseReplaced?.(deckId);
         }
 
         const timings =
@@ -9088,7 +13249,7 @@
               ? "Device cache"
               : audioResult.source ===
                   "performance-copy"
-                ? "Remote copy"
+                ? "Remote copy fallback"
                 : "Original";
 
           status.textContent =
@@ -9105,11 +13266,24 @@
             "";
         }
 
+        if (needsBackgroundPreparation) {
+          queueDjLibraryBackgroundPreparation(
+            item,
+            sheet
+          );
+        }
+
         window.setTimeout(
           closeDjPerformanceLibrary,
-          1250
+          320
         );
+        deckWaveformRequestPipelines
+          ?.finish?.(request);
       };
+
+    window.BRMediaDjLibraryLoader = Object.freeze({
+      loadItemIntoDeck: (deckId, item) => loadLibraryItemIntoDeck(deckId === "d2" ? "d2" : "d1", item),
+    });
 
     document
       .querySelector(
@@ -9119,7 +13293,11 @@
         "click",
         (event) => {
           event.preventDefault();
-          openDjPerformanceLibrary();
+
+          openDjPerformanceLibrary({
+            prepOnly: false,
+            returnToStudio: false,
+          });
         }
       );
 
@@ -9145,6 +13323,15 @@
           await openDjPerformanceLibrary({
             force: true,
           });
+          return;
+        }
+
+        const retry = event.target?.closest?.(
+          "[data-dj-library-retry]"
+        );
+        if (retry) {
+          const sheet = retry.closest("[data-dj-performance-library]");
+          await openDjPerformanceLibrary({ force: true, offset: Number(sheet?._brDjLibraryOffset) || 0 });
           return;
         }
 				
@@ -9188,10 +13375,173 @@
             sheet
           );
 
+          await refreshDjLibraryCatalogue(
+            sheet,
+            {
+              offset: 0,
+            }
+          );
+
+          return;
+        }
+
+        const pageButton =
+          event.target?.closest?.(
+            "[data-dj-library-page]"
+          );
+
+        if (pageButton) {
+          const sheet =
+            pageButton.closest(
+              "[data-dj-performance-library]"
+            );
+          const currentOffset =
+            Number(
+              sheet?._brDjLibraryOffset
+            ) || 0;
+          const nextOffset =
+            pageButton.dataset
+              .djLibraryPage ===
+            "previous"
+              ? Math.max(
+                  0,
+                  currentOffset -
+                    DJ_LIBRARY_PAGE_SIZE
+                )
+              : sheet
+                  ?._brDjLibraryNextOffset;
+
+          if (
+            sheet &&
+            nextOffset != null
+          ) {
+            pageButton.disabled = true;
+            try {
+              await refreshDjLibraryCatalogue(
+                sheet,
+                {
+                  offset: nextOffset,
+                }
+              );
+              sheet.querySelector(
+                "[data-dj-library-list]"
+              )?.scrollIntoView?.({
+                block: "start",
+              });
+            } catch (error) {
+              if (
+                error?.name !==
+                "AbortError"
+              ) {
+                setDjLibraryErrorState(sheet, error, "Could not load that Library page.");
+              }
+            }
+          }
+          return;
+        }
+				
+        const selectVisible =
+          event.target?.closest?.(
+            "[data-dj-library-select-visible]"
+          );
+
+        if (selectVisible) {
+          const sheet =
+            selectVisible.closest(
+              "[data-dj-performance-library]"
+            );
+
+          const selectedIds =
+            ensureDjLibrarySelection(
+              sheet
+            );
+
+          const items =
+            sheet?._brDjLibraryItems ||
+            [];
+
+          const visibleActionableIds = (
+            sheet?._brDjLibraryVisibleIds ||
+            []
+          ).filter((id) => {
+            const item = items.find(
+              (entry) =>
+                getDjLibraryItemId(
+                  entry
+                ) === id
+            );
+
+            return (
+              item &&
+              getDjLibraryBatchActionable(
+                item
+              )
+            );
+          });
+
+          const clearVisible =
+            visibleActionableIds.length >
+              0 &&
+            visibleActionableIds.every(
+              (id) =>
+                selectedIds.has(id)
+            );
+
+          visibleActionableIds.forEach(
+            (id) => {
+              if (clearVisible) {
+                selectedIds.delete(id);
+              } else {
+                selectedIds.add(id);
+              }
+            }
+          );
+
+          renderDjPerformanceLibrary(
+            sheet,
+            items
+          );
+
+          return;
+        }
+
+        const clearSelection =
+          event.target?.closest?.(
+            "[data-dj-library-clear-selection]"
+          );
+
+        if (clearSelection) {
+          const sheet =
+            clearSelection.closest(
+              "[data-dj-performance-library]"
+            );
+
+          ensureDjLibrarySelection(
+            sheet
+          ).clear();
+
           renderDjPerformanceLibrary(
             sheet,
             sheet?._brDjLibraryItems ||
               []
+          );
+
+          return;
+        }
+
+        const scanSelected =
+          event.target?.closest?.(
+            "[data-dj-library-scan-selected]"
+          );
+
+        if (scanSelected) {
+          const sheet =
+            scanSelected.closest(
+              "[data-dj-performance-library]"
+            );
+
+          await prepareSelectedDjLibraryItems(
+            sheet
           );
 
           return;
@@ -9239,16 +13589,59 @@
               status
             );
           } catch (error) {
+            console.error("[DJ Library] Track preparation failed", error);
             if (status) {
               status.textContent =
-                error?.message ||
-                "Could not prepare track";
+                "Could not prepare that track. Retry when ready.";
             }
 
             prepareButton.textContent =
               "RETRY";
           }
 
+          return;
+        }
+
+        const detailsButton = event.target?.closest?.("[data-dj-library-analysis-details]");
+        if (detailsButton) {
+          const sheet = detailsButton.closest("[data-dj-performance-library]");
+          const row = detailsButton.closest("[data-dj-library-track]");
+          const itemId = row?.dataset.djLibraryTrack;
+          const status = sheet?.querySelector("[data-dj-library-status]");
+          if (!itemId || !row) return;
+          if (detailsButton.getAttribute("aria-expanded") === "true") {
+            djLibraryCatalogueCache.detailAbort?.abort?.();
+            detailsButton.setAttribute("aria-expanded", "false");
+            if (status) status.textContent = "Analysis details closed";
+            return;
+          }
+          djLibraryCatalogueCache.detailAbort?.abort?.();
+          const detailController = new AbortController();
+          const detailGeneration = ++djLibraryCatalogueCache.detailGeneration;
+          djLibraryCatalogueCache.detailAbort = detailController;
+          try {
+            detailsButton.disabled = true;
+            const response = await fetch(`/dj-analysis/tracks/${encodeURIComponent(itemId)}`, {
+              cache: "no-store",
+              credentials: "same-origin",
+              signal: detailController.signal,
+            });
+            const payload = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(payload.error || "Could not load analysis details");
+            if (
+              detailController.signal.aborted ||
+              detailGeneration !== djLibraryCatalogueCache.detailGeneration ||
+              row.dataset.djLibraryTrack !== itemId
+            ) return;
+            const details = payload.analysis || {};
+            detailsButton.setAttribute("aria-expanded", "true");
+            if (status) status.textContent = `${details.title || "Track"} • ${details.preciseBpm || "—"} BPM • ${details.camelot || details.key || "key unavailable"} • grid ${details.gridStatus || "missing"} • waveform ${details.waveformStatus || "missing"}`;
+          } catch (error) {
+            if (error?.name !== "AbortError" && status) {
+              console.error("[DJ Library] Analysis details failed", error);
+              status.textContent = "Could not load analysis details.";
+            }
+          } finally { detailsButton.disabled = false; }
           return;
         }
 
@@ -9307,15 +13700,22 @@
               item
             );
           } catch (error) {
+            if (
+              m14WaveformRuntime
+                ?.isAbortError?.(error)
+            ) {
+              return;
+            }
             if (sheet) {
               sheet.dataset.djLibraryBusy =
                 "";
             }
 
+            console.error("[DJ Library] Deck load failed", error);
+
             if (status) {
               status.textContent =
-                error?.message ||
-                "Could not load track";
+                "Could not load that track. Check the source and retry.";
             }
           } finally {
             loadButton.disabled = false;
@@ -9345,17 +13745,70 @@
             "[data-dj-performance-library]"
           );
 
-        renderDjPerformanceLibrary(
-          sheet,
-          sheet?._brDjLibraryItems ||
-            []
+        window.clearTimeout(
+          djLibraryCatalogueCache
+            .debounceTimer
         );
+        djLibraryCatalogueCache
+          .queryAbort?.abort?.();
+        djLibraryCatalogueCache
+          .debounceTimer =
+          window.setTimeout(
+            () => {
+              void refreshDjLibraryCatalogue(
+                sheet,
+                {
+                  offset: 0,
+                }
+              ).catch((error) => {
+                if (
+                  error?.name ===
+                  "AbortError"
+                ) return;
+                setDjLibraryErrorState(sheet, error, "Could not search the Library.");
+              });
+            },
+            DJ_LIBRARY_QUERY_DEBOUNCE_MS
+          );
       }
     );
 		
     document.addEventListener(
       "change",
       (event) => {
+        const selection =
+          event.target?.closest?.(
+            "[data-dj-library-select]"
+          );
+
+        if (selection) {
+          const sheet =
+            selection.closest(
+              "[data-dj-performance-library]"
+            );
+
+          const selectedIds =
+            ensureDjLibrarySelection(
+              sheet
+            );
+
+          const id = String(
+            selection.value ||
+            ""
+          );
+
+          if (selection.checked) {
+            selectedIds.add(id);
+          } else {
+            selectedIds.delete(id);
+          }
+
+          updateDjLibraryBatchControls(
+            sheet
+          );
+
+          return;
+        }
         const control =
           event.target?.closest?.(
             "[data-dj-library-sort], [data-dj-library-prep-filter], [data-dj-library-bpm-filter]"
@@ -9371,13 +13824,46 @@
           sheet
         );
 
-        renderDjPerformanceLibrary(
+        void refreshDjLibraryCatalogue(
           sheet,
-          sheet?._brDjLibraryItems ||
-            []
-        );
+          {
+            offset: 0,
+          }
+        ).catch((error) => {
+          if (
+            error?.name ===
+            "AbortError"
+          ) return;
+          setDjLibraryErrorState(sheet, error, "Could not filter the Library.");
+        });
       }
     );
+		
+    const libraryLaunchParams =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    if (
+      libraryLaunchParams.get(
+        "library"
+      ) === "prep"
+    ) {
+      window.setTimeout(
+        () => {
+          void openDjPerformanceLibrary({
+            force: true,
+            prepOnly: true,
+
+            returnToStudio:
+              libraryLaunchParams.get(
+                "from"
+              ) === "studio",
+          });
+        },
+        0
+      );
+    }
 
     window.BRMediaDjDeckController = {
       getConfigById:
@@ -9435,14 +13921,599 @@
     });
 	
     window.addEventListener("brmedia:dj-transport-state", () => {
-      refreshDuoMasterDeck(null, { handoff: true });
+      const hasActiveScratch = deckConfigs.some((config) =>
+        Boolean(
+          getDeckStateForConfig(
+            config
+          )?.vinyl?.scratching
+        )
+      );
+
+      if (!hasActiveScratch) {
+        refreshDuoMasterDeck(
+          null,
+          {
+            handoff: true,
+          }
+        );
+      }
+
       deckConfigs.forEach((config) => {
-        if (djSyncState.syncedDeckIds.has(config.deckId) && djSyncState.masterDeckId !== config.deckId) {
-          queueSyncedDeckMaintenance(config);
+        const state =
+          getDeckStateForConfig(
+            config
+          );
+
+        const vinyl =
+          state?.vinyl || {};
+
+        /*
+          Nudge, brake and scratch are deliberate hands-on transport moves.
+          Do not let the Sync maintenance loop instantly fight the gesture;
+          normal Sync maintenance resumes as soon as the vinyl action ends.
+        */
+        if (
+          vinyl.nudging ||
+          vinyl.braking ||
+          vinyl.scratching
+        ) {
+          return;
+        }
+
+        if (
+          djSyncState.syncedDeckIds.has(
+            config.deckId
+          ) &&
+          djSyncState.masterDeckId !==
+            config.deckId
+        ) {
+          queueSyncedDeckMaintenance(
+            config
+          );
         }
       });
     });
 		
+    let m12MixxxLiveState = null;
+    const getM25AuthoritativeEditorState = (config) => {
+      if (window.BRMediaMixxxBackend?.isActive?.() !== true) return getDeckStateForConfig(config);
+      const clock = window.BRMediaM12WaveformClock?.get?.(config.deckId)?.snapshot?.() || {};
+      const liveDeck = config.deckId === "d2" ? m12MixxxLiveState?.deck2 : m12MixxxLiveState?.deck1;
+      const exactGrid = getAuthoritativeDjBeatGrid(config);
+      if (exactGrid) adoptExactGridForEditing(config, exactGrid);
+      return {
+        ...blankDeckState(), isLoaded: liveDeck?.loaded === true, isPlaying: clock.playing === true,
+        currentTime: Number(clock.position) || Number(liveDeck?.positionSeconds) || 0,
+        duration: Number(clock.duration) || Number(liveDeck?.durationSeconds) || 0,
+        analysis: { preciseBpm: Number(liveDeck?.analysedBpm) || null, bpm: Number(liveDeck?.analysedBpm) || null,
+          rawBpm: Number(liveDeck?.analysedBpm) || null, tempoSource: "mixxx-live-feedback" },
+      };
+    };
+    if (window.BRMediaDjDeckController) {
+      window.BRMediaDjDeckController.getStateForConfig = getM25AuthoritativeEditorState;
+    }
+    const m24WaveformPreparationPolls = new Map();
+    const nextM24WaveformGeneration = (config) =>
+      (Number(m24MixxxWaveforms.get(config.deckId)?.generation) || 0) + 1;
+    const makeM24WaveformState = (config, updates = {}) => {
+      const previous = m24MixxxWaveforms.get(config.deckId);
+      const status = updates.status || updates.state || previous?.status || "deck-empty";
+      return {
+        deck: config.deckId,
+        stableIdentity: updates.stableIdentity ?? updates.identity ?? previous?.stableIdentity ?? previous?.identity ?? "",
+        generation: updates.generation ?? previous?.generation ?? 0,
+        status,
+        state: status,
+        cacheVersion: updates.cacheVersion ?? previous?.cacheVersion ?? "",
+        realPayloadPresence: updates.realPayloadPresence ?? previous?.realPayloadPresence ?? false,
+        lastSuccessfulResolution: updates.lastSuccessfulResolution ?? previous?.lastSuccessfulResolution ?? null,
+        error: updates.error ?? null,
+        payload: updates.payload ?? previous?.payload ?? null,
+        jobId: updates.jobId ?? previous?.jobId ?? null,
+        submitPending: updates.submitPending ?? previous?.submitPending ?? false,
+        identity: updates.stableIdentity ?? updates.identity ?? previous?.stableIdentity ?? previous?.identity ?? "",
+      };
+    };
+    const transitionM24Waveform = (config, updates = {}, reason = "unspecified") => {
+      const previous = m24MixxxWaveforms.get(config.deckId);
+      const next = makeM24WaveformState(config, updates);
+      if (previous?.status === "ready" && previous.realPayloadPresence &&
+          (next.status !== "ready" || !next.realPayloadPresence) &&
+          previous.stableIdentity === next.stableIdentity) {
+        console.warn("BRMedia M24 blocked waveform downgrade", {
+          deck: config.deckId, identity: next.stableIdentity,
+          generation: next.generation, from: previous.status, to: next.status, reason,
+        });
+        return previous;
+      }
+      m24MixxxWaveforms.set(config.deckId, next);
+      return next;
+    };
+    const m24WaveformTargets = (config) => document.querySelectorAll([
+      `.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjSingleOverviewWave`,
+      `.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjSingleWaveCanvas`,
+      `.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjCueMemoryOverview`,
+      `.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjCueMemoryWaveform`,
+      `.brDjDuoDeckCard.${config.cardClass} .brDjDuoDeckCardWave`,
+      `.brDjDuoHorizontalWave.${config.cardClass} .brDjDuoWaveBody`,
+    ].join(", "));
+    const setM24WaveformState = (config, state, detail = "") => {
+      m24WaveformTargets(config).forEach((target) => {
+        target.dataset.mixxxWaveformState = state;
+        target.dataset.mixxxWaveformIdentity = detail && /^mixxx:\d+$/.test(detail) ? detail : "";
+        target.setAttribute("aria-label", detail && !/^mixxx:\d+$/.test(detail) ? detail : `Deck ${config.deckId.slice(1)} waveform: ${state}`);
+        let action = target.querySelector?.("[data-m24-prepare-waveform]");
+        const actionable = state === "not-prepared" || state === "preparation-failed";
+        if (actionable && !action) {
+          action = document.createElement("button");
+          action.type = "button";
+          action.className = "brM24PrepareWaveform";
+          action.dataset.m24PrepareWaveform = "";
+          action.textContent = "Prepare Waveform";
+          action.addEventListener("click", (event) => {
+            event.preventDefault(); event.stopPropagation();
+            const current = m24MixxxWaveforms.get(config.deckId);
+            if (current?.identity) prepareM24MixxxWaveform(config, current.identity);
+          });
+          target.append(action);
+        }
+        if (action) {
+          action.hidden = !actionable;
+          action.disabled = state === "preparing" || state === "queued";
+          action.textContent = state === "preparation-failed" ? "Failed — Retry" : "Prepare Waveform";
+        }
+      });
+    };
+    const clearM24Waveform = (config, state = "deck-empty") => {
+      const previous = m24MixxxWaveforms.get(config.deckId);
+      transitionM24Waveform(config, {
+        stableIdentity: "",
+        generation: nextM24WaveformGeneration(config),
+        status: state,
+        cacheVersion: "",
+        realPayloadPresence: false,
+        lastSuccessfulResolution: previous?.lastSuccessfulResolution || null,
+        payload: null,
+        jobId: null,
+      }, state === "deck-empty" ? "eject" : "identity-cleared");
+      renderDjRealWaveforms(config, { isLoaded: false, waveformPeaks: [], waveformBands: null, waveformMultiscale: null });
+      setM24WaveformState(config, state);
+    };
+    const renderM24PreparedWaveform = (config, prepared, renderOptions = {}) => {
+      const authoritative = m24MixxxWaveforms.get(config.deckId);
+      if (!authoritative || authoritative.stableIdentity !== prepared?.stableIdentity ||
+          authoritative.generation !== prepared?.generation) return false;
+      const waveform = prepared?.payload?.waveform;
+      if (prepared?.status !== "ready" || !prepared?.realPayloadPresence || !waveform?.peaks?.length) return false;
+      const clock = window.BRMediaM12WaveformClock?.get?.(config.deckId);
+      const visual = clock?.snapshot?.() || {};
+      renderDjRealWaveforms(config, {
+        isLoaded: true,
+        isPlaying: visual.playing === true,
+        currentTime: Number(visual.position) || 0,
+        duration: Number(visual.duration) || Number(waveform.duration) || 0,
+        progress: Number(visual.progress) || 0,
+        waveformStale: visual.stale === true,
+        waveformPeaks: waveform.peaks,
+        waveformBands: waveform.bands,
+        waveformMultiscale: waveform.multiscale,
+        memoryPointsOverride: [],
+        waveformVersion: `${prepared.stableIdentity}:${prepared.cacheVersion || waveform.formatVersion || "prepared"}`,
+      }, renderOptions);
+      return true;
+    };
+    const pollM24WaveformJob = async (config, identity, jobId) => {
+      if (!jobId || m24WaveformPreparationPolls.get(config.deckId) === jobId) return;
+      m24WaveformPreparationPolls.set(config.deckId, jobId);
+      try {
+        while (m24WaveformPreparationPolls.get(config.deckId) === jobId && m24MixxxWaveforms.get(config.deckId)?.identity === identity) {
+          const response = await fetch(`/waveforms/jobs/${encodeURIComponent(jobId)}`, { cache: "no-store", credentials: "same-origin" });
+          const job = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(job.error || "Waveform job unavailable");
+          const lifecycleState = job.status === "queued" ? "queued" : "preparing";
+          const accepted = transitionM24Waveform(config, { stableIdentity: identity, status: lifecycleState, jobId }, "preparation-poll");
+          setM24WaveformState(config, accepted.status, identity);
+          if (job.status === "done" || job.status === "done_with_errors") {
+            if (job.failed) throw new Error(job.items?.find((item) => item.status === "failed")?.detail || "Waveform preparation failed");
+            m24MixxxWaveforms.delete(config.deckId);
+            await requestM24MixxxWaveform(config, identity);
+            return;
+          }
+          await new Promise((resolve) => window.setTimeout(resolve, 900));
+        }
+      } catch (error) {
+        if (m24MixxxWaveforms.get(config.deckId)?.identity === identity) {
+          const accepted = transitionM24Waveform(config, { stableIdentity: identity, status: "preparation-failed", error: String(error?.message || error) }, "preparation-poll-error");
+          setM24WaveformState(config, accepted.status, accepted.status === "ready" ? identity : String(error?.message || "Waveform preparation failed"));
+        }
+      } finally {
+        if (m24WaveformPreparationPolls.get(config.deckId) === jobId) m24WaveformPreparationPolls.delete(config.deckId);
+      }
+    };
+    const prepareM24MixxxWaveform = async (config, identity) => {
+      const current = m24MixxxWaveforms.get(config.deckId);
+      if (current?.identity !== identity || current.submitPending || current.state === "queued" || current.state === "preparing") return;
+      transitionM24Waveform(config, { stableIdentity: identity, status: "queued", submitPending: true }, "preparation-submit");
+      setM24WaveformState(config, "queued", identity);
+      try {
+        const response = await fetch(`/api/dj/mixxx/waveform/${encodeURIComponent(identity)}/prepare`, {
+          method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: "{}",
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || "Unable to queue waveform preparation");
+        if (payload.state === "ready") {
+          m24MixxxWaveforms.delete(config.deckId);
+          await requestM24MixxxWaveform(config, identity);
+          return;
+        }
+        const lifecycleState = payload.state === "preparing" ? "preparing" : "queued";
+        transitionM24Waveform(config, { stableIdentity: identity, status: lifecycleState, jobId: payload.job?.id, submitPending: false }, "preparation-submit-response");
+        setM24WaveformState(config, lifecycleState, identity);
+        await pollM24WaveformJob(config, identity, payload.job?.id);
+      } catch (error) {
+        if (m24MixxxWaveforms.get(config.deckId)?.identity === identity) {
+          transitionM24Waveform(config, { stableIdentity: identity, status: "preparation-failed", error: String(error?.message || error) }, "preparation-submit-error");
+          setM24WaveformState(config, "preparation-failed", String(error?.message || error));
+        }
+      }
+    };
+    const requestM24MixxxWaveform = async (config, identity) => {
+      const existing = m24MixxxWaveforms.get(config.deckId);
+      if (existing?.identity === identity) {
+        setM24WaveformState(config, existing.status, existing.error || identity);
+        if (existing.status === "ready") renderM24PreparedWaveform(config, existing);
+        return;
+      }
+      const generation = nextM24WaveformGeneration(config);
+      const request = deckWaveformRequestPipelines?.begin?.(config.deckId);
+      transitionM24Waveform(config, {
+        stableIdentity: identity, generation, status: "loading",
+        cacheVersion: "", realPayloadPresence: false, payload: null,
+      }, "new-identity");
+      setM24WaveformState(config, "loading", identity);
+      try {
+        const response = await fetch(`/api/dj/mixxx/waveform/${encodeURIComponent(identity)}?count=${DJ_LIBRARY_WAVEFORM_PEAKS}`, {
+          cache: "no-store", credentials: "same-origin", signal: request?.signal,
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!request?.isCurrent?.() || m24MixxxWaveforms.get(config.deckId)?.identity !== identity || m24MixxxWaveforms.get(config.deckId)?.generation !== generation) {
+          m14WaveformDiagnostics?.increment?.(config.deckId, "staleRejectionCount");
+          return;
+        }
+        if (!response.ok || payload.state !== "ready" || !payload.waveform?.peaks?.length) {
+          const state = payload.state === "available" ? "not-prepared"
+            : payload.state === "failed" ? "preparation-failed"
+              : payload.state || (response.status >= 500 ? "network-error" : "not-prepared");
+          const accepted = transitionM24Waveform(config, { stableIdentity: identity, generation, status: state, error: payload.error || null, jobId: payload.job?.id || null }, "cache-resolution-unavailable");
+          setM24WaveformState(config, accepted.status, accepted.status === "ready" ? identity : payload.error || identity);
+          if ((state === "queued" || state === "preparing") && payload.job?.id) {
+            void pollM24WaveformJob(config, identity, payload.job.id);
+          }
+          return;
+        }
+        if (payload.identity !== identity) {
+          m14WaveformDiagnostics?.increment?.(config.deckId, "staleRejectionCount");
+          setM24WaveformState(config, "identity-mismatch", identity);
+          return;
+        }
+        if (payload.grid?.state === "ready") Object.assign(config.beatGrid, {
+          bpm: payload.grid.bpm, downbeat: payload.grid.downbeat,
+          locked: payload.grid.locked, baseSet: true, reviewRequired: payload.grid.reviewRequired,
+          resolvedMode: payload.grid.resolvedMode || "normal",
+          segments: Array.isArray(payload.grid.segments) ? payload.grid.segments : [],
+        });
+        else Object.assign(config.beatGrid, { bpm: null, downbeat: 0, baseSet: false });
+        transitionM24Waveform(config, {
+          stableIdentity: identity,
+          generation,
+          status: "ready",
+          cacheVersion: payload.cacheVersion || payload.waveform?.formatVersion || payload.waveform?.version || "prepared",
+          realPayloadPresence: true,
+          lastSuccessfulResolution: Date.now(),
+          error: null,
+          payload,
+          jobId: null,
+        }, "cache-resolution-success");
+        setM24WaveformState(config, payload.grid?.state === "ready" ? "ready" : "ready-grid-not-prepared", identity);
+        const prepared = m24MixxxWaveforms.get(config.deckId);
+        renderM24PreparedWaveform(config, prepared);
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => renderM24PreparedWaveform(config, prepared));
+        });
+        deckWaveformRequestPipelines?.finish?.(request);
+      } catch (error) {
+        if (error?.name === "AbortError") return;
+        if (!request?.isCurrent?.()) return;
+        const accepted = transitionM24Waveform(config, { stableIdentity: identity, generation, status: "network-error", error: String(error?.message || error) }, "cache-resolution-error");
+        setM24WaveformState(config, accepted.status, accepted.status === "ready" ? identity : "Waveform network error. Retry by reloading the track.");
+      }
+    };
+    const m25GridPolls = new Map();
+    const setM25GridUi = (config) => {
+      const current = m25GridAuthority?.states?.get?.(config.deckId);
+      const panel = $(`.brDjPerfPanel[data-dj-perf-panel="${config.panel}"]`);
+      if (!current || !panel) return;
+      panel.dataset.m25GridState = current.status;
+      panel.dataset.m25GridIdentity = current.stableIdentity || "";
+      panel.dataset.m25GridRevision = String(current.revision || 0);
+      let action = panel.querySelector("[data-m25-prepare-grid]");
+      const actionable = current.status === "grid-not-prepared" || current.status === "grid-failed" || current.status === "grid-corrupt";
+      if (actionable && !action) {
+        action = document.createElement("button"); action.type = "button"; action.className = "brM25PrepareGrid";
+        action.dataset.m25PrepareGrid = ""; action.textContent = "Prepare Grid";
+        panel.querySelector(".brDjGridPage .brDjGridStatus")?.insertAdjacentElement("afterend", action);
+      }
+      if (action && action.dataset.m25PrepareGridBound !== "true") {
+        action.dataset.m25PrepareGridBound = "true";
+        action.addEventListener("click", (event) => { event.preventDefault(); event.stopPropagation(); void prepareM25MixxxGrid(config); });
+      }
+      if (action) { action.hidden = !actionable; action.disabled = current.status === "grid-queued" || current.status === "grid-preparing"; action.textContent = current.status === "grid-failed" ? "Retry Grid" : "Prepare Grid"; }
+      const liveDeck = config.deckId === "d1" ? m12MixxxLiveState?.deck1 : m12MixxxLiveState?.deck2;
+      const compactGridLabel = {
+        "grid-not-prepared": "Grid not prepared", "grid-queued": "Grid queued", "grid-preparing": "Grid preparing",
+        "grid-needs-review": "Needs review", "grid-locked": "Locked", "grid-failed": "Grid failed",
+        "grid-cache-mismatch": "Grid cache mismatch", "grid-corrupt": "Grid cache corrupt",
+      }[current.status] || "";
+      panel.querySelectorAll(".brDjSingleTrackText > p").forEach((node) => {
+        if (liveDeck?.loaded === true) node.textContent = [liveDeck.playing ? "Playing" : "Paused", compactGridLabel].filter(Boolean).join(" · ");
+      });
+      syncDeckBeatGridUi(config, getDeckStateForConfig(config));
+    };
+    const applyM25Grid = (config, payload) => {
+      const grid = payload?.grid; if (!grid) return;
+      setM25GridUi(config);
+      /*
+        Grid resolution never owns waveform timing.  Repainting here from the
+        Native deck snapshot resets a Mixxx detail canvas to a static slice.
+        The sole M24 animation loop will pick up this accepted overlay on its
+        next frame using the authoritative Mixxx clock.
+      */
+    };
+    const pollM25MixxxGrid = async (config, identity, generation) => {
+      const key = `${identity}:${generation}`; if (m25GridPolls.get(config.deckId) === key) return;
+      m25GridPolls.set(config.deckId, key);
+      try {
+        for (let attempt = 0; attempt < 900 && m25GridPolls.get(config.deckId) === key; attempt += 1) {
+          await new Promise((resolve) => window.setTimeout(resolve, 900));
+          const current = m25GridAuthority.states.get(config.deckId);
+          if (!current || current.stableIdentity !== identity || current.generation !== generation) return;
+          await requestM25MixxxGrid(config, identity, { refresh: true, generation });
+          const next = m25GridAuthority.states.get(config.deckId);
+          if (!next || next.generation !== generation || !["grid-queued", "grid-preparing"].includes(next.status)) return;
+        }
+      } finally { if (m25GridPolls.get(config.deckId) === key) m25GridPolls.delete(config.deckId); }
+    };
+    const requestM25MixxxGrid = async (config, identity, options = {}) => {
+      let current = m25GridAuthority?.states?.get?.(config.deckId);
+      if (!options.refresh && current?.stableIdentity === identity) { setM25GridUi(config); return; }
+      if (!current || current.stableIdentity !== identity) current = m25GridAuthority.begin(config.deckId, identity);
+      const generation = Number(options.generation) || current.generation;
+      setM25GridUi(config);
+      try {
+        const response = await fetch(`/api/dj/mixxx/grid/${encodeURIComponent(identity)}`, { cache: "no-store", credentials: "same-origin" });
+        const payload = await response.json().catch(() => ({}));
+        const latest = m25GridAuthority.states.get(config.deckId);
+        if (!latest || latest.stableIdentity !== identity || latest.generation !== generation) { if (latest) latest.staleRejected += 1; return; }
+        if (response.ok && m25GridAuthority.accept(config.deckId, identity, generation, payload)) { applyM25Grid(config, payload); return; }
+        const status = payload.state || (response.status === 409 ? "grid-cache-mismatch" : response.status >= 500 ? "network-error" : "grid-not-prepared");
+        m25GridAuthority.transition(config.deckId, identity, generation, status, payload.error || null); setM25GridUi(config);
+        if (["grid-queued", "grid-preparing"].includes(status)) void pollM25MixxxGrid(config, identity, generation);
+      } catch (error) {
+        m25GridAuthority.transition(config.deckId, identity, generation, "network-error", String(error?.message || error)); setM25GridUi(config);
+      }
+    };
+    const prepareM25MixxxGrid = async (config) => {
+      const current = m25GridAuthority?.states?.get?.(config.deckId); if (!current?.stableIdentity || ["grid-queued", "grid-preparing"].includes(current.status)) return;
+      const { stableIdentity: identity, generation } = current;
+      m25GridAuthority.transition(config.deckId, identity, generation, "grid-queued"); setM25GridUi(config);
+      try {
+        const response = await fetch(`/api/dj/mixxx/grid/${encodeURIComponent(identity)}/prepare`, { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: "{}" });
+        const payload = await response.json().catch(() => ({}));
+        const latest = m25GridAuthority.states.get(config.deckId);
+        if (!latest || latest.stableIdentity !== identity || latest.generation !== generation) { if (latest) latest.staleRejected += 1; return; }
+        if (response.ok && payload.grid && m25GridAuthority.accept(config.deckId, identity, generation, payload)) { applyM25Grid(config, payload); return; }
+        const status = payload.state || "grid-failed"; m25GridAuthority.transition(config.deckId, identity, generation, status, payload.error || null); setM25GridUi(config);
+        if (["grid-queued", "grid-preparing"].includes(status)) void pollM25MixxxGrid(config, identity, generation);
+      } catch (error) { m25GridAuthority.transition(config.deckId, identity, generation, "grid-failed", String(error?.message || error)); setM25GridUi(config); }
+    };
+    const resolveM25ExactIdentity = (config, liveDeck) => {
+      const liveIdentity = String(liveDeck?.stableIdentity || "");
+      if (/^mixxx:\d+$/.test(liveIdentity)) return liveIdentity;
+      const waveformAuthority = m24MixxxWaveforms.get(config.deckId);
+      const waveformIdentity = String(waveformAuthority?.stableIdentity || "");
+      if (waveformAuthority?.status === "ready" && waveformAuthority.realPayloadPresence === true &&
+          /^mixxx:\d+$/.test(waveformIdentity)) return waveformIdentity;
+      const gridAuthority = m25GridAuthority?.states?.get?.(config.deckId);
+      const gridIdentity = String(gridAuthority?.stableIdentity || "");
+      if (gridAuthority?.realGridPresence === true && /^mixxx:\d+$/.test(gridIdentity)) return gridIdentity;
+      return "";
+    };
+    window.addEventListener("brmedia:mixxx-live-state", (event) => {
+      m12MixxxLiveState = event.detail || null;
+      deckConfigs.forEach((config, index) => {
+        const clock = window.BRMediaM12WaveformClock?.get?.(config.deckId);
+        if (!clock) return; clock.setAuthority("mixxx");
+        const liveDeck =
+          index === 0
+            ? m12MixxxLiveState?.deck1
+            : m12MixxxLiveState?.deck2;
+        clock.ingestMixxx(liveDeck);
+        renderLivePageReadouts(config, clock.snapshot());
+        if (liveDeck?.loaded === false) {
+          m25GridPolls.delete(config.deckId);
+          m25GridAuthority?.clear?.(config.deckId, "deck-empty");
+          m24WaveformPreparationPolls.delete(config.deckId);
+          deckWaveformRequestTokens.delete(
+            config.deckId
+          );
+          deckWaveformRequestPipelines
+            ?.abort?.(config.deckId);
+          clearM24Waveform(config);
+        } else if (liveDeck?.loaded === true) {
+          const identity = resolveM25ExactIdentity(config, liveDeck);
+          if (identity) {
+            requestM24MixxxWaveform(config, identity);
+            requestM25MixxxGrid(config, identity);
+          }
+          else {
+            m25GridPolls.delete(config.deckId);
+            const heldGrid = m25GridAuthority?.states?.get?.(config.deckId);
+            if (!heldGrid?.realGridPresence) m25GridAuthority?.clear?.(config.deckId, "identity-stale");
+            setM25GridUi(config);
+            deckWaveformRequestPipelines?.abort?.(config.deckId);
+            const heldWaveform = m24MixxxWaveforms.get(config.deckId);
+            if (!(heldWaveform?.status === "ready" && heldWaveform.realPayloadPresence === true))
+              clearM24Waveform(config, "identity-unavailable");
+          }
+        }
+      });
+    });
+    const lastAnimatedWaveformState = new Map();
+    const lastLivePageReadoutKey = new Map();
+    const renderLivePageReadouts = (config, visual) => {
+      const key = `${Math.floor((Number(visual.position) || 0) * 10)}:${visual.playing}:${visual.duration}`;
+      if (lastLivePageReadoutKey.get(config.deckId) === key) return;
+      lastLivePageReadoutKey.set(config.deckId, key);
+      const state = {
+        ...blankDeckState(),
+        isLoaded: visual.loaded === true,
+        isPlaying: visual.playing === true,
+        currentTime: Number(visual.position) || 0,
+        duration: Number(visual.duration) || 0,
+      };
+      const elapsed = formatDjEngineTime(state.currentTime, { showTenths: true });
+      const remaining = formatDjEngineRemaining(state.currentTime, state.duration);
+      const counter = formatDeckGridCounter(config, state);
+      window.BRMediaM25LiveReadouts?.render?.(document, config.panel, { elapsed, remaining, counter });
+    };
+    const animateM12Waveforms = () => {
+      const frameStartedAt =
+        performance.now();
+      if (document.hidden) {
+        ["d1", "d2"].forEach((deckId) =>
+          m14WaveformDiagnostics
+            ?.record?.(deckId, {
+              animationState: "hidden",
+            })
+        );
+        window.requestAnimationFrame(animateM12Waveforms);
+        return;
+      }
+      const mixxx = window.BRMediaMixxxBackend?.isActive?.() === true;
+      deckConfigs.forEach((config) => {
+        try {
+        const binding = deckBindings.get(config.deckId);
+        const clock = window.BRMediaM12WaveformClock?.get?.(config.deckId);
+        if (!binding || !clock) return;
+        const base = binding.deck.getState(); clock.setAuthority(mixxx ? "mixxx" : "native");
+        if (!mixxx) clock.ingestNative(base);
+        const visual = clock.snapshot();
+        if (mixxx) renderLivePageReadouts(config, visual);
+        m14WaveformDiagnostics
+          ?.record?.(
+            config.deckId,
+            {
+              animationState:
+                visual.playing
+                  ? "playing"
+                  : "idle",
+              snapCount:
+                Number(
+                  visual.reconciliations
+                ) || 0,
+              frameTimingMs:
+                performance.now() -
+                frameStartedAt,
+            }
+          );
+        const waveformTargets = document.querySelectorAll([
+          `.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjSingleOverviewWave`,
+          `.brDjPerfPanel[data-dj-perf-panel="${config.panel}"] .brDjSingleWaveCanvas`,
+          `.brDjDuoDeckCard.${config.cardClass} .brDjDuoDeckCardWave`,
+          `.brDjDuoHorizontalWave.${config.cardClass} .brDjDuoWaveBody`,
+        ].join(", "));
+        waveformTargets.forEach((target) => {
+          target.classList.toggle("is-mixxx-position-live", mixxx && visual.loaded && !visual.stale);
+          target.style.setProperty("--br-dj-mixxx-progress", `${Math.max(0, Math.min(100, visual.progress * 100)).toFixed(3)}%`);
+          target.dataset.mixxxPositionSeconds = Number(visual.position || 0).toFixed(3);
+          target.dataset.mixxxDurationSeconds = Number(visual.duration || 0).toFixed(3);
+        });
+        if (mixxx) {
+          const prepared = m24MixxxWaveforms.get(config.deckId);
+          renderM24PreparedWaveform(config, prepared, { animatedOnly: true });
+          return;
+        }
+        if (!base.isLoaded || !base.waveformPeaks?.length) return;
+        const visualKey = [
+          visual.playing,
+          visual.stale,
+          visual.connected,
+          Math.round(visual.position * 1000),
+          base.waveformVersion,
+        ].join(":");
+        if (!visual.playing && lastAnimatedWaveformState.get(config.deckId) === visualKey) return;
+        lastAnimatedWaveformState.set(config.deckId, visualKey);
+        renderDjRealWaveforms(config, { ...base, currentTime: visual.position, progress: visual.progress,
+          isPlaying: visual.playing, waveformStale: mixxx && visual.stale }, { animatedOnly: true });
+        } catch (error) {
+          m14WaveformDiagnostics?.record?.(config.deckId, {
+            animationState: "paint-error",
+            lastPaintError: String(error?.message || error),
+            lastPaintErrorAt: Date.now(),
+          });
+          console.warn("BRMedia M24 detail waveform animation frame failed", {
+            deck: config.deckId,
+            error: String(error?.message || error),
+          });
+        }
+      });
+      window.requestAnimationFrame(animateM12Waveforms);
+    };
+    window.requestAnimationFrame(animateM12Waveforms);
+
+    const abortM14WaveformWork = (
+      deckId
+    ) => {
+      deckWaveformRequestTokens.delete(
+        deckId
+      );
+      deckWaveformRequestPipelines
+        ?.abort?.(deckId);
+    };
+
+    window.addEventListener(
+      "brmedia:dj-deck-eject",
+      (event) => {
+        const deckId =
+          event.detail?.deckId === "d2"
+            ? "d2"
+            : "d1";
+        abortM14WaveformWork(deckId);
+      }
+    );
+
+    window.addEventListener(
+      "brmedia:waveform-renderer-destroyed",
+      (event) => {
+        abortM14WaveformWork(
+          event.detail?.deckId === "d2"
+            ? "d2"
+            : "d1"
+        );
+      }
+    );
+
+    window.addEventListener(
+      "pagehide",
+      () => {
+        deckWaveformRequestTokens.clear();
+        deckWaveformRequestPipelines
+          ?.abortAll?.();
+        window.BRMediaDjWaveformRenderer
+          ?.destroyAll?.();
+      }
+    );
+
     window.setInterval(() => {
       deckConfigs.forEach((config) => {
         const binding = deckBindings.get(config.deckId);
@@ -9459,6 +14530,72 @@
 
     window.addEventListener("resize", scheduleDeckWaveformRefresh, { passive: true });
     window.addEventListener("orientationchange", scheduleDeckWaveformRefresh, { passive: true });
+    if (
+      m14WaveformDiagnostics
+        ?.validationEnabled
+    ) {
+      const markValidation = (
+        field
+      ) => {
+        ["d1", "d2"].forEach((deckId) => {
+          const current =
+            m14WaveformDiagnostics
+              .snapshot()
+              .decks[deckId]
+              .validationChecks;
+          m14WaveformDiagnostics.record(
+            deckId,
+            {
+              validationChecks: {
+                ...current,
+                [field]:
+                  Number(current[field] || 0) +
+                  1,
+              },
+            }
+          );
+        });
+      };
+      markValidation("dpr");
+      window.addEventListener(
+        "resize",
+        () => markValidation("resize"),
+        { passive: true }
+      );
+      window.addEventListener(
+        "orientationchange",
+        () =>
+          markValidation(
+            "orientation"
+          ),
+        { passive: true }
+      );
+      document.addEventListener(
+        "pointerup",
+        (event) => {
+          if (
+            event.target?.closest?.(
+              ".brDjSingleOverviewWave, .brDjSingleWaveCanvas, .brDjCueMemoryOverview, .brDjCueMemoryWaveform, .brDjDuoWaveBody"
+            )
+          ) {
+            markValidation("seek");
+          }
+        },
+        { passive: true }
+      );
+      window.addEventListener(
+        "brmedia:mixxx-live-state",
+        () =>
+          markValidation(
+            "playbackClock"
+          )
+      );
+    }
+    if (typeof ResizeObserver === "function") {
+      const waveformResizeObserver = new ResizeObserver(scheduleDeckWaveformRefresh);
+      document.querySelectorAll(".brDjSingleOverviewWave, .brDjSingleWaveCanvas, .brDjCueMemoryOverview, .brDjCueMemoryWaveform, .brDjDuoDeckCardWave, .brDjDuoWaveCanvas")
+        .forEach((target) => waveformResizeObserver.observe(target));
+    }
   }
 	
   function bindMixerCoreFoundation() {
@@ -9499,10 +14636,21 @@
       });
     }
 
-    const setEngineCrossfader = (value = 50) => {
+    const isMixxxMixerBackend = () =>
+      window.BRMediaMixxxBackend?.isActive?.() === true;
+    const routeMixxxDeckMixer = (deckId, control, value) =>
+      window.BRMediaMixxxBackend?.deckMixer?.(deckId, control, value) === true;
+    const routeMixxxSharedMixer = (control, value) =>
+      window.BRMediaMixxxBackend?.sharedMixer?.(control, value) === true;
+
+    const setEngineCrossfader = (value = 50, emit = false) => {
       const raw = Number(value);
       const safeValue = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 50;
 
+      if (isMixxxMixerBackend()) {
+        if (emit) routeMixxxSharedMixer("crossfader", safeValue / 100);
+        return safeValue;
+      }
       try {
         audioApi.setCrossfader(safeValue);
       } catch (error) {
@@ -9510,10 +14658,14 @@
       }
     };
 
-    const setEngineDeckVolume = (deckId, value = 100) => {
+    const setEngineDeckVolume = (deckId, value = 100, emit = false) => {
       const raw = Number(value);
       const safeValue = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 100;
 
+      if (isMixxxMixerBackend()) {
+        if (emit) routeMixxxDeckMixer(deckId, "volume", safeValue / 100);
+        return safeValue;
+      }
       try {
         audioApi.setDeckVolume(deckId, safeValue / 100);
       } catch (error) {
@@ -9594,7 +14746,7 @@
 
         pointerId = event.pointerId;
         startY = event.clientY;
-        startValue = Number(options.value ?? min);
+        startValue = Number(button.dataset.mixerValue ?? options.value ?? min);
         button.classList.add("is-dragging");
         event.preventDefault();
 
@@ -9630,11 +14782,13 @@
       return `HP ${Math.round(((safeValue - 55) / 45) * 100)}%`;
     };
 
-    const applyMasterVolume = (button, value = mixerControlState.master) => {
+    const applyMasterVolume = (button, value = mixerControlState.master, emit = false) => {
       const safeValue = clampMixerValue(value, 0, 150, 100);
       mixerControlState.master = safeValue;
 
-      try {
+      if (isMixxxMixerBackend()) {
+        if (emit) routeMixxxSharedMixer("master-volume", safeValue / 150);
+      } else try {
         audioApi.setMasterVolume(safeValue / 100);
       } catch (error) {
         console.warn("BRMedia DJ master volume failed", error);
@@ -9643,11 +14797,13 @@
       setKnobDisplay(button, safeValue, 0, 150, `${Math.round(safeValue)}%`, 100);
     };
 
-    const applyDeckTrim = (deckId, button, value = 100) => {
+    const applyDeckTrim = (deckId, button, value = 100, emit = false) => {
       const safeValue = clampMixerValue(value, 0, 150, 100);
       mixerControlState[deckId].gain = safeValue;
 
-      try {
+      if (isMixxxMixerBackend()) {
+        if (emit) routeMixxxDeckMixer(deckId, "gain", safeValue / 150);
+      } else try {
         audioApi.setDeckTrim?.(deckId, safeValue / 100);
       } catch (error) {
         console.warn("BRMedia DJ trim failed", error);
@@ -9656,11 +14812,13 @@
       setKnobDisplay(button, safeValue, 0, 150, `${Math.round(safeValue)}%`, 100);
     };
 
-    const applyDeckFilter = (deckId, button, value = 50) => {
+    const applyDeckFilter = (deckId, button, value = 50, emit = false) => {
       const safeValue = clampMixerValue(value, 0, 100, 50);
       mixerControlState[deckId].filter = safeValue;
 
-      try {
+      if (isMixxxMixerBackend()) {
+        if (emit) routeMixxxDeckMixer(deckId, "filter", safeValue / 100);
+      } else try {
         audioApi.setDeckFilter?.(deckId, safeValue);
       } catch (error) {
         console.warn("BRMedia DJ filter failed", error);
@@ -9669,11 +14827,13 @@
       setKnobDisplay(button, safeValue, 0, 100, formatFilterLabel(safeValue), 50);
     };
 
-    const applyDeckEq = (deckId, band, button, value = 100) => {
+    const applyDeckEq = (deckId, band, button, value = 100, emit = false) => {
       const safeValue = clampMixerValue(value, 0, 150, 100);
       mixerControlState[deckId][band] = safeValue;
 
-      try {
+      if (isMixxxMixerBackend()) {
+        if (emit) routeMixxxDeckMixer(deckId, `eq-${band}`, safeValue / 150);
+      } else try {
         audioApi.setDeckEq?.(deckId, band, safeValue);
       } catch (error) {
         console.warn("BRMedia DJ EQ failed", error);
@@ -9729,7 +14889,7 @@
         centreValue: 50,
         resetValue: 50,
         sensitivity: 0.45,
-        onChange: (value) => applyDeckFilter(deckId, filterButton, value),
+        onChange: (value) => applyDeckFilter(deckId, filterButton, value, true),
       });
 
       applyDeckTrim(deckId, gainButton, mixerControlState[deckId].gain);
@@ -9740,7 +14900,7 @@
         centreValue: 100,
         resetValue: 100,
         sensitivity: 0.55,
-        onChange: (value) => applyDeckTrim(deckId, gainButton, value),
+        onChange: (value) => applyDeckTrim(deckId, gainButton, value, true),
       });
 
       eqButtons.forEach((button, index) => {
@@ -9756,7 +14916,7 @@
           resetValue: 100,
           sensitivity: 0.62,
           onChange: (value) => {
-            applyDeckEq(deckId, band, button, value);
+            applyDeckEq(deckId, band, button, value, true);
             syncKillButton(killButton, band);
           },
         });
@@ -9772,14 +14932,14 @@
 
         const resetKill = () => {
           mixerControlState[deckId][band] = 100;
-          applyDeckEq(deckId, band, eqButton, 100);
+          applyDeckEq(deckId, band, eqButton, 100, true);
           syncKillButton(button, band);
         };
 
         const stepKill = () => {
           const nextValue = stepKillValue(mixerControlState[deckId][band]);
           mixerControlState[deckId][band] = nextValue;
-          applyDeckEq(deckId, band, eqButton, nextValue);
+          applyDeckEq(deckId, band, eqButton, nextValue, true);
           syncKillButton(button, band);
         };
 
@@ -9820,19 +14980,19 @@
       centreValue: 100,
       resetValue: 100,
       sensitivity: 0.45,
-      onChange: (value) => applyMasterVolume(masterKnob, value),
+      onChange: (value) => applyMasterVolume(masterKnob, value, true),
     });
 
     setupDeckMixerControls("d1", ".brDjMixerChannel.is-deck-1");
     setupDeckMixerControls("d2", ".brDjMixerChannel.is-deck-2");
 
     $$("[data-vinyl-crossfader]").forEach((range) => {
-      range.addEventListener("input", () => setEngineCrossfader(range.value));
-      range.addEventListener("change", () => setEngineCrossfader(range.value));
+      range.addEventListener("input", () => setEngineCrossfader(range.value, true));
+      range.addEventListener("change", () => setEngineCrossfader(range.value, true));
     });
 
     $$("[data-vinyl-crossfader-centre]").forEach((button) => {
-      button.addEventListener("click", () => setEngineCrossfader(50));
+      button.addEventListener("click", () => setEngineCrossfader(50, true));
     });
 
     [
@@ -9840,8 +15000,8 @@
       { deckId: "d2", selector: ".brDjMixerChannel.is-deck-2 .brDjMixerVolumeRange" },
     ].forEach((config) => {
       $$(config.selector).forEach((range) => {
-        const syncVolume = () => {
-          const safeValue = setEngineDeckVolume(config.deckId, range.value);
+        const syncVolume = (event) => {
+          const safeValue = setEngineDeckVolume(config.deckId, range.value, Boolean(event));
           const volumeBox = range.closest(".brDjMixerVolume");
           const valueLabel = volumeBox?.querySelector("em");
 
@@ -9864,9 +15024,45 @@
       });
     });
 
+    let mixxxMixerFeedback = null;
+    window.addEventListener("brmedia:mixxx-live-state", (event) => {
+      if (!isMixxxMixerBackend()) return;
+      mixxxMixerFeedback = event.detail || null;
+      const shared = mixxxMixerFeedback?.mixer || {};
+      const updateDeck = (deckId, selector, state) => {
+        const mixer = state?.mixer;
+        if (!mixer || mixer.stale) return;
+        const channel = $(selector);
+        const eq = Array.from(channel?.querySelectorAll(".brDjMixerEqStack .brDjMixerKnob.is-eq") || []);
+        if (Number.isFinite(mixer.filter)) applyDeckFilter(deckId, channel?.querySelector(".brDjMixerKnob.is-filter"), mixer.filter * 100);
+        if (Number.isFinite(mixer.gain)) applyDeckTrim(deckId, channel?.querySelector(".brDjMixerKnob.is-gain"), mixer.gain * 150);
+        ["eqHigh", "eqMid", "eqLow"].forEach((field, index) => {
+          if (Number.isFinite(mixer[field])) applyDeckEq(deckId, ["high", "mid", "low"][index], eq[index], mixer[field] * 150);
+        });
+        if (Number.isFinite(mixer.volume)) {
+          $$(`${selector} .brDjMixerVolumeRange`).forEach((range) => { range.value = String(mixer.volume * 100); });
+        }
+      };
+      updateDeck("d1", ".brDjMixerChannel.is-deck-1", mixxxMixerFeedback.deck1);
+      updateDeck("d2", ".brDjMixerChannel.is-deck-2", mixxxMixerFeedback.deck2);
+      if (!shared.stale && Number.isFinite(shared.crossfader)) {
+        $$("[data-vinyl-crossfader]").forEach((range) => { range.value = String(shared.crossfader * 100); });
+      }
+      if (!shared.stale && Number.isFinite(shared.masterVolume)) applyMasterVolume(masterKnob, shared.masterVolume * 150);
+    });
+
     const updateMeters = () => {
       try {
-        const levels = audioApi.getMixerLevels?.();
+        const levels = isMixxxMixerBackend()
+          ? {
+              d1: mixxxMixerFeedback?.deck1?.mixer?.stale ? 0 : mixxxMixerFeedback?.deck1?.mixer?.meter,
+              master: mixxxMixerFeedback?.mixer?.stale ? 0 : Math.max(
+                Number(mixxxMixerFeedback?.mixer?.masterMeterLeft) || 0,
+                Number(mixxxMixerFeedback?.mixer?.masterMeterRight) || 0
+              ),
+              d2: mixxxMixerFeedback?.deck2?.mixer?.stale ? 0 : mixxxMixerFeedback?.deck2?.mixer?.meter,
+            }
+          : audioApi.getMixerLevels?.();
         if (levels) {
           const meterBars = $$(".brDjMixerMeters span i");
           const values = [levels.d1, levels.master, levels.d2];
@@ -9886,19 +15082,114 @@
   }
 
   function bindPerformance() {
-    const fxBoardOrder = ["board1", "board2", "board3", "board4"];
+    const fxBoardOrder = [
+      "djm700",
+      "board1",
+      "board2",
+      "board3",
+      "board4",
+    ];
+
     const fxBoardMeta = {
-      board1: { label: "Board 1", tone: "Orange board", count: "9 performance pads" },
-      board2: { label: "Board 2", tone: "Blue board", count: "9 performance pads" },
-      board3: { label: "Board 3", tone: "Green board", count: "9 performance pads" },
-      board4: { label: "Board 4", tone: "Red board", count: "9 performance pads" },
+      djm700: {
+        label:
+          "DJM FX",
+
+        tone:
+          "Club mixer essentials",
+
+        count:
+          "13 beat effects",
+      },
+
+      board1: {
+        label: "Board 1",
+        tone: "Orange board",
+        count: "9 performance pads",
+      },
+
+      board2: {
+        label: "Board 2",
+        tone: "Blue board",
+        count: "9 performance pads",
+      },
+
+      board3: {
+        label: "Board 3",
+        tone: "Green board",
+        count: "9 performance pads",
+      },
+
+      board4: {
+        label: "Board 4",
+        tone: "Red board",
+        count: "9 performance pads",
+      },
     };
 
+    const djm700FxMap = [
+      "delay",
+      "echo",
+      "trans",
+      "filter",
+      "flanger",
+      "phaser",
+      "reverb",
+      "robot",
+      "crush",
+      "beat-roll",
+      "reverse-roll",
+      "up-roll",
+    ];
+
     const defaultFxBoardMap = {
-      board1: ["echo", "dub-echo", "delay", "lpf", "hpf", "beat-roll", "flanger", "phaser", "reverb"],
-      board2: ["noise", "vinyl-brake", "gater", "ping-pong", "low-cut-echo", "spiral", "brake-echo", "tape-delay", "crush"],
-      board3: ["bitcrusher", "stutter", "reverse-roll", "freeze", "auto-pan", "sweep", "space", "shimmer", "mobius"],
-      board4: ["granular", "saturator", "ring-mod", "pitch-shift", "key-lock", "chorus", "chorus-flanger", "combo-filter", "duck-delay"],
+      board1: [
+        "echo",
+        "dub-echo",
+        "delay",
+        "lpf",
+        "hpf",
+        "beat-roll",
+        "flanger",
+        "phaser",
+        "reverb",
+      ],
+
+      board2: [
+        "noise",
+        "vinyl-brake",
+        "gater",
+        "ping-pong",
+        "low-cut-echo",
+        "spiral",
+        "brake-echo",
+        "tape-delay",
+        "crush",
+      ],
+
+      board3: [
+        "bitcrusher",
+        "stutter",
+        "reverse-roll",
+        "freeze",
+        "auto-pan",
+        "sweep",
+        "space",
+        "shimmer",
+        "mobius",
+      ],
+
+      board4: [
+        "granular",
+        "saturator",
+        "ring-mod",
+        "pitch-shift",
+        "key-lock",
+        "chorus",
+        "chorus-flanger",
+        "combo-filter",
+        "duck-delay",
+      ],
     };
 
     function syncVinylDeckUi(deck = document.body.dataset.djVinylDeck || "a") {
@@ -9925,72 +15216,280 @@
       });
     }
 
-    function getPerformanceFxBoardEffects(board) {
-      const library = getFxLibrary();
-      const data = readFxSetup();
-      const assignments = data.assignments || {};
-      const hasCustomAssignments = Object.keys(assignments).length > 0;
+    function getPerformanceFxBoardEffects(
+      board
+    ) {
+      const library =
+        getFxLibrary();
 
-      const selected = hasCustomAssignments
-        ? library.filter((effect) => assignments[effect.id] === board)
-        : (defaultFxBoardMap[board] || []).map((id) => library.find((effect) => effect.id === id)).filter(Boolean);
+      if (
+        board === "djm700"
+      ) {
+        return djm700FxMap
+          .map((id) =>
+            library.find(
+              (effect) =>
+                effect.id === id
+            )
+          )
+          .filter(Boolean);
+      }
 
-      return Array.from({ length: 9 }, (_, index) => selected[index] || null);
+      const data =
+        readFxSetup();
+
+      const assignments =
+        data.assignments || {};
+
+      const hasCustomAssignments =
+        Object.keys(
+          assignments
+        ).length > 0;
+
+      const selected =
+        hasCustomAssignments
+          ? library.filter(
+              (effect) =>
+                assignments[
+                  effect.id
+                ] === board
+            )
+          : (
+              defaultFxBoardMap[
+                board
+              ] || []
+            )
+              .map((id) =>
+                library.find(
+                  (effect) =>
+                    effect.id === id
+                )
+              )
+              .filter(Boolean);
+
+      return Array.from(
+        {
+          length: 9,
+        },
+        (_, index) =>
+          selected[index] ||
+          null
+      );
     }
 
     function renderPerformanceFxBoard() {
-      const grid = $("[data-dj-performance-fx-pads]");
+      const grid =
+        $(
+          "[data-dj-performance-fx-pads]"
+        );
+
       if (!grid) return;
 
-      const board = fxBoardOrder.includes(document.body.dataset.djFxBoard) ? document.body.dataset.djFxBoard : "board1";
-      const pads = getPerformanceFxBoardEffects(board);
+      const board =
+        fxBoardOrder.includes(
+          document.body.dataset
+            .djFxBoard
+        )
+          ? document.body
+              .dataset
+              .djFxBoard
+          : "djm700";
 
-      grid.innerHTML = pads.map((effect, index) => {
-        const padNumber = String(index + 1).padStart(2, "0");
+      const pads =
+        getPerformanceFxBoardEffects(
+          board
+        );
 
-        if (!effect) {
-          return `
-            <button class="brDjPerfFxPad is-empty" type="button" disabled>
-              <span>Pad ${padNumber}</span>
-              <strong>Empty</strong>
-              <em>Assign in FX setup</em>
-            </button>
-          `;
-        }
+      const isDjm700 =
+        board === "djm700";
 
-        return `
-          <button class="brDjPerfFxPad" type="button" data-dj-perf-fx-pad="${escapeHtml(effect.id)}" aria-pressed="false">
-            <span>Pad ${padNumber}</span>
-            <strong>${escapeHtml(effect.name)}</strong>
-            <em>${escapeHtml(effect.family)}</em>
-          </button>
-        `;
-      }).join("");
+      grid.classList.toggle(
+        "is-djm700",
+        isDjm700
+      );
+
+      const djmLabels = {
+        "beat-roll": "Roll",
+
+        "reverse-roll":
+          "Reverse Roll",
+
+        "up-roll":
+          "Up Roll",
+
+        "down-roll":
+          "Down Roll",
+      };
+
+      grid.innerHTML =
+        pads
+          .map(
+            (
+              effect,
+              index
+            ) => {
+              const padNumber =
+                String(
+                  index + 1
+                ).padStart(
+                  2,
+                  "0"
+                );
+
+              if (!effect) {
+                return `
+                  <button
+                    class="brDjPerfFxPad is-empty"
+                    type="button"
+                    disabled
+                  >
+                    <span>
+                      Pad ${padNumber}
+                    </span>
+
+                    <strong>
+                      Empty
+                    </strong>
+
+                    <em>
+                      Assign in FX setup
+                    </em>
+                  </button>
+                `;
+              }
+
+              const displayName =
+                isDjm700
+                  ? (
+                      djmLabels[
+                        effect.id
+                      ] ||
+                      effect.name
+                    )
+                  : effect.name;
+
+              return `
+                <button
+                  class="brDjPerfFxPad${isDjm700 ? " is-djm700" : ""}"
+                  type="button"
+                  data-dj-perf-fx-pad="${escapeHtml(
+                    effect.id
+                  )}"
+                  aria-pressed="false"
+                >
+                  <span>
+                    ${
+                      isDjm700
+                        ? "DJM Beat FX"
+                        : `Pad ${padNumber}`
+                    }
+                  </span>
+
+                  <strong>
+                    ${escapeHtml(
+                      displayName
+                    )}
+                  </strong>
+
+                  <em>
+                    ${escapeHtml(
+                      isDjm700
+                        ? "Pioneer-era"
+                        : effect.family
+                    )}
+                  </em>
+                </button>
+              `;
+            }
+          )
+          .join("");
     }
 
-    function syncPerformanceFxBoardUi(board = document.body.dataset.djFxBoard || "board1") {
-      const safeBoard = fxBoardOrder.includes(board) ? board : "board1";
-      const meta = fxBoardMeta[safeBoard];
+    function syncPerformanceFxBoardUi(
+      board =
+        document.body.dataset
+          .djFxBoard ||
+        "djm700"
+    ) {
+      const safeBoard =
+        fxBoardOrder.includes(
+          board
+        )
+          ? board
+          : "djm700";
 
-      document.body.dataset.djFxBoard = safeBoard;
+      const meta =
+        fxBoardMeta[
+          safeBoard
+        ];
 
-      const title = $("[data-dj-performance-fx-title]");
-      if (title) title.textContent = meta.label;
+      document.body.dataset
+        .djFxBoard =
+        safeBoard;
 
-      const subtitle = $("[data-dj-performance-fx-subtitle]");
-      if (subtitle) subtitle.textContent = `${meta.tone} · ${meta.count}`;
+      const title =
+        $(
+          "[data-dj-performance-fx-title]"
+        );
 
-      $$("[data-dj-performance-fx-indicator]").forEach((indicator) => {
-        indicator.classList.toggle("is-active", indicator.dataset.djPerformanceFxIndicator === safeBoard);
-      });
+      if (title) {
+        title.textContent =
+          meta.label;
+      }
+
+      const subtitle =
+        $(
+          "[data-dj-performance-fx-subtitle]"
+        );
+
+      if (subtitle) {
+        subtitle.textContent =
+          `${meta.tone} · ${meta.count}`;
+      }
+
+      $$(
+        "[data-dj-performance-fx-indicator]"
+      ).forEach(
+        (indicator) => {
+          const active =
+            indicator.dataset
+              .djPerformanceFxIndicator ===
+            safeBoard;
+
+          indicator.classList.toggle(
+            "is-active",
+            active
+          );
+
+          indicator.setAttribute(
+            "aria-pressed",
+            active ? "true" : "false"
+          );
+        }
+      );
 
       renderPerformanceFxBoard();
     }
 
     function nextPerformanceFxBoard() {
-      const current = document.body.dataset.djFxBoard || "board1";
-      const currentIndex = fxBoardOrder.indexOf(current);
-      return fxBoardOrder[(currentIndex + 1 + fxBoardOrder.length) % fxBoardOrder.length];
+      const current =
+        document.body.dataset
+          .djFxBoard ||
+        "djm700";
+
+      const currentIndex =
+        fxBoardOrder.indexOf(
+          current
+        );
+
+      return fxBoardOrder[
+        (
+          currentIndex +
+          1 +
+          fxBoardOrder.length
+        ) %
+          fxBoardOrder.length
+      ];
     }
 		
     function syncMixerMode(mode = document.body.dataset.djMixerPanelMode || "eq") {
@@ -10110,6 +15609,14 @@
       });
     }
 
+    function syncGridControlSet(value = 1) {
+      const set = Number(value) === 2 ? 2 : 1;
+      document.body.dataset.djGridControlSet = String(set);
+      $$("[data-grid-control-set]").forEach((controls) => {
+        controls.hidden = Number(controls.dataset.gridControlSet) !== set;
+      });
+    }
+
     $$("[data-perf-view]").forEach((button) => {
       button.addEventListener("click", () => {
         const view = button.dataset.perfView || "duo";
@@ -10189,8 +15696,14 @@
         }
 
         if (tab === "fx") {
-          const nextBoard = currentTab === "fx" ? nextPerformanceFxBoard() : "board1";
-          syncPerformanceFxBoardUi(nextBoard);
+          const nextBoard =
+            currentTab === "fx"
+              ? nextPerformanceFxBoard()
+              : "djm700";
+
+          syncPerformanceFxBoardUi(
+            nextBoard
+          );
         }
 
         if (tab === "mixer") {
@@ -10570,12 +16083,38 @@
       }
     );
 		
+    $$("[data-dj-fx-board-button]").forEach(
+      (button) => {
+        button.addEventListener(
+          "click",
+          (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            syncPerformanceFxBoardUi(
+              button.dataset
+                .djFxBoardButton ||
+                "djm700"
+            );
+          }
+        );
+      }
+    );
+		
     $$("[data-deck-tab]").forEach((button) => {
       button.addEventListener("click", () => {
-        syncDeckTab(button.dataset.deckTab || "main");
+        const requested = button.dataset.deckTab || "main";
+        const current = document.body.dataset.djDeckTab || "main";
+        if (requested === "grid" && current === "grid") {
+          syncGridControlSet(document.body.dataset.djGridControlSet === "2" ? 1 : 2);
+          return;
+        }
+        syncGridControlSet(1);
+        syncDeckTab(requested);
       });
     });
 
+    syncGridControlSet(1);
     syncDeckTab();
 
     $$("[data-dj-perf-panel], [data-dj-duo-panel]").forEach((panel) => {
@@ -10599,14 +16138,11 @@
       }
     });
 
-    document.addEventListener("click", (event) => {
-      const pad = event.target?.closest?.("[data-dj-perf-fx-pad]");
-      if (!pad || pad.disabled) return;
-
-      const active = !pad.classList.contains("is-active");
-      pad.classList.toggle("is-active", active);
-      pad.setAttribute("aria-pressed", active ? "true" : "false");
-    });
+    /*
+      Performance FX pad handling is provided by components/fx-performance.js.
+      The old placeholder handler only changed the button colour and never
+      touched the audio graph.
+    */
 
     $$("[data-vinyl-deck-switch]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -10705,7 +16241,9 @@
     bindSetPlan();
     bindFxSetup();
     bindRecordSetup();
-    setStudioView("studio");
+    bindRecordingArchive();
+    const requestedView = new URLSearchParams(window.location.search).get("view");
+    setStudioView(requestedView === "set-plan" ? "set-plan" : "studio");
     hydrateDjIcons(document);
 
     [180, 700, 1400].forEach((delay) => {

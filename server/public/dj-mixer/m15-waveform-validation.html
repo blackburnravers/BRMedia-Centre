@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BRMedia M15 Waveform Validation</title>
+</head>
+<body>
+  <main aria-label="M15 browser validation fixture">
+    <section data-deck="d1">
+      <button class="brDjSinglePlayBtn" type="button">Play/Pause Deck 1</button>
+      <button class="brDjSingleCueBtn" type="button">Cue Deck 1</button>
+      <button data-dj-eject="d1" type="button">Eject Deck 1</button>
+      <div class="brDjSingleWaveCanvas" data-fixed-centre="d1"></div>
+    </section>
+    <section data-deck="d2">
+      <button class="brDjSinglePlayBtn" type="button">Play/Pause Deck 2</button>
+      <button class="brDjSingleCueBtn" type="button">Cue Deck 2</button>
+      <button data-dj-eject="d2" type="button">Eject Deck 2</button>
+      <div class="brDjSingleWaveCanvas" data-fixed-centre="d2"></div>
+    </section>
+  </main>
+  <script src="/dj-mixer/engine/waveform-runtime-m13.js?v=20260729-m15-waveform-validation"></script>
+  <script>
+    (() => {
+      const validationEnabled =
+        new URLSearchParams(location.search).get("brWaveformValidate") === "1";
+      const diagnostics = BRMediaM13WaveformRuntime.createDiagnostics({
+        enabled: validationEnabled,
+        validationEnabled,
+      });
+      window.BRMediaM14WaveformDiagnostics = diagnostics;
+      BRMediaM13WaveformRuntime.installDebugInterface(diagnostics);
+      const mark = (field) => ["d1", "d2"].forEach((deckId) => {
+        const checks = diagnostics.snapshot().decks[deckId].validationChecks;
+        diagnostics.record(deckId, {
+          validationChecks: { ...checks, [field]: Number(checks[field] || 0) + 1 },
+        });
+      });
+      mark("dpr");
+      addEventListener("resize", () => mark("resize"), { passive: true });
+      addEventListener("orientationchange", () => mark("orientation"), { passive: true });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MixxxControllerPreset mixxxVersion="2.5" schemaVersion="1">
+  <info><name>BRMedia Mixxx M2 MIDI Bridge</name><author>BRMedia / Upalnite</author>
+    <description>Guarded M2 proof-of-concept mapping for the BRMedia Mixxx Remote loopMIDI port.</description></info>
+  <controller id="BRMedia Mixxx M2 MIDI Bridge">
+    <scriptfiles><file filename="BRMedia-Mixxx-M2-Bridge-scripts.js" functionprefix="BRMediaMixxxM2" /></scriptfiles>
+    <controls>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM2.play</key><status>0x90</status><midino>0x10</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel1]</group><key>BRMediaMixxxM2.cue</key><status>0x90</status><midino>0x11</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM2.play</key><status>0x90</status><midino>0x20</midino><options><Script-Binding /></options></control>
+      <control><group>[Channel2]</group><key>BRMediaMixxxM2.cue</key><status>0x90</status><midino>0x21</midino><options><Script-Binding /></options></control>
+      <control><group>[Master]</group><key>crossfader</key><status>0xB0</status><midino>0x40</midino><options><normal /></options></control>
+      <control><group>[Master]</group><key>BRMediaMixxxM2.heartbeat</key><status>0x90</status><midino>0x7E</midino><options><Script-Binding /></options></control>
+    </controls>
+  </controller>
+</MixxxControllerPreset>

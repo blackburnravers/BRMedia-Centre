@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "milestone": "M23",
+  "status": "built-staged-automated-tests-passed-manual-validation-pending",
+  "officialRepository": "https://github.com/mixxxdj/mixxx",
+  "base": {
+    "version": "2.5.6",
+    "tagObject": "94ccc34f91d37dec62d0d70c16fac38dc8af677f",
+    "commit": "3ebac449e7e5fe2a0186596657696e87ce8b0e56"
+  },
+  "upstreamFeature": {
+    "pullRequest": "https://github.com/mixxxdj/mixxx/pull/16518",
+    "stateAtAudit": "open-unmerged-non-mergeable-no-reviews",
+    "featureCommit": "cd4c9cea9277e0f5577a3c0b0b2b8ae6708bea10",
+    "prHead": "ba15a25eb8448e3f9499c016ed2b6490c55aea6c",
+    "syntheticMerge": "471d9176d85167add8b52fa116c2bb8f9228dc3b",
+    "apiSignature": "bool engine.loadTrack(QString group, QString path)",
+    "loadPipeline": "PlayerManager::slotLoadLocationToPlayer(path, group, false)",
+    "browserPathExposure": false
+  },
+  "selectedPatch": {
+    "strategy": "minimal-reviewed-backport-of-official-feature-commit",
+    "finalSourceCommit": "3ebac449e7e5fe2a0186596657696e87ce8b0e56 plus patches/0001-backport-engine-load-track-to-mixxx-2.5.6.patch",
+    "affectedFiles": [
+      "src/controllers/scripting/controllerscriptenginebase.cpp",
+      "src/controllers/scripting/controllerscriptenginebase.h",
+      "src/controllers/scripting/legacy/controllerscriptinterfacelegacy.cpp",
+      "src/controllers/scripting/legacy/controllerscriptinterfacelegacy.h",
+      "src/coreservices.cpp"
+    ],
+    "reviewStatus": "locally security-reviewed-built-and-focused-upstream-tests-passed; upstream PR remains unreviewed"
+  },
+  "build": {
+    "sourcePath": "C:\\BRMediaBuilds\\Mixxx-M23\\worktree",
+    "buildPath": "C:\\BRMediaBuilds\\Mixxx-M23\\build\\x64__legacy",
+    "logsPath": "C:\\BRMediaBuilds\\Mixxx-M23\\logs",
+    "configuration": "RelWithDebInfo",
+    "architecture": "x64",
+    "toolchain": {
+      "visualStudio": "Visual Studio Build Tools 2022",
+      "msvcTools": "14.44.35207",
+      "compiler": "Microsoft C/C++ 19.44.35228 x64",
+      "cmake": "3.31.6-msvc6",
+      "ninja": "1.12.1",
+      "installPath": "C:\\BuildTools"
+    },
+    "dependencies": {
+      "bundle": "mixxx-deps-2.5-x64-windows-c15790e",
+      "sha256": "138e4685ec73c6a6a509f71f8573be581403b091e4ecea2314df2cc79f9720b9"
+    },
+    "options": [
+      "CMAKE_BUILD_TYPE=RelWithDebInfo",
+      "BUILD_TESTING=ON",
+      "CMAKE_GENERATOR=Ninja",
+      "x64 Windows",
+      "official Mixxx 2.5 dependency defaults",
+      "PortAudio PA_USE_ASIO=1"
+    ],
+    "output": "C:\\BRMediaMixxxCompatibility",
+    "hashes": {
+      "mixxx.exe": "1e33e64b181f654a664fc950b59b817ac3facb76a788033846b78de8e9c3a397",
+      "mixxx-test.exe": "2f24686bb958700c08167af282d3c6631e39dfe63c39d0d9eae2535ba530c734",
+      "Qt6Core.dll": "2d70475ab5454879fb5e0f758682433fbea25346e7d5ebd26e8c924c0327f049",
+      "portaudio.dll": "6fa7484bd90e9017c54911089b8c0edc712d66e3727187cec783fd0a518c8c8f",
+      "portmidi.dll": "7577a448ce8b2b56a6fd0ceef46cf11979823b504d5195e5c5917625be8e3dab",
+      "sndfile.dll": "e70a6c557506a318d14cd9682be4432437a145e000f14d3cc57dcfbed4471f1a",
+      "hidapi.dll": "6b40cf0355bf3c4686a58c99d3ae3889fbc8933a37a6c82981acb24a9750575d"
+    },
+    "tests": "72/72 focused upstream tests passed"
+  },
+  "runtime": {
+    "stablePath": "C:\\Program Files\\Mixxx\\mixxx.exe",
+    "stableVersion": "2.5.6 x64",
+    "stableExecutableSha256": "525BBFEBC867299DD58ABBF456C8A14EB80F3AFC200D01D56B873A26B7958C87",
+    "compatibilityInstallPath": "C:\\BRMediaMixxxCompatibility",
+    "settingsPath": "C:\\BRMediaMixxxCompatibilityProfile",
+    "stableSettingsPath": "C:\\Users\\brmedia\\AppData\\Local\\Mixxx",
+    "rollbackPath": "C:\\BRMediaBackups\\Mixxx-M23",
+    "startupTargetChanged": false
+  },
+  "brmediaMapping": {
+    "xml": "tools/mixxx/BRMedia-Mixxx-M7-Live-Engine.midi.xml",
+    "xmlSha256": "ccdb1da39565e8c28a345dfca421c235e85875cef04dacbe599886ed482ace81",
+    "script": "tools/mixxx/BRMedia-Mixxx-M7-Live-Engine-scripts.js",
+    "scriptSha256": "ec1bc6b1dccfa3f157ca349e459328e99723a6432f74533d5f918ff63df6fc34"
+  },
+  "knownLimitations": [
+    "PR 16518 is not merged and had no upstream reviews at the 2026-08-01 audit.",
+    "The exact upstream feature commit does not cherry-pick cleanly onto 2.5.6 because PlayerManager registration was added later; the backport must include that narrow dependency.",
+    "Physical Creative ASIO and D1/D2 validation remain pending until stable Mixxx is manually closed and the staged runtime is launched.",
+    "The compatibility runtime must be launched with --settings-path C:\\BRMediaMixxxCompatibilityProfile so production Mixxx SQLite remains untouched."
+  ]
+}

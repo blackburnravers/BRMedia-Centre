@@ -86,7 +86,7 @@ export function loadConfig(): ServerConfig {
 
   const localAllowedBases = uniquePaths([
     ...parseAllowedBases(defaults.localAllowedBases?.join(";")),
-    ...parseAllowedBases(process.env.BRMEDIA_AUDIO_DIRS || "C:\\DJMixes"),
+    ...parseAllowedBases(process.env.BRMEDIA_AUDIO_DIRS || "H:\\Music;C:\\DJMixes"),
     ...parseAllowedBases(process.env.BRMEDIA_VIDEO_DIRS || process.env.VIDEO_LIBRARY_DIRS || "C:\\Videos"),
     ...parseAllowedBases(process.env.LOCAL_ALLOWED_BASES),
     ...getAllEnabledLibrarySourcePaths(),

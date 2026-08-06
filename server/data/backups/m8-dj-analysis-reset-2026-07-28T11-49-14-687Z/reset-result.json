@@ -1,0 +1,15 @@
+{
+  "completedAt": "2026-07-28T11:54:12.279Z",
+  "backupDir": "C:\\Users\\Rosegrove Chippy\\Documents\\BRMedia-Centre\\server\\data\\backups\\m8-dj-analysis-reset-2026-07-28T11-49-14-687Z",
+  "totalTracksFound": 429,
+  "totalTracksReset": 429,
+  "generatedManifestFieldsRemoved": 5217,
+  "preparationRecordsRemoved": 426,
+  "totalGeneratedRecordsRemoved": 5643,
+  "cacheFilesRemoved": 427,
+  "cacheBytesRemoved": 328186373,
+  "protectedAudioFiles": 429,
+  "audioIntegrityMismatches": 0,
+  "skippedItems": [],
+  "protectedStoresUnchanged": true
+}

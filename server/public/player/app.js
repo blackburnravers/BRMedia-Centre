@@ -1128,7 +1128,7 @@ let mirrorStreamLabel = "";
 let outputSelectedSinkId = "";
 let outputSelectedSinkLabel = "";
 const downloadSizeCache = new Map();
-const AUTO_SCAN_PATH = "C:\\DJMixes";
+const AUTO_SCAN_PATH = "H:\\Music";
 let sleepFinalOverlayVisible = false;
 let previewShareState = {
   trackId: "",

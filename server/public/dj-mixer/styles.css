@@ -10,6 +10,51 @@
   --br-dj-soft: rgba(31, 169, 255, 0.18);
 }
 
+/* M25 exact prepared-grid lifecycle */
+.brM25PrepareGrid {
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, currentColor 38%, transparent);
+  border-radius: 12px;
+  padding: 0.65rem 1rem;
+  background: rgba(10, 18, 30, 0.88);
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  touch-action: manipulation;
+}
+
+body.brDjPerformanceBody .brDjGridPage { position: relative; }
+body.brDjPerformanceBody .brDjGridPage > .brM25PrepareGrid {
+  position: absolute;
+  z-index: 24;
+  left: 50%;
+  bottom: 64px;
+  transform: translateX(-50%);
+  width: min(260px, calc(100% - 32px));
+  background: rgba(7, 15, 30, 0.96);
+  color: #fff;
+  box-shadow: 0 12px 32px rgba(0,0,0,.42);
+}
+body.brDjPerformanceBody .brDjGridPage > .brM25PrepareGrid[hidden] { display: none; }
+
+.brM25GridReadout {
+  display: block;
+  max-width: 100%;
+  margin-top: 0.35rem;
+  color: rgba(230, 238, 249, 0.88);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brDjPerfPanel[data-m25-grid-state="grid-needs-review"] .brDjGridStatus { color: #ffbf4a; }
+.brDjPerfPanel[data-m25-grid-state="grid-locked"] .brDjGridStatus { color: #67d8ff; }
+.brDjPerfPanel[data-m25-grid-state="grid-failed"] .brDjGridStatus,
+.brDjPerfPanel[data-m25-grid-state="grid-cache-mismatch"] .brDjGridStatus,
+.brDjPerfPanel[data-m25-grid-state="grid-corrupt"] .brDjGridStatus { color: #ff6f7d; }
+
 body.brDjStudioBody {
   background: #f4f7fb;
   color: #ffffff;
@@ -93,8 +138,7 @@ body.brDjStudioBody .sidebarNavIconBadge i {
 }
 
 .brDjHeroCard p,
-.brDjPanel p,
-.brDjStatusList {
+.brDjPanel p {
   margin: 12px 0 0;
   color: rgba(255, 255, 255, 0.74);
   font-weight: 760;
@@ -175,14 +219,6 @@ body.brDjStudioBody .sidebarNavIconBadge i {
 
 .brDjPanel.is-active {
   display: block;
-}
-
-.brDjStatusList {
-  padding-left: 19px;
-}
-
-.brDjStatusList li {
-  margin: 8px 0;
 }
 
 body.brDjStudioBody .playerSiteFooter {
@@ -271,8 +307,7 @@ body.brDjPerformanceBody {
   gap: 8px;
 }
 
-.brDjDuoDeckStrip article,
-.brDjPerfPlaceholder {
+.brDjDuoDeckStrip article {
   border: 1px solid rgba(123, 216, 255, 0.16);
   border-radius: 22px;
   background: rgba(255,255,255,0.055);
@@ -288,8 +323,7 @@ body.brDjPerformanceBody {
   min-width: 0;
 }
 
-.brDjDuoDeckStrip span,
-.brDjPerfPlaceholder p {
+.brDjDuoDeckStrip span {
   margin: 0;
   color: var(--br-dj-orange);
   font-size: 0.62rem;
@@ -305,30 +339,14 @@ body.brDjPerformanceBody {
   white-space: nowrap;
 }
 
-.brDjDuoDeckStrip em,
-.brDjPerfPlaceholder span {
+.brDjDuoDeckStrip em {
   color: rgba(255,255,255,0.58);
   font-style: normal;
   font-size: 0.68rem;
 }
 
-.brDjPerfPlaceholder {
-  min-height: 0;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  text-align: center;
-  padding: 22px;
-}
-
 .brDjPerfPlaceholder.duo {
   min-height: 0;
-}
-
-.brDjPerfPlaceholder h1 {
-  margin: 8px 0;
-  font-size: clamp(2rem, 10vw, 4.2rem);
-  line-height: 0.95;
 }
 
 .brDjDuoBottomNav {
@@ -7095,6 +7113,17 @@ body.brDjPerformanceBody .brDjSingleLibraryBtn {
   --br-icon-secondary: var(--br-dj-orange);
 }
 
+body.brDjPerformanceBody button.brDjMixxxEject {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  --br-icon-primary: #fff;
+  --br-icon-secondary: var(--br-dj-orange);
+}
+body.brDjPerformanceBody button.brDjMixxxEject:disabled { opacity: .38; cursor: default; }
+body.brDjPerformanceBody button.brDjMixxxEject.is-pending i { animation: brDjEjectPending .8s ease-in-out infinite alternate; }
+@keyframes brDjEjectPending { to { opacity: .4; transform: translateY(2px); } }
+
 body.brDjPerformanceBody .brDjSingleTrackText {
   min-width: 0;
 }
@@ -7107,6 +7136,9 @@ body.brDjPerformanceBody .brDjSingleSubPlaceholder p {
   font-weight: 1000;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 body.brDjPerformanceBody .brDjSingleTrackText h1,
@@ -8308,8 +8340,8 @@ body.brDjPerformanceBody .brDjGridPage {
 
 body.brDjPerformanceBody .brDjGridPage .brDjCueMemoryOverview::before,
 body.brDjPerformanceBody .brDjGridPage .brDjCueMemoryWaveform::before {
-  background:
-    repeating-linear-gradient(90deg, #7bd8ff 0 4px, transparent 4px 8px) !important;
+  content: none !important;
+  background: none !important;
 }
 
 body.brDjPerformanceBody .brDjGridWave {
@@ -8318,8 +8350,8 @@ body.brDjPerformanceBody .brDjGridWave {
 
 body.brDjPerformanceBody .brDjSingleDeckPage.is-deck-2 .brDjGridPage .brDjCueMemoryOverview::before,
 body.brDjPerformanceBody .brDjSingleDeckPage.is-deck-2 .brDjGridPage .brDjCueMemoryWaveform::before {
-  background:
-    repeating-linear-gradient(90deg, rgba(255,166,17,0.94) 0 4px, transparent 4px 8px) !important;
+  content: none !important;
+  background: none !important;
 }
 
 body.brDjPerformanceBody .brDjSingleDeckPage.is-deck-2 .brDjGridWave {
@@ -13095,3 +13127,4534 @@ body.brDjPerformanceBody.brDjAndroid
   font-size: 0.38rem;
 }
 
+/* Patch 3-W3A — automatic deck scan + selected batch preparation */
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPanel {
+  grid-template-rows:
+    auto auto auto auto auto minmax(0, 1fr) !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatch {
+  display: grid;
+  gap: 6px;
+  padding: 7px 8px;
+  border:
+    1px solid rgba(123, 216, 255, 0.13);
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(242, 160, 7, 0.055),
+      rgba(41, 156, 255, 0.055)
+    ),
+    rgba(255, 255, 255, 0.025);
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchActions {
+  display: grid;
+  grid-template-columns:
+    auto auto minmax(72px, 1fr) auto;
+  gap: 6px;
+  align-items: center;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchActions button {
+  min-width: 0;
+  height: 30px;
+  padding: 4px 8px;
+  border:
+    1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.055);
+  font: inherit;
+  font-size: 0.54rem;
+  font-weight: 950;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchActions
+  [data-dj-library-scan-selected] {
+  color: #07131f;
+  border-color: rgba(123, 216, 255, 0.78);
+  background:
+    linear-gradient(
+      180deg,
+      #9ce8ff,
+      #299cff
+    );
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchActions button:disabled {
+  opacity: 0.38;
+  filter: grayscale(0.35);
+  pointer-events: none;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchActions
+  [data-dj-library-selection-count] {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(156, 232, 255, 0.78);
+  font-size: 0.54rem;
+  font-weight: 950;
+  letter-spacing: 0.055em;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchProgress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchProgress[hidden] {
+  display: none !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchProgress > div {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchProgress
+  [data-dj-library-batch-progress-bar] {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      #f2a007,
+      #7bd8ff
+    );
+  transition: width 180ms ease;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatchProgress strong {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.52rem;
+  letter-spacing: 0.055em;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySelect {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  display: block;
+  cursor: pointer;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySelect input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySelect
+  .brDjPerformanceLibraryIcon {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySelect input:checked +
+  .brDjPerformanceLibraryIcon {
+  color: #07131f;
+  border-color: rgba(123, 216, 255, 0.86);
+  background:
+    linear-gradient(
+      180deg,
+      #9ce8ff,
+      #299cff
+    );
+  box-shadow:
+    0 0 0 2px rgba(123, 216, 255, 0.12),
+    0 0 14px rgba(41, 156, 255, 0.18);
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySelect input:checked +
+  .brDjPerformanceLibraryIcon i::before {
+  content: "\f00c";
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySelect input:disabled +
+  .brDjPerformanceLibraryIcon {
+  opacity: 0.46;
+  filter: grayscale(0.45);
+  cursor: default;
+}
+
+@media (max-width: 430px) {
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryBatch {
+    padding: 6px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryBatchActions {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryBatchActions
+    [data-dj-library-selection-count] {
+    order: 3;
+    text-align: left;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryBatchActions
+    [data-dj-library-scan-selected] {
+    order: 4;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibrarySelect {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Patch 3-W4C — complete per-deck performance FX engine */
+
+body.brDjPerformanceBody
+  .brDjFxBoardStage {
+  grid-template-rows:
+    auto auto minmax(0, 1fr) !important;
+  gap: 8px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjFxRuntimeBar {
+  display: grid;
+  grid-template-columns:
+    auto minmax(110px, 1fr) auto auto;
+  grid-template-areas:
+    "target amount beat clear"
+    "status status status status";
+  gap: 6px 8px;
+  align-items: center;
+  padding: 7px 8px;
+  border:
+    1px solid rgba(123, 216, 255, 0.14);
+  border-radius: 14px;
+  background:
+    rgba(255, 255, 255, 0.035);
+}
+
+body.brDjPerformanceBody
+  .brDjFxTargetButtons {
+  grid-area: target;
+  display: grid;
+  grid-template-columns:
+    repeat(3, auto);
+  gap: 4px;
+}
+
+body.brDjPerformanceBody
+  .brDjFxTargetButtons button,
+body.brDjPerformanceBody
+  .brDjFxBeatButton,
+body.brDjPerformanceBody
+  .brDjFxClearButton {
+  min-width: 0;
+  min-height: 30px;
+  padding: 4px 8px;
+  border:
+    1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  color:
+    rgba(255, 255, 255, 0.78);
+  background:
+    rgba(255, 255, 255, 0.055);
+  font: inherit;
+  font-size: 0.56rem;
+  font-weight: 1000;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody
+  .brDjFxTargetButtons
+  button[data-dj-fx-target="d1"].is-active {
+  color: #1a1200;
+  border-color:
+    rgba(242, 160, 7, 0.92);
+  background:
+    linear-gradient(
+      180deg,
+      #ffd06b,
+      #f2a007
+    );
+}
+
+body.brDjPerformanceBody
+  .brDjFxTargetButtons
+  button[data-dj-fx-target="d2"].is-active {
+  color: #031324;
+  border-color:
+    rgba(89, 174, 255, 0.92);
+  background:
+    linear-gradient(
+      180deg,
+      #9ce8ff,
+      #299cff
+    );
+}
+
+body.brDjPerformanceBody
+  .brDjFxTargetButtons
+  button[data-dj-fx-target="both"].is-active {
+  color: #071611;
+  border-color:
+    rgba(52, 199, 89, 0.9);
+  background:
+    linear-gradient(
+      180deg,
+      #8af0a4,
+      #34c759
+    );
+}
+
+body.brDjPerformanceBody
+  .brDjFxAmountControl {
+  grid-area: amount;
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+body.brDjPerformanceBody
+  .brDjFxAmountControl > span {
+  display: flex;
+  justify-content:
+    space-between;
+  gap: 8px;
+  color:
+    rgba(255, 255, 255, 0.62);
+  font-size: 0.54rem;
+  font-weight: 950;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody
+  .brDjFxAmountControl strong {
+  color: #ffffff;
+}
+
+body.brDjPerformanceBody
+  .brDjFxAmountControl input {
+  width: 100%;
+  min-width: 70px;
+  accent-color: #7bd8ff;
+}
+
+body.brDjPerformanceBody
+  .brDjFxBeatButton {
+  grid-area: beat;
+  color: #07131f;
+  border-color:
+    rgba(123, 216, 255, 0.82);
+  background:
+    linear-gradient(
+      180deg,
+      #9ce8ff,
+      #299cff
+    );
+}
+
+body.brDjPerformanceBody
+  .brDjFxClearButton {
+  grid-area: clear;
+  color: #ffc4c4;
+  border-color:
+    rgba(255, 70, 70, 0.42);
+  background:
+    rgba(255, 70, 70, 0.14);
+}
+
+body.brDjPerformanceBody
+  .brDjFxRuntimeStatus {
+  grid-area: status;
+  min-width: 0;
+  overflow: hidden;
+  color:
+    rgba(255, 255, 255, 0.58);
+  font-size: 0.52rem;
+  font-weight: 900;
+  letter-spacing: 0.045em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-partial {
+  border-style:
+    dashed !important;
+  opacity: 0.82;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-partial::after {
+  content: "1 DECK";
+  justify-self: end;
+  color:
+    rgba(255, 255, 255, 0.62);
+  font-size: 0.48rem;
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-active {
+  transform:
+    translateY(-1px);
+}
+
+@media (max-width: 430px) {
+  body.brDjPerformanceBody
+    .brDjFxBoardStage {
+    gap: 6px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjFxRuntimeBar {
+    grid-template-columns:
+      auto minmax(82px, 1fr) auto;
+    grid-template-areas:
+      "target amount beat"
+      "status status clear";
+    gap: 4px 6px;
+    padding: 5px 6px;
+    border-radius: 12px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjFxTargetButtons button,
+  body.brDjPerformanceBody
+    .brDjFxBeatButton,
+  body.brDjPerformanceBody
+    .brDjFxClearButton {
+    min-height: 26px;
+    padding: 3px 6px;
+    border-radius: 9px;
+    font-size: 0.49rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjFxAmountControl > span,
+  body.brDjPerformanceBody
+    .brDjFxRuntimeStatus {
+    font-size: 0.47rem;
+  }
+}
+
+/* Patch 3-W4C1 — FX safety, compact layout and DJM-700 default board */
+
+body.brDjPerformanceBody
+  .brDjFxBoardHeader h1 {
+  font-size:
+    clamp(
+      1.25rem,
+      5.6vw,
+      1.95rem
+    ) !important;
+}
+
+body.brDjPerformanceBody
+  .brDjFxBoardHeader span {
+  font-size:
+    0.64rem !important;
+}
+
+body.brDjPerformanceBody
+  .brDjFxBoardIndicators {
+  grid-template-columns:
+    repeat(
+      5,
+      34px
+    ) !important;
+}
+
+body.brDjPerformanceBody
+  .brDjFxBoardIndicators span {
+  min-height:
+    34px !important;
+  border-radius:
+    12px !important;
+  font-size:
+    0.61rem !important;
+}
+
+body.brDjPerformanceBody
+  .brDjFxRuntimeBar {
+  grid-template-columns:
+    auto
+    minmax(92px, 1fr)
+    auto
+    auto !important;
+
+  grid-template-areas:
+    "target amount beat clear"
+    "summary summary status status" !important;
+
+  padding:
+    6px 7px !important;
+
+  gap:
+    5px 7px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjFxActiveSummary {
+  grid-area: summary;
+  min-width: 0;
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.48
+    );
+  font-size: 0.49rem;
+  font-weight: 1000;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjFxActiveSummary.has-active-fx {
+  color: #ffbd52;
+}
+
+body.brDjPerformanceBody
+  .brDjFxRuntimeStatus {
+  text-align: right;
+}
+
+body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+  .brDjFxBoardStage,
+body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+  .brDjPerfFxPad.is-active,
+body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+  .brDjFxBoardIndicators
+  [data-dj-performance-fx-indicator="djm700"].is-active {
+  border-color:
+    rgba(
+      230,
+      236,
+      245,
+      0.76
+    ) !important;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(
+        242,
+        160,
+        7,
+        0.26
+      ),
+      transparent 46%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(
+        190,
+        202,
+        218,
+        0.16
+      ),
+      rgba(
+        15,
+        43,
+        82,
+        0.9
+      ) 55%,
+      rgba(
+        8,
+        17,
+        34,
+        0.95
+      )
+    ) !important;
+
+  box-shadow:
+    0 0 0 1px
+      rgba(
+        230,
+        236,
+        245,
+        0.1
+      ),
+    0 14px 28px
+      rgba(
+        0,
+        0,
+        0,
+        0.2
+      ) !important;
+}
+
+body.brDjPerformanceBody[data-dj-duo-tab="fx"][data-dj-fx-board="djm700"]
+  .brDjDuoBottomNav
+  button[data-duo-tab="fx"].is-active {
+  border-color:
+    rgba(
+      230,
+      236,
+      245,
+      0.78
+    ) !important;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(
+        242,
+        160,
+        7,
+        0.28
+      ),
+      transparent 48%
+    ),
+    rgba(
+      190,
+      202,
+      218,
+      0.14
+    ) !important;
+}
+
+body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+  .brDjFxPadGrid {
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    ) !important;
+
+  grid-template-rows:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    ) !important;
+
+  gap:
+    6px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 {
+  border-radius:
+    14px !important;
+
+  padding:
+    7px 6px !important;
+
+  align-content:
+    center !important;
+
+  gap: 3px;
+
+  text-align:
+    center !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 span {
+  font-size:
+    0.45rem !important;
+
+  letter-spacing:
+    0.1em !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 strong {
+  font-size:
+    clamp(
+      0.72rem,
+      3vw,
+      0.98rem
+    ) !important;
+
+  line-height:
+    1 !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 em {
+  font-size:
+    0.45rem !important;
+}
+
+@media (max-width: 430px) {
+  body.brDjPerformanceBody
+    .brDjFxBoardIndicators {
+    grid-template-columns:
+      repeat(
+        5,
+        28px
+      ) !important;
+
+    gap:
+      3px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjFxBoardIndicators span {
+    min-height:
+      28px !important;
+
+    font-size:
+      0.53rem !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjFxRuntimeBar {
+    grid-template-columns:
+      auto
+      minmax(72px, 1fr)
+      auto !important;
+
+    grid-template-areas:
+      "target amount beat"
+      "summary status clear" !important;
+  }
+
+  body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+    .brDjFxPadGrid {
+    grid-template-columns:
+      repeat(
+        4,
+        minmax(0, 1fr)
+      ) !important;
+
+    gap:
+      5px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerfFxPad.is-djm700 {
+    padding:
+      6px 4px !important;
+  }
+}
+
+/* Patch 3-X1 — FX rescue + touchable vinyl performance */
+
+/* Boards 1–4 contain nine pads, so use the full space as a true 3 × 3 grid. */
+body.brDjPerformanceBody:is(
+  [data-dj-fx-board="board1"],
+  [data-dj-fx-board="board2"],
+  [data-dj-fx-board="board3"],
+  [data-dj-fx-board="board4"]
+) .brDjFxPadGrid {
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows:
+    repeat(3, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+}
+
+/* The 13 DJM effects use wider three-column pads instead of tiny 4 × 4 cells. */
+body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+  .brDjFxPadGrid {
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows:
+    repeat(5, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad {
+  border-radius: 20px !important;
+  padding: 11px 10px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad strong {
+  font-size:
+    clamp(0.9rem, 3.75vw, 1.16rem) !important;
+  line-height: 0.98 !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad em {
+  font-size: 0.57rem !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 {
+  padding: 8px 7px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 strong {
+  font-size:
+    clamp(0.82rem, 3.45vw, 1.08rem) !important;
+}
+
+body.brDjPerformanceBody
+  .brDjFxClearButton.is-killing {
+  color: #240000 !important;
+  border-color: #ff7373 !important;
+  background:
+    linear-gradient(
+      180deg,
+      #ffb0b0,
+      #ff4b4b
+    ) !important;
+  transform: translateY(1px);
+}
+
+/* Touchable vinyl platter */
+body.brDjPerformanceBody
+  .brDjVinylDisc[data-dj-vinyl-platter] {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  outline: none;
+}
+
+body.brDjPerformanceBody
+  .brDjVinylDisc[data-dj-vinyl-platter]:focus-visible {
+  box-shadow:
+    0 0 0 3px rgba(123, 216, 255, 0.36),
+    0 0 24px rgba(41, 156, 255, 0.26) !important;
+}
+
+body.brDjPerformanceBody
+  .brDjVinylDisc.is-scratching {
+  animation: none !important;
+  transform:
+    rotate(
+      var(--br-dj-scratch-angle, 0deg)
+    ) !important;
+  cursor: grabbing;
+  filter:
+    brightness(1.08)
+    drop-shadow(0 0 16px rgba(255, 255, 255, 0.12));
+}
+
+body.brDjPerformanceBody
+  .brDjVinylDeckView.is-scratching
+  .brDjVinylPlatter {
+  filter:
+    drop-shadow(0 0 22px rgba(123, 216, 255, 0.24));
+}
+
+body.brDjPerformanceBody
+  .brDjVinylDeckView.is-braking
+  .brDjVinylDisc {
+  animation-duration: 2.8s !important;
+}
+
+body.brDjPerformanceBody
+  .brDjVinylTouchStatus {
+  position: absolute;
+  left: 10%;
+  bottom: 7%;
+  z-index: 9;
+  max-width: 62%;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.52rem;
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.86);
+}
+
+body.brDjPerformanceBody
+  .brDjVinylUtilityControls button.is-active {
+  color: #111827;
+  border-color: rgba(255, 190, 64, 0.92);
+  background:
+    linear-gradient(
+      180deg,
+      #ffd36d,
+      #f2a007
+    );
+  box-shadow:
+    0 0 0 2px rgba(242, 160, 7, 0.12),
+    0 0 18px rgba(242, 160, 7, 0.2);
+}
+
+body.brDjPerformanceBody
+  .brDjVinylDeckView[data-dj-vinyl-engine-deck="d2"]
+  .brDjVinylUtilityControls button.is-active {
+  border-color: rgba(113, 194, 255, 0.92);
+  background:
+    linear-gradient(
+      180deg,
+      #a8e9ff,
+      #299cff
+    );
+  box-shadow:
+    0 0 0 2px rgba(41, 156, 255, 0.12),
+    0 0 18px rgba(41, 156, 255, 0.22);
+}
+
+body.brDjPerformanceBody
+  .brDjVinylUtilityControls button:disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+@media (max-width: 430px) {
+  body.brDjPerformanceBody:is(
+    [data-dj-fx-board="board1"],
+    [data-dj-fx-board="board2"],
+    [data-dj-fx-board="board3"],
+    [data-dj-fx-board="board4"]
+  ) .brDjFxPadGrid {
+    gap: 7px !important;
+  }
+
+  body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+    .brDjFxPadGrid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr)) !important;
+    grid-template-rows:
+      repeat(5, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerfFxPad,
+  body.brDjPerformanceBody
+    .brDjPerfFxPad.is-djm700 {
+    padding: 7px 6px !important;
+    border-radius: 16px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerfFxPad strong,
+  body.brDjPerformanceBody
+    .brDjPerfFxPad.is-djm700 strong {
+    font-size:
+      clamp(0.76rem, 3.2vw, 0.98rem) !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjVinylTouchStatus {
+    left: 8%;
+    bottom: 6%;
+    font-size: 0.46rem;
+  }
+}
+
+/* Patch 3-X2 — full-page library + direct FX boards + timing slider */
+
+/* FX board buttons are now direct navigation controls. */
+body.brDjPerformanceBody
+  .brDjFxBoardIndicators {
+  grid-template-columns:
+    repeat(5, minmax(30px, 1fr)) !important;
+  gap: 5px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjFxBoardIndicators button {
+  min-width: 0;
+  min-height: 34px;
+  padding: 0 5px;
+  border:
+    1px solid rgba(123, 216, 255, 0.18);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+  font: inherit;
+  font-size: 0.58rem;
+  font-weight: 1000;
+  touch-action: manipulation;
+}
+
+body.brDjPerformanceBody
+  .brDjFxBoardIndicators button.is-active {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* All custom boards use large, readable 3 × 3 pads. */
+body.brDjPerformanceBody:is(
+  [data-dj-fx-board="board1"],
+  [data-dj-fx-board="board2"],
+  [data-dj-fx-board="board3"],
+  [data-dj-fx-board="board4"]
+) .brDjFxPadGrid {
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows:
+    repeat(3, minmax(72px, 1fr)) !important;
+  align-content: start;
+  gap: 8px !important;
+}
+
+/* Thirteen DJM effects fit best in four readable rows. */
+body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+  .brDjFxPadGrid {
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr)) !important;
+  grid-template-rows:
+    repeat(4, minmax(58px, 1fr)) !important;
+  align-content: start;
+  gap: 7px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad,
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 {
+  min-height: 0 !important;
+  padding: 9px 8px !important;
+  border-radius: 17px !important;
+  align-content: center !important;
+  gap: 4px;
+}
+
+body.brDjPerformanceBody
+  .brDjPerfFxPad strong,
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 strong {
+  font-size:
+    clamp(0.82rem, 3.25vw, 1.08rem) !important;
+  line-height: 0.98 !important;
+}
+
+/* Keep the DJM buttons clean: the effect name is the useful part. */
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 span,
+body.brDjPerformanceBody
+  .brDjPerfFxPad.is-djm700 em {
+  display: none !important;
+}
+
+/* Replace the mystery 1/2 button with a labelled timing slider. */
+body.brDjPerformanceBody
+  .brDjFxTimingControl {
+  grid-area: beat;
+  min-width: 108px;
+  display: grid;
+  gap: 4px;
+}
+
+body.brDjPerformanceBody
+  .brDjFxTimingControl > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.49rem;
+  font-weight: 1000;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjFxTimingControl strong {
+  color: #9ce8ff;
+  font-size: 0.52rem;
+}
+
+body.brDjPerformanceBody
+  .brDjFxTimingControl input {
+  width: 100%;
+  min-width: 92px;
+  accent-color: #299cff;
+}
+
+/* Performance Library is now a real full-viewport page. */
+body.brDjPerformanceBody.brDjPerformanceLibraryOpen
+  > :not(.brDjPerformanceLibrarySheet) {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySheet {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 12000 !important;
+  display: none !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  padding: 0 !important;
+  background:
+    radial-gradient(
+      circle at 15% 0%,
+      rgba(31, 169, 255, 0.18),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      #07182a,
+      #030914 58%,
+      #02050b
+    ) !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySheet.is-open {
+  display: block !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryScrim {
+  display: none !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPanel {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding:
+    max(8px, env(safe-area-inset-top))
+    10px
+    max(8px, env(safe-area-inset-bottom)) !important;
+  display: grid !important;
+  grid-template-rows:
+    auto auto auto auto auto minmax(0, 1fr) !important;
+  gap: 7px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageHeader {
+  min-height: 52px;
+  display: grid !important;
+  grid-template-columns:
+    auto minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 4px 0 7px;
+  border-bottom:
+    1px solid rgba(123, 216, 255, 0.14);
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageHeader > div {
+  min-width: 0;
+  text-align: center;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageHeader p,
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageHeader h2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageHeader p {
+  margin: 0;
+  color: #7bd8ff;
+  font-size: 0.55rem;
+  font-weight: 1000;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageHeader h2 {
+  margin: 2px 0 0 !important;
+  font-size: 0.94rem !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageHeader h2::after {
+  content: none !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBack,
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageRefresh {
+  width: auto !important;
+  height: 38px !important;
+  min-width: 66px;
+  padding: 0 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 13px !important;
+  font-size: 0.62rem;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBack {
+  color: #ffb21f !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageRefresh {
+  color: #9ce8ff !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySearch {
+  position: static !important;
+  padding: 8px 10px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySearch
+  [data-dj-library-result-count] {
+  min-width: 30px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0 7px;
+  border-radius: 10px;
+  color: #07131f;
+  background: #9ce8ff;
+  font-size: 0.62rem;
+  font-weight: 1000;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryTools {
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatch {
+  padding: 6px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryStatus {
+  min-height: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryList {
+  min-height: 0 !important;
+  padding-bottom: 8px !important;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 430px) {
+  body.brDjPerformanceBody
+    .brDjFxBoardIndicators button {
+    min-height: 30px;
+    padding: 0 3px;
+    border-radius: 10px;
+    font-size: 0.52rem;
+  }
+
+  body.brDjPerformanceBody:is(
+    [data-dj-fx-board="board1"],
+    [data-dj-fx-board="board2"],
+    [data-dj-fx-board="board3"],
+    [data-dj-fx-board="board4"]
+  ) .brDjFxPadGrid {
+    grid-template-rows:
+      repeat(3, minmax(68px, 1fr)) !important;
+    gap: 7px !important;
+  }
+
+  body.brDjPerformanceBody[data-dj-fx-board="djm700"]
+    .brDjFxPadGrid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr)) !important;
+    grid-template-rows:
+      repeat(4, minmax(54px, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerfFxPad,
+  body.brDjPerformanceBody
+    .brDjPerfFxPad.is-djm700 {
+    padding: 7px 5px !important;
+    border-radius: 14px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerfFxPad strong,
+  body.brDjPerformanceBody
+    .brDjPerfFxPad.is-djm700 strong {
+    font-size:
+      clamp(0.7rem, 2.9vw, 0.9rem) !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjFxTimingControl {
+    min-width: 86px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjFxTimingControl > span {
+    font-size: 0.43rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjFxTimingControl strong {
+    font-size: 0.46rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryPanel {
+    padding:
+      max(6px, env(safe-area-inset-top))
+      7px
+      max(6px, env(safe-area-inset-bottom)) !important;
+    gap: 6px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryPageHeader {
+    min-height: 46px;
+    gap: 6px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryBack,
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryPageRefresh {
+    min-width: 56px;
+    height: 34px !important;
+    padding: 0 7px;
+    font-size: 0.55rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibraryTools {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Patch 3-X2A — original audio load, full-page scroll and FX cleanup */
+
+/* Remove descriptions such as “Orange board · 9 performance pads”. */
+body.brDjPerformanceBody
+  [data-dj-performance-fx-subtitle] {
+  display: none !important;
+}
+
+/*
+  The Performance Library now scrolls as one continuous full page.
+  Header, search, filters, batch controls, status and tracks all move together.
+*/
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySheet {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPanel {
+  min-height: 100% !important;
+  height: auto !important;
+  display: block !important;
+  overflow: visible !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPanel > * + * {
+  margin-top: 7px;
+}
+
+/* Explicitly remove every possible sticky/fixed section inside the page. */
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryPageHeader,
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySearch,
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryTools,
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryBatch,
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryStatus {
+  position: static !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibraryList {
+  min-height: auto !important;
+  overflow: visible !important;
+  padding-bottom:
+    max(
+      16px,
+      env(safe-area-inset-bottom)
+    ) !important;
+}
+
+/* Patch 3-X2B — guaranteed FX kill touch target */
+
+body.brDjPerformanceBody
+  .brDjFxClearButton {
+  position: relative !important;
+  z-index: 30 !important;
+  pointer-events: auto !important;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body.brDjPerformanceBody
+  .brDjFxClearButton.is-killing {
+  color: #210000 !important;
+  border-color: #ff8a8a !important;
+  background:
+    linear-gradient(
+      180deg,
+      #ffd0d0,
+      #ff4545
+    ) !important;
+  box-shadow:
+    0 0 18px
+    rgba(255, 69, 69, 0.38) !important;
+}
+
+/* Patch 3-Y1 + 3-Z1 — On-demand Stems and browser recording runtime */
+
+/* Stems runtime */
+body.brDjPerformanceBody .brDjStemsPage {
+  --br-dj-stem-accent: 255, 166, 17;
+  --br-dj-stem-solid: #ffa611;
+  grid-template-rows:
+    72px
+    38px
+    minmax(76px, .68fr)
+    minmax(158px, 1.32fr)
+    52px !important;
+  gap: 6px !important;
+}
+
+body.brDjPerformanceBody .brDjStemsPage.is-deck-2 {
+  --br-dj-stem-accent: 58, 191, 255;
+  --br-dj-stem-solid: #3abfff;
+}
+
+body.brDjPerformanceBody .brDjStemsRuntimeBar {
+  min-width: 0;
+  min-height: 0;
+  padding: 7px;
+  display: grid;
+  grid-template-rows:
+    34px
+    minmax(0, 1fr);
+  gap: 5px;
+  overflow: hidden;
+  border:
+    1px solid
+    rgba(
+      var(--br-dj-stem-accent),
+      .28
+    );
+  border-radius: 17px;
+  background:
+    radial-gradient(
+      circle at 0 0,
+      rgba(
+        var(--br-dj-stem-accent),
+        .18
+      ),
+      transparent 48%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.065),
+      rgba(255,255,255,.018)
+    ),
+    rgba(3,9,21,.96);
+  box-shadow:
+    inset 0 1px 0
+    rgba(255,255,255,.08),
+    0 12px 28px
+    rgba(0,0,0,.28);
+}
+
+body.brDjPerformanceBody
+  .brDjStemsRuntimeActions {
+  min-width: 0;
+  display: grid;
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+  gap: 5px;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsRuntimeActions
+  button {
+  min-width: 0;
+  height: 34px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border:
+    1px solid
+    rgba(255,255,255,.11);
+  border-radius: 10px;
+  color:
+    rgba(255,255,255,.80);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.09),
+      rgba(255,255,255,.035)
+    ),
+    rgba(0,0,0,.24);
+  font: inherit;
+  font-size: .52rem;
+  font-weight: 1000;
+  line-height: 1;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsRuntimeActions
+  button i {
+  flex: 0 0 auto;
+  color:
+    var(
+      --br-dj-stem-solid
+    );
+  font-size: .68rem;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsRuntimeActions
+  button span,
+body.brDjPerformanceBody
+  .brDjStemsRuntimeStatus {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsRuntimeActions
+  button.is-active,
+body.brDjPerformanceBody
+  .brDjStemsRuntimeActions
+  button[aria-pressed="true"] {
+  border-color:
+    rgba(
+      var(--br-dj-stem-accent),
+      .74
+    );
+  color: #fff;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(
+        var(--br-dj-stem-accent),
+        .40
+      ),
+      rgba(
+        var(--br-dj-stem-accent),
+        .16
+      )
+    );
+  box-shadow:
+    0 0 16px
+    rgba(
+      var(--br-dj-stem-accent),
+      .15
+    ),
+    inset 0 1px 0
+    rgba(255,255,255,.13);
+}
+
+body.brDjPerformanceBody
+  .brDjStemsRuntimeActions
+  button:disabled,
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemLane
+  > button:disabled,
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemFaderRange:disabled {
+  opacity: .38;
+  filter: saturate(.4);
+}
+
+body.brDjPerformanceBody
+  .brDjStemsRuntimeStatus {
+  align-self: center;
+  color:
+    rgba(255,255,255,.66);
+  font-size: .54rem;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage.is-stems-loading
+  .brDjStemsRuntimeStatus,
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemLane
+  > button {
+  color:
+    var(
+      --br-dj-stem-solid
+    );
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage.is-stems-ready
+  .brDjStemsRuntimeBar,
+body.brDjPerformanceBody
+  .brDjStemsPage[data-stem-mode="stems"]
+  .brDjStemFaderGrid {
+  border-color:
+    rgba(
+      var(--br-dj-stem-accent),
+      .50
+    );
+  box-shadow:
+    0 0 20px
+    rgba(
+      var(--br-dj-stem-accent),
+      .11
+    ),
+    inset 0 1px 0
+    rgba(255,255,255,.07);
+}
+
+body.brDjPerformanceBody
+  .brDjStemFaderBox::after,
+body.brDjPerformanceBody
+  .brDjStemLane.is-muted
+  .brDjStemFaderBox::after {
+  top:
+    clamp(
+      25px,
+      var(
+        --br-dj-stem-position,
+        20%
+      ),
+      calc(100% - 25px)
+    ) !important;
+  transform:
+    translate(
+      -50%,
+      -50%
+    ) !important;
+  transition:
+    top 90ms linear,
+    opacity 140ms ease,
+    filter 140ms ease;
+}
+
+body.brDjPerformanceBody
+  .brDjStemLane.is-muted
+  .brDjStemFaderBox::after {
+  opacity: .48;
+  filter: saturate(.25);
+}
+
+body.brDjPerformanceBody
+  .brDjStemLane.is-muted
+  > strong,
+body.brDjPerformanceBody
+  .brDjStemLane.is-muted
+  > span {
+  color: #ff6d89;
+}
+
+body.brDjPerformanceBody
+  .brDjStemFaderRange {
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+/*
+  Recording runtime.
+  This overrides the old
+  REC-beacon-only rule.
+*/
+body.brDjPerformanceBody
+  [data-dj-duo-panel="record"].is-active,
+body.brDjPerformanceBody
+  .brDjRecordingPanel.is-active {
+  display: grid !important;
+  grid-template-rows:
+    minmax(0, 1fr) !important;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden !important;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingCard {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding:
+    clamp(
+      10px,
+      1.8vh,
+      18px
+    );
+  display: grid;
+  grid-template-rows:
+    auto
+    minmax(118px, 1fr)
+    auto
+    auto
+    auto;
+  gap:
+    clamp(
+      7px,
+      1.2vh,
+      12px
+    );
+  overflow: hidden;
+  isolation: isolate;
+  border:
+    1px solid
+    rgba(255,76,111,.28);
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      circle at 14% 0,
+      rgba(255,54,92,.20),
+      transparent 33%
+    ),
+    radial-gradient(
+      circle at 92% 100%,
+      rgba(123,216,255,.12),
+      transparent 38%
+    ),
+    linear-gradient(
+      155deg,
+      rgba(16,25,43,.98),
+      rgba(3,8,18,.99)
+    );
+  box-shadow:
+    inset 0 1px 0
+    rgba(255,255,255,.08),
+    0 22px 58px
+    rgba(0,0,0,.38);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingHeader {
+  min-width: 0;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(150px, .76fr);
+  gap: 10px;
+  align-items: center;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingHeader
+  > div,
+body.brDjPerformanceBody
+  .brDjRecordingStatePill,
+body.brDjPerformanceBody
+  .brDjRecordingDetails
+  > div {
+  min-width: 0;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingHeader p,
+body.brDjPerformanceBody
+  .brDjRecordingHeader h1 {
+  margin: 0;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingHeader p {
+  color: #ff6f8a;
+  font-size: .57rem;
+  font-weight: 1000;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingHeader h1 {
+  margin-top: 3px;
+  overflow: hidden;
+  color: #fff;
+  font-size:
+    clamp(
+      1rem,
+      3.8vw,
+      1.55rem
+    );
+  font-weight: 1000;
+  line-height: 1.04;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingStatePill {
+  min-height: 42px;
+  padding: 7px 10px;
+  display: grid;
+  grid-template-columns:
+    12px
+    minmax(0, 1fr);
+  gap: 7px;
+  align-items: center;
+  border:
+    1px solid
+    rgba(255,255,255,.10);
+  border-radius: 14px;
+  color:
+    rgba(255,255,255,.70);
+  background:
+    rgba(255,255,255,.045);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingStatePill i {
+  color:
+    rgba(255,255,255,.32);
+  font-size: .58rem;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingStatePill strong {
+  overflow: hidden;
+  font-size: .56rem;
+  font-weight: 900;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingMonitor {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns:
+    minmax(112px, .42fr)
+    minmax(0, 1fr);
+  gap: 10px;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingClock,
+body.brDjPerformanceBody
+  .brDjRecordingMeter {
+  min-width: 0;
+  min-height: 0;
+  border:
+    1px solid
+    rgba(255,255,255,.09);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.055),
+      rgba(255,255,255,.018)
+    ),
+    rgba(0,0,0,.24);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingClock {
+  padding: 10px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 4px;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingClock span,
+body.brDjPerformanceBody
+  .brDjRecordingMeter
+  > span {
+  color:
+    rgba(255,255,255,.55);
+  font-size: .54rem;
+  font-weight: 1000;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingClock strong {
+  color: #fff;
+  font-variant-numeric:
+    tabular-nums;
+  font-size:
+    clamp(
+      1.85rem,
+      8vw,
+      3.8rem
+    );
+  font-weight: 1000;
+  line-height: 1;
+  text-shadow:
+    0 0 24px
+    rgba(255,54,92,.26);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingMeter {
+  padding: 11px;
+  display: grid;
+  grid-template-rows:
+    minmax(0, 1fr)
+    auto;
+  gap: 8px;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingMeter
+  > div {
+  position: relative;
+  min-height: 42px;
+  overflow: hidden;
+  border-radius: 12px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.055)
+        0 5px,
+      transparent
+        5px 8px
+    ),
+    rgba(0,0,0,.34);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingMeter
+  > div
+  > i {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background:
+    linear-gradient(
+      90deg,
+      #3abfff 0%,
+      #4be58e 64%,
+      #ffc23b 82%,
+      #ff365c 100%
+    );
+  box-shadow:
+    0 0 18px
+    rgba(75,229,142,.22);
+  will-change: transform;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingMeter
+  > span {
+  display: flex;
+  justify-content:
+    space-between;
+  gap: 10px;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingMeter
+  > span strong {
+  color: #fff;
+  font-variant-numeric:
+    tabular-nums;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingDetails {
+  min-width: 0;
+  display: grid;
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+  gap: 7px;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingDetails
+  > div {
+  min-height: 54px;
+  padding: 8px 9px;
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+  border-radius: 13px;
+  background:
+    rgba(255,255,255,.035);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingDetails span {
+  color:
+    rgba(255,255,255,.45);
+  font-size: .48rem;
+  font-weight: 1000;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingDetails strong {
+  overflow: hidden;
+  color:
+    rgba(255,255,255,.86);
+  font-size: .58rem;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls {
+  min-width: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns:
+    minmax(0, 1fr);
+  gap: 7px;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button {
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+  border-radius: 14px;
+  color: #fff;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.10),
+      rgba(255,255,255,.035)
+    ),
+    rgba(0,0,0,.28);
+  font: inherit;
+  font-size: .64rem;
+  font-weight: 1000;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button:disabled {
+  opacity: .42;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-pause {
+  border-color:
+    rgba(255,194,59,.42);
+  color: #ffd36b;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-stop {
+  border-color:
+    rgba(255,54,92,.44);
+  color: #ff8ca1;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-cancel {
+  color:
+    rgba(255,255,255,.78);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-start {
+  border-color:
+    rgba(255,54,92,.58);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,54,92,.88),
+      rgba(145,13,48,.92)
+    );
+  box-shadow:
+    0 0 22px
+    rgba(255,54,92,.20),
+    inset 0 1px 0
+    rgba(255,255,255,.16);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-download {
+  border-color:
+    rgba(75,229,142,.46);
+  color: #72f0aa;
+  background:
+    rgba(16,82,52,.34);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingFootnote {
+  min-width: 0;
+  display: grid;
+  grid-template-columns:
+    16px
+    minmax(0, 1fr);
+  gap: 7px;
+  align-items: center;
+  color:
+    rgba(255,255,255,.47);
+  font-size: .52rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingFootnote i {
+  color: #7bd8ff;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingCountdown {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  border-radius: inherit;
+  color: #fff;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,54,92,.30),
+      transparent 35%
+    ),
+    rgba(1,5,13,.91);
+  backdrop-filter:
+    blur(8px);
+  -webkit-backdrop-filter:
+    blur(8px);
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingCountdown[hidden] {
+  display: none !important;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingCountdown span {
+  color:
+    rgba(255,255,255,.68);
+  font-size: .66rem;
+  font-weight: 1000;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingCountdown strong {
+  color: #fff;
+  font-size:
+    clamp(
+      5rem,
+      28vw,
+      10rem
+    );
+  font-weight: 1000;
+  line-height: .9;
+  text-shadow:
+    0 0 32px
+    rgba(255,54,92,.55),
+    0 0 82px
+    rgba(255,54,92,.28);
+  animation:
+    brDjRecordingCountdownPulse
+    900ms
+    ease-in-out
+    infinite
+    alternate;
+}
+
+body.brDjPerformanceBody[
+  data-dj-record-state="live"
+] .brDjRecordingCard,
+body.brDjPerformanceBody
+  .brDjRecordingPanel[
+    data-recording-state="live"
+  ]
+  .brDjRecordingCard {
+  border-color:
+    rgba(255,54,92,.72);
+  box-shadow:
+    0 0 30px
+    rgba(255,54,92,.15),
+    inset 0 1px 0
+    rgba(255,255,255,.09),
+    0 22px 58px
+    rgba(0,0,0,.38);
+}
+
+body.brDjPerformanceBody[
+  data-dj-record-state="live"
+] .brDjRecordingStatePill i,
+body.brDjPerformanceBody
+  .brDjRecordingPanel[
+    data-recording-state="live"
+  ]
+  .brDjRecordingStatePill i {
+  color: #ff365c;
+  animation:
+    brDjRecordingLivePulse
+    820ms
+    ease-in-out
+    infinite
+    alternate;
+}
+
+body.brDjPerformanceBody
+  .brDjDuoBottomNav
+  button[
+    data-duo-tab="record"
+  ].is-paused {
+  border-color:
+    rgba(255,194,59,.72)
+    !important;
+  background:
+    rgba(255,194,59,.14)
+    !important;
+}
+
+body.brDjPerformanceBody
+  .brDjDuoBottomNav
+  button[
+    data-duo-tab="record"
+  ].is-counting-down {
+  border-color:
+    rgba(123,216,255,.72)
+    !important;
+  background:
+    rgba(123,216,255,.13)
+    !important;
+}
+
+body.brDjPerformanceBody
+  .brDjDuoBottomNav
+  button[
+    data-duo-tab="record"
+  ].is-saving {
+  border-color:
+    rgba(75,229,142,.66)
+    !important;
+  background:
+    rgba(75,229,142,.12)
+    !important;
+}
+
+@keyframes
+  brDjRecordingCountdownPulse {
+  from {
+    transform:
+      scale(.92);
+    opacity: .72;
+  }
+
+  to {
+    transform:
+      scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes
+  brDjRecordingLivePulse {
+  from {
+    opacity: .4;
+    filter:
+      drop-shadow(
+        0 0 0
+        rgba(255,54,92,0)
+      );
+  }
+
+  to {
+    opacity: 1;
+    filter:
+      drop-shadow(
+        0 0 7px
+        rgba(255,54,92,.78)
+      );
+  }
+}
+
+@media (max-width: 600px) {
+  body.brDjPerformanceBody
+    .brDjStemsPage {
+    grid-template-rows:
+      68px
+      34px
+      minmax(66px, .62fr)
+      minmax(142px, 1.38fr)
+      48px !important;
+    gap: 5px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjStemsRuntimeBar {
+    padding: 6px;
+    grid-template-rows:
+      31px
+      minmax(0, 1fr);
+    gap: 4px;
+    border-radius: 15px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjStemsRuntimeActions {
+    gap: 4px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjStemsRuntimeActions
+    button {
+    height: 31px;
+    padding: 0 3px;
+    gap: 3px;
+    font-size: .46rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjStemsRuntimeStatus {
+    font-size: .48rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingCard {
+    padding: 9px;
+    grid-template-rows:
+      auto
+      minmax(106px, 1fr)
+      auto
+      auto
+      auto;
+    gap: 7px;
+    border-radius: 19px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingHeader {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(126px, .78fr);
+    gap: 7px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingHeader h1 {
+    font-size: 1rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingStatePill {
+    min-height: 38px;
+    padding: 6px 8px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingStatePill strong {
+    font-size: .49rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingMonitor {
+    grid-template-columns:
+      minmax(100px, .46fr)
+      minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingClock strong {
+    font-size:
+      clamp(
+        1.7rem,
+        9.8vw,
+        2.7rem
+      );
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingDetails {
+    gap: 5px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingDetails
+    > div {
+    min-height: 48px;
+    padding: 6px 7px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingDetails span {
+    font-size: .43rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingDetails strong {
+    font-size: .50rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingControls {
+    gap: 5px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingControls
+    button {
+    min-height: 44px;
+    padding: 7px;
+    font-size: .55rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingFootnote {
+    font-size: .46rem;
+  }
+}
+
+@media (max-width: 390px) {
+  body.brDjPerformanceBody
+    .brDjStemsRuntimeActions
+    button span {
+    display: none;
+  }
+
+  body.brDjPerformanceBody
+    .brDjStemsRuntimeActions
+    button i {
+    font-size: .72rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingHeader {
+    grid-template-columns:
+      minmax(0, 1fr)
+      118px;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingHeader p {
+    font-size: .48rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingHeader h1 {
+    font-size: .88rem;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingMonitor {
+    grid-template-columns:
+      96px
+      minmax(0, 1fr);
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  body.brDjPerformanceBody
+    .brDjRecordingCountdown
+    strong,
+  body.brDjPerformanceBody[
+    data-dj-record-state="live"
+  ]
+    .brDjRecordingStatePill
+    i,
+  body.brDjPerformanceBody
+    .brDjRecordingPanel[
+      data-recording-state="live"
+    ]
+    .brDjRecordingStatePill
+    i {
+    animation: none !important;
+  }
+}
+
+/* Patch 3-Y1A — Stems layout, fixed 128x view and touch fader rescue */
+
+body.brDjPerformanceBody
+  .brDjSingleModePanel[data-deck-panel="stems"]
+  .brDjStemsPage {
+  grid-template-rows:
+    72px
+    minmax(108px, .78fr)
+    minmax(158px, 1.22fr)
+    52px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjSingleModePanel[data-deck-panel="stems"]:not(.is-active)
+  .brDjStemsRuntimeBar {
+  display: none !important;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemsWave {
+  min-height: 0;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemFaderBox {
+  cursor: ns-resize;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemFaderRange {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemLane
+  > button {
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemLane.is-muted
+  > button {
+  box-shadow:
+    0 0 18px
+    rgba(255,54,92,.28),
+    0 10px 22px
+    rgba(0,0,0,.24);
+}
+
+@media (max-width: 600px) {
+  body.brDjPerformanceBody
+    .brDjSingleModePanel[data-deck-panel="stems"]
+    .brDjStemsPage {
+    grid-template-rows:
+      68px
+      minmax(98px, .72fr)
+      minmax(142px, 1.28fr)
+      48px !important;
+  }
+}
+
+/* Patch 3-Z2 — Recording conversion, control fit and Save / Share */
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button[hidden] {
+  display: none !important;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls {
+  grid-auto-flow: row;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(0, 1fr)
+    );
+  grid-auto-columns: unset;
+  align-items: stretch;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  line-height: 1.12;
+  white-space: normal;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button span {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button i {
+  flex: 0 0 auto;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-download {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 600px) {
+  body.brDjPerformanceBody
+    .brDjRecordingControls
+    button {
+    min-height: 46px;
+    padding: 7px 5px;
+    gap: 5px;
+    font-size: .50rem;
+    letter-spacing: .025em;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingControls
+    button span {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Patch 3-Z2B — mini-waveform, Memory countdown and final layout polish */
+
+/*
+  Grid, Hot Cue and Memory all use the same compact overview renderer.
+  Keep that row large enough to read, and keep its minute labels inside the
+  mini-waveform instead of reserving a second strip underneath it.
+*/
+body.brDjPerformanceBody
+  .brDjGridPage
+  > .brDjCueMemoryOverview,
+body.brDjPerformanceBody
+  .brDjCueMemoryPage
+  > .brDjCueMemoryOverview {
+  height: 56px !important;
+  min-height: 56px !important;
+  margin-bottom: 0 !important;
+  overflow: hidden !important;
+}
+
+body.brDjPerformanceBody
+  .brDjGridPage
+  > .brDjCueMemoryOverview
+  .brDjRealWaveCanvas,
+body.brDjPerformanceBody
+  .brDjCueMemoryPage
+  > .brDjCueMemoryOverview
+  .brDjRealWaveCanvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body.brDjPerformanceBody
+  .brDjGridPage
+  > .brDjCueMemoryOverview
+  .brDjWaveMinuteMarkers,
+body.brDjPerformanceBody
+  .brDjCueMemoryPage
+  > .brDjCueMemoryOverview
+  .brDjWaveMinuteMarkers {
+  bottom: 2px !important;
+  height: 10px !important;
+  z-index: 12 !important;
+}
+
+body.brDjPerformanceBody
+  .brDjGridPage
+  > .brDjCueMemoryOverview
+  .brDjWaveMinuteMarkers
+  span,
+body.brDjPerformanceBody
+  .brDjCueMemoryPage
+  > .brDjCueMemoryOverview
+  .brDjWaveMinuteMarkers
+  span {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      .58
+    ) !important;
+  font-size:
+    .40rem !important;
+}
+
+body.brDjPerformanceBody
+  .brDjGridPage {
+  grid-template-rows:
+    56px
+    minmax(0, 1fr)
+    236px
+    18px
+    56px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjCueMemoryPage {
+  grid-template-rows:
+    56px
+    minmax(0, 1fr)
+    26px
+    164px
+    56px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjCueMemoryPage.is-list-open {
+  grid-template-rows:
+    56px
+    minmax(0, 1fr)
+    212px !important;
+}
+
+/* Rekordbox-style Memory countdown in the centre waveform pill. */
+body.brDjPerformanceBody
+  .brDjSingleWavePills
+  strong.is-memory-countdown,
+body.brDjPerformanceBody
+  .brDjCueMemoryPills
+  strong.is-memory-countdown {
+  min-width: 112px;
+  border-color:
+    rgba(
+      54,
+      226,
+      120,
+      .58
+    ) !important;
+  color:
+    #6cf2a0 !important;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(
+        54,
+        226,
+        120,
+        .20
+      ),
+      rgba(
+        8,
+        48,
+        28,
+        .76
+      )
+    ) !important;
+  box-shadow:
+    0 0 18px
+      rgba(
+        54,
+        226,
+        120,
+        .18
+      ),
+    inset 0 1px 0
+      rgba(
+        255,
+        255,
+        255,
+        .10
+      ),
+    0 10px 22px
+      rgba(
+        0,
+        0,
+        0,
+        .28
+      ) !important;
+  font-variant-numeric:
+    tabular-nums;
+  white-space: nowrap;
+}
+
+/*
+  The Stems page had too much of its flexible height assigned to the faders.
+  Rebalance the waveform/fader rows and use a slightly shorter fader assembly
+  so CUE and PLAY always retain their complete transport row.
+*/
+body.brDjPerformanceBody
+  .brDjSingleModePanel[
+    data-deck-panel="stems"
+  ]
+  .brDjStemsPage {
+  grid-template-rows:
+    68px
+    minmax(
+      108px,
+      .92fr
+    )
+    minmax(
+      126px,
+      1.08fr
+    )
+    52px !important;
+  gap: 5px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemLane {
+  grid-template-rows:
+    30px
+    minmax(0, 1fr)
+    16px
+    18px !important;
+  gap: 3px !important;
+  padding:
+    6px
+    4px
+    5px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemLane
+  > button {
+  width:
+    30px !important;
+  height:
+    30px !important;
+  border-radius:
+    10px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemFaderBox {
+  width:
+    36px !important;
+  min-height:
+    100px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemFaderRange {
+  width:
+    36px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemFaderBox::after,
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemLane.is-muted
+  .brDjStemFaderBox::after {
+  width:
+    34px !important;
+  height:
+    44px !important;
+  border-radius:
+    13px !important;
+  top:
+    clamp(
+      22px,
+      var(
+        --br-dj-stem-position,
+        20%
+      ),
+      calc(
+        100% -
+        22px
+      )
+    ) !important;
+}
+
+body.brDjPerformanceBody
+  .brDjStemsPage
+  .brDjStemTransport
+  button {
+  height:
+    50px !important;
+  min-height:
+    50px !important;
+}
+
+/*
+  Recording controls now use a predictable two-column layout. Full-width
+  actions occupy both columns, while Pause and Stop & Save share one row.
+*/
+body.brDjPerformanceBody
+  .brDjRecordingControls {
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(
+        0,
+        1fr
+      )
+    ) !important;
+  grid-auto-flow:
+    row !important;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-start,
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-cancel,
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  .is-download {
+  grid-column:
+    1 / -1 !important;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button,
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button span {
+  min-width:
+    0 !important;
+  max-width:
+    100% !important;
+  overflow:
+    hidden !important;
+}
+
+body.brDjPerformanceBody
+  .brDjRecordingControls
+  button span {
+  line-height: 1.12;
+  overflow-wrap:
+    normal !important;
+  word-break:
+    normal !important;
+  white-space:
+    normal !important;
+}
+
+@media (
+  max-width:
+  600px
+) {
+  body.brDjPerformanceBody
+    .brDjGridPage {
+    grid-template-rows:
+      56px
+      minmax(0, 1fr)
+      218px
+      18px
+      52px !important;
+    gap: 6px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjCueMemoryPage {
+    grid-template-rows:
+      56px
+      minmax(0, 1fr)
+      24px
+      152px
+      52px !important;
+    gap: 6px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjCueMemoryPage.is-list-open {
+    grid-template-rows:
+      56px
+      minmax(0, 1fr)
+      196px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjSingleModePanel[
+      data-deck-panel="stems"
+    ]
+    .brDjStemsPage {
+    grid-template-rows:
+      64px
+      minmax(
+        100px,
+        .94fr
+      )
+      minmax(
+        118px,
+        1.06fr
+      )
+      50px !important;
+    gap: 5px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjStemsPage
+    .brDjStemFaderBox {
+    min-height:
+      92px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjStemsPage
+    .brDjStemTransport
+    button {
+    height:
+      48px !important;
+    min-height:
+      48px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjRecordingControls
+    button {
+    padding-inline:
+      8px !important;
+    font-size:
+      .52rem !important;
+    letter-spacing:
+      .02em !important;
+  }
+}
+
+body.brDjPerformanceBody.brDjAndroid
+  .brDjGridPage {
+  grid-template-rows:
+    52px
+    minmax(0, 1fr)
+    168px
+    18px
+    42px !important;
+}
+
+body.brDjPerformanceBody.brDjAndroid
+  .brDjCueMemoryPage {
+  grid-template-rows:
+    52px
+    minmax(0, 1fr)
+    20px
+    128px
+    42px !important;
+}
+
+/* Patch 3-Z2C — DUO timers, bar counters, Memory pins and REC timer fit */
+
+/*
+  The Recording timer was slightly too wide for its left monitor card.
+  Keep the same tabular clock style, but reduce its responsive maximum.
+*/
+body.brDjPerformanceBody
+  .brDjRecordingClock
+  strong {
+  font-size:
+    clamp(
+      1.65rem,
+      7vw,
+      3.3rem
+    ) !important;
+}
+
+/*
+  DUO waveform header corners now contain timers rather than text labels.
+*/
+body.brDjPerformanceBody
+  .brDjDuoMainPanel
+  .brDjDuoHorizontalWave
+  header
+  span,
+body.brDjPerformanceBody
+  .brDjDuoMainPanel
+  .brDjDuoHorizontalWave
+  header
+  em {
+  min-width: 0;
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      .78
+    ) !important;
+  font-size:
+    .64rem !important;
+  font-variant-numeric:
+    tabular-nums;
+  letter-spacing:
+    .035em !important;
+  line-height: 1;
+  text-transform:
+    none !important;
+  white-space: nowrap;
+}
+
+/* Deck 1 elapsed counter */
+body.brDjPerformanceBody
+  .brDjDuoMainPanel
+  .brDjDuoHorizontalWave.is-deck-1
+  header
+  span {
+  color:
+    #ffb32c !important;
+}
+
+/* Deck 2 elapsed counter */
+body.brDjPerformanceBody
+  .brDjDuoMainPanel
+  .brDjDuoHorizontalWave.is-deck-2
+  header
+  span {
+  color:
+    #7bd8ff !important;
+}
+
+/*
+  One independent centred bar counter belongs to each waveform.
+  Deck 1 sits at the upper centre; Deck 2 sits at the lower centre.
+*/
+body.brDjPerformanceBody
+  .brDjDuoMainPanel
+  .brDjDuoWaveBarCounter {
+  position: absolute;
+  left: 50%;
+  z-index: 26;
+  min-width: 94px;
+  max-width:
+    calc(
+      100% -
+      150px
+    );
+  height: 25px;
+  padding:
+    0
+    10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform:
+    translateX(
+      -50%
+    );
+  overflow: hidden;
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      .20
+    );
+  border-radius: 999px;
+  color: #fff;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(
+        30,
+        43,
+        64,
+        .96
+      ),
+      rgba(
+        6,
+        12,
+        24,
+        .96
+      )
+    );
+  box-shadow:
+    0 8px 20px
+    rgba(
+      0,
+      0,
+      0,
+      .34
+    ),
+    inset 0 1px 0
+    rgba(
+      255,
+      255,
+      255,
+      .10
+    );
+  font-size: .60rem;
+  font-weight: 1000;
+  font-variant-numeric:
+    tabular-nums;
+  letter-spacing: .035em;
+  line-height: 1;
+  pointer-events: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.brDjPerformanceBody
+  .brDjDuoMainPanel
+  .brDjDuoHorizontalWave.is-deck-1
+  .brDjDuoWaveBarCounter {
+  top: 15px;
+  border-color:
+    rgba(
+      255,
+      179,
+      44,
+      .52
+    );
+  color: #ffc35c;
+}
+
+body.brDjPerformanceBody
+  .brDjDuoMainPanel
+  .brDjDuoHorizontalWave.is-deck-2
+  .brDjDuoWaveBarCounter {
+  bottom: 15px;
+  border-color:
+    rgba(
+      123,
+      216,
+      255,
+      .52
+    );
+  color: #9be5ff;
+}
+
+/*
+  When a saved Memory point approaches, the DUO counter follows the same
+  green countdown treatment as the individual Deck waveform counter.
+*/
+body.brDjPerformanceBody
+  .brDjDuoMainPanel
+  .brDjDuoWaveBarCounter.is-memory-countdown {
+  border-color:
+    rgba(
+      54,
+      226,
+      120,
+      .64
+    ) !important;
+  color:
+    #75f2a7 !important;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(
+        54,
+        226,
+        120,
+        .22
+      ),
+      rgba(
+        7,
+        48,
+        27,
+        .96
+      )
+    ) !important;
+  box-shadow:
+    0 0 18px
+    rgba(
+      54,
+      226,
+      120,
+      .20
+    ),
+    0 8px 20px
+    rgba(
+      0,
+      0,
+      0,
+      .34
+    ),
+    inset 0 1px 0
+    rgba(
+      255,
+      255,
+      255,
+      .11
+    ) !important;
+}
+
+@media (max-width: 600px) {
+  /*
+    The smaller mobile value specifically addresses the Recording screenshot:
+    00:00 remains prominent but no longer touches the clock-card edges.
+  */
+  body.brDjPerformanceBody
+    .brDjRecordingClock
+    strong {
+    font-size:
+      clamp(
+        1.5rem,
+        8.2vw,
+        2.3rem
+      ) !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjDuoMainPanel
+    .brDjDuoWaveBarCounter {
+    min-width: 86px;
+    max-width:
+      calc(
+        100% -
+        126px
+      );
+    height: 23px;
+    padding-inline: 8px;
+    font-size: .55rem;
+  }
+}
+
+/* Patch 3-Z2D — library load rescue, live deck refresh and Studio entry */
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySheet[
+    data-dj-library-mode="prep"
+  ]
+  [data-dj-library-load] {
+  display: none !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySheet[
+    data-dj-library-mode="prep"
+  ]
+  .brDjPerformanceLibraryTrack {
+  grid-template-columns:
+    38px
+    minmax(0, 1fr)
+    112px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySheet[
+    data-dj-library-mode="prep"
+  ]
+  .brDjPerformanceLibraryTrack
+  menu {
+  width: 112px !important;
+
+  grid-template-columns:
+    minmax(0, 1fr) !important;
+
+  grid-template-rows:
+    40px !important;
+}
+
+body.brDjPerformanceBody
+  .brDjPerformanceLibrarySheet[
+    data-dj-library-mode="prep"
+  ]
+  .brDjPerformanceLibraryTrack
+  button[data-dj-library-prepare] {
+  grid-column: 1 !important;
+  width: 100% !important;
+  height: 40px !important;
+  min-height: 40px !important;
+}
+
+@media (max-width: 430px) {
+  body.brDjPerformanceBody
+    .brDjPerformanceLibrarySheet[
+      data-dj-library-mode="prep"
+    ]
+    .brDjPerformanceLibraryTrack {
+    grid-template-columns:
+      36px
+      minmax(0, 1fr)
+      102px !important;
+  }
+
+  body.brDjPerformanceBody
+    .brDjPerformanceLibrarySheet[
+      data-dj-library-mode="prep"
+    ]
+    .brDjPerformanceLibraryTrack
+    menu {
+    width: 102px !important;
+  }
+}
+
+/* Patch 3-Z3 Part 2 — real DJ Studio Recordings Archive */
+
+.brDjRecordingsArchivePanel {
+  display: none;
+  gap: 18px;
+}
+
+.brDjRecordingsArchivePanel.is-active {
+  display: grid;
+}
+
+.brDjRecordingsArchiveHero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brDjRecordingsArchiveHero h2 {
+  margin: 3px 0 6px;
+}
+
+.brDjRecordingsArchiveHero p {
+  margin: 0;
+}
+
+.brDjRecordingArchiveSummary {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+  gap: 10px;
+}
+
+.brDjRecordingArchiveSummary article {
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid
+    rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(25, 48, 94, .72),
+      rgba(7, 15, 31, .88)
+    );
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, .06);
+}
+
+.brDjRecordingArchiveSummary span {
+  display: block;
+  color:
+    rgba(231, 240, 255, .66);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.brDjRecordingArchiveSummary strong {
+  display: block;
+  margin-top: 4px;
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.brDjRecordingArchiveFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.brDjRecordingArchiveFilters button {
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 1px solid
+    rgba(255, 255, 255, .12);
+  border-radius: 999px;
+  background:
+    rgba(4, 12, 27, .72);
+  color:
+    rgba(239, 245, 255, .76);
+  font: inherit;
+  font-size: .75rem;
+  font-weight: 850;
+}
+
+.brDjRecordingArchiveFilters button.is-active {
+  border-color:
+    rgba(68, 175, 255, .72);
+  background:
+    linear-gradient(
+      135deg,
+      #173d78,
+      #0d6ead
+    );
+  color: #fff;
+  box-shadow:
+    0 8px 24px
+    rgba(0, 102, 190, .22);
+}
+
+.brDjRecordingArchiveNotice {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  padding: 10px 13px;
+  border: 1px solid
+    rgba(255, 255, 255, .08);
+  border-radius: 12px;
+  background:
+    rgba(4, 12, 27, .62);
+  color:
+    rgba(231, 240, 255, .72);
+  font-size: .76rem;
+  font-weight: 700;
+}
+
+.brDjRecordingArchiveNotice[data-state="processing"],
+.brDjRecordingArchiveNotice[data-state="loading"] {
+  border-color:
+    rgba(67, 165, 255, .34);
+  color: #bfe2ff;
+}
+
+.brDjRecordingArchiveNotice[data-state="error"] {
+  border-color:
+    rgba(255, 85, 85, .45);
+  color: #ffc1c1;
+}
+
+.brDjRecordingArchiveGrid {
+  display: grid;
+  gap: 14px;
+}
+
+.brDjRecordingArchiveCard {
+  display: grid;
+  grid-template-columns:
+    126px
+    minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid
+    rgba(255, 255, 255, .1);
+  border-radius: 17px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(19, 39, 78, .82),
+      rgba(5, 13, 29, .94)
+    );
+  box-shadow:
+    0 15px 35px
+    rgba(0, 0, 0, .22),
+    inset 0 1px 0
+    rgba(255, 255, 255, .06);
+}
+
+.brDjRecordingArchiveCard.is-ready {
+  border-color:
+    rgba(63, 213, 142, .32);
+}
+
+.brDjRecordingArchiveCard.is-processing {
+  border-color:
+    rgba(65, 169, 255, .38);
+}
+
+.brDjRecordingArchiveCard.is-failed {
+  border-color:
+    rgba(255, 78, 78, .38);
+}
+
+.brDjRecordingArchiveCard.is-recovery {
+  border-color:
+    rgba(255, 181, 60, .42);
+}
+
+.brDjRecordingArchiveArtwork {
+  position: relative;
+  min-height: 178px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(47, 128, 222, .42),
+      rgba(5, 12, 27, .96) 72%
+    );
+}
+
+.brDjRecordingArchiveArtwork img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.brDjRecordingArchiveArtworkFallback {
+  width: 100%;
+  height: 100%;
+  min-height: 178px;
+  display: grid;
+  place-items: center;
+}
+
+.brDjRecordingArchiveArtworkFallback i {
+  color:
+    rgba(149, 207, 255, .78);
+  font-size: 2.6rem;
+}
+
+.brDjRecordingArchiveState {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  overflow: hidden;
+  padding: 7px 8px;
+  border: 1px solid
+    rgba(255, 255, 255, .16);
+  border-radius: 9px;
+  background:
+    rgba(2, 8, 19, .82);
+  color: #fff;
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .055em;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  backdrop-filter:
+    blur(10px);
+}
+
+.brDjRecordingArchiveBody {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 11px;
+  padding: 15px;
+}
+
+.brDjRecordingArchiveHeading {
+  min-width: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brDjRecordingArchiveHeading > div {
+  min-width: 0;
+}
+
+.brDjRecordingArchiveHeading h3 {
+  overflow: hidden;
+  margin: 2px 0 3px;
+  color: #fff;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brDjRecordingArchiveHeading h3 + span {
+  display: block;
+  overflow: hidden;
+  color:
+    rgba(228, 238, 255, .6);
+  font-size: .69rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brDjRecordingArchiveHeading time {
+  flex: 0 0 auto;
+  color:
+    rgba(226, 237, 255, .56);
+  font-size: .66rem;
+  font-weight: 750;
+  text-align: right;
+}
+
+.brDjRecordingArchiveFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.brDjRecordingArchiveFacts span,
+.brDjRecordingArchiveSidecars span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 27px;
+  padding: 5px 8px;
+  border: 1px solid
+    rgba(255, 255, 255, .09);
+  border-radius: 8px;
+  background:
+    rgba(1, 8, 20, .54);
+  color:
+    rgba(231, 240, 255, .75);
+  font-size: .62rem;
+  font-weight: 800;
+}
+
+.brDjRecordingArchiveProgress {
+  display: grid;
+  gap: 6px;
+}
+
+.brDjRecordingArchiveProgress > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #bfe2ff;
+  font-size: .68rem;
+  font-weight: 800;
+}
+
+.brDjRecordingArchiveProgress progress {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background:
+    rgba(255, 255, 255, .09);
+}
+
+.brDjRecordingArchiveProgress progress::-webkit-progress-bar {
+  background:
+    rgba(255, 255, 255, .09);
+  border-radius: 999px;
+}
+
+.brDjRecordingArchiveProgress progress::-webkit-progress-value {
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      #277dde,
+      #46d4ff
+    );
+}
+
+.brDjRecordingArchiveError,
+.brDjRecordingArchiveFolder {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 9px;
+  font-size: .67rem;
+  font-weight: 700;
+}
+
+.brDjRecordingArchiveError {
+  border: 1px solid
+    rgba(255, 81, 81, .32);
+  background:
+    rgba(101, 15, 24, .28);
+  color: #ffc0c0;
+}
+
+.brDjRecordingArchiveFolder {
+  border: 1px solid
+    rgba(255, 255, 255, .08);
+  background:
+    rgba(1, 8, 20, .46);
+  color:
+    rgba(224, 237, 255, .66);
+}
+
+.brDjRecordingArchiveFolder span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.brDjRecordingArchiveSidecars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.brDjRecordingArchiveSidecars span {
+  color: #9ee5c1;
+}
+
+.brDjRecordingArchiveActions {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+  gap: 7px;
+}
+
+.brDjRecordingArchiveAction {
+  min-width: 0;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px;
+  border: 1px solid
+    rgba(102, 184, 255, .24);
+  border-radius: 9px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(25, 76, 137, .76),
+      rgba(10, 42, 82, .88)
+    );
+  color: #eaf6ff;
+  font: inherit;
+  font-size: .65rem;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.brDjRecordingArchiveAction.is-recovery {
+  border-color:
+    rgba(255, 184, 67, .38);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(132, 78, 10, .82),
+      rgba(77, 42, 5, .92)
+    );
+  color: #ffe1a4;
+}
+
+.brDjRecordingArchiveAction.is-danger {
+  border-color:
+    rgba(255, 74, 74, .32);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(111, 26, 35, .76),
+      rgba(64, 13, 20, .92)
+    );
+  color: #ffc1c1;
+}
+
+.brDjRecordingArchiveAction:disabled {
+  opacity: .48;
+  pointer-events: none;
+}
+
+.brDjRecordingArchiveEmpty {
+  min-height: 210px;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  padding: 28px;
+  border: 1px dashed
+    rgba(255, 255, 255, .15);
+  border-radius: 16px;
+  color:
+    rgba(228, 238, 255, .68);
+  text-align: center;
+}
+
+.brDjRecordingArchiveEmpty:not([hidden]) {
+  display: grid;
+}
+
+.brDjRecordingArchiveEmpty i {
+  color:
+    rgba(109, 188, 255, .72);
+  font-size: 2.35rem;
+}
+
+.brDjRecordingArchiveEmpty strong {
+  color: #fff;
+}
+
+.brDjRecordingArchiveEmpty span {
+  max-width: 460px;
+  font-size: .76rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 700px) {
+  .brDjRecordingArchiveSummary {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  .brDjRecordingsArchiveHero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .brDjRecordingsArchiveHero .brDjButton {
+    width: 100%;
+  }
+
+  .brDjRecordingArchiveCard {
+    grid-template-columns:
+      96px
+      minmax(0, 1fr);
+  }
+
+  .brDjRecordingArchiveArtwork,
+  .brDjRecordingArchiveArtworkFallback {
+    min-height: 196px;
+  }
+
+  .brDjRecordingArchiveHeading {
+    display: grid;
+  }
+
+  .brDjRecordingArchiveHeading time {
+    text-align: left;
+  }
+
+  .brDjRecordingArchiveActions {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+}
+
+@media (max-width: 430px) {
+  .brDjRecordingsArchivePanel {
+    gap: 13px;
+  }
+
+  .brDjRecordingArchiveFilters {
+    display: grid;
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  .brDjRecordingArchiveFilters button:first-child {
+    grid-column:
+      1 /
+      -1;
+  }
+
+  .brDjRecordingArchiveCard {
+    grid-template-columns:
+      82px
+      minmax(0, 1fr);
+  }
+
+  .brDjRecordingArchiveArtwork,
+  .brDjRecordingArchiveArtworkFallback {
+    min-height: 222px;
+  }
+
+  .brDjRecordingArchiveArtworkFallback i {
+    font-size: 2rem;
+  }
+
+  .brDjRecordingArchiveBody {
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .brDjRecordingArchiveHeading h3 {
+    font-size: .91rem;
+  }
+
+  .brDjRecordingArchiveFacts {
+    display: grid;
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  .brDjRecordingArchiveFacts span {
+    justify-content: center;
+  }
+
+  .brDjRecordingArchiveActions {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+}
+
+/* M12 truthful waveform state */
+.is-waveform-stale canvas { opacity: .58; filter: saturate(.45); }
+.is-waveform-stale::after { content: 'MIXXX STALE'; position: absolute; right: .4rem; top: .25rem; z-index: 5; color: #ffd166; font: 700 .58rem/1 sans-serif; letter-spacing: .08em; }
+.is-review-required { box-shadow: inset 0 0 0 1px rgba(255, 193, 7, .45); }
+/* M21-D temporary guest deck controls. */
+.brDjGuestEjectToolbar {
+  position: fixed;
+  z-index: 1200;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  display: flex;
+  gap: .65rem;
+  align-items: center;
+  padding: .75rem;
+  border: 1px solid rgba(112, 198, 255, .45);
+  border-radius: 1rem;
+  background: rgba(7, 18, 31, .96);
+  box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .45);
+}
+.brDjGuestEjectToolbar button {
+  min-height: 48px;
+  padding: .65rem .85rem;
+}
+@media (max-width: 520px) {
+  .brDjGuestEjectToolbar {
+    left: max(.75rem, env(safe-area-inset-left));
+    right: max(.75rem, env(safe-area-inset-right));
+    flex-wrap: wrap;
+  }
+}
+
+/* DJ Library v2 — compact mobile-first catalogue. */
+body.brDjPerformanceBody .brDjPerformanceLibraryPanel {
+  max-width: 1120px !important;
+  margin-inline: auto !important;
+  padding-inline: max(10px, env(safe-area-inset-left), env(safe-area-inset-right)) !important;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryPageHeader,
+body.brDjPerformanceBody .brDjPerformanceLibrarySearch {
+  position: sticky !important;
+  z-index: 8;
+  background: rgba(4, 13, 28, .96) !important;
+  backdrop-filter: blur(16px);
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryPageHeader {
+  top: 0;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibrarySearch {
+  top: 52px;
+  min-height: 48px;
+  border: 1px solid rgba(123, 216, 255, .2);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibrarySearch input {
+  min-height: 44px;
+  font-size: 16px;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryFilterSheet {
+  border: 1px solid rgba(123, 216, 255, .14);
+  border-radius: 13px;
+  background: rgba(9, 24, 47, .78);
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryFilterSheet > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  color: #eaf6ff;
+  cursor: pointer;
+  font-size: .72rem;
+  font-weight: 900;
+  list-style: none;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryFilterSheet > summary::-webkit-details-marker {
+  display: none;
+}
+
+body.brDjPerformanceBody [data-dj-library-active-filters] {
+  color: rgba(224, 237, 255, .6);
+  font-size: .62rem;
+}
+
+body.brDjPerformanceBody [data-dj-library-active-filters][data-active="true"] {
+  color: #ffbe45;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTools {
+  padding: 0 8px 9px;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryBatch {
+  position: sticky !important;
+  z-index: 7;
+  bottom: max(6px, env(safe-area-inset-bottom));
+  display: none;
+  border: 1px solid rgba(255, 181, 60, .34);
+  border-radius: 14px;
+  background: rgba(5, 16, 34, .97) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .34);
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryBatch:not([hidden]) {
+  display: block;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryBatch[data-has-selection="false"] {
+  position: static !important;
+  padding: 4px !important;
+  border-color: rgba(123, 216, 255, .12);
+  background: rgba(5, 16, 34, .62) !important;
+  box-shadow: none;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryBatch[data-has-selection="false"] [data-dj-library-clear-selection],
+body.brDjPerformanceBody .brDjPerformanceLibraryBatch[data-has-selection="false"] [data-dj-library-scan-selected] {
+  display: none;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryBatch[data-has-selection="false"] [data-dj-library-selection-count] {
+  opacity: .55;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryBatchActions button {
+  min-height: 40px;
+  height: 40px;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryStatus[data-state="loading"] {
+  color: #9ce8ff;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryStatus[data-state="error"] {
+  color: #ffc0c0;
+  white-space: normal;
+}
+
+body.brDjPerformanceBody [data-dj-library-retry] {
+  min-height: 36px;
+  margin-left: 8px;
+}
+
+body.brDjPerformanceBody .brDjLibrarySkeleton {
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 122px;
+  gap: 9px;
+  padding: 8px;
+  border-radius: 14px;
+  background: rgba(14, 31, 59, .8);
+}
+
+body.brDjPerformanceBody .brDjLibrarySkeleton span {
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255,255,255,.05), rgba(123,216,255,.15), rgba(255,255,255,.05));
+  background-size: 220% 100%;
+  animation: brDjLibrarySkeleton 1.25s linear infinite;
+}
+
+body.brDjPerformanceBody .brDjLibraryState {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 7px;
+  padding: 24px;
+  border: 1px dashed rgba(123, 216, 255, .22);
+  border-radius: 14px;
+  color: rgba(229, 240, 255, .7);
+  text-align: center;
+}
+
+body.brDjPerformanceBody .brDjLibraryState strong {
+  color: #fff;
+}
+
+body.brDjPerformanceBody .brDjLibraryErrorState {
+  border-color: rgba(255, 96, 96, .35);
+  color: #ffc0c0;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack.is-row-error {
+  grid-template-columns: 48px minmax(0, 1fr) !important;
+  border-color: rgba(255, 160, 80, .3);
+}
+
+@keyframes brDjLibrarySkeleton {
+  to { background-position: -220% 0; }
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryList {
+  display: grid;
+  gap: 7px;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack {
+  min-height: 82px;
+  display: grid !important;
+  grid-template-columns: 48px minmax(0, 1fr) 122px !important;
+  align-items: center;
+  gap: 9px;
+  padding: 8px !important;
+  border: 1px solid rgba(135, 188, 238, .13);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(16, 36, 70, .9), rgba(5, 15, 31, .94));
+  contain: layout paint;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 82px;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack:focus-within {
+  outline: 2px solid #7bd8ff;
+  outline-offset: 2px;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack.is-deck-loaded {
+  border-color: rgba(123, 216, 255, .62);
+  box-shadow: inset 3px 0 0 #55cfff;
+}
+
+body.brDjPerformanceBody .brDjLibraryLoadedBadge {
+  display: inline !important;
+  color: #7ff0b3 !important;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibrarySelect {
+  width: 48px !important;
+  height: 48px;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryIcon {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 11px !important;
+  background: radial-gradient(circle at 35% 25%, rgba(65, 174, 255, .34), rgba(8, 26, 52, .96));
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryMeta {
+  min-width: 0;
+  gap: 2px !important;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryMeta strong {
+  font-size: .84rem !important;
+  line-height: 1.2;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryMeta span,
+body.brDjPerformanceBody .brDjPerformanceLibraryMeta small,
+body.brDjPerformanceBody .brDjPerformanceLibraryMeta em {
+  font-size: .61rem !important;
+  line-height: 1.3;
+}
+
+body.brDjPerformanceBody .brDjLibraryProvenance {
+  display: inline !important;
+  color: #9ce8ff !important;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack[data-metadata-source="unverified"] .brDjLibraryProvenance {
+  color: #ffc36a !important;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack menu {
+  width: 122px !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 5px !important;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack menu button {
+  min-width: 0;
+  min-height: 38px !important;
+  height: 38px !important;
+  border-radius: 9px !important;
+  font-size: .61rem !important;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack [data-dj-library-load="d1"] {
+  color: #1a0d00 !important;
+  background: linear-gradient(180deg, #ffc65d, #f39416) !important;
+}
+
+body.brDjPerformanceBody .brDjPerformanceLibraryTrack [data-dj-library-load="d2"] {
+  color: #00101c !important;
+  background: linear-gradient(180deg, #8de6ff, #289ee9) !important;
+}
+
+@media (max-width: 520px) {
+  body.brDjPerformanceBody .brDjPerformanceLibraryPageHeader h2 {
+    font-size: .82rem !important;
+  }
+
+  body.brDjPerformanceBody .brDjPerformanceLibrarySearch {
+    top: 46px;
+  }
+
+  body.brDjPerformanceBody .brDjPerformanceLibraryTrack {
+    grid-template-columns: 44px minmax(0, 1fr) 104px !important;
+    gap: 7px;
+    padding: 7px !important;
+  }
+
+  body.brDjPerformanceBody .brDjPerformanceLibrarySelect,
+  body.brDjPerformanceBody .brDjPerformanceLibraryIcon {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  body.brDjPerformanceBody .brDjPerformanceLibraryTrack menu {
+    width: 104px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.brDjPerformanceBody .brDjPerformanceLibraryTrack,
+  body.brDjPerformanceBody .brDjPerformanceLibrarySheet * {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+.is-mixxx-position-live:not(.has-real-waveform) {
+  position: relative;
+}
+
+.is-mixxx-position-live:not(.has-real-waveform)::after {
+  content: none;
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  bottom: 0;
+  left: var(--br-dj-mixxx-progress, 0%);
+  width: 2px;
+  pointer-events: none;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+
+body.brDjPerformanceBody [data-mixxx-waveform-state]:not([data-mixxx-waveform-state="ready"]):not([data-mixxx-waveform-state="ready-grid-not-prepared"]):not(.has-real-waveform)::after {
+  content: "Waveform unavailable";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  color: rgba(235, 240, 248, .74);
+  background: linear-gradient(90deg, rgba(255,255,255,.025), rgba(255,255,255,.055), rgba(255,255,255,.025));
+  font: 700 10px/1.25 system-ui, sans-serif;
+  letter-spacing: .045em;
+  text-align: center;
+  pointer-events: none;
+  box-shadow: none;
+}
+body.brDjPerformanceBody [data-mixxx-waveform-state="loading"]:not(.has-real-waveform)::after { content: "Track loaded · waveform loading"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="not-prepared"]:not(.has-real-waveform)::after { content: "Waveform not prepared"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="queued"]:not(.has-real-waveform)::after { content: "Waveform preparation queued"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="preparing"]:not(.has-real-waveform)::after { content: "Preparing waveform…"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="preparation-failed"]:not(.has-real-waveform)::after { content: "Waveform preparation failed"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="cache-mismatch"]:not(.has-real-waveform)::after { content: "Waveform cache mismatch"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="corrupt"]:not(.has-real-waveform)::after { content: "Waveform cache unavailable"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="network-error"]:not(.has-real-waveform)::after { content: "Waveform network error · reload track to retry"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="identity-unavailable"]:not(.has-real-waveform)::after { content: "Exact waveform identity unavailable"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="deck-empty"]:not(.has-real-waveform)::after { content: "Deck empty"; }
+body.brDjPerformanceBody [data-mixxx-waveform-state="ready-grid-not-prepared"] { --br-dj-grid-state: "Grid not prepared"; }
+body.brDjPerformanceBody .brDjSingleWaveCanvas,
+body.brDjPerformanceBody .brDjSingleOverviewWave,
+body.brDjPerformanceBody .brDjCueMemoryWaveform,
+body.brDjPerformanceBody .brDjCueMemoryOverview,
+body.brDjPerformanceBody .brDjDuoDeckCardWave,
+body.brDjPerformanceBody .brDjDuoWaveBody { touch-action: none; overscroll-behavior: contain; }
+body.brDjPerformanceBody .brM24PrepareWaveform{position:absolute;z-index:8;left:50%;bottom:8px;transform:translateX(-50%);min-height:38px;padding:8px 12px;border:1px solid currentColor;border-radius:999px;background:rgba(7,15,30,.92);color:#fff;font:700 11px/1 system-ui,sans-serif;touch-action:manipulation;white-space:nowrap}
+body.brDjPerformanceBody .brM24PrepareWaveform:disabled{opacity:.65}
+body.brDjPerformanceBody [data-grid-control-set][hidden]{display:none!important}
+/* M22 Part 1 — server-backed Collections, Set Plans and live tracklist */
+.brM22Page{display:grid;gap:18px;padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}.brM22Hero,.brM22Collections,.brM22PlanHead,.brM22Live>div{border:1px solid rgba(108,153,255,.22);border-radius:18px;background:rgba(8,18,38,.86);padding:16px}.brM22Hero,.brM22PlanHead,.brM22Collections>header{display:flex;align-items:center;justify-content:space-between;gap:12px}.brM22Hero h2,.brM22Live h3,.brM22Collections h3{margin:2px 0 6px}.brM22Hero>div:last-child,.brM22Entry>div{display:flex;flex-wrap:wrap;gap:7px}.brM22Page button,.brM22Page select,.brM22Sheet button,.brM22Sheet input{min-height:44px;border:1px solid rgba(132,168,255,.3);border-radius:12px;background:#101d37;color:#fff;padding:9px 12px}.brM22Page .primary,.brM22Sheet .primary{background:#176dff;border-color:#5b96ff}.brM22Collections>div{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:12px}.brM22Collections article{display:grid;gap:7px;border-radius:14px;background:rgba(20,37,70,.7);padding:12px}.brM22Live{display:grid;gap:14px}.brM22Entry{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:10px;align-items:center;border-radius:14px;background:#12203b;padding:10px;margin-top:8px}.brM22Entry>b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#1c3158}.brM22Entry span{min-width:0}.brM22Entry strong,.brM22Entry small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.brM22Entry small{color:#aebbd0;margin-top:3px}.brM22Entry.is-played{opacity:.72;border-left:4px solid #43c17d}.brM22Entry.is-playing{box-shadow:0 0 0 2px #ff9c33;background:#1d2945}.brM22Empty{display:grid;gap:5px;color:#aebbd0;padding:14px}.brM22Status{text-transform:capitalize}.brM22Sheet[hidden]{display:none}.brM22Sheet{position:fixed;inset:0;z-index:12000;display:grid;align-items:end}.brM22Backdrop{position:absolute;inset:0;border:0!important;border-radius:0!important;background:rgba(0,5,16,.72)!important}.brM22Sheet>section{position:relative;display:grid;gap:12px;max-height:min(82dvh,720px);overflow:auto;border-radius:24px 24px 0 0;background:#09152b;color:#fff;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px))}.brM22Sheet header,.brM22Sheet footer,.brM22CollectionChoice{display:flex;align-items:center;justify-content:space-between;gap:12px}.brM22Sheet h2{margin:2px 0}.brM22CollectionChoice{border-radius:14px;background:#12213d;padding:12px}.brM22CollectionChoice input{width:24px;height:24px}.brM22CollectionChoice span{flex:1}.brM22CollectionChoice strong,.brM22CollectionChoice small{display:block}.brM22CollectionChoice small{color:#aebbd0;margin-top:4px}.brM22Sheet form{display:grid;grid-template-columns:1fr auto;gap:8px}body.brM22SheetOpen{overflow:hidden}[data-m22-notice][data-error="true"]{color:#ff9d9d}.brMixxxCatalogueActions [data-m22-add-collection],.brDjPerformanceLibraryTrack [data-m22-add-collection]{min-height:36px}
+@media(max-width:700px){.brM22Hero,.brM22PlanHead{align-items:stretch;flex-direction:column}.brM22Entry{grid-template-columns:34px minmax(0,1fr)}.brM22Entry>div{grid-column:1/-1}.brM22Entry>div button{flex:1}.brM22Sheet>section{max-height:88dvh}.brM22Collections>div{grid-template-columns:1fr}}
+.brM22CollectionDetail,.brM22Plans,.brM22Original,.brM22Final{border:1px solid rgba(108,153,255,.22);border-radius:18px;background:rgba(8,18,38,.86);padding:16px;min-width:0}.brM22CollectionDetail>header,.brM22Plans>header,.brM22Final>header,.brM22Bulk,.brM22Plans article,.brM22Final article,.brM22Unmatched{display:flex;align-items:center;justify-content:space-between;gap:10px}.brM22Plans>div{display:grid;gap:9px;margin-top:12px}.brM22Plans article{border-radius:13px;background:#12203b;padding:10px}.brM22Plans article>button{flex:1;text-align:left}.brM22Plans article strong,.brM22Plans article small{display:block}.brM22Plans article small{color:#aebbd0;margin-top:4px}.brM22Plans .is-archived,.brM22Collections .is-archived{opacity:.62}.brM22CollectionDetail [data-collection-rows]{display:grid;gap:8px;margin-top:12px}.brM22CollectionDetail .brM22Entry{grid-template-columns:26px 34px minmax(0,1fr) auto}.brM22Unavailable{color:#ffbd71;font-size:.78rem}.brM22Original summary{cursor:pointer;font-weight:800}.brM22Original p{margin:8px 0;color:#c3cee0}.brM22Final article{border-bottom:1px solid rgba(255,255,255,.1);padding:10px 0}.brM22Final>div{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.brM22Unmatched{align-items:stretch;flex-wrap:wrap;border-radius:13px;background:#261d31;padding:12px;margin-top:8px}.brM22Unmatched span{min-width:180px;flex:1}.brM22Unmatched strong,.brM22Unmatched small{display:block}.brM22Entry input[data-entry-note]{width:100%;min-height:34px;margin-top:6px;border:1px solid rgba(132,168,255,.24);border-radius:9px;background:#09152b;color:#fff;padding:6px}.brM22Page,.brM22Live,.brM22CollectionDetail,.brM22Plans{max-width:100%;overflow-x:hidden}
+@media(max-width:700px){.brM22CollectionDetail>header,.brM22Plans article,.brM22Unmatched{align-items:stretch;flex-direction:column}.brM22CollectionDetail .brM22Entry{grid-template-columns:24px 30px minmax(0,1fr)}.brM22CollectionDetail .brM22Entry>div{grid-column:1/-1}.brM22Bulk{align-items:stretch;flex-direction:column}.brM22Plans article>div{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%}.brM22Unmatched input,.brM22Unmatched select,.brM22Unmatched button{width:100%}}
+.brM22Modal{position:fixed;inset:0;z-index:12020;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}.brM22Modal[hidden]{display:none}.brM22ModalBackdrop{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;background:rgba(3,7,18,.76)}.brM22Modal>section{position:relative;width:min(520px,100%);max-height:min(86dvh,720px);overflow:auto;border:1px solid #334155;border-radius:20px;background:#111827;color:#fff;box-shadow:0 24px 80px rgba(0,0,0,.55)}.brM22Modal form{display:grid;gap:16px;padding:18px}.brM22Modal header,.brM22Modal footer{display:flex;align-items:center;justify-content:space-between;gap:12px}.brM22Modal h2,.brM22Modal p{margin:0}.brM22Modal [data-modal-fields]{display:grid;gap:13px}.brM22Modal label{display:grid;gap:6px;font-weight:700}.brM22Modal input,.brM22Modal textarea,.brM22Modal select{box-sizing:border-box;width:100%;min-height:46px;padding:10px 12px;border:1px solid #475569;border-radius:12px;background:#0b1220;color:inherit;font:inherit}.brM22Modal textarea{min-height:104px;resize:vertical}.brM22Modal [data-modal-error]{min-height:1.25em;color:#fca5a5}.brM22Modal button{min-height:44px;min-width:44px}.brM22ModalOpen{overflow:hidden}.brM22Entry strong,.brM22Entry small,.brM22Plans strong,.brM22Collections strong{overflow-wrap:anywhere}.brM22Entry button,.brM22Entry a{min-height:44px;display:inline-flex;align-items:center}.brM22Entry button:disabled,.brM22Modal button:disabled{opacity:.5;cursor:not-allowed}@media(max-width:700px){.brM22Modal{place-items:end center;padding-left:0;padding-right:0;padding-bottom:0}.brM22Modal>section{width:100%;max-height:90dvh;border-radius:22px 22px 0 0}.brM22Modal form{padding-bottom:calc(18px + env(safe-area-inset-bottom))}.brM22Modal footer{position:sticky;bottom:0;padding-top:10px;background:#111827}}
+
+/* M22.1 production polish: bounded paint work, resilient touch UI and accessible focus. */
+.brM22Entry,.brM22Collections article,.brM22Plans article{content-visibility:auto;contain-intrinsic-size:72px;contain:layout paint style}.brM22Page button,.brM22Page a,.brM22Sheet button,.brM22Modal button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}.brM22Page :focus-visible,.brM22Sheet :focus-visible,.brM22Modal :focus-visible{outline:3px solid #8ab4ff;outline-offset:2px}.brM22Entry.is-skipped{opacity:.68;border-left:4px solid #f59e0b}.brM22Entry.is-repeated{border-right:4px solid #a78bfa}.brM22CollectionDetail [data-collection-rows],.brM22Plans>div{-webkit-overflow-scrolling:touch;overscroll-behavior:contain}.brM22Entry strong,.brM22Entry small,.brM22Plans strong,.brM22Plans small{white-space:normal;line-height:1.35}.brM22Modal input,.brM22Modal textarea,.brM22Modal select,.brM22CollectionDetail input{font-size:max(16px,1em)}
+@media(max-width:700px){.brM22Page{gap:12px;padding-inline:max(8px,env(safe-area-inset-left)) max(8px,env(safe-area-inset-right))}.brM22Hero,.brM22Collections,.brM22PlanHead,.brM22Live>div,.brM22CollectionDetail,.brM22Plans,.brM22Original,.brM22Final{padding:12px;border-radius:14px}.brM22Entry{padding:10px 8px}.brM22Entry>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.brM22Entry>div>*{justify-content:center;min-width:0}.brM22Sheet>section{max-height:calc(100dvh - max(8px,env(safe-area-inset-top)));overscroll-behavior:contain}.brM22Modal>section{max-height:calc(100dvh - max(8px,env(safe-area-inset-top)));overscroll-behavior:contain}.brM22Modal footer{padding-bottom:max(6px,env(safe-area-inset-bottom))}}
+@media(orientation:landscape) and (max-height:520px){.brM22Modal>section,.brM22Sheet>section{max-height:96dvh;border-radius:14px}.brM22Modal form{gap:10px;padding:12px}.brM22Modal textarea{min-height:72px}}
+@media(prefers-reduced-motion:reduce){.brM22Page *,.brM22Sheet *,.brM22Modal *{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* M25 final visual cleanup: truthful history state and restrained fallback waves. */
+body.brDjPerformanceBody .brDjGridUndo:not(:disabled) {
+  --br-icon-primary: #fff;
+  --br-icon-secondary: var(--br-dj-orange);
+  color: var(--br-dj-orange) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+body.brDjPerformanceBody .brDjGridUndo:not(:disabled) i,
+body.brDjPerformanceBody .brDjGridUndo:not(:disabled) svg,
+body.brDjPerformanceBody .brDjGridUndo:not(:disabled) .brSvgIconHost {
+  --br-icon-primary: #fff !important;
+  --br-icon-secondary: var(--br-dj-orange) !important;
+  color: var(--br-dj-orange) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+body.brDjPerformanceBody .brDjSingleDeckPage.is-deck-2 .brDjGridUndo:not(:disabled),
+body.brDjPerformanceBody .brDjSingleDeckPage.is-deck-2 .brDjGridUndo:not(:disabled) i,
+body.brDjPerformanceBody .brDjSingleDeckPage.is-deck-2 .brDjGridUndo:not(:disabled) svg,
+body.brDjPerformanceBody .brDjSingleDeckPage.is-deck-2 .brDjGridUndo:not(:disabled) .brSvgIconHost {
+  --br-icon-primary: #fff !important;
+  --br-icon-secondary: #7bd8ff !important;
+  color: #7bd8ff !important;
+}
+
+body.brDjPerformanceBody .brDjGridUndo:disabled {
+  --br-icon-primary: rgba(255,255,255,.34);
+  --br-icon-secondary: rgba(255,255,255,.24);
+  color: rgba(255,255,255,.30) !important;
+  opacity: .48 !important;
+  filter: saturate(.25) !important;
+}
+
+body.brDjPerformanceBody .brDjGridUndo:disabled .brSvgIconHost {
+  --br-icon-primary: rgba(255,255,255,.34) !important;
+  --br-icon-secondary: rgba(255,255,255,.24) !important;
+  color: rgba(255,255,255,.30) !important;
+}
+
+/* The legacy child markers were decorative minute/grid lines on DUO cards. */
+body.brDjPerformanceBody .brDjDuoDeckCardWave > i {
+  display: none !important;
+}
+
+/* No synthetic waveform: only an accepted M24 canvas may paint audio data. */
+body.brDjPerformanceBody .brDjSingleOverviewWave:not(.has-real-waveform)::before,
+body.brDjPerformanceBody .brDjCueMemoryOverview:not(.has-real-waveform)::before,
+body.brDjPerformanceBody .brDjDuoDeckCardWave:not(.has-real-waveform)::before,
+body.brDjPerformanceBody .brDjSingleWaveCanvas:not(.has-real-waveform)::before,
+body.brDjPerformanceBody .brDjCueMemoryWaveform:not(.has-real-waveform)::before,
+body.brDjPerformanceBody .brDjDuoWaveBody:not(.has-real-waveform)::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  clip-path: none !important;
+  opacity: 0 !important;
+}
+
+/* Remove legacy beat/minute bars; retain only the existing fixed playheads. */
+body.brDjPerformanceBody .brDjSingleOverviewWave:not(.has-real-waveform) > i,
+body.brDjPerformanceBody .brDjCueMemoryOverview:not(.has-real-waveform) > i,
+body.brDjPerformanceBody .brDjDuoDeckCardWave:not(.has-real-waveform) > i,
+body.brDjPerformanceBody .brDjDuoWaveBody:not(.has-real-waveform) > i,
+body.brDjPerformanceBody .brDjSingleWaveCanvas:not(.has-real-waveform) > i:not(:nth-child(5)),
+body.brDjPerformanceBody .brDjCueMemoryWaveform:not(.has-real-waveform) > i:not(:nth-child(4)) {
+  display: none !important;
+}

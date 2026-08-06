@@ -347,8 +347,21 @@
         return;
       }
 
-      const state =
-        deck.getState();
+      const nativeState = deck.getState();
+      const mixxxActive = window.BRMediaMixxxBackend?.isActive?.() === true;
+      const mixxxState = mixxxActive ? window.BRMediaMixxxBackend.getDeckState(activeDeckId) : null;
+      const clockState = mixxxActive ? window.BRMediaM12WaveformClock?.get?.(activeDeckId)?.snapshot?.() : null;
+      const state = mixxxActive ? {
+        ...nativeState,
+        isLoaded: clockState?.loaded === true,
+        isPlaying: clockState?.playing === true,
+        isLoading: false,
+        error: clockState?.stale ? "Mixxx state stale" : "",
+        currentTime: Number(clockState?.position) || 0,
+        duration: Number(clockState?.duration) || 0,
+        playbackRate: Number(clockState?.rate) || 1,
+        libraryItemId: String(mixxxState?.stableIdentity || mixxxState?.catalogueIdentity || ""),
+      } : nativeState;
 
       if (
         !state.isLoaded ||
@@ -419,12 +432,11 @@
         LOOKAHEAD_SECONDS *
         playbackRate;
 
-      const grid =
-        controller
-          .normaliseDeckBeatGrid(
-            config,
-            state
-          );
+      const grid = mixxxActive
+        ? window.BRMediaM25GridAuthorityInstance?.gridForRender?.(activeDeckId)
+        : controller.normaliseDeckBeatGrid(config, state);
+
+      if (!grid) { clearSchedule(); return; }
 
       const markers =
         gridApi.getBeatWindow(

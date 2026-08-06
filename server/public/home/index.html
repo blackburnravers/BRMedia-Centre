@@ -12,10 +12,61 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="BRMedia" />
-  <link rel="stylesheet" href="./styles.css?v=20260526-home-module-icons" />
+  <link rel="stylesheet" href="./styles.css?v=20260731-splash-restore-v1" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body class="homeSplashBody">
+  <script>
+    (() => {
+      "use strict";
+      const startup = window.__brmediaHomeStartup = {
+        completed: false, timers: new Set(), rafs: new Set(), listeners: []
+      };
+      window.__brmediaCompleteHomeStartup = (reason = "unspecified", error) => {
+        if (startup.completed) return false;
+        startup.completed = true;
+        startup.timers.forEach((id) => window.clearTimeout(id));
+        startup.rafs.forEach((id) => window.cancelAnimationFrame?.(id));
+        startup.listeners.forEach(([node, type, listener]) => node?.removeEventListener?.(type, listener));
+        startup.timers.clear();
+        startup.rafs.clear();
+        startup.listeners.length = 0;
+        const body = document.body;
+        const root = document.documentElement;
+        const splash = document.getElementById("homeSplash");
+        const shell = document.querySelector(".wrap");
+        root?.classList.remove("homeSplashStarting");
+        body?.classList.add("homeSplashDone");
+        body?.classList.remove("homeSplashRun", "homeSplashHold", "homeSplashHandoff", "homeSplashDock");
+        if (shell) {
+          shell.hidden = false;
+          shell.removeAttribute("aria-hidden");
+          shell.style.removeProperty("opacity");
+          shell.style.removeProperty("visibility");
+          shell.style.removeProperty("display");
+          shell.style.removeProperty("pointer-events");
+        }
+        if (splash) {
+          splash.classList.add("is-handoff-complete", "hidden");
+          splash.setAttribute("aria-hidden", "true");
+          splash.style.pointerEvents = "none";
+          splash.getAnimations?.().forEach((animation) => animation.cancel());
+          splash.querySelectorAll?.("*").forEach((node) => node.getAnimations?.().forEach((animation) => animation.cancel()));
+        }
+        root?.style.removeProperty("overflow");
+        body?.style.removeProperty("overflow");
+        body?.style.removeProperty("pointer-events");
+        const logger = error ? console.error : (reason === "animation-complete" ? console.info : console.warn);
+        logger.call(console, `[BRMedia startup] completed: ${reason}`, error || "");
+        return true;
+      };
+      const emergencyTimer = window.setTimeout(
+        () => window.__brmediaCompleteHomeStartup("excessive-startup-timeout"),
+        8000
+      );
+      startup.timers.add(emergencyTimer);
+    })();
+  </script>
   <div id="homeSplash" class="homeSplash" aria-hidden="true">
     <div class="homeSplashPulseLine"></div>
 
@@ -143,63 +194,7 @@
     </main>
   </div>
 
-  <script>
-    (function () {
-      const body = document.body;
-      const splash = document.getElementById("homeSplash");
-      const progressText = document.getElementById("homeSplashProgressText");
-      const progressFill = document.getElementById("homeSplashProgressFill");
-
-      if (!body || !splash) return;
-
-      const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      function finishSplash() {
-        body.classList.add("homeSplashDone");
-        splash.classList.add("hidden");
-        splash.setAttribute("aria-hidden", "true");
-      }
-
-      if (reduceMotion) {
-        finishSplash();
-        return;
-      }
-
-      splash.setAttribute("aria-hidden", "false");
-
-      const startedAt = performance.now();
-      const progressDuration = 1650;
-
-      function animateProgress(now) {
-        const ratio = Math.min(1, (now - startedAt) / progressDuration);
-        const eased = 1 - Math.pow(1 - ratio, 3);
-        const percent = Math.min(100, Math.round(eased * 100));
-
-        if (progressText) progressText.textContent = `${percent}%`;
-        if (progressFill) progressFill.style.width = `${percent}%`;
-
-        if (ratio < 1) {
-          requestAnimationFrame(animateProgress);
-          return;
-        }
-
-        body.classList.add("homeSplashHold");
-
-        window.setTimeout(() => {
-          body.classList.add("homeSplashDock");
-        }, 260);
-
-        window.setTimeout(() => {
-          finishSplash();
-        }, 980);
-      }
-
-      requestAnimationFrame(() => {
-        body.classList.add("homeSplashRun");
-        requestAnimationFrame(animateProgress);
-      });
-    })();
-  </script>
+  <script src="./splash.js?v=20260731-splash-restore-v1"></script>
 
 <script src="/shared/icons.js?v=20260529-bars-fix-v1"></script>
 <script src="/shared/profile-link.js?v=20260529-sidebar-match-v9"></script>
